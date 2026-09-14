@@ -12,7 +12,6 @@
       #reset-dialog{border:0;border-radius:22px;padding:0;max-width:430px;width:calc(100% - 32px);box-shadow:0 20px 70px rgba(28,24,70,.3)}
       #reset-dialog::backdrop{background:rgba(30,32,45,.5);backdrop-filter:blur(3px)}
       .reset-card{padding:24px;font-family:Inter,system-ui,sans-serif;color:#202331}.reset-card h2{margin:4px 0 10px}.reset-card p{line-height:1.5;color:#62687a}.reset-card small{font-weight:800;color:#6d5dfc;text-transform:uppercase;letter-spacing:.08em}.reset-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.reset-actions button{min-height:46px;border-radius:14px;border:1px solid #d9dce7;background:#fff;font:800 14px Inter,system-ui,sans-serif;cursor:pointer}.reset-actions .reset-confirm{background:#6d5dfc;color:#fff;border-color:#6d5dfc}
-      .tutorControls .challenge-status{display:inline-flex;align-items:center;gap:6px;margin:8px 0 10px;padding:6px 10px;border-radius:999px;background:#f4f2ff;color:#5748df;font-weight:800;font-size:13px}.tutorControls .challenge-feedback{border-style:dashed}.tutorControls .themes button.feedback-selected{background:#fff;border-color:#d9dce7;color:inherit}.tutorControls .themes button.just-right-active{background:#eeebff;border:2px solid #6d5dfc}
     </style>
   </head>
   <body>
@@ -43,47 +42,6 @@
           dialog.close();
           location.href=location.origin+location.pathname;
         });
-
-        const tuneControls=()=>{
-          document.querySelectorAll('.tutorControls').forEach(box=>{
-            const row=box.querySelector('.themes');
-            if(!row)return;
-            const buttons=[...row.querySelectorAll('button')];
-            if(buttons.length<4)return;
-            const originalGuided=buttons.find(b=>b.textContent.includes('Too hard')||b.dataset.role==='standard');
-            const challenge=buttons.find(b=>b.textContent.includes('Too easy'));
-            const expert=buttons.find(b=>b.textContent.includes('Make it harder'));
-            if(!originalGuided||!challenge||!expert)return;
-            originalGuided.dataset.role='standard';
-            originalGuided.textContent='👍 Just right';
-            originalGuided.classList.toggle('just-right-active',originalGuided.classList.contains('active'));
-            originalGuided.classList.remove('active');
-            challenge.classList.add('challenge-feedback');
-            expert.classList.add('challenge-feedback');
-            challenge.classList.remove('active');
-            expert.classList.remove('active');
-            if(!row.querySelector('[data-role="too-hard"]')){
-              const hard=document.createElement('button');
-              hard.type='button';hard.dataset.role='too-hard';hard.className='challenge-feedback';hard.textContent='😵 Too hard';
-              hard.addEventListener('click',()=>{
-                originalGuided.click();
-                const hint=box.querySelector('.adaptiveHint');
-                if(hint)hint.textContent='More learning clues are on. You can switch back to Just right whenever you want.';
-              });
-              row.insertBefore(hard,originalGuided);
-            }
-            let status=box.querySelector('.challenge-status');
-            if(!status){status=document.createElement('div');status.className='challenge-status';row.before(status)}
-            const helper=box.querySelector('.adaptiveHint');
-            const raw=helper?.textContent||'';
-            if(raw.includes('Challenge mode'))status.textContent='⚡ Current level: Challenge';
-            else if(raw.includes('Expert mode'))status.textContent='🔥 Current level: Expert';
-            else status.textContent='👍 Current level: Just right';
-            if(helper&&raw.includes('Guided mode keeps'))helper.textContent='Just right keeps useful learning clues visible without labeling the lesson as too hard.';
-          });
-        };
-        new MutationObserver(tuneControls).observe(document.getElementById('root'),{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
-        setTimeout(tuneControls,0);
       })();
     </script>
     <script type="module" src="/src/main.jsx"></script>
