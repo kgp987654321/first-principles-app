@@ -6,9 +6,44 @@
     <meta name="theme-color" content="#6d5dfc" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <title>First Principles</title>
+    <style>
+      #playtest-reset{position:fixed;right:14px;bottom:14px;z-index:9999;border:1px solid #d9dce7;border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 6px 22px rgba(32,35,49,.16);padding:9px 13px;font:700 12px/1.2 Inter,system-ui,sans-serif;color:#54596b;cursor:pointer;backdrop-filter:blur(8px)}
+      #playtest-reset:hover{background:#fff;border-color:#6d5dfc;color:#4f40e8}
+      #reset-dialog{border:0;border-radius:22px;padding:0;max-width:430px;width:calc(100% - 32px);box-shadow:0 20px 70px rgba(28,24,70,.3)}
+      #reset-dialog::backdrop{background:rgba(30,32,45,.5);backdrop-filter:blur(3px)}
+      .reset-card{padding:24px;font-family:Inter,system-ui,sans-serif;color:#202331}.reset-card h2{margin:4px 0 10px}.reset-card p{line-height:1.5;color:#62687a}.reset-card small{font-weight:800;color:#6d5dfc;text-transform:uppercase;letter-spacing:.08em}.reset-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.reset-actions button{min-height:46px;border-radius:14px;border:1px solid #d9dce7;background:#fff;font:800 14px Inter,system-ui,sans-serif;cursor:pointer}.reset-actions .reset-confirm{background:#6d5dfc;color:#fff;border-color:#6d5dfc}
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <button id="playtest-reset" type="button">↻ New student</button>
+    <dialog id="reset-dialog">
+      <div class="reset-card">
+        <small>Playtest reset</small>
+        <h2>Start as a brand-new student?</h2>
+        <p>This clears coins, mastery, completed lessons, adaptive difficulty, buildings, and world orders on this browser. The app and curriculum stay unchanged.</p>
+        <div class="reset-actions">
+          <button id="reset-cancel" type="button">Keep progress</button>
+          <button id="reset-confirm" class="reset-confirm" type="button">Start fresh</button>
+        </div>
+      </div>
+    </dialog>
+    <script>
+      (()=>{
+        const trigger=document.getElementById('playtest-reset');
+        const dialog=document.getElementById('reset-dialog');
+        const cancel=document.getElementById('reset-cancel');
+        const confirm=document.getElementById('reset-confirm');
+        trigger.addEventListener('click',()=>dialog.showModal());
+        cancel.addEventListener('click',()=>dialog.close());
+        confirm.addEventListener('click',()=>{
+          localStorage.removeItem('first-principles-progress-v2');
+          localStorage.removeItem('first-principles-progress-v1');
+          dialog.close();
+          location.href=location.origin+location.pathname;
+        });
+      })();
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
