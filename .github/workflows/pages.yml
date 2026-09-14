@@ -1,8 +1,8 @@
-name: Deploy preview to GitHub Pages
+name: Deploy app to GitHub Pages
 
 on:
   push:
-    branches: [milestone-3-launch-fold]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -20,20 +20,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
+
       - name: Install dependencies
         run: npm install
-      - name: Build
-        run: npm run build
+
+      - name: Build for GitHub Pages
+        run: npm run build -- --base=/first-principles-app/
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
+
   deploy:
     environment:
       name: github-pages
