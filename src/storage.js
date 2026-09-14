@@ -8,18 +8,27 @@ export const defaultProgress = {
   coins: 0,
   mastery: 0,
   completedLessons: {},
+  world: { placements: {} },
 };
+
+function normalize(progress){
+  return {
+    ...defaultProgress,
+    ...progress,
+    world: { ...defaultProgress.world, ...(progress?.world || {}) },
+  };
+}
 
 export function loadProgress() {
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) return { ...defaultProgress, ...JSON.parse(raw) };
+    if (raw) return normalize(JSON.parse(raw));
 
     const legacyRaw = localStorage.getItem(LEGACY_KEY);
     if (legacyRaw) {
-      const migrated = migrateV1Progress(JSON.parse(legacyRaw));
+      const migrated = normalize(migrateV1Progress(JSON.parse(legacyRaw)));
       localStorage.setItem(KEY, JSON.stringify(migrated));
-      return { ...defaultProgress, ...migrated };
+      return migrated;
     }
 
     return defaultProgress;
@@ -30,7 +39,7 @@ export function loadProgress() {
 
 export function saveProgress(progress) {
   try {
-    localStorage.setItem(KEY, JSON.stringify(progress));
+    localStorage.setItem(KEY, JSON.stringify(normalize(progress)));
   } catch {
     // Learning remains usable even if storage is unavailable.
   }
