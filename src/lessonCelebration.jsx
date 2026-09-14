@@ -1,5 +1,6 @@
 import React,{useMemo,useState}from'react';
 import{Building2,Gamepad2,RotateCcw,Star,Shuffle}from'lucide-react';
+import'./brainBreak.css';
 
 export function LessonCelebration({mastery,coins,onWorld,onBrainBreak,onRestart}){
   return <main className="app celebrationPage">
