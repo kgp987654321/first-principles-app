@@ -12,9 +12,17 @@ export const defaultProgress = {
 };
 
 function normalize(progress){
+  const completedLessons = Object.fromEntries(
+    Object.entries(progress?.completedLessons || {}).map(([id, lessonProgress]) => {
+      const { supportLevel: _retiredSupportLevel, ...cleanProgress } = lessonProgress || {};
+      return [id, cleanProgress];
+    })
+  );
+
   return {
     ...defaultProgress,
     ...progress,
+    completedLessons,
     world: { ...defaultProgress.world, ...(progress?.world || {}) },
   };
 }
