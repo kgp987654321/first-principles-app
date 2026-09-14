@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, issue-1-lesson-engine]
+    branches: [main, issue-1-lesson-engine, street-level-world]
   pull_request:
     branches: [main]
 
@@ -16,7 +16,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
       - name: Install dependencies
         run: npm install
       - name: Build
