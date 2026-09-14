@@ -16,8 +16,6 @@ function normalize(progress){
   const completedLessons = Object.fromEntries(
     Object.entries(progress?.completedLessons || {}).map(([id, lessonProgress]) => {
       const cleanProgress = { ...(lessonProgress || {}) };
-      // Difficulty follows evidence automatically; old learner-facing tuning
-      // controls are intentionally not persisted.
       cleanProgress.supportLevel = cleanProgress.transferred
         ? 'expert'
         : cleanProgress.discovered
@@ -56,7 +54,7 @@ export function loadProgress() {
 
 export function saveProgress(progress) {
   try {
-    localStorage.setItem(KEY, JSON.stringify(normalize(progress));
+    localStorage.setItem(KEY, JSON.stringify(normalize(progress)));
   } catch {
     // Learning remains usable if storage is unavailable.
   }
