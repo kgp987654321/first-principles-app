@@ -1,4 +1,7 @@
-const KEY = 'first-principles-progress-v1';
+import { migrateV1Progress } from './progressMigration';
+
+const KEY = 'first-principles-progress-v2';
+const LEGACY_KEY = 'first-principles-progress-v1';
 
 export const defaultProgress = {
   theme: 'building',
@@ -10,8 +13,16 @@ export const defaultProgress = {
 export function loadProgress() {
   try {
     const raw = localStorage.getItem(KEY);
-    if (!raw) return defaultProgress;
-    return { ...defaultProgress, ...JSON.parse(raw) };
+    if (raw) return { ...defaultProgress, ...JSON.parse(raw) };
+
+    const legacyRaw = localStorage.getItem(LEGACY_KEY);
+    if (legacyRaw) {
+      const migrated = migrateV1Progress(JSON.parse(legacyRaw));
+      localStorage.setItem(KEY, JSON.stringify(migrated));
+      return { ...defaultProgress, ...migrated };
+    }
+
+    return defaultProgress;
   } catch {
     return defaultProgress;
   }
