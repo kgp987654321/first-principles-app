@@ -1,3 +1,4 @@
+import'./worldScene.css';
 import React,{useEffect,useMemo,useState}from'react';
 import{createRoot}from'react-dom/client';
 import{Volume2,Star,Coins,Building2,Lightbulb,Flame,Gamepad2,RotateCcw,ArrowRight,Minus,Plus,Target,Map,BookOpen,Lock}from'lucide-react';
