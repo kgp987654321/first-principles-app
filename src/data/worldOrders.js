@@ -1,34 +1,40 @@
 export const worldOrderMeta={
   bakery:[
-    {id:'pizza-three-fourths'},
-    {id:'half-cup'},
-    {id:'share-cookies'},
-    {id:'bakery-ratio-batch',unlockAfter:'ratio-recipe-3-2'},
-    {id:'bakery-best-deal',unlockAfter:'unit-price'}
+    {id:'pizza-three-fourths',label:'Three-fourths pizza'},
+    {id:'half-cup',label:'Half-cup recipe'},
+    {id:'share-cookies',label:'Share the cookies'},
+    {id:'bakery-equivalence-cake',label:'Quarter-cake conversion',unlockAfter:'fraction-language-wheel',unlockLabel:'One amount, many languages'},
+    {id:'bakery-ratio-batch',label:'Party cupcake ratio',unlockAfter:'ratio-recipe-3-2',unlockLabel:'Mix a 3 : 2 recipe'},
+    {id:'bakery-oven-rate',label:'Oven timing rush',unlockAfter:'race-rate',unlockLabel:'Race the pace'},
+    {id:'bakery-function-price',label:'Mystery cake price',unlockAfter:'mystery-machine',unlockLabel:'Crack the mystery machine'},
+    {id:'bakery-best-deal',label:'Buy the best berry deal',unlockAfter:'unit-price',unlockLabel:'Which deal wins?'},
+    {id:'bakery-catering-mission',label:'Catering mission',unlockAfter:'relationship-mission',unlockLabel:'Relationship mission'}
   ],
   clinic:[
-    {id:'food-half'},
-    {id:'weight-sort'},
-    {id:'water-three-fourths'},
-    {id:'clinic-scale-blanket',unlockAfter:'scale-robot'},
-    {id:'clinic-walk-rate',unlockAfter:'race-rate'}
+    {id:'food-half',label:'Half a bowl'},
+    {id:'weight-sort',label:'Choose the light supplies'},
+    {id:'water-three-fourths',label:'Fill the water bowl'},
+    {id:'clinic-scale-blanket',label:'Scale the pet blanket',unlockAfter:'scale-robot',unlockLabel:'Scale the robot'},
+    {id:'clinic-walk-rate',label:'Walking pace',unlockAfter:'race-rate',unlockLabel:'Race the pace'}
   ],
   design:[
-    {id:'stripe'},
-    {id:'grow'},
-    {id:'make'},
-    {id:'studio-slope-roof',unlockAfter:'slope-mountain'},
-    {id:'studio-rule-sign',unlockAfter:'build-function-rule'}
+    {id:'stripe',label:'Finish the mural'},
+    {id:'grow',label:'Growing tile design'},
+    {id:'make',label:'Design your own repeat'},
+    {id:'studio-slope-roof',label:'Design a roof slope',unlockAfter:'slope-mountain',unlockLabel:'Shape the slope'},
+    {id:'studio-rule-sign',label:'Build a sign rule',unlockAfter:'build-function-rule',unlockLabel:'Build the rule'}
   ],
   lab:[
-    {id:'half'},
-    {id:'threequarters'},
-    {id:'double'},
-    {id:'lab-scale-reading',unlockAfter:'map-scale'},
-    {id:'lab-machine-rule',unlockAfter:'mystery-machine'}
+    {id:'half',label:'Half-full sample'},
+    {id:'threequarters',label:'Three-quarter sample'},
+    {id:'double',label:'Double the recipe'},
+    {id:'lab-scale-reading',label:'Scale a reading',unlockAfter:'map-scale',unlockLabel:'Resize the map'},
+    {id:'lab-machine-rule',label:'Machine rule test',unlockAfter:'mystery-machine',unlockLabel:'Crack the mystery machine'}
   ]
 };
 
 export function orderUnlocked(order,completedLessons){return !order.unlockAfter||Boolean(completedLessons?.[order.unlockAfter]?.discovered)}
 export function unlockedOrderMeta(buildingId,completedLessons){return (worldOrderMeta[buildingId]||[]).filter(o=>orderUnlocked(o,completedLessons))}
+export function lockedOrderMeta(buildingId,completedLessons){return (worldOrderMeta[buildingId]||[]).filter(o=>!orderUnlocked(o,completedLessons))}
+export function nextLockedOrder(buildingId,completedLessons){return lockedOrderMeta(buildingId,completedLessons)[0]||null}
 export function pendingOrderCount(buildingId,world,completedLessons){const completed=world?.activities?.[buildingId]?.completedOrders||{};return unlockedOrderMeta(buildingId,completedLessons).filter(o=>!completed[o.id]).length}
