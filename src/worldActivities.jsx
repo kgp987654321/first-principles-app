@@ -1,5 +1,6 @@
 import React,{useMemo,useState}from'react';
 import{orderUnlocked,nextLockedOrder}from'./data/worldOrders';
+import'./bakery.css';
 
 const ORDERS=[
 {id:'pizza-three-fourths',customer:'Maya',avatar:'🧒',title:'Three-fourths pizza',prompt:'Maya wants cheese on exactly 3 of the 4 slices.',type:'slices',target:3,total:4,success:'Perfect — 3 of 4 slices is 3/4.'},
