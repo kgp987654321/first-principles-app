@@ -7,6 +7,7 @@ export const defaultProgress = {
   theme: 'building',
   coins: 0,
   mastery: 0,
+  lessonIndex: 0,
   completedLessons: {},
   world: { placements: {} },
 };
@@ -22,6 +23,7 @@ function normalize(progress){
   return {
     ...defaultProgress,
     ...progress,
+    lessonIndex: Number.isInteger(progress?.lessonIndex) ? progress.lessonIndex : 0,
     completedLessons,
     world: { ...defaultProgress.world, ...(progress?.world || {}) },
   };
