@@ -15,7 +15,14 @@ export const defaultProgress = {
 function normalize(progress){
   const completedLessons = Object.fromEntries(
     Object.entries(progress?.completedLessons || {}).map(([id, lessonProgress]) => {
-      const { supportLevel: _retiredSupportLevel, ...cleanProgress } = lessonProgress || {};
+      const cleanProgress = { ...(lessonProgress || {}) };
+      // Difficulty now follows demonstrated learning automatically. Discovery
+      // removes first-pass scaffolds; proven transfer uses the leanest clues.
+      cleanProgress.supportLevel = cleanProgress.transferred
+        ? 'expert'
+        : cleanProgress.discovered
+          ? 'challenge'
+          : 'guided';
       return [id, cleanProgress];
     })
   );
