@@ -16,8 +16,8 @@ function normalize(progress){
   const completedLessons = Object.fromEntries(
     Object.entries(progress?.completedLessons || {}).map(([id, lessonProgress]) => {
       const cleanProgress = { ...(lessonProgress || {}) };
-      // Difficulty now follows demonstrated learning automatically. Discovery
-      // removes first-pass scaffolds; proven transfer uses the leanest clues.
+      // Difficulty follows evidence automatically; old learner-facing tuning
+      // controls are intentionally not persisted.
       cleanProgress.supportLevel = cleanProgress.transferred
         ? 'expert'
         : cleanProgress.discovered
@@ -30,7 +30,7 @@ function normalize(progress){
   return {
     ...defaultProgress,
     ...progress,
-    lessonIndex: Number.isInteger(progress?.lessonIndex) ? progress.lessonIndex : 0,
+    lessonIndex: Number.isInteger(progress?.lessonIndex) ? Math.max(0, progress.lessonIndex) : 0,
     completedLessons,
     world: { ...defaultProgress.world, ...(progress?.world || {}) },
   };
@@ -56,8 +56,8 @@ export function loadProgress() {
 
 export function saveProgress(progress) {
   try {
-    localStorage.setItem(KEY, JSON.stringify(normalize(progress)));
+    localStorage.setItem(KEY, JSON.stringify(normalize(progress));
   } catch {
-    // Learning remains usable even if storage is unavailable.
+    // Learning remains usable if storage is unavailable.
   }
 }
