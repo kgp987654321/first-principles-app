@@ -14,11 +14,7 @@
       #reset-dialog::backdrop{background:rgba(30,32,45,.5);backdrop-filter:blur(3px)}
       .reset-card{padding:24px;font-family:Inter,system-ui,sans-serif;color:#202331}.reset-card h2{margin:4px 0 10px}.reset-card p{line-height:1.5;color:#62687a}.reset-card small{font-weight:800;color:#6d5dfc;text-transform:uppercase;letter-spacing:.08em}.reset-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.reset-actions button{min-height:46px;border-radius:14px;border:1px solid #d9dce7;background:#fff;font:800 14px Inter,system-ui,sans-serif;cursor:pointer}.reset-actions .reset-confirm{background:#6d5dfc;color:#fff;border-color:#6d5dfc}
       .tutorControls{display:none!important}
-      #sudoku-checkpoint{display:none;width:100%;margin-top:14px;border:2px solid #e2d5ff;border-radius:22px;background:linear-gradient(135deg,#fff8cf,#f2edff);box-shadow:0 8px 22px rgba(76,62,150,.09);padding:0;overflow:hidden;text-decoration:none;color:#202331;font-family:Inter,system-ui,sans-serif}
-      #sudoku-checkpoint .sicon{width:92px;display:grid;place-items:center;font-size:40px;background:#fff5b5}
-      #sudoku-checkpoint .scopy{padding:18px 8px;text-align:left;flex:1}#sudoku-checkpoint .scopy b{display:block;font-size:24px}#sudoku-checkpoint .scopy span{display:block;margin-top:4px;color:#626d82;font-size:15px}#sudoku-checkpoint .sreward{margin:18px;padding:9px 13px;border-radius:14px;background:#fff;border:1px solid #ecd467;font-weight:900;white-space:nowrap}
-      #sudoku-checkpoint.show{display:flex;align-items:center}
-      @media(max-width:650px){#sudoku-checkpoint .sicon{width:64px}.scopy b{font-size:19px!important}#sudoku-checkpoint .sreward{margin:10px;font-size:12px}}
+      .crash-recovery{max-width:680px;margin:80px auto;padding:28px;border:1px solid #e5e7ef;border-radius:24px;background:#fff;box-shadow:0 12px 40px rgba(32,35,49,.09);font-family:Inter,system-ui,sans-serif;color:#202331}.crash-recovery small{font-weight:900;color:#6d5dfc;letter-spacing:.08em}.crash-recovery h1{font-size:34px;margin:8px 0}.crash-recovery p{color:#62687a;line-height:1.5}.crash-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.crash-actions button{min-height:46px;border-radius:14px;border:1px solid #d9dce7;background:#fff;padding:10px 16px;font:800 14px Inter,system-ui,sans-serif;cursor:pointer}.crash-actions .primary-recovery{background:#6d5dfc;color:#fff;border-color:#6d5dfc}
     </style>
   </head>
   <body>
@@ -28,9 +24,32 @@
     <script>
       (()=>{
         const trigger=document.getElementById('playtest-reset'),dialog=document.getElementById('reset-dialog'),cancel=document.getElementById('reset-cancel'),confirm=document.getElementById('reset-confirm');
-        trigger.addEventListener('click',()=>dialog.showModal());cancel.addEventListener('click',()=>dialog.close());confirm.addEventListener('click',()=>{localStorage.removeItem('first-principles-progress-v2');localStorage.removeItem('first-principles-progress-v1');dialog.close();location.href=location.origin+location.pathname});
-        const addSudoku=()=>{const page=document.querySelector('.celebrationPage');if(!page||document.getElementById('sudoku-checkpoint'))return;const choices=[...page.querySelectorAll('button')];const next=choices.find(b=>/next adventure/i.test(b.textContent));const breakBtn=choices.find(b=>/brain break/i.test(b.textContent));if(!next&&!breakBtn)return;const link=document.createElement('a');link.id='sudoku-checkpoint';link.href='./sudoku.html';link.innerHTML='<div class="sicon">🔢</div><div class="scopy"><b>Mini Sudoku</b><span>Try today’s 4×4 logic puzzle for a coin bonus.</span></div><div class="sreward">🪙 +50</div>';const host=(next||breakBtn).parentElement;host.appendChild(link);requestAnimationFrame(()=>link.classList.add('show'))};
-        new MutationObserver(addSudoku).observe(document.documentElement,{childList:true,subtree:true});window.addEventListener('load',addSudoku);
+        trigger.addEventListener('click',()=>dialog.showModal());
+        cancel.addEventListener('click',()=>dialog.close());
+        confirm.addEventListener('click',()=>{localStorage.removeItem('first-principles-progress-v2');localStorage.removeItem('first-principles-progress-v1');dialog.close();location.href=location.origin+location.pathname});
+
+        let recovering=false;
+        const showRecovery=()=>{
+          if(recovering)return;
+          recovering=true;
+          setTimeout(()=>{
+            const root=document.getElementById('root');
+            if(!root||root.children.length)return;
+            root.innerHTML='<section class="crash-recovery"><small>PLAYTEST RECOVERY</small><h1>That lesson hit a bug.</h1><p>Your learning progress is still saved. Reload this lesson, or return to Lesson 1 without erasing your coins, buildings, or completed work.</p><div class="crash-actions"><button class="primary-recovery" id="recover-reload">Reload lesson</button><button id="recover-first">Go to Lesson 1</button></div></section>';
+            document.getElementById('recover-reload')?.addEventListener('click',()=>location.reload());
+            document.getElementById('recover-first')?.addEventListener('click',()=>{
+              try{
+                const key='first-principles-progress-v2';
+                const saved=JSON.parse(localStorage.getItem(key)||'{}');
+                saved.lessonIndex=0;
+                localStorage.setItem(key,JSON.stringify(saved));
+              }catch{}
+              location.reload();
+            });
+          },50);
+        };
+        window.addEventListener('error',showRecovery);
+        window.addEventListener('unhandledrejection',showRecovery);
       })();
     </script>
     <script type="module" src="/src/main.jsx"></script>
