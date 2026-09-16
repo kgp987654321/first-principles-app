@@ -1,5 +1,6 @@
 import React,{useEffect,useMemo,useState}from'react';
 import'./worldConcept.css';
+import'./worldConceptV2.css';
 import{worldBuildings}from'./data/world';
 import{unlockedOrderMeta}from'./data/worldOrders';
 import{NewBuildingInterior}from'./newBuildingInteriors';
@@ -39,7 +40,7 @@ export function GrowingWorldScene({world,completedLessons,onEnter,onChooseLot}){
    <div className="cwScene"><div className="cwRoad"/><div className="cwSidewalk left"/><div className="cwSidewalk right"/><div className="cwTownCenter"><span>🏫</span><b>Learning Valley</b></div><div className="cwFountain">⛲</div>
      <span className="cwTree t1">🌳</span><span className="cwTree t2">🌲</span><span className="cwTree t3">🌳</span><span className="cwTree t4">🌲</span><span className="cwTree t5">🌳</span><span className="cwTree t6">🌳</span>
      <span className="cwLamp l1">🏮</span><span className="cwLamp l2">🏮</span><span className="cwLamp l3">🏮</span><span className="cwLamp l4">🏮</span><span className="cwFlower f1">🌼</span><span className="cwFlower f2">🌻</span><span className="cwFlower f3">🌷</span><span className="cwFlower f4">🌸</span><span className="cwBench b1">🪑</span><span className="cwBench b2">🪑</span>
-     {visibleBuildings.map(o=>{const depth=Math.max(.38,1-o.rel/110),bottom=16+(1-depth)*30,x=o.side==='left'?8+depth*15:92-depth*15,near=activeBuilding?.lot===o.lot,target=accepted?.shopId===o.id;return <button key={`${o.lot}-${o.id}`} className={`cwBuilding ${o.id} ${target?'destination':''}`} style={{left:`${x}%`,bottom:`${bottom}%`,transform:`translateX(-50%) scale(${depth})`,zIndex:20+Math.round(depth*70)}} onClick={()=>travel(o)}><BuildingArt o={o}/>{target&&<small>YOUR DESTINATION</small>}</button>})}
+     {visibleBuildings.map(o=>{const depth=Math.max(.38,1-o.rel/110),bottom=16+(1-depth)*30,x=o.side==='left'?8+depth*15:92-depth*15,target=accepted?.shopId===o.id;return <button key={`${o.lot}-${o.id}`} className={`cwBuilding ${o.id} ${target?'destination':''}`} style={{left:`${x}%`,bottom:`${bottom}%`,transform:`translateX(-50%) scale(${depth})`,zIndex:20+Math.round(depth*70)}} onClick={()=>travel(o)}><BuildingArt o={o}/>{target&&<small>YOUR DESTINATION</small>}</button>})}
      {visibleCustomers.map(c=>{const depth=Math.max(.48,1-c.rel/80),bottom=15+(1-depth)*28,x=c.side==='left'?32-depth*7:68+depth*7,near=activeCustomer?.id===c.id;return <button key={c.id} className={`cwCustomer ${near?'near':''}`} style={{left:`${x}%`,bottom:`${bottom}%`,transform:`translateX(-50%) scale(${depth})`,zIndex:45+Math.round(depth*65)}} onClick={()=>{setDistance(Math.max(0,c.d-2));setLane(c.side==='left'?-1:1);setDialogue(c)}}><span className="shadow"/><span className="sprite">{c.look}</span>{near&&<span className="cwTalkBubble">💬 Talk</span>}</button>})}
      <button className="cwPlayer" onClick={()=>setSelfTalk(true)} aria-label="Talk to your character"><Avatar avatar={avatar}/></button>
    </div>
