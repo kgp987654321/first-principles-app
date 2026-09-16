@@ -10,42 +10,66 @@
     <style>
       #playtest-reset{position:fixed;right:14px;bottom:14px;z-index:9999;border:1px solid #d9dce7;border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 6px 22px rgba(32,35,49,.16);padding:9px 13px;font:700 12px/1.2 Inter,system-ui,sans-serif;color:#54596b;cursor:pointer;backdrop-filter:blur(8px)}
       #playtest-reset:hover{background:#fff;border-color:#6d5dfc;color:#4f40e8}
-      #reset-dialog{border:0;border-radius:22px;padding:0;max-width:430px;width:calc(100% - 32px);box-shadow:0 20px 70px rgba(28,24,70,.3)}
-      #reset-dialog::backdrop{background:rgba(30,32,45,.5);backdrop-filter:blur(3px)}
-      .reset-card{padding:24px;font-family:Inter,system-ui,sans-serif;color:#202331}.reset-card h2{margin:4px 0 10px}.reset-card p{line-height:1.5;color:#62687a}.reset-card small{font-weight:800;color:#6d5dfc;text-transform:uppercase;letter-spacing:.08em}.reset-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.reset-actions button{min-height:46px;border-radius:14px;border:1px solid #d9dce7;background:#fff;font:800 14px Inter,system-ui,sans-serif;cursor:pointer}.reset-actions .reset-confirm{background:#6d5dfc;color:#fff;border-color:#6d5dfc}
+      #reset-dialog,#checkpoint-dialog{border:0;border-radius:22px;padding:0;max-width:540px;width:calc(100% - 32px);box-shadow:0 20px 70px rgba(28,24,70,.3)}
+      #reset-dialog::backdrop,#checkpoint-dialog::backdrop{background:rgba(30,32,45,.5);backdrop-filter:blur(3px)}
+      .reset-card,.checkpoint-card{padding:24px;font-family:Inter,system-ui,sans-serif;color:#202331}.reset-card h2,.checkpoint-card h2{margin:4px 0 10px}.reset-card p,.checkpoint-card p{line-height:1.5;color:#62687a}.reset-card small,.checkpoint-card small{font-weight:800;color:#6d5dfc;text-transform:uppercase;letter-spacing:.08em}.reset-actions,.checkpoint-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.reset-actions button,.checkpoint-actions button{min-height:46px;border-radius:14px;border:1px solid #d9dce7;background:#fff;font:800 14px Inter,system-ui,sans-serif;cursor:pointer;padding:10px 14px}.reset-actions .reset-confirm,.checkpoint-actions .checkpoint-primary{background:#6d5dfc;color:#fff;border-color:#6d5dfc}.checkpoint-actions .wide{grid-column:1/-1}.checkpoint-stars{font-size:48px;margin-bottom:8px}.checkpoint-note{padding:12px 14px;background:#f7f5ff;border-radius:14px;margin-top:14px;font-size:13px;color:#62687a}
       .tutorControls{display:none!important}
-      .crash-recovery{max-width:680px;margin:80px auto;padding:28px;border:1px solid #e5e7ef;border-radius:24px;background:#fff;box-shadow:0 12px 40px rgba(32,35,49,.09);font-family:Inter,system-ui,sans-serif;color:#202331}.crash-recovery small{font-weight:900;color:#6d5dfc;letter-spacing:.08em}.crash-recovery h1{font-size:34px;margin:8px 0}.crash-recovery p{color:#62687a;line-height:1.5}.crash-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.crash-actions button{min-height:46px;border-radius:14px;border:1px solid #d9dce7;background:#fff;padding:10px 16px;font:800 14px Inter,system-ui,sans-serif;cursor:pointer}.crash-actions .primary-recovery{background:#6d5dfc;color:#fff;border-color:#6d5dfc}
+      .crash-recovery{max-width:680px;margin:80px auto;padding:28px;border:1px solid #e5e7ef;border-radius:24px;background:#fff;box-shadow:0 12px 40px rgba(32,35,49,.09);font-family:Inter,system-ui,sans-serif;color:#202331}.crash-recovery small{font-weight:900;color:#6d5dfc;letter-spacing:.08em}.crash-recovery h1{font-size:34px;margin:8px 0}.crash-recovery p{color:#62687a;line-height:1.5}.crash-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.crash-actions button{min-height:46px;border-radius:14px;border:1px solid #d9dce7;background:#fff;padding:10px 16px;font:800 14px Inter,system-ui,sans-serif;cursor:pointer}.crash-actions .primary-recovery{background:#6d5dfc;color:#fff;border-color:#6d5dfc}.crash-detail{margin-top:16px;padding:10px 12px;border-radius:12px;background:#f7f8fc;color:#737787;font:12px/1.4 ui-monospace,monospace;overflow-wrap:anywhere}
     </style>
   </head>
   <body>
     <div id="root"></div>
     <button id="playtest-reset" type="button">↻ New student</button>
     <dialog id="reset-dialog"><div class="reset-card"><small>Playtest reset</small><h2>Start as a brand-new student?</h2><p>This clears coins, mastery, completed lessons, buildings, and world orders on this browser. The app and curriculum stay unchanged.</p><div class="reset-actions"><button id="reset-cancel" type="button">Keep progress</button><button id="reset-confirm" class="reset-confirm" type="button">Start fresh</button></div></div></dialog>
+    <dialog id="checkpoint-dialog"><div class="checkpoint-card"><div class="checkpoint-stars">✨🏆✨</div><small id="checkpoint-label">Adventure complete</small><h2 id="checkpoint-title">Ten lessons complete!</h2><p id="checkpoint-copy">Your progress is saved. Choose where to go next.</p><div class="checkpoint-note">Your completed lessons, coins, buildings, and orders stay exactly where they are.</div><div class="checkpoint-actions"><button id="checkpoint-world">Visit My World</button><button id="checkpoint-stay">Stay here</button><button id="checkpoint-continue" class="checkpoint-primary wide">Start the next adventure →</button></div></div></dialog>
     <script>
       (()=>{
+        const KEY='first-principles-progress-v2',CHECKPOINTS=[9,19,29,39,49];
+        const readProgress=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch{return {}}};
+        const writeProgress=p=>{try{localStorage.setItem(KEY,JSON.stringify(p))}catch{}};
         const trigger=document.getElementById('playtest-reset'),dialog=document.getElementById('reset-dialog'),cancel=document.getElementById('reset-cancel'),confirm=document.getElementById('reset-confirm');
         trigger.addEventListener('click',()=>dialog.showModal());
         cancel.addEventListener('click',()=>dialog.close());
-        confirm.addEventListener('click',()=>{localStorage.removeItem('first-principles-progress-v2');localStorage.removeItem('first-principles-progress-v1');dialog.close();location.href=location.origin+location.pathname});
+        confirm.addEventListener('click',()=>{localStorage.removeItem(KEY);localStorage.removeItem('first-principles-progress-v1');dialog.close();location.href=location.origin+location.pathname});
+
+        const checkpointDialog=document.getElementById('checkpoint-dialog'),checkpointLabel=document.getElementById('checkpoint-label'),checkpointTitle=document.getElementById('checkpoint-title'),checkpointCopy=document.getElementById('checkpoint-copy'),checkpointContinue=document.getElementById('checkpoint-continue');
+        let checkpointIndex=null;
+        const showCheckpoint=index=>{
+          checkpointIndex=index;
+          const adventure=Math.floor(index/10)+1;
+          checkpointLabel.textContent=adventure===5?'All adventures complete':`Adventure ${adventure} complete`;
+          checkpointTitle.textContent=adventure===5?'You connected 50 big ideas!':'Ten lessons complete!';
+          checkpointCopy.textContent=adventure===5?'Explore My World and revisit any challenge you want.':'Visit your world now, or continue into the next set of ideas.';
+          checkpointContinue.style.display=adventure===5?'none':'';
+          checkpointContinue.textContent=`Start Adventure ${adventure+1} →`;
+          checkpointDialog.showModal();
+        };
+        document.addEventListener('click',e=>{
+          const btn=e.target.closest?.('button');
+          if(!btn||!/^Finish Adventure/.test((btn.textContent||'').trim()))return;
+          const p=readProgress(),index=Number.isInteger(p.lessonIndex)?p.lessonIndex:0;
+          if(!CHECKPOINTS.includes(index))return;
+          e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+          showCheckpoint(index);
+        },true);
+        document.getElementById('checkpoint-stay').addEventListener('click',()=>checkpointDialog.close());
+        document.getElementById('checkpoint-world').addEventListener('click',()=>{checkpointDialog.close();const worldButton=[...document.querySelectorAll('button')].find(b=>/My World/.test(b.textContent||''));worldButton?.click()});
+        checkpointContinue.addEventListener('click',()=>{if(checkpointIndex===null)return;const p=readProgress();p.lessonIndex=Math.min(49,checkpointIndex+1);writeProgress(p);checkpointDialog.close();location.reload()});
 
         let recovering=false;
-        const showRecovery=()=>{
+        const showRecovery=event=>{
           if(recovering)return;
           recovering=true;
+          const message=String(event?.error?.message||event?.reason?.message||event?.message||'Unknown runtime error');
+          try{localStorage.setItem('first-principles-last-error',message)}catch{}
           setTimeout(()=>{
             const root=document.getElementById('root');
             if(!root||root.children.length)return;
-            root.innerHTML='<section class="crash-recovery"><small>PLAYTEST RECOVERY</small><h1>That lesson hit a bug.</h1><p>Your learning progress is still saved. Reload this lesson, or return to Lesson 1 without erasing your coins, buildings, or completed work.</p><div class="crash-actions"><button class="primary-recovery" id="recover-reload">Reload lesson</button><button id="recover-first">Go to Lesson 1</button></div></section>';
+            const p=readProgress(),index=Number.isInteger(p.lessonIndex)?p.lessonIndex:0,isCheckpoint=CHECKPOINTS.includes(index)&&index<49;
+            root.innerHTML=`<section class="crash-recovery"><small>PLAYTEST RECOVERY</small><h1>That lesson hit a bug.</h1><p>Your progress is still saved. ${isCheckpoint?'You can continue directly into the next adventure without replaying these ten lessons.':'Reload this lesson and keep going.'}</p><div class="crash-actions"><button class="primary-recovery" id="recover-reload">Reload lesson</button>${isCheckpoint?'<button id="recover-next">Continue to next adventure</button>':'<button id="recover-first">Go to Lesson 1</button>'}</div><div class="crash-detail">${message.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</div></section>`;
             document.getElementById('recover-reload')?.addEventListener('click',()=>location.reload());
-            document.getElementById('recover-first')?.addEventListener('click',()=>{
-              try{
-                const key='first-principles-progress-v2';
-                const saved=JSON.parse(localStorage.getItem(key)||'{}');
-                saved.lessonIndex=0;
-                localStorage.setItem(key,JSON.stringify(saved));
-              }catch{}
-              location.reload();
-            });
+            document.getElementById('recover-next')?.addEventListener('click',()=>{const saved=readProgress();saved.lessonIndex=Math.min(49,index+1);writeProgress(saved);location.reload()});
+            document.getElementById('recover-first')?.addEventListener('click',()=>{const saved=readProgress();saved.lessonIndex=0;writeProgress(saved);location.reload()});
           },50);
         };
         window.addEventListener('error',showRecovery);
