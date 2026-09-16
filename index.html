@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#6d5dfc" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="stylesheet" href="./src/worldPolish.css?v=3" />
+    <link rel="stylesheet" href="./src/worldPolish.css?v=4" />
     <title>First Principles</title>
     <style>
       #playtest-reset{position:fixed;right:14px;bottom:14px;z-index:9999;border:1px solid #d9dce7;border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 6px 22px rgba(32,35,49,.16);padding:9px 13px;font:700 12px/1.2 Inter,system-ui,sans-serif;color:#54596b;cursor:pointer;backdrop-filter:blur(8px)}
@@ -14,36 +14,23 @@
       #reset-dialog::backdrop{background:rgba(30,32,45,.5);backdrop-filter:blur(3px)}
       .reset-card{padding:24px;font-family:Inter,system-ui,sans-serif;color:#202331}.reset-card h2{margin:4px 0 10px}.reset-card p{line-height:1.5;color:#62687a}.reset-card small{font-weight:800;color:#6d5dfc;text-transform:uppercase;letter-spacing:.08em}.reset-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.reset-actions button{min-height:46px;border-radius:14px;border:1px solid #d9dce7;background:#fff;font:800 14px Inter,system-ui,sans-serif;cursor:pointer}.reset-actions .reset-confirm{background:#6d5dfc;color:#fff;border-color:#6d5dfc}
       .tutorControls{display:none!important}
+      #sudoku-checkpoint{display:none;width:100%;margin-top:14px;border:2px solid #e2d5ff;border-radius:22px;background:linear-gradient(135deg,#fff8cf,#f2edff);box-shadow:0 8px 22px rgba(76,62,150,.09);padding:0;overflow:hidden;text-decoration:none;color:#202331;font-family:Inter,system-ui,sans-serif}
+      #sudoku-checkpoint .sicon{width:92px;display:grid;place-items:center;font-size:40px;background:#fff5b5}
+      #sudoku-checkpoint .scopy{padding:18px 8px;text-align:left;flex:1}#sudoku-checkpoint .scopy b{display:block;font-size:24px}#sudoku-checkpoint .scopy span{display:block;margin-top:4px;color:#626d82;font-size:15px}#sudoku-checkpoint .sreward{margin:18px;padding:9px 13px;border-radius:14px;background:#fff;border:1px solid #ecd467;font-weight:900;white-space:nowrap}
+      #sudoku-checkpoint.show{display:flex;align-items:center}
+      @media(max-width:650px){#sudoku-checkpoint .sicon{width:64px}.scopy b{font-size:19px!important}#sudoku-checkpoint .sreward{margin:10px;font-size:12px}}
     </style>
   </head>
   <body>
     <div id="root"></div>
     <button id="playtest-reset" type="button">↻ New student</button>
-    <dialog id="reset-dialog">
-      <div class="reset-card">
-        <small>Playtest reset</small>
-        <h2>Start as a brand-new student?</h2>
-        <p>This clears coins, mastery, completed lessons, buildings, and world orders on this browser. The app and curriculum stay unchanged.</p>
-        <div class="reset-actions">
-          <button id="reset-cancel" type="button">Keep progress</button>
-          <button id="reset-confirm" class="reset-confirm" type="button">Start fresh</button>
-        </div>
-      </div>
-    </dialog>
+    <dialog id="reset-dialog"><div class="reset-card"><small>Playtest reset</small><h2>Start as a brand-new student?</h2><p>This clears coins, mastery, completed lessons, buildings, and world orders on this browser. The app and curriculum stay unchanged.</p><div class="reset-actions"><button id="reset-cancel" type="button">Keep progress</button><button id="reset-confirm" class="reset-confirm" type="button">Start fresh</button></div></div></dialog>
     <script>
       (()=>{
-        const trigger=document.getElementById('playtest-reset');
-        const dialog=document.getElementById('reset-dialog');
-        const cancel=document.getElementById('reset-cancel');
-        const confirm=document.getElementById('reset-confirm');
-        trigger.addEventListener('click',()=>dialog.showModal());
-        cancel.addEventListener('click',()=>dialog.close());
-        confirm.addEventListener('click',()=>{
-          localStorage.removeItem('first-principles-progress-v2');
-          localStorage.removeItem('first-principles-progress-v1');
-          dialog.close();
-          location.href=location.origin+location.pathname;
-        });
+        const trigger=document.getElementById('playtest-reset'),dialog=document.getElementById('reset-dialog'),cancel=document.getElementById('reset-cancel'),confirm=document.getElementById('reset-confirm');
+        trigger.addEventListener('click',()=>dialog.showModal());cancel.addEventListener('click',()=>dialog.close());confirm.addEventListener('click',()=>{localStorage.removeItem('first-principles-progress-v2');localStorage.removeItem('first-principles-progress-v1');dialog.close();location.href=location.origin+location.pathname});
+        const addSudoku=()=>{const page=document.querySelector('.celebrationPage');if(!page||document.getElementById('sudoku-checkpoint'))return;const choices=[...page.querySelectorAll('button')];const next=choices.find(b=>/next adventure/i.test(b.textContent));const breakBtn=choices.find(b=>/brain break/i.test(b.textContent));if(!next&&!breakBtn)return;const link=document.createElement('a');link.id='sudoku-checkpoint';link.href='./sudoku.html';link.innerHTML='<div class="sicon">🔢</div><div class="scopy"><b>Mini Sudoku</b><span>Try today’s 4×4 logic puzzle for a coin bonus.</span></div><div class="sreward">🪙 +50</div>';const host=(next||breakBtn).parentElement;host.appendChild(link);requestAnimationFrame(()=>link.classList.add('show'))};
+        new MutationObserver(addSudoku).observe(document.documentElement,{childList:true,subtree:true});window.addEventListener('load',addSudoku);
       })();
     </script>
     <script type="module" src="/src/main.jsx"></script>
