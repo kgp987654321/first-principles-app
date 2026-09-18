@@ -44,6 +44,7 @@ function destinationState(d,completedLessons,world,mastery){
 
 function BuildingArt({id,state}){
   return <span className={`townBuildingArt art-${id} level${state.level}`}>
+    <i className="contactShadow"/>
     <i className="isoBase"/>
     <i className="isoSide"/>
     <i className="isoFront"/>
