@@ -4,6 +4,7 @@ import'./townMapRefinement.css';
 import'./townMapArtPass.css';
 import'./townMapRoads.css';
 import'./townMapTerrainPass.css';
+import'./townMapAtmosphere.css';
 import{worldBuildings,buildingUnlocked}from'./data/world';
 import{GrowingWorldScene as StreetWorld}from'./worldSceneConcept';
 import{NewBuildingInterior}from'./newBuildingInteriors';
@@ -202,6 +203,23 @@ function TerrainDetails(){
   </>;
 }
 
+
+function AtmosphereLayers(){
+  return <>
+    <div className="distanceHaze hazeLeft"/>
+    <div className="distanceHaze hazeCenter"/>
+    <div className="distanceHaze hazeRight"/>
+    <div className="sunlightWash"/>
+    <div className="terrainTextureLayer"/>
+    <div className="waterEdgeDetail waterEdgeA"/>
+    <div className="waterEdgeDetail waterEdgeB"/>
+    <div className="foregroundCanopy canopyLeft"><i/><i/><i/></div>
+    <div className="foregroundCanopy canopyRight"><i/><i/><i/></div>
+    <div className="foregroundGrass grassLeft"><i/><i/><i/><i/></div>
+    <div className="foregroundGrass grassRight"><i/><i/><i/><i/><i/></div>
+  </>;
+}
+
 function TownLife({mastery,completedLessons}){
   const bridgePowered=hasMastered(completedLessons,'bridge-torque');
   const windPowered=hasMastered(completedLessons,'roller-energy')||hasMastered(completedLessons,'bridge-torque');
@@ -263,6 +281,7 @@ export function TownWorld(props){
         <div className="townCloud cloud1">☁</div><div className="townCloud cloud2">☁</div><div className="townCloud cloud3">☁</div>
         <div className="mountainRange far"/><div className="mountainRange near"/>
         <div className="snowCap cap1"/><div className="snowCap cap2"/><div className="snowCap cap3"/>
+        <AtmosphereLayers/>
         <div className="townWaterfall"><i/><i/><i/></div>
         <div className="townRiver riverA"><span className="riverShine s1"/><span className="riverShine s2"/><span className="riverShine s3"/></div>
         <div className="townRiver riverB"><span className="riverShine s4"/><span className="riverShine s5"/></div>
