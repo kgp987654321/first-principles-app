@@ -28,12 +28,12 @@ const destinationConcepts={
 const destinations=[
   {id:'numbers',name:'Numbers Lab',emoji:'🔢',x:27,y:42,buildingId:'bakery',entry:'bakery',core:true,min:0,topic:'Fractions · decimals · ratios',blurb:'Experiment with quantity, equivalence, scaling, and number relationships.'},
   {id:'geometry',name:'Geometry Workshop',emoji:'📐',x:18,y:68,buildingId:'architect',interior:true,core:true,min:0,topic:'Shapes · space · design',blurb:'Build spatial intuition through symmetry, folding, angles, area, and design.'},
-  {id:'builders',name:"Builders’ Yard",emoji:'🏗️',x:43,y:35,buildingId:'bridge',interior:true,core:true,min:0,topic:'Create · experiment · solve',blurb:'Use measurement, structure, forces, and scaling to make things that work.'},
+  {id:'builders',name:"Builders’ Yard",emoji:'🏗️',x:43,y:35,buildingId:'bridge',interior:true,micro:'buildersyard',core:true,min:0,topic:'Create · experiment · solve',blurb:'Use measurement, structure, forces, and scaling to make things that work.'},
   {id:'patterns',name:'Pattern Pavilion',emoji:'🔷',x:63,y:42,buildingId:'design',entry:'design',core:true,min:0,topic:'Notice · predict · generalize',blurb:'Find hidden rules, visual patterns, sequences, and transformations.'},
   {id:'think',name:'The Think Tank',emoji:'🧠',x:82,y:45,core:true,min:0,topic:'Verbal · quantitative · nonverbal',blurb:'Practice analogy, classification, logic, constraints, and flexible reasoning.',lessons:true},
   {id:'science',name:'Science Studio',emoji:'🧪',x:70,y:64.5,buildingId:'lab',entry:'lab',core:true,min:0,topic:'Forces · motion · energy',blurb:'Use experiments to discover measurement, motion, change, and physical relationships.'},
-  {id:'garden',name:'The Garden',emoji:'🌱',x:88.5,y:66.5,buildingId:'clinic',entry:'clinic',core:true,min:0,topic:'Grow your ideas',blurb:'Apply number sense, sorting, comparison, and patterns in living systems.'},
-  {id:'observatory',name:'The Observatory',emoji:'🔭',x:88,y:23,buildingId:'observatory',interior:true,min:10,topic:'Patterns beyond',blurb:'A high-level destination for multi-step reasoning, space, scale, and prediction.'}
+  {id:'garden',name:'The Garden',emoji:'🌱',x:88.5,y:66.5,buildingId:'clinic',entry:'clinic',micro:'gardenlab',core:true,min:0,topic:'Grow your ideas',blurb:'Apply number sense, sorting, comparison, and patterns in living systems.'},
+  {id:'observatory',name:'The Observatory',emoji:'🔭',x:88,y:23,buildingId:'observatory',interior:true,micro:'observatorylab',min:10,topic:'Patterns beyond',blurb:'A high-level destination for multi-step reasoning, space, scale, and prediction.'}
 ];
 
 function destinationState(d,completedLessons,world,mastery){
@@ -288,7 +288,14 @@ export function TownWorld(props){
   const selectDestination=id=>{setSelectedPoiId(null);setSelectedId(id)};
   const selectPoi=id=>{setSelectedId(null);setSelectedPoiId(id)};
   const followPoi=()=>{if(selectedPoi)setMicroId(selectedPoi.id)};
-  const goFromMicro=()=>{const spot=scenicSpots.find(s=>s.id===microId);setMicroId(null);if(spot?.relatedId)selectDestination(spot.relatedId)};
+  const tryOutside=()=>{if(selected?.micro)setMicroId(selected.micro)};
+  const goFromMicro=()=>{
+    const spot=scenicSpots.find(s=>s.id===microId);
+    const destination=destinations.find(d=>d.micro===microId);
+    setMicroId(null);
+    if(spot?.relatedId){selectDestination(spot.relatedId);return}
+    if(destination){selectDestination(destination.id);setTimeout(()=>visitDestination(destination,states[destination.id]),0)}
+  };
 
   useEffect(()=>{
     const ordered=destinations.map(d=>d.id);
@@ -377,7 +384,7 @@ export function TownWorld(props){
         <div className="townTags"><span>{selected.topic}</span><span>{state.conceptWins} connected ideas</span>{state.placed&&<span>Built with coins ✓</span>}</div>
       </div>
       <div className="townInfoAction">
-        {!state.unlocked?<><b>Keep discovering ideas to open this district.</b><button onClick={onBack}>Keep learning →</button></>:<><b>{state.level>=3?'This landmark is thriving.':state.conceptWins?'Your learning is upgrading this place.':'Ready for its first discovery.'}</b><button onClick={visit}>{selected.lessons?'Practice reasoning →':'Enter →'}</button></>}
+        {!state.unlocked?<><b>Keep discovering ideas to open this district.</b><button onClick={onBack}>Keep learning →</button></>:<><b>{state.level>=3?'This landmark is thriving.':state.conceptWins?'Your learning is upgrading this place.':'Ready for its first discovery.'}</b><div className="townActionButtons">{selected.micro&&<button className="townTryButton" onClick={tryOutside}>✨ Try outside</button>}<button onClick={visit}>{selected.lessons?'Practice reasoning →':'Enter →'}</button></div></>}
       </div>
     </aside>:null}
 
