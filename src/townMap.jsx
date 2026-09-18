@@ -20,13 +20,13 @@ const destinationConcepts={
 };
 
 const destinations=[
-  {id:'numbers',name:'Numbers Lab',emoji:'🔢',x:27,y:42,buildingId:'bakery',entry:'bakery',min:0,topic:'Fractions · decimals · ratios',blurb:'Experiment with quantity, equivalence, scaling, and number relationships.'},
-  {id:'geometry',name:'Geometry Workshop',emoji:'📐',x:18,y:68,buildingId:'architect',interior:true,min:3,topic:'Shapes · space · design',blurb:'Build spatial intuition through symmetry, folding, angles, area, and design.'},
-  {id:'builders',name:"Builders’ Yard",emoji:'🏗️',x:43,y:35,buildingId:'bridge',interior:true,min:6,topic:'Create · experiment · solve',blurb:'Use measurement, structure, forces, and scaling to make things that work.'},
-  {id:'patterns',name:'Pattern Pavilion',emoji:'🔷',x:63,y:42,buildingId:'design',entry:'design',min:0,topic:'Notice · predict · generalize',blurb:'Find hidden rules, visual patterns, sequences, and transformations.'},
-  {id:'think',name:'The Think Tank',emoji:'🧠',x:82,y:45,min:0,topic:'Verbal · quantitative · nonverbal',blurb:'Practice analogy, classification, logic, constraints, and flexible reasoning.',lessons:true},
-  {id:'science',name:'Science Studio',emoji:'🧪',x:70,y:68,buildingId:'lab',entry:'lab',min:0,topic:'Forces · motion · energy',blurb:'Use experiments to discover measurement, motion, change, and physical relationships.'},
-  {id:'garden',name:'The Garden',emoji:'🌱',x:89,y:70,buildingId:'clinic',entry:'clinic',min:2,topic:'Grow your ideas',blurb:'Apply number sense, sorting, comparison, and patterns in living systems.'},
+  {id:'numbers',name:'Numbers Lab',emoji:'🔢',x:27,y:42,buildingId:'bakery',entry:'bakery',core:true,min:0,topic:'Fractions · decimals · ratios',blurb:'Experiment with quantity, equivalence, scaling, and number relationships.'},
+  {id:'geometry',name:'Geometry Workshop',emoji:'📐',x:18,y:68,buildingId:'architect',interior:true,core:true,min:0,topic:'Shapes · space · design',blurb:'Build spatial intuition through symmetry, folding, angles, area, and design.'},
+  {id:'builders',name:"Builders’ Yard",emoji:'🏗️',x:43,y:35,buildingId:'bridge',interior:true,core:true,min:0,topic:'Create · experiment · solve',blurb:'Use measurement, structure, forces, and scaling to make things that work.'},
+  {id:'patterns',name:'Pattern Pavilion',emoji:'🔷',x:63,y:42,buildingId:'design',entry:'design',core:true,min:0,topic:'Notice · predict · generalize',blurb:'Find hidden rules, visual patterns, sequences, and transformations.'},
+  {id:'think',name:'The Think Tank',emoji:'🧠',x:82,y:45,core:true,min:0,topic:'Verbal · quantitative · nonverbal',blurb:'Practice analogy, classification, logic, constraints, and flexible reasoning.',lessons:true},
+  {id:'science',name:'Science Studio',emoji:'🧪',x:70,y:68,buildingId:'lab',entry:'lab',core:true,min:0,topic:'Forces · motion · energy',blurb:'Use experiments to discover measurement, motion, change, and physical relationships.'},
+  {id:'garden',name:'The Garden',emoji:'🌱',x:89,y:70,buildingId:'clinic',entry:'clinic',core:true,min:0,topic:'Grow your ideas',blurb:'Apply number sense, sorting, comparison, and patterns in living systems.'},
   {id:'observatory',name:'The Observatory',emoji:'🔭',x:88,y:23,buildingId:'observatory',interior:true,min:10,topic:'Patterns beyond',blurb:'A high-level destination for multi-step reasoning, space, scale, and prediction.'}
 ];
 
@@ -34,10 +34,10 @@ function destinationState(d,completedLessons,world,mastery){
   const builtIds=new Set(Object.values(world?.placements||{}));
   const building=d.buildingId?worldBuildings.find(b=>b.id===d.buildingId):null;
   const requirementOpen=!building||buildingUnlocked(building,completedLessons);
-  const unlocked=mastery>=d.min&&requirementOpen;
+  const unlocked=d.core?true:(mastery>=d.min&&requirementOpen);
   const conceptWins=(destinationConcepts[d.id]||[]).filter(id=>hasMastered(completedLessons,id)).length;
   const placed=d.buildingId?builtIds.has(d.buildingId):conceptWins>=2;
-  const built=placed||conceptWins>=1;
+  const built=d.core?true:(placed||conceptWins>=1);
   const level=!unlocked?0:conceptWins>=5?3:conceptWins>=2?2:1;
   return{unlocked,built,placed,level,building,conceptWins};
 }
