@@ -1,1 +1,44 @@
-.miniSudoku{margin-top:18px;background:linear-gradient(135deg,#fffdf5,#f4f1ff);border:2px solid #e7defc}.sudokuHeading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}.sudokuHeading small{font-size:9px;font-weight:950;letter-spacing:.08em;color:#6d5dfc}.sudokuHeading h2{margin:3px 0 4px}.sudokuHeading p{margin:0;color:#697282}.sudokuReward{padding:10px 14px;border-radius:16px;background:#fff3bd;border:2px solid #f1d467;font-weight:950;white-space:nowrap}.sudokuBody{display:grid;grid-template-columns:minmax(230px,320px) 1fr;gap:28px;align-items:center}.sudokuGrid{display:grid;grid-template-columns:repeat(4,1fr);aspect-ratio:1;border:4px solid #3f3b58;border-radius:15px;overflow:hidden;background:#3f3b58;gap:2px;box-shadow:0 10px 24px rgba(54,47,88,.14)}.sudokuGrid button{border:0;background:white;font-size:clamp(24px,4vw,38px);font-weight:900;color:#5e50dc;cursor:pointer}.sudokuGrid button.given{background:#eeeaf8;color:#363348;cursor:default}.sudokuGrid button.boxRight{border-right:4px solid #3f3b58}.sudokuGrid button.boxBottom{border-bottom:4px solid #3f3b58}.sudokuGrid button.play:hover{background:#fff6c9}.sudokuInstructions{max-width:420px}.sudokuInstructions>b{font-size:18px}.sudokuInstructions p{line-height:1.5;color:#5f6872}.sudokuMessage{padding:11px 13px;border-radius:13px;background:#f2f3f7;font-weight:800}.sudokuMessage.won{background:#e5f8dd;color:#315f2c}.sudokuActions{display:flex;gap:9px}.sudokuActions button{flex:1}.sudokuActions button:disabled{opacity:.65}.miniSudoku .primary{background:#6d5dfc;color:white;border:0;border-radius:12px;padding:12px;font-weight:900}.miniSudoku .secondary{border:1px solid #d7d9df;border-radius:12px;padding:12px;background:white;font-weight:850}@media(max-width:700px){.sudokuBody{grid-template-columns:1fr}.sudokuGrid{width:min(100%,300px);margin:auto}.sudokuHeading{align-items:flex-start}.sudokuReward{font-size:12px}}
+.miniSudoku{margin-top:18px;background:linear-gradient(135deg,#fffdf5,#f4f1ff);border:2px solid #e7defc}
+.sudokuHeading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}
+.sudokuHeading small{font-size:9px;font-weight:950;letter-spacing:.08em;color:#6d5dfc}
+.sudokuHeading h2{margin:3px 0 4px}
+.sudokuHeading p{margin:0;color:#697282}
+.sudokuReward{padding:10px 14px;border-radius:16px;background:#fff3bd;border:2px solid #f1d467;font-weight:950;white-space:nowrap}
+.sudokuModeTabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.sudokuModeTabs button{min-height:40px;border-radius:999px;padding:8px 14px;border:2px solid #dedbea;background:white;font-weight:900}
+.sudokuModeTabs button.active{border-color:#6d5dfc;background:#ece9ff;color:#4b3fd0}
+.sudokuModeTabs button:disabled{opacity:.55}
+.sudokuBody{display:grid;grid-template-columns:minmax(230px,320px) 1fr;gap:28px;align-items:center}
+.sudokuGrid{display:grid;grid-template-columns:repeat(4,1fr);aspect-ratio:1;border:4px solid #3f3b58;border-radius:15px;overflow:hidden;background:#3f3b58;gap:2px;box-shadow:0 10px 24px rgba(54,47,88,.14)}
+.sudokuGrid button{border:0;background:white;font-size:clamp(24px,4vw,38px);font-weight:900;color:#5e50dc;cursor:pointer}
+.sudokuGrid button.given{background:#eeeaf8;color:#363348;cursor:default}
+.sudokuGrid button.boxRight{border-right:4px solid #3f3b58}
+.sudokuGrid button.boxBottom{border-bottom:4px solid #3f3b58}
+.sudokuGrid button.play:hover{background:#fff6c9}
+.sudokuInstructions{max-width:420px}
+.sudokuInstructions>b{font-size:18px}
+.sudokuInstructions p,.hardSudokuControls p{line-height:1.5;color:#5f6872}
+.sudokuMessage{padding:11px 13px;border-radius:13px;background:#f2f3f7;font-weight:800}
+.sudokuMessage.won{background:#e5f8dd;color:#315f2c}
+.sudokuActions{display:flex;gap:9px}
+.sudokuActions button{flex:1}
+.sudokuActions button:disabled{opacity:.65}
+.miniSudoku .primary{background:#6d5dfc;color:white;border:0;border-radius:12px;padding:12px;font-weight:900}
+.miniSudoku .secondary{border:1px solid #d7d9df;border-radius:12px;padding:12px;background:white;font-weight:850}
+.hardSudokuWrap{grid-column:1/-1;display:grid;grid-template-columns:minmax(340px,520px) minmax(240px,1fr);gap:28px;align-items:start}
+.hardSudokuGrid{display:grid;grid-template-columns:repeat(9,1fr);aspect-ratio:1;border:4px solid #343145;border-radius:14px;overflow:hidden;background:#c8c7d2;gap:1px;box-shadow:0 12px 28px rgba(48,43,73,.15)}
+.hardSudokuGrid button{min-height:0;aspect-ratio:1;border:0;border-radius:0;padding:0;background:white;color:#5e50dc;font-size:clamp(16px,2.3vw,28px);font-weight:900;cursor:pointer}
+.hardSudokuGrid button.given{background:#eeedf4;color:#2e2b3d;cursor:default}
+.hardSudokuGrid button.selected{background:#fff3b5;box-shadow:inset 0 0 0 3px #f0c63b}
+.hardSudokuGrid button.boxRight{border-right:4px solid #343145}
+.hardSudokuGrid button.boxBottom{border-bottom:4px solid #343145}
+.hardSudokuGrid button.play:hover{background:#f7f3ff}
+.hardSudokuControls{display:grid;gap:10px}
+.hardSudokuControls small{color:#6d5dfc;font-size:9px;font-weight:950;letter-spacing:.08em}
+.hardSudokuControls h3{font-size:24px;margin:0}
+.sudokuPad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sudokuPad button{font-size:22px;font-weight:950;min-height:54px;border:2px solid #ddd8f6;background:white}
+.sudokuPad button:hover{background:#ece9ff;border-color:#6d5dfc}
+.hardSudokuControls .erase{width:100%}
+@media(max-width:800px){.hardSudokuWrap{grid-template-columns:1fr}.hardSudokuGrid{width:min(100%,520px);margin:auto}}
+@media(max-width:700px){.sudokuBody{grid-template-columns:1fr}.sudokuGrid{width:min(100%,300px);margin:auto}.sudokuHeading{align-items:flex-start}.sudokuReward{font-size:12px}.hardSudokuGrid button{font-size:clamp(15px,5vw,23px)}}
