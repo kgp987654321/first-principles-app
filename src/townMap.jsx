@@ -3,6 +3,7 @@ import'./townMap.css';
 import'./townMapRefinement.css';
 import'./townMapArtPass.css';
 import'./townMapRoads.css';
+import'./townMapTerrainPass.css';
 import{worldBuildings,buildingUnlocked}from'./data/world';
 import{GrowingWorldScene as StreetWorld}from'./worldSceneConcept';
 import{NewBuildingInterior}from'./newBuildingInteriors';
@@ -55,12 +56,12 @@ function BuildingArt({id,state}){
     <i className="isoWindow win1"/><i className="isoWindow win2"/>
     <span className="artIcon">{destinations.find(d=>d.id===id)?.emoji}</span>
     {id==='numbers'&&<><i className="detail awning"/><i className="detail numberStack">½<br/>%</i><i className="detail numberTower">1<br/>2<br/>3</i><i className="detail abacus"><b/><b/><b/><b/></i></>}
-    {id==='geometry'&&<><i className="detail triangleTower"/><i className="detail draftingArm"/></>}
+    {id==='geometry'&&<><i className="detail triangleTower"/><i className="detail draftingArm"/><i className="detail geometryCompass"><b/><b/></i><i className="detail geometryRuler"/><i className="detail shapeTotem"><b/><b/><b/></i></>}
     {id==='builders'&&<><i className="detail cranePole"/><i className="detail craneArm"/><i className="detail craneHook"/><i className="detail craneCab"/><i className="detail scaffold"><b/><b/><b/></i><i className="detail beamStack"/></>}
-    {id==='patterns'&&<><i className="detail pavilionWing left"/><i className="detail pavilionWing right"/><i className="detail patternFlag">◆</i></>}
-    {id==='think'&&<><i className="detail thinkDome"/><i className="detail thinkSpark">✦</i></>}
+    {id==='patterns'&&<><i className="detail pavilionWing left"/><i className="detail pavilionWing right"/><i className="detail patternFlag">◆</i><i className="detail patternCanopy"/><i className="detail patternTiles"><b/><b/><b/><b/></i><i className="detail patternLantern l1"/><i className="detail patternLantern l2"/></>}
+    {id==='think'&&<><i className="detail thinkDome"/><i className="detail thinkSpark">✦</i><i className="detail logicWing left"><b/><b/><b/></i><i className="detail logicWing right"><b/><b/><b/></i><i className="detail ideaMast"/><i className="detail puzzleMark">?</i></>}
     {id==='science'&&<><i className="detail labTube t1"/><i className="detail labTube t2"/><i className="detail antenna"/><i className="detail scienceDome"/><i className="detail energyCoil"><b/><b/><b/></i><i className="detail weatherVane"/></>}
-    {id==='garden'&&<><i className="detail greenhouse"/><i className="detail sprout">🌿</i></>}
+    {id==='garden'&&<><i className="detail greenhouse"/><i className="detail sprout">🌿</i><i className="detail gardenTrellis"><b/><b/><b/></i><i className="detail gardenBed bed1"/><i className="detail gardenBed bed2"/><i className="detail gardenFlower f1">✿</i><i className="detail gardenFlower f2">✿</i></>}
     {id==='observatory'&&<><i className="detail observatoryDome"/><i className="detail observatorySlit"/><i className="detail telescope"/><i className="detail telescopeStand"/><i className="detail starPulse">✦</i><i className="detail starMarker sA">✦</i><i className="detail starMarker sB">•</i></>}
     {state.level>=2&&<i className="upgradePiece">★</i>}
     {state.level>=3&&<><i className="upgradeGlow"/><i className="upgradeBanner">MASTERED</i></>}
@@ -181,6 +182,26 @@ function RoadsideProps(){
   />)}</>;
 }
 
+
+function TerrainDetails(){
+  return <>
+    <div className="terrainPatch meadowWest"><i/><i/><i/></div>
+    <div className="terrainPatch meadowEast"><i/><i/><i/><i/></div>
+    <div className="terrainPatch meadowSouth"><i/><i/><i/></div>
+    <div className="riverBank bankWest"><i/><i/><i/><i/></div>
+    <div className="riverBank bankEast"><i/><i/><i/></div>
+    <div className="riverBank bankSouth"><i/><i/><i/><i/></div>
+    <div className="rockCluster rocksNorth"><i/><i/><i/></div>
+    <div className="rockCluster rocksSouth"><i/><i/></div>
+    <div className="flowerPatch flowersWest"><i/><i/><i/><i/><i/></div>
+    <div className="flowerPatch flowersEast"><i/><i/><i/><i/></div>
+    <div className="treeCluster treesMidWest"><i/><i/><i/></div>
+    <div className="treeCluster treesMidEast"><i/><i/><i/><i/></div>
+    <div className="shoreReeds reedsA"><i/><i/><i/><i/><i/></div>
+    <div className="shoreReeds reedsB"><i/><i/><i/><i/></div>
+  </>;
+}
+
 function TownLife({mastery,completedLessons}){
   const bridgePowered=hasMastered(completedLessons,'bridge-torque');
   const windPowered=hasMastered(completedLessons,'roller-energy')||hasMastered(completedLessons,'bridge-torque');
@@ -246,6 +267,7 @@ export function TownWorld(props){
         <div className="townRiver riverA"><span className="riverShine s1"/><span className="riverShine s2"/><span className="riverShine s3"/></div>
         <div className="townRiver riverB"><span className="riverShine s4"/><span className="riverShine s5"/></div>
         <DistrictGrounds/>
+        <TerrainDetails/>
         <RoadNetwork selectedId={selectedId}/>
         <RoadBridges/>
         <Footpaths/>
@@ -259,6 +281,10 @@ export function TownWorld(props){
         <div className="districtDecor districtBuilders"><i className="districtPad"/><span className="yardBeam"/><span className="yardCrate"/><span className="yardCone">▲</span></div>
         <div className="districtDecor districtScience"><i className="districtPad"/><span className="scienceProp p1"/><span className="scienceProp p2"/><span className="scienceWind">✣</span></div>
         <div className="districtDecor districtObservatory"><i className="districtPad ridge"/><span className="ridgeRock r1"/><span className="ridgeRock r2"/><span className="ridgeStars">✦ · ✦</span></div>
+        <div className="districtDecor districtGeometry"><i className="districtPad"/><span className="geometryTile t1">△</span><span className="geometryTile t2">□</span><span className="geometryTile t3">○</span></div>
+        <div className="districtDecor districtPatterns"><i className="districtPad"/><span className="patternCourt"><b/><b/><b/><b/><b/><b/></span></div>
+        <div className="districtDecor districtThink"><i className="districtPad"/><span className="logicPost lp1"/><span className="logicPost lp2"/><span className="logicPost lp3"/><span className="ideaBench"/></div>
+        <div className="districtDecor districtGarden"><i className="districtPad"/><span className="plantingRow pr1"/><span className="plantingRow pr2"/><span className="plantingRow pr3"/><span className="gardenGate"/></div>
         <TownLife mastery={mastery} completedLessons={completedLessons}/>
         {destinations.map(d=><Landmark key={d.id} d={d} state={states[d.id]} selected={selectedId===d.id} onSelect={setSelectedId} onVisit={visitDestination}/>)}
       </div>
