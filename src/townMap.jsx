@@ -9,6 +9,7 @@ import'./townMapMotion.css';
 import{worldBuildings,buildingUnlocked}from'./data/world';
 import{GrowingWorldScene as StreetWorld}from'./worldSceneConcept';
 import{NewBuildingInterior}from'./newBuildingInteriors';
+import{TownMicroExperience}from'./townMicroInteractions';
 
 const masteredCount=completed=>Object.values(completed||{}).filter(v=>v?.discovered||v?.transferred).length;
 const hasMastered=(completed,id)=>Boolean(completed?.[id]?.discovered||completed?.[id]?.transferred);
@@ -271,6 +272,7 @@ export function TownWorld(props){
   const [selectedId,setSelectedId]=useState('numbers');
   const [selectedPoiId,setSelectedPoiId]=useState(null);
   const [inside,setInside]=useState(null);
+  const [microId,setMicroId]=useState(null);
   const states=useMemo(()=>Object.fromEntries(destinations.map(d=>[d.id,destinationState(d,completedLessons,world,mastery)])),[completedLessons,world,mastery]);
   const selected=selectedId?destinations.find(d=>d.id===selectedId):null;
   const state=selected?states[selected.id]:null;
@@ -285,12 +287,13 @@ export function TownWorld(props){
   const visit=()=>selected&&state?visitDestination(selected,state):null;
   const selectDestination=id=>{setSelectedPoiId(null);setSelectedId(id)};
   const selectPoi=id=>{setSelectedId(null);setSelectedPoiId(id)};
-  const followPoi=()=>{if(selectedPoi?.relatedId)selectDestination(selectedPoi.relatedId)};
+  const followPoi=()=>{if(selectedPoi)setMicroId(selectedPoi.id)};
+  const goFromMicro=()=>{const spot=scenicSpots.find(s=>s.id===microId);setMicroId(null);if(spot?.relatedId)selectDestination(spot.relatedId)};
 
   useEffect(()=>{
     const ordered=destinations.map(d=>d.id);
     const handleKey=e=>{
-      if(inside||mode!=='map')return;
+      if(inside||microId||mode!=='map')return;
       if(e.key==='Escape'){setSelectedPoiId(null);setSelectedId('numbers');return}
       if(e.key==='Enter'&&selected&&state?.unlocked){visitDestination(selected,state);return}
       if(!['ArrowRight','ArrowDown','ArrowLeft','ArrowUp'].includes(e.key))return;
@@ -302,9 +305,10 @@ export function TownWorld(props){
     };
     window.addEventListener('keydown',handleKey);
     return()=>window.removeEventListener('keydown',handleKey);
-  },[inside,mode,selectedId,selected,state]);
+  },[inside,microId,mode,selectedId,selected,state]);
 
   if(inside)return <NewBuildingInterior buildingId={inside} onExit={()=>setInside(null)}/>;
+  if(microId)return <TownMicroExperience id={microId} onClose={()=>setMicroId(null)} onGoTo={goFromMicro}/>;
   if(mode==='street')return <div className="streetWorldShell"><button className="mapReturnButton" onClick={()=>setMode('map')}>🗺️ Town map</button><StreetWorld {...props}/></div>;
 
   const nextTierAt=tier>=5?50:tier*10;
@@ -362,7 +366,7 @@ export function TownWorld(props){
       </div>
       <div className="townInfoAction">
         <b>A small place with a big idea.</b>
-        <button onClick={followPoi}>{selectedPoi.cta} →</button>
+        <button onClick={followPoi}>Try it here →</button>
       </div>
     </aside>:selected&&state?<aside className="townInfoCard">
       <div className="townInfoIcon">{selected.emoji}</div>
