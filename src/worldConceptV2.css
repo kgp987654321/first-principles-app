@@ -298,3 +298,38 @@ body:has(.conceptWorld) .worldLayout>.panel:first-child{padding:0!important;bord
 .worldMilestones{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 .worldMilestones span{padding:9px 11px;border-radius:12px;background:#fff;border:1px solid #e4e8ee;font-size:11px;font-weight:850;box-shadow:0 4px 10px rgba(36,57,42,.08)}
 @media(max-width:760px){.worldFooterPanel{grid-template-columns:1fr}.worldMilestones{justify-content:flex-start}.worldGrowthBar span{font-size:10px;padding:7px 9px}}
+
+/* Full-screen My World polish */
+.worldPage{margin:0;min-height:100vh;background:linear-gradient(#dff7ff,#eef8ed);padding:0}
+body:has(.worldPage){margin:0;background:#dff7ff;overflow-x:hidden}
+body:has(.worldPage) #root{min-height:100vh}
+body:has(.worldPage) .conceptWorld{width:100vw;max-width:none!important;height:100vh!important;min-height:720px!important;border-radius:0!important;box-shadow:none!important}
+
+.cwHudLeft{display:flex;align-items:flex-start;gap:8px}
+.cwBackToLessons{pointer-events:auto;border:4px solid white;border-radius:18px;background:rgba(255,253,248,.92);box-shadow:0 10px 26px rgba(29,56,45,.16);padding:9px 12px;font-weight:950;color:#3e4250;min-height:0;white-space:nowrap}
+.cwBackToLessons:hover{transform:translateY(-2px)}
+
+.cwAmbientHome{position:absolute;z-index:4;font-size:34px;filter:drop-shadow(0 8px 5px rgba(37,59,42,.18));opacity:.96}
+.cwAmbientHome.home1{left:5%;top:39%}.cwAmbientHome.home2{right:6%;top:41%}.cwAmbientHome.home3{left:15%;top:31%;font-size:29px}.cwAmbientHome.home4{right:16%;top:32%;font-size:29px}
+.cwAmbientHome.home5{left:2%;top:55%;font-size:42px}.cwAmbientHome.home6{right:2%;top:57%;font-size:42px}.cwAmbientHome.home7{left:11%;bottom:10%;font-size:47px}.cwAmbientHome.home8{right:10%;bottom:11%;font-size:47px}
+
+.cwBuildingOrders{position:absolute;right:-8px;top:66px;z-index:12;padding:6px 9px;border-radius:999px;background:#ef5454;color:white;border:3px solid white;box-shadow:0 6px 15px rgba(87,32,32,.25);font-size:9px;font-weight:950;white-space:nowrap}
+.cwBuildingArt.level2:after,.cwBuildingArt.level3:after{content:'';position:absolute;left:-7px;right:-7px;bottom:1px;height:16px;border-radius:50%;background:#f2d07c;z-index:-1;box-shadow:0 4px 0 #d9a743}
+.cwBuildingArt.level3{filter:drop-shadow(0 20px 14px rgba(37,57,45,.24)) drop-shadow(0 0 18px rgba(255,215,92,.5))}
+.cwUpgradeFlag{position:absolute;right:6px;top:9px;z-index:9;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#ffe26b;color:#8b6d00;border:3px solid white;font-style:normal;box-shadow:0 4px 8px rgba(0,0,0,.18)}
+
+.cwTownGrowth{pointer-events:none}
+.cwGrowthBadge{position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:170;padding:7px 13px;border-radius:999px;background:rgba(255,252,237,.9);border:3px solid white;font-size:10px;font-weight:950;color:#4c5c4b;box-shadow:0 8px 18px rgba(39,62,44,.13)}
+.cwPond,.cwMarketScene,.cwBridgeScene,.cwCarnivalScene,.cwSpaceScene{position:absolute;z-index:3;display:grid;justify-items:center;gap:1px;font-size:27px;filter:drop-shadow(0 8px 5px rgba(37,59,42,.18))}
+.cwPond i,.cwMarketScene i,.cwBridgeScene i,.cwCarnivalScene i,.cwSpaceScene i{font-size:7px;font-style:normal;font-weight:950;background:rgba(255,255,255,.8);padding:3px 6px;border-radius:8px}
+.cwPond{left:3%;top:24%}.cwMarketScene{right:3%;top:25%}.cwBridgeScene{left:2%;top:66%}.cwCarnivalScene{right:2%;top:69%}.cwSpaceScene{right:21%;top:17%}
+
+.cwDistrictSign{position:absolute;z-index:7;display:grid;padding:6px 9px;border-radius:12px;background:#77563d;color:white;border:3px solid #5b3c27;box-shadow:0 7px 13px rgba(55,39,28,.18);font-size:8px}
+.cwDistrictSign small{color:#ffeeb8;font-size:6px}.cwDistrictSign.ds1{left:8%;top:43%}.cwDistrictSign.ds2{right:8%;top:45%}.cwDistrictSign.ds3{left:10%;top:69%}.cwDistrictSign.ds4{right:10%;top:70%}.cwDistrictSign.ds5{right:22%;top:23%}
+
+@media(max-width:700px){
+ body:has(.worldPage) .conceptWorld{min-height:660px!important}
+ .cwHudLeft{gap:4px}.cwBackToLessons{padding:6px 8px;font-size:8px;border-width:3px}
+ .cwAmbientHome.home7,.cwAmbientHome.home8,.cwGrowthBadge{display:none}
+ .cwBuildingOrders{font-size:7px;top:50px}
+}
