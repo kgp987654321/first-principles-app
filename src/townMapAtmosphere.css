@@ -1,0 +1,300 @@
+/* Atmosphere, depth, and cohesion pass */
+
+.townMapCanvas{
+  isolation:isolate;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.45),
+    inset 0 -60px 90px rgba(67,100,65,.06),
+    0 24px 72px rgba(48,78,59,.18)
+}
+
+/* Unify the light source from the upper-right. */
+.sunlightWash{
+  position:absolute;
+  z-index:5;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 84% 10%,rgba(255,245,194,.32),transparent 22%),
+    linear-gradient(145deg,rgba(255,255,255,.10) 0 32%,transparent 47% 100%);
+  mix-blend-mode:screen
+}
+.townSun{opacity:.88;filter:blur(.1px)}
+.townCloud{opacity:.68}
+
+/* Atmospheric perspective pushes the horizon back. */
+.distanceHaze{
+  position:absolute;
+  z-index:4;
+  pointer-events:none;
+  border-radius:50%;
+  filter:blur(18px)
+}
+.hazeLeft{
+  left:-8%;
+  top:18%;
+  width:48%;
+  height:24%;
+  background:rgba(218,238,229,.28)
+}
+.hazeCenter{
+  left:27%;
+  top:13%;
+  width:47%;
+  height:27%;
+  background:rgba(223,240,234,.30)
+}
+.hazeRight{
+  right:-7%;
+  top:12%;
+  width:42%;
+  height:28%;
+  background:rgba(223,239,231,.26)
+}
+
+.mountainRange.far{
+  opacity:.42;
+  filter:saturate(.62) blur(.45px)
+}
+.mountainRange.near{
+  opacity:.64;
+  filter:saturate(.74) blur(.12px)
+}
+.snowCap{opacity:.48}
+
+/* Add a subtle illustrated ground grain rather than a flat fill. */
+.terrainTextureLayer{
+  position:absolute;
+  z-index:7;
+  inset:36% 0 0;
+  pointer-events:none;
+  opacity:.13;
+  background-image:
+    radial-gradient(circle at 20% 20%,rgba(255,255,255,.36) 0 1px,transparent 1.4px),
+    radial-gradient(circle at 70% 65%,rgba(46,94,51,.35) 0 1px,transparent 1.5px),
+    linear-gradient(18deg,transparent 48%,rgba(255,255,255,.16) 49% 50%,transparent 51%);
+  background-size:34px 31px,51px 47px,84px 84px;
+  mix-blend-mode:soft-light
+}
+
+/* Water now sits inside the land instead of on top of it. */
+.townRiver{
+  box-shadow:
+    inset 0 0 0 3px rgba(255,255,255,.22),
+    inset 0 -12px 22px rgba(31,123,163,.15),
+    0 3px 0 rgba(59,112,82,.16),
+    0 9px 16px rgba(45,86,69,.10);
+  filter:saturate(.92) brightness(1.03)
+}
+.waterEdgeDetail{
+  position:absolute;
+  z-index:10;
+  pointer-events:none;
+  height:17px;
+  border-radius:50%;
+  border-top:4px solid rgba(204,223,170,.8);
+  border-bottom:2px solid rgba(74,123,71,.12);
+  opacity:.8
+}
+.waterEdgeA{
+  left:13%;
+  top:48.8%;
+  width:63%;
+  transform:rotate(7deg)
+}
+.waterEdgeB{
+  left:48%;
+  top:61%;
+  width:38%;
+  transform:rotate(-34deg)
+}
+.townWaterfall{
+  filter:drop-shadow(0 9px 11px rgba(46,101,131,.22));
+  border-color:rgba(255,255,255,.38)
+}
+
+/* Establish stronger ground contact for every landmark. */
+.contactShadow{
+  left:13px;
+  right:7px;
+  bottom:-2px;
+  height:20px;
+  background:rgba(39,58,43,.29);
+  filter:blur(6px);
+  transform:skewX(-15deg) translate(7px,4px)
+}
+.townBuildingArt{
+  filter:
+    drop-shadow(7px 15px 11px rgba(37,56,43,.29))
+    saturate(1.13)
+    contrast(1.04)
+}
+.townLandmark:hover .townBuildingArt,
+.townLandmark.selected .townBuildingArt{
+  filter:
+    drop-shadow(9px 18px 12px rgba(34,53,41,.34))
+    drop-shadow(0 0 13px rgba(255,242,175,.42))
+    saturate(1.2)
+    contrast(1.07)
+}
+
+/* Consistent light-facing and shaded building planes. */
+.isoFront:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:linear-gradient(145deg,rgba(255,255,255,.15),transparent 43%,rgba(55,54,48,.06));
+  pointer-events:none
+}
+.isoSide{
+  filter:brightness(.86) saturate(.96)
+}
+.isoRoof{
+  filter:brightness(1.03)
+}
+.isoBase{
+  box-shadow:
+    0 5px 0 rgba(114,89,57,.42),
+    8px 9px 10px rgba(48,63,48,.12)
+}
+
+/* Road materials share the same directional lighting. */
+.roadSurface{
+  stroke:#d9c5a0;
+  filter:drop-shadow(2px 2px 1px rgba(88,66,44,.08))
+}
+.secondarySurface{
+  stroke:#d7c6a3
+}
+.roadHighlight{
+  stroke:rgba(255,255,255,.34)
+}
+.roadBridge{
+  box-shadow:
+    5px 8px 10px rgba(44,58,47,.22),
+    inset 0 2px rgba(255,255,255,.18)
+}
+
+/* District pads feel embedded, not pasted on. */
+.districtGround{
+  filter:
+    drop-shadow(5px 7px 7px rgba(43,62,47,.11))
+    saturate(.94)
+}
+.districtDecor .districtPad{
+  filter:drop-shadow(5px 7px 7px rgba(47,61,45,.11))
+}
+
+/* Foreground framing gives the valley a near plane. */
+.foregroundCanopy{
+  position:absolute;
+  z-index:52;
+  bottom:-3px;
+  width:185px;
+  height:120px;
+  pointer-events:none;
+  opacity:.62
+}
+.canopyLeft{left:-34px}
+.canopyRight{right:-38px}
+.foregroundCanopy i{
+  position:absolute;
+  bottom:0;
+  width:76px;
+  height:100px;
+  background:linear-gradient(#4f8f50,#366e43);
+  clip-path:polygon(50% 0,100% 63%,76% 63%,100% 100%,0 100%,24% 63%,0 63%);
+  filter:blur(.2px) drop-shadow(8px 8px 8px rgba(36,57,40,.18))
+}
+.foregroundCanopy i:nth-child(1){left:0;height:84px}
+.foregroundCanopy i:nth-child(2){left:55px;height:116px}
+.foregroundCanopy i:nth-child(3){left:112px;height:92px}
+
+.foregroundGrass{
+  position:absolute;
+  z-index:53;
+  bottom:0;
+  width:150px;
+  height:47px;
+  pointer-events:none;
+  opacity:.72
+}
+.grassLeft{left:7%}
+.grassRight{right:8%}
+.foregroundGrass i{
+  position:absolute;
+  bottom:-3px;
+  width:7px;
+  height:38px;
+  border-radius:100% 0;
+  background:#4b8748;
+  transform-origin:bottom
+}
+.foregroundGrass i:nth-child(1){left:4%;transform:rotate(-13deg)}
+.foregroundGrass i:nth-child(2){left:18%;height:31px;transform:rotate(8deg)}
+.foregroundGrass i:nth-child(3){left:34%;height:43px;transform:rotate(-5deg)}
+.foregroundGrass i:nth-child(4){left:56%;height:34px;transform:rotate(12deg)}
+.foregroundGrass i:nth-child(5){left:77%;height:41px;transform:rotate(-9deg)}
+
+/* Midground vegetation is clearer than the horizon but softer than buildings. */
+.terrainPatch,.riverBank,.treeCluster,.flowerPatch,.rockCluster,.shoreReeds{
+  filter:saturate(.92)
+}
+.treeCluster,.ambientTrees{
+  filter:drop-shadow(6px 9px 6px rgba(39,69,43,.17))
+}
+.ambientTrees{opacity:.79}
+.terrainPatch{opacity:.88}
+.rockCluster{opacity:.84}
+.riverBank{opacity:.9}
+
+/* Keep the far observatory atmospheric while remaining readable when selected. */
+.townLandmark.observatory:not(.selected){
+  filter:saturate(.82) brightness(.97)
+}
+.townLandmark.observatory.selected{
+  filter:none
+}
+
+/* Slight vignette focuses the eye into the valley. */
+.townMapCanvas:after{
+  opacity:1;
+  background:
+    radial-gradient(ellipse at 50% 53%,transparent 48%,rgba(47,74,56,.055) 82%,rgba(37,61,48,.10) 100%),
+    radial-gradient(circle,#fff 0 1px,transparent 1.5px);
+  background-size:auto,55px 55px
+}
+
+/* Labels get just enough lift from the world. */
+.townLabel{
+  box-shadow:
+    0 7px 14px rgba(28,40,54,.14),
+    0 1px 0 rgba(255,255,255,.12) inset
+}
+.townLandmark.selected .townLabel{
+  box-shadow:
+    0 11px 24px rgba(26,39,53,.24),
+    0 1px 0 rgba(255,255,255,.12) inset
+}
+
+/* UI remains separate from the illustrated depth system. */
+.townInfoCard{
+  box-shadow:
+    0 16px 34px rgba(39,53,44,.18),
+    0 1px 0 rgba(255,255,255,.65) inset
+}
+.townProgress{
+  box-shadow:
+    0 11px 25px rgba(28,41,54,.18),
+    0 1px 0 rgba(255,255,255,.10) inset
+}
+
+@media(max-width:900px){
+  .foregroundCanopy{opacity:.45}
+  .foregroundGrass{opacity:.56}
+  .distanceHaze{filter:blur(12px)}
+}
+@media(max-width:600px){
+  .foregroundCanopy{display:none}
+}
