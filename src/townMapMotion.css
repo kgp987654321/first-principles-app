@@ -28,11 +28,11 @@
 /* Scenic discovery spots */
 .scenicSpot{
   position:absolute;
-  z-index:58;
+  z-index:56;
   transform:translate(-50%,-50%);
   display:grid;
   justify-items:center;
-  gap:3px;
+  gap:2px;
   border:0;
   background:transparent;
   cursor:pointer;
@@ -46,34 +46,34 @@
 .spotIcon{
   display:grid;
   place-items:center;
-  width:38px;
-  height:38px;
+  width:32px;
+  height:32px;
   border-radius:50%;
   background:rgba(250,253,246,.92);
   border:2px solid rgba(255,255,255,.9);
-  box-shadow:0 6px 15px rgba(35,55,47,.18);
-  font-size:20px;
+  box-shadow:0 4px 10px rgba(35,55,47,.14);
+  font-size:16px;
   animation:fpGentleBob 3.4s ease-in-out infinite
 }
 .spotLabel{
   display:grid;
   gap:1px;
-  min-width:108px;
-  padding:5px 8px;
-  border-radius:10px;
-  background:rgba(43,64,64,.78);
+  min-width:92px;
+  padding:4px 7px;
+  border-radius:9px;
+  background:rgba(43,64,64,.70);
   color:#fff;
   backdrop-filter:blur(7px);
   box-shadow:0 7px 16px rgba(28,44,52,.16)
 }
-.spotLabel strong{font-size:10px;line-height:1.05}
-.spotLabel small{font-size:6px;opacity:.82;letter-spacing:.4px}
+.spotLabel strong{font-size:9px;line-height:1.05}
+.spotLabel small{font-size:5.5px;opacity:.76;letter-spacing:.4px}
 .scenicSpot.selected .spotLabel{
-  background:rgba(35,55,64,.94);
+  background:rgba(35,55,64,.88);
   animation:fpSpotPulse 2s ease-in-out infinite
 }
 .scenicSpot.selected .spotIcon{
-  box-shadow:0 7px 18px rgba(35,55,47,.2),0 0 0 5px rgba(255,239,158,.2)
+  box-shadow:0 6px 14px rgba(35,55,47,.18),0 0 0 4px rgba(255,239,158,.14)
 }
 .spot-cliffs{z-index:42}
 .spot-forest{z-index:46}
@@ -103,11 +103,11 @@
 }
 .selectedRoad .roadSurface,
 .selectedRoad .secondarySurface{
-  filter:brightness(1.13) saturate(1.06)
+  filter:brightness(1.08) saturate(1.03)
 }
 .selectedRoad .roadHighlight{
-  stroke:rgba(255,244,173,.95);
-  stroke-width:1.12
+  stroke:rgba(255,244,173,.76);
+  stroke-width:.9
 }
 
 /* Scenic selection also quiets unrelated landmark labels slightly */
@@ -120,12 +120,13 @@
 }
 .townLandmark.observatory .townBuildingArt{
   filter:
-    drop-shadow(8px 14px 12px rgba(32,48,58,.28))
-    saturate(1.08)
-    contrast(1.05)
+    drop-shadow(7px 12px 10px rgba(32,48,58,.24))
+    saturate(1.12)
+    contrast(1.08)
+    brightness(1.01)
 }
 .townLandmark.observatory .townLabel{
-  background:rgba(44,56,69,.9)
+  background:rgba(46,58,71,.92)
 }
 .townLandmark.garden .townBuildingArt{
   transform:scale(1.04)
@@ -133,7 +134,7 @@
 .townLandmark.garden .townLabel{
   background:rgba(52,74,58,.9)
 }
-.districtGarden{filter:saturate(1.08)}
+.districtGarden{filter:saturate(1.12) brightness(1.03)}
 
 .scenicCard{
   border-color:rgba(235,239,210,.95);
