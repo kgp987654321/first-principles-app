@@ -30,8 +30,8 @@ const destinations=[
   {id:'builders',name:"Builders’ Yard",emoji:'🏗️',x:43,y:35,buildingId:'bridge',interior:true,core:true,min:0,topic:'Create · experiment · solve',blurb:'Use measurement, structure, forces, and scaling to make things that work.'},
   {id:'patterns',name:'Pattern Pavilion',emoji:'🔷',x:63,y:42,buildingId:'design',entry:'design',core:true,min:0,topic:'Notice · predict · generalize',blurb:'Find hidden rules, visual patterns, sequences, and transformations.'},
   {id:'think',name:'The Think Tank',emoji:'🧠',x:82,y:45,core:true,min:0,topic:'Verbal · quantitative · nonverbal',blurb:'Practice analogy, classification, logic, constraints, and flexible reasoning.',lessons:true},
-  {id:'science',name:'Science Studio',emoji:'🧪',x:70,y:68,buildingId:'lab',entry:'lab',core:true,min:0,topic:'Forces · motion · energy',blurb:'Use experiments to discover measurement, motion, change, and physical relationships.'},
-  {id:'garden',name:'The Garden',emoji:'🌱',x:89,y:70,buildingId:'clinic',entry:'clinic',core:true,min:0,topic:'Grow your ideas',blurb:'Apply number sense, sorting, comparison, and patterns in living systems.'},
+  {id:'science',name:'Science Studio',emoji:'🧪',x:70,y:64.5,buildingId:'lab',entry:'lab',core:true,min:0,topic:'Forces · motion · energy',blurb:'Use experiments to discover measurement, motion, change, and physical relationships.'},
+  {id:'garden',name:'The Garden',emoji:'🌱',x:88.5,y:66.5,buildingId:'clinic',entry:'clinic',core:true,min:0,topic:'Grow your ideas',blurb:'Apply number sense, sorting, comparison, and patterns in living systems.'},
   {id:'observatory',name:'The Observatory',emoji:'🔭',x:88,y:23,buildingId:'observatory',interior:true,min:10,topic:'Patterns beyond',blurb:'A high-level destination for multi-step reasoning, space, scale, and prediction.'}
 ];
 
@@ -98,12 +98,12 @@ const mainRoads=[
   {id:'plaza-builders',d:'M 49 56 C 47 49, 46 41, 43 35',to:'builders'},
   {id:'plaza-patterns',d:'M 49 56 C 54 51, 58 46, 63 42',to:'patterns'},
   {id:'patterns-think',d:'M 63 42 C 69 40, 76 41, 82 45',to:'think'},
-  {id:'plaza-science',d:'M 49 56 C 57 59, 63 64, 70 68',to:'science'}
+  {id:'plaza-science',d:'M 49 56 C 57 58, 63 61, 70 64.5',to:'science'}
 ];
 
 const secondaryRoads=[
   {id:'numbers-geometry',d:'M 27 42 C 23 51, 20 60, 18 68',to:'geometry'},
-  {id:'science-garden',d:'M 70 68 C 77 70, 83 70, 89 70',to:'garden'},
+  {id:'science-garden',d:'M 70 64.5 C 77 66, 83 66.5, 88.5 66.5',to:'garden'},
   {id:'patterns-observatory',d:'M 63 42 C 72 36, 81 29, 88 23',to:'observatory'}
 ];
 
@@ -112,9 +112,9 @@ const footpaths=[
   {id:'builders',x:44,y:38,rotate:76},
   {id:'patterns',x:63,y:45,rotate:82},
   {id:'think',x:78,y:45,rotate:4},
-  {id:'science',x:68,y:65,rotate:28},
+  {id:'science',x:68,y:61.5,rotate:26},
   {id:'geometry',x:19,y:64,rotate:72},
-  {id:'garden',x:85,y:69,rotate:3},
+  {id:'garden',x:84.5,y:65.5,rotate:2},
   {id:'observatory',x:85,y:27,rotate:-40}
 ];
 
@@ -123,9 +123,9 @@ const districtPads=[
   {id:'builders',x:43,y:36},
   {id:'patterns',x:63,y:43},
   {id:'think',x:82,y:46},
-  {id:'science',x:70,y:69},
+  {id:'science',x:70,y:65.5},
   {id:'geometry',x:18,y:69},
-  {id:'garden',x:89,y:71},
+  {id:'garden',x:88.5,y:67.5},
   {id:'observatory',x:88,y:24}
 ];
 
