@@ -143,7 +143,7 @@ const roadProps=[
 function RoadNetwork({selectedId}){
   return <svg className="roadNetwork" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
     <g className="mainRoadGroup">
-      {mainRoads.map(road=><g key={road.id} className={\`roadSegment \${road.to===selectedId?'selectedRoad':''}\`}>
+      {mainRoads.map(road=><g key={road.id} className={`roadSegment ${road.to===selectedId?'selectedRoad':''}`}>
         <path className="roadShadow" d={road.d}/>
         <path className="roadEdge" d={road.d}/>
         <path className="roadSurface" d={road.d}/>
@@ -151,7 +151,7 @@ function RoadNetwork({selectedId}){
       </g>)}
     </g>
     <g className="secondaryRoadGroup">
-      {secondaryRoads.map(road=><g key={road.id} className={\`secondarySegment \${road.to===selectedId?'selectedRoad':''}\`}>
+      {secondaryRoads.map(road=><g key={road.id} className={`secondarySegment ${road.to===selectedId?'selectedRoad':''}`}>
         <path className="secondaryShadow" d={road.d}/>
         <path className="secondaryEdge" d={road.d}/>
         <path className="secondarySurface" d={road.d}/>
@@ -163,16 +163,16 @@ function RoadNetwork({selectedId}){
 function DistrictGrounds(){
   return <>{districtPads.map(pad=><div
     key={pad.id}
-    className={\`districtGround \${pad.id}Pad\`}
-    style={{left:\`\${pad.x}%\`,top:\`\${pad.y}%\`}}
+    className={`districtGround ${pad.id}Pad`}
+    style={{left:`${pad.x}%`,top:`${pad.y}%`}}
   />)}</>;
 }
 
 function Footpaths(){
   return <>{footpaths.map(path=><i
     key={path.id}
-    className={\`buildingFootpath footpath-\${path.id}\`}
-    style={{left:\`\${path.x}%\`,top:\`\${path.y}%\`,transform:\`rotate(\${path.rotate}deg)\`}}
+    className={`buildingFootpath footpath-${path.id}`}
+    style={{left:`${path.x}%`,top:`${path.y}%`,transform:`rotate(${path.rotate}deg)`}}
   />)}</>;
 }
 
@@ -186,8 +186,8 @@ function RoadBridges(){
 function RoadsideProps(){
   return <>{roadProps.map(prop=><span
     key={prop.id}
-    className={\`roadProp prop-\${prop.type}\`}
-    style={{left:\`\${prop.x}%\`,top:\`\${prop.y}%\`}}
+    className={`roadProp prop-${prop.type}`}
+    style={{left:`${prop.x}%`,top:`${prop.y}%`}}
     aria-hidden="true"
   />)}</>;
 }
@@ -232,10 +232,10 @@ function AtmosphereLayers(){
 
 function ScenicSpot({spot,selected,onSelect}){
   return <button
-    className={\`scenicSpot spot-\${spot.id} \${selected?'selected':''}\`}
-    style={{left:\`\${spot.x}%\`,top:\`\${spot.y}%\`}}
+    className={`scenicSpot spot-${spot.id} ${selected?'selected':''}`}
+    style={{left:`${spot.x}%`,top:`${spot.y}%`}}
     onClick={()=>onSelect(spot.id)}
-    aria-label={\`\${spot.name}. \${spot.topic}.\`}
+    aria-label={`${spot.name}. ${spot.topic}.`}
   >
     <span className="spotIcon">{spot.icon}</span>
     <span className="spotLabel"><strong>{spot.name}</strong><small>{spot.topic}</small></span>
@@ -367,7 +367,7 @@ export function TownWorld(props){
     </aside>:selected&&state?<aside className="townInfoCard">
       <div className="townInfoIcon">{selected.emoji}</div>
       <div className="townInfoCopy">
-        <small>{state.built?\`TOWN LANDMARK · LEVEL \${Math.max(1,state.level)}\`:state.unlocked?'LEARNING OUTPOST':'FUTURE LANDMARK'}</small>
+        <small>{state.built?`TOWN LANDMARK · LEVEL ${Math.max(1,state.level)}`:state.unlocked?'LEARNING OUTPOST':'FUTURE LANDMARK'}</small>
         <h2>{selected.name}</h2>
         <p>{selected.blurb}</p>
         <div className="townTags"><span>{selected.topic}</span><span>{state.conceptWins} connected ideas</span>{state.placed&&<span>Built with coins ✓</span>}</div>
