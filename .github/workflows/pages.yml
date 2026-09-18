@@ -29,8 +29,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Stamp build version
+        run: printf '{"build":"%s"}\n' "$GITHUB_SHA" > public/version.json
+
       - name: Build for GitHub Pages
-        run: npm run build -- --base=/first-principles-app/
+        run: VITE_BUILD_SHA="$GITHUB_SHA" npm run build -- --base=/first-principles-app/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
