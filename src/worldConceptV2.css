@@ -286,3 +286,15 @@ body:has(.conceptWorld) .worldLayout>.panel:first-child{padding:0!important;bord
 @keyframes cwFountainBob{to{transform:translateX(-50%) translateY(-3px) scale(1.04)}}
 @keyframes cwLampGlow{to{filter:drop-shadow(0 0 9px rgba(255,211,71,.72))}}
 @media(max-width:700px){.cwDistrictSign{display:none}.cwWalker,.cwPetWalker{font-size:26px}.cwBuildingProps em{font-size:17px}.cwBuilding .cwPendingBadge{top:52px}.cwBuilding .cwLevelBadge{top:66px}.cwPlot.p3{top:64%}}
+
+
+/* Immersive My World shell */
+.worldApp{max-width:1480px!important;padding:12px 18px 30px!important}
+.worldGrowthBar{display:flex;gap:10px;flex-wrap:wrap;padding:0 2px}
+.worldGrowthBar span{display:flex;align-items:center;gap:5px;padding:9px 12px;border-radius:999px;background:#fff;border:1px solid #e4e8ee;box-shadow:0 5px 14px rgba(40,58,48,.08);font-size:12px}
+.worldStage{padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important}
+.worldFooterPanel{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(320px,1fr);gap:20px;align-items:center;background:linear-gradient(135deg,#fff,#f5fbef)}
+.worldFooterPanel p{margin-bottom:0;color:#617064}
+.worldMilestones{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.worldMilestones span{padding:9px 11px;border-radius:12px;background:#fff;border:1px solid #e4e8ee;font-size:11px;font-weight:850;box-shadow:0 4px 10px rgba(36,57,42,.08)}
+@media(max-width:760px){.worldFooterPanel{grid-template-columns:1fr}.worldMilestones{justify-content:flex-start}.worldGrowthBar span{font-size:10px;padding:7px 9px}}
