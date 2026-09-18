@@ -1,10 +1,11 @@
-import React,{useMemo,useState}from'react';
+import React,{useEffect,useMemo,useState}from'react';
 import'./townMap.css';
 import'./townMapRefinement.css';
 import'./townMapArtPass.css';
 import'./townMapRoads.css';
 import'./townMapTerrainPass.css';
 import'./townMapAtmosphere.css';
+import'./townMapMotion.css';
 import{worldBuildings,buildingUnlocked}from'./data/world';
 import{GrowingWorldScene as StreetWorld}from'./worldSceneConcept';
 import{NewBuildingInterior}from'./newBuildingInteriors';
@@ -83,6 +84,14 @@ function Landmark({d,state,selected,onSelect,onVisit}){
   </button>
 }
 
+
+
+const scenicSpots=[
+  {id:'forest',name:'The Forest',x:7,y:40,icon:'🌲',topic:'Make connections',blurb:'A quiet place to connect ideas, compare patterns, and notice relationships.',cta:'Follow the pattern trail',relatedId:'patterns'},
+  {id:'cliffs',name:'The Cliffs',x:8,y:20,icon:'⛰️',topic:'Greater challenges',blurb:'Steeper challenges live here — stretch problems, multi-step puzzles, and advanced thinking.',cta:'Try a thinking challenge',relatedId:'think'},
+  {id:'shore',name:'The Shore',x:12,y:80,icon:'⛵',topic:'Reflect · explore · play',blurb:'A reflective place for playful practice, review, and free exploration.',cta:'Explore motion by the water',relatedId:'science'},
+  {id:'windlab',name:'Wind Lab',x:24,y:30,icon:'🌀',topic:'Energy in motion',blurb:'See motion, force, and energy in action through spinning systems and experiments.',cta:'Visit Science Studio',relatedId:'science'}
+];
 
 const mainRoads=[
   {id:'plaza-numbers',d:'M 49 56 C 42 53, 34 47, 27 42',to:'numbers'},
@@ -220,6 +229,19 @@ function AtmosphereLayers(){
   </>;
 }
 
+
+function ScenicSpot({spot,selected,onSelect}){
+  return <button
+    className={\`scenicSpot spot-\${spot.id} \${selected?'selected':''}\`}
+    style={{left:\`\${spot.x}%\`,top:\`\${spot.y}%\`}}
+    onClick={()=>onSelect(spot.id)}
+    aria-label={\`\${spot.name}. \${spot.topic}.\`}
+  >
+    <span className="spotIcon">{spot.icon}</span>
+    <span className="spotLabel"><strong>{spot.name}</strong><small>{spot.topic}</small></span>
+  </button>;
+}
+
 function TownLife({mastery,completedLessons}){
   const bridgePowered=hasMastered(completedLessons,'bridge-torque');
   const windPowered=hasMastered(completedLessons,'roller-energy')||hasMastered(completedLessons,'bridge-torque');
@@ -247,10 +269,12 @@ export function TownWorld(props){
   const tier=Math.min(5,1+Math.floor(mastery/10));
   const [mode,setMode]=useState('map');
   const [selectedId,setSelectedId]=useState('numbers');
+  const [selectedPoiId,setSelectedPoiId]=useState(null);
   const [inside,setInside]=useState(null);
   const states=useMemo(()=>Object.fromEntries(destinations.map(d=>[d.id,destinationState(d,completedLessons,world,mastery)])),[completedLessons,world,mastery]);
-  const selected=destinations.find(d=>d.id===selectedId)||destinations[0];
-  const state=states[selected.id];
+  const selected=selectedId?destinations.find(d=>d.id===selectedId):null;
+  const state=selected?states[selected.id]:null;
+  const selectedPoi=scenicSpots.find(s=>s.id===selectedPoiId)||null;
 
   if(inside)return <NewBuildingInterior buildingId={inside} onExit={()=>setInside(null)}/>;
   if(mode==='street')return <div className="streetWorldShell"><button className="mapReturnButton" onClick={()=>setMode('map')}>🗺️ Town map</button><StreetWorld {...props}/></div>;
@@ -261,7 +285,27 @@ export function TownWorld(props){
     if(destination.interior){setInside(destination.buildingId);return}
     if(destination.entry){onEnter?.(destination.entry);return}
   };
-  const visit=()=>visitDestination(selected,state);
+  const visit=()=>selected&&state?visitDestination(selected,state):null;
+  const selectDestination=id=>{setSelectedPoiId(null);setSelectedId(id)};
+  const selectPoi=id=>{setSelectedId(null);setSelectedPoiId(id)};
+  const followPoi=()=>{if(selectedPoi?.relatedId)selectDestination(selectedPoi.relatedId)};
+
+  useEffect(()=>{
+    const ordered=destinations.map(d=>d.id);
+    const handleKey=e=>{
+      if(inside||mode!=='map')return;
+      if(e.key==='Escape'){setSelectedPoiId(null);setSelectedId('numbers');return}
+      if(e.key==='Enter'&&selected&&state?.unlocked){visitDestination(selected,state);return}
+      if(!['ArrowRight','ArrowDown','ArrowLeft','ArrowUp'].includes(e.key))return;
+      e.preventDefault();
+      const currentIndex=Math.max(0,ordered.indexOf(selectedId));
+      const step=(e.key==='ArrowRight'||e.key==='ArrowDown')?1:-1;
+      const nextIndex=(currentIndex+step+ordered.length)%ordered.length;
+      selectDestination(ordered[nextIndex]);
+    };
+    window.addEventListener('keydown',handleKey);
+    return()=>window.removeEventListener('keydown',handleKey);
+  },[inside,mode,selectedId,selected,state]);
 
   const nextTierAt=tier>=5?50:tier*10;
   const nextTierProgress=tier>=5?100:Math.max(0,Math.min(100,((mastery-(tier-1)*10)/10)*100));
@@ -276,7 +320,7 @@ export function TownWorld(props){
     </header>
 
     <div className="townMapScroller">
-      <div className="townMapCanvas">
+      <div className={`townMapCanvas ${(selectedId||selectedPoiId)?'hasSelection':''}`}>
         <div className="townSun"/>
         <div className="townCloud cloud1">☁</div><div className="townCloud cloud2">☁</div><div className="townCloud cloud3">☁</div>
         <div className="mountainRange far"/><div className="mountainRange near"/>
@@ -292,9 +336,7 @@ export function TownWorld(props){
         <Footpaths/>
         <RoadsideProps/>
         <div className="townPlaza"><span className="townFountain"><i/><i/><i/></span><b>A BRIGHTER TOMORROW<br/>BUILDS FROM FIRST PRINCIPLES</b></div>
-        <div className="townShore"><span>⛵</span><b>The Shore</b><small>Reflect · explore · play</small></div>
-        <div className="townForest"><span>🌲🌳🌲</span><b>The Forest</b><small>Make connections</small></div>
-        <div className="townCliffs"><span>⛰️</span><b>The Cliffs</b><small>Greater challenges</small></div>
+
         <div className="townSign"><b>Explore</b><b>Build</b><b>Discover</b><b>Grow</b><b>Belong</b></div>
         <div className="districtDecor districtNumbers"><i className="districtPad"/><span className="countingStones"><b>1</b><b>2</b><b>3</b><b>4</b></span><span className="numberRuler">0 · 1 · 2 · 3 · 4</span></div>
         <div className="districtDecor districtBuilders"><i className="districtPad"/><span className="yardBeam"/><span className="yardCrate"/><span className="yardCone">▲</span></div>
@@ -305,14 +347,27 @@ export function TownWorld(props){
         <div className="districtDecor districtThink"><i className="districtPad"/><span className="logicPost lp1"/><span className="logicPost lp2"/><span className="logicPost lp3"/><span className="ideaBench"/></div>
         <div className="districtDecor districtGarden"><i className="districtPad"/><span className="plantingRow pr1"/><span className="plantingRow pr2"/><span className="plantingRow pr3"/><span className="gardenGate"/></div>
         <TownLife mastery={mastery} completedLessons={completedLessons}/>
-        {destinations.map(d=><Landmark key={d.id} d={d} state={states[d.id]} selected={selectedId===d.id} onSelect={setSelectedId} onVisit={visitDestination}/>)}
+        {scenicSpots.map(spot=><ScenicSpot key={spot.id} spot={spot} selected={selectedPoiId===spot.id} onSelect={selectPoi}/>)}
+        {destinations.map(d=><Landmark key={d.id} d={d} state={states[d.id]} selected={selectedId===d.id} onSelect={selectDestination} onVisit={visitDestination}/>)}
       </div>
     </div>
 
-    <aside className="townInfoCard">
+    {selectedPoi?<aside className="townInfoCard scenicCard">
+      <div className="townInfoIcon">{selectedPoi.icon}</div>
+      <div className="townInfoCopy">
+        <small>DISCOVERY SPOT</small>
+        <h2>{selectedPoi.name}</h2>
+        <p>{selectedPoi.blurb}</p>
+        <div className="townTags"><span>{selectedPoi.topic}</span><span>Bonus area</span></div>
+      </div>
+      <div className="townInfoAction">
+        <b>A small place with a big idea.</b>
+        <button onClick={followPoi}>{selectedPoi.cta} →</button>
+      </div>
+    </aside>:selected&&state?<aside className="townInfoCard">
       <div className="townInfoIcon">{selected.emoji}</div>
       <div className="townInfoCopy">
-        <small>{state.built?`TOWN LANDMARK · LEVEL ${Math.max(1,state.level)}`:state.unlocked?'LEARNING OUTPOST':'FUTURE LANDMARK'}</small>
+        <small>{state.built?\`TOWN LANDMARK · LEVEL \${Math.max(1,state.level)}\`:state.unlocked?'LEARNING OUTPOST':'FUTURE LANDMARK'}</small>
         <h2>{selected.name}</h2>
         <p>{selected.blurb}</p>
         <div className="townTags"><span>{selected.topic}</span><span>{state.conceptWins} connected ideas</span>{state.placed&&<span>Built with coins ✓</span>}</div>
@@ -320,7 +375,7 @@ export function TownWorld(props){
       <div className="townInfoAction">
         {!state.unlocked?<><b>Keep discovering ideas to open this district.</b><button onClick={onBack}>Keep learning →</button></>:<><b>{state.level>=3?'This landmark is thriving.':state.conceptWins?'Your learning is upgrading this place.':'Ready for its first discovery.'}</b><button onClick={visit}>{selected.lessons?'Practice reasoning →':'Enter →'}</button></>}
       </div>
-    </aside>
+    </aside>:null}
 
     <div className="townProgress">
       <span>🏘️ Town Tier {tier}</span>
