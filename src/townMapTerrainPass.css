@@ -53,7 +53,7 @@
 .logicPost{position:absolute;bottom:11%;width:7px;height:31px;border-radius:4px;background:#6c5a75;box-shadow:0 3px 4px #0002}.logicPost:after{content:"";position:absolute;left:-4px;top:-7px;width:15px;height:15px;border-radius:50%;background:#ffe275;box-shadow:0 0 8px #ffe27588}.logicPost.lp1{left:12%}.logicPost.lp2{left:30%;height:37px}.logicPost.lp3{right:13%}
 .ideaBench{position:absolute;left:45%;bottom:9%;width:34px;height:8px;background:#92664c;border-radius:3px;box-shadow:0 7px 0 -2px #6f503e}
 
-.districtGarden{right:2%;top:60%;width:15%;height:18%}
+.districtGarden{right:2.5%;top:56.5%;width:15%;height:18%}
 .districtGarden .districtPad{left:0;right:0;bottom:0;height:52%;background:radial-gradient(ellipse,rgba(130,181,103,.9),rgba(73,131,72,.38) 58%,transparent 72%)}
 .plantingRow{position:absolute;bottom:11%;width:44px;height:8px;border-radius:50%;background:repeating-linear-gradient(90deg,#775132 0 6px,#63452f 6px 12px);box-shadow:0 3px 4px #0002}.plantingRow.pr1{left:5%}.plantingRow.pr2{left:36%;bottom:19%}.plantingRow.pr3{right:5%}
 .gardenGate{position:absolute;right:4%;bottom:8%;width:25px;height:29px;border:3px solid #a58252;border-bottom:none;border-radius:11px 11px 0 0}
@@ -87,3 +87,6 @@
 @media(max-width:900px){
   .terrainPatch,.riverBank,.rockCluster,.flowerPatch,.treeCluster,.shoreReeds{opacity:.82}
 }
+
+/* Final lower-district lift */
+.districtScience{top:53.5%}
