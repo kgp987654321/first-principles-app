@@ -1,4 +1,4 @@
-import React,{useMemo,useState}from'react';
+import React,{useEffect,useMemo,useState}from'react';
 import'./conceptArcade.css';
 
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
