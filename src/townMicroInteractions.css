@@ -1,0 +1,144 @@
+/* Town micro-interactions */
+
+.microBackdrop{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:rgba(34,49,58,.38);
+  backdrop-filter:blur(8px)
+}
+.microPanel{
+  width:min(760px,94vw);
+  max-height:90vh;
+  overflow:auto;
+  border-radius:26px;
+  background:linear-gradient(145deg,#fffdf3,#eef7ee);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 28px 90px rgba(31,49,45,.28);
+  color:#26344a
+}
+.microHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  padding:18px 20px 12px
+}
+.microTitle{display:flex;align-items:center;gap:12px}
+.microTitle>span{
+  width:52px;height:52px;border-radius:16px;display:grid;place-items:center;
+  background:#eef5ff;font-size:29px;box-shadow:0 6px 14px #0001
+}
+.microTitle small{font-size:9px;letter-spacing:1px;font-weight:950;color:#6f8092}
+.microTitle h2{margin:1px 0 0;font-size:24px}
+.microClose{
+  border:0;width:38px;height:38px;border-radius:50%;background:#eef1f4;color:#5b6978;
+  font-size:25px;cursor:pointer
+}
+.microBody{padding:8px 20px 18px}
+.microPrompt{
+  text-align:center;font-weight:900;font-size:16px;color:#405268;margin:4px 0 18px
+}
+.microFooter{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 18px 18px;border-top:1px solid rgba(74,94,81,.1)
+}
+.microTakeaway{display:flex;align-items:center;gap:10px;max-width:480px}
+.microTakeaway>span{font-size:25px}
+.microTakeaway small{display:block;font-size:8px;font-weight:950;letter-spacing:.8px;color:#7b8792}
+.microTakeaway b{font-size:11px;line-height:1.35;color:#506071}
+.microTakeaway.discovered b{color:#385e49}
+.microFooterActions{display:flex;gap:8px}
+.microPrimary,.microSecondary{
+  border:0;border-radius:12px;padding:10px 13px;font-weight:950;cursor:pointer
+}
+.microPrimary{background:#5364d5;color:#fff}
+.microSecondary{background:#edf1f5;color:#4c5d70}
+
+.microChoiceRow{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.microChoiceRow button{
+  min-width:108px;border:2px solid #d8e0e8;border-radius:14px;background:#fff;padding:10px 14px;
+  display:grid;gap:3px;place-items:center;cursor:pointer;color:#405166;font:inherit
+}
+.microChoiceRow button:hover{transform:translateY(-1px)}
+.microChoiceRow button.active{border-color:#6574dc;background:#eef0ff;box-shadow:0 5px 14px rgba(86,102,213,.14)}
+.microChoiceRow button.correct{border-color:#77b982;background:#edf8ee}
+.microChoiceRow button.wrong{border-color:#dc8e86;background:#fff0ef}
+.microChoiceRow button span{font-size:22px}
+.microChoiceRow button b{font-size:11px}
+.microChoiceRow button small{font-size:8px;color:#798595}
+.microFeedback{margin:12px auto 0;text-align:center;padding:8px 12px;border-radius:10px;font-weight:850;font-size:11px;max-width:380px}
+.microFeedback.good{background:#edf7ee;color:#386047}
+.microFeedback.try{background:#fff3e7;color:#8a6339}
+
+/* Wind Lab */
+.windExperiment{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:center}
+.windScene{
+  height:220px;position:relative;overflow:hidden;border-radius:20px;
+  background:linear-gradient(#bde5fa 0 58%,#8acb7a 58%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.65)
+}
+.windStream{position:absolute;left:22px;top:65px;color:#eaf9ff;font-weight:1000;letter-spacing:14px;text-shadow:0 2px 4px #5ea6c866}
+.wind1{opacity:.5;font-size:19px}.wind2{opacity:.75;font-size:25px}.wind3{opacity:1;font-size:31px}
+.microTurbine{position:absolute;right:30%;bottom:24px;width:90px;height:150px}
+.microTower{position:absolute;left:42px;bottom:0;width:8px;height:105px;background:linear-gradient(#eee8d4,#87765c);clip-path:polygon(38% 0,62% 0,100% 100%,0 100%)}
+.microRotor{position:absolute;left:17px;top:3px;width:58px;height:58px;display:grid;place-items:center;font:900 66px/58px serif;color:#fff4d2;text-shadow:0 2px #87765c;animation:fpSlowSpin linear infinite}
+.windReadout{display:grid;gap:12px}
+.windReadout div{padding:14px;border-radius:15px;background:#f4f7fa}
+.windReadout small{display:block;font-size:8px;font-weight:950;color:#718093;letter-spacing:.7px}
+.windReadout strong{font-size:26px}
+
+/* Forest */
+.patternTrail{
+  min-height:150px;display:flex;align-items:center;justify-content:center;gap:10px;
+  border-radius:20px;background:linear-gradient(#dff1d7,#afd598);padding:22px
+}
+.patternTrail span{width:50px;height:50px;display:grid;place-items:center;border-radius:14px;background:#fff9df;color:#5f6b58;font-size:28px;box-shadow:0 6px 10px #0002}
+.patternTrail i{width:30px;border-top:5px dotted #8e7652}
+.patternTrail .mystery{background:#fff;color:#5e6d79;border:3px dashed #9bacb5}
+.patternChoices button{min-width:85px}
+.shapeChoice{font-size:29px!important}
+
+/* Shore */
+.shoreScene{display:grid;gap:12px}
+.shoreWater{height:150px;position:relative;overflow:hidden;border-radius:20px;background:linear-gradient(#77d3ef,#4bb2d4);box-shadow:inset 0 0 0 4px #dff8ff55}
+.currentArrows{position:absolute;left:8%;right:8%;top:52%;color:#e8fbff;font-size:26px;letter-spacing:16px;opacity:.8}
+.microBoat{position:absolute;top:42px;font-size:42px;transition:left .45s ease}
+.shoreEquation{display:flex;align-items:center;justify-content:center;gap:10px}
+.shoreEquation span,.shoreEquation strong{min-width:46px;padding:9px 10px;border-radius:12px;background:#eff3f7;text-align:center;font-size:21px}
+.shoreEquation strong{background:#e9f7ec;color:#3f6e4b}
+.shoreEquation b{font-size:20px}
+.shoreEquation small{font-size:8px;color:#7a8895}
+.sliderGroup{display:grid;gap:13px;margin-top:16px}
+.sliderGroup label{display:grid;gap:7px;padding:12px;border-radius:14px;background:#f5f7f8}
+.sliderGroup label span{display:flex;justify-content:space-between;gap:12px;font-size:11px;font-weight:900}
+.sliderGroup em{font-weight:700;color:#758291}
+.sliderGroup input{width:100%}
+
+/* Cliffs */
+.launchScene{display:grid;grid-template-columns:1.5fr .7fr;gap:12px;align-items:center}
+.launchScene svg{width:100%;height:220px;border-radius:20px;background:linear-gradient(#cfeafa 0 62%,#bad897 62%)}
+.launchGround{fill:none;stroke:#6b9558;stroke-width:6}
+.launchCliff{fill:#8d887a;stroke:#6e685e;stroke-width:3}
+.launchArc{fill:none;stroke:#5e68d5;stroke-width:4;stroke-dasharray:9 7}
+.launchBall{fill:#f3c84f;stroke:#fff4bf;stroke-width:3}
+.launchReadout{display:grid;gap:9px}
+.launchReadout span{padding:12px;border-radius:13px;background:#f1f4f7}
+.launchReadout small{display:block;font-size:7px;font-weight:950;color:#788696}
+.launchReadout b{font-size:20px}
+
+@media(max-width:700px){
+  .microBackdrop{padding:10px}
+  .microPanel{max-height:94vh}
+  .windExperiment,.launchScene{grid-template-columns:1fr}
+  .microFooter{align-items:flex-start;flex-direction:column}
+  .microFooterActions{width:100%}
+  .microFooterActions button{flex:1}
+}
+@media(prefers-reduced-motion:reduce){
+  .microRotor{animation:none!important}
+  .microBoat{transition:none}
+}
