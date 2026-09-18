@@ -111,11 +111,104 @@ function CliffsLaunch({onClose,onGoTo}){
   </Frame>;
 }
 
+
+function BuildersBalance({onClose,onGoTo}){
+  const [slot,setSlot]=useState(2);
+  const [tries,setTries]=useState(new Set([2]));
+  const leftWeight=2,leftDistance=2,rightWeight=1;
+  const leftMoment=leftWeight*leftDistance;
+  const rightMoment=rightWeight*slot;
+  const delta=rightMoment-leftMoment;
+  const tilt=clamp(delta*4,-14,14);
+  const balanced=delta===0;
+  const choose=value=>{setSlot(value);setTries(prev=>new Set([...prev,value]))};
+  return <Frame icon="🏗️" title="Builders’ Balance Yard" kicker="LOAD × DISTANCE" takeaway={balanced?'Balance depends on both weight and distance from the pivot. 2 × 2 balances 1 × 4.':'A lighter load can balance a heavier one if it is farther from the pivot.'} discovered={balanced} onClose={onClose} onGoTo={onGoTo} goLabel="Enter Builders’ Yard">
+    <div className="microPrompt">A 2-unit crate sits 2 spaces from the pivot. Where should the 1-unit crate go to balance the beam?</div>
+    <div className="balanceScene">
+      <div className="balanceBeamWrap">
+        <div className="balanceBeam" style={{transform:'rotate('+tilt+'deg)'}}>
+          <span className="load leftLoad">📦<b>2</b></span>
+          <span className="load rightLoad" style={{right:(10+(4-slot)*14)+'%'}}>📦<b>1</b></span>
+          <i className="beamTick t1"/><i className="beamTick t2"/><i className="beamTick t3"/><i className="beamTick t4"/>
+        </div>
+        <div className="balancePivot">▲</div>
+      </div>
+      <div className="momentReadout">
+        <span><small>LEFT MOMENT</small><b>{leftWeight} × {leftDistance} = {leftMoment}</b></span>
+        <span className={balanced?'balanced':''}><small>RIGHT MOMENT</small><b>{rightWeight} × {slot} = {rightMoment}</b></span>
+      </div>
+    </div>
+    <div className="microChoiceRow">
+      {[1,2,4].map(v=><button key={v} className={slot===v?(balanced?'correct':'active'):''} onClick={()=>choose(v)}><b>{v} space{v>1?'s':''}</b><small>from pivot</small></button>)}
+    </div>
+    {tries.size>1&&<div className={'microFeedback '+(balanced?'good':'try')}>{balanced?'Balanced! Equal turning effects keep the beam level.':'Still tilted — compare the two multiplication results.'}</div>}
+  </Frame>;
+}
+
+function GardenRatio({onClose,onGoTo}){
+  const [answer,setAnswer]=useState(null);
+  const correct=6;
+  const solved=answer===correct;
+  const flowers=n=>Array.from({length:n},(_,i)=><i key={i}>✿</i>);
+  return <Frame icon="🌱" title="Garden Ratio Beds" kicker="SCALE A PATTERN" takeaway={solved?'Doubling 2 sunflowers to 4 means doubling 3 daisies to 6. The 2:3 ratio stays the same.':'When one part of a ratio scales, the other part must scale by the same factor.'} discovered={solved} onClose={onClose} onGoTo={onGoTo} goLabel="Enter The Garden">
+    <div className="microPrompt">The first bed has 2 sunflowers for every 3 daisies. The second bed has 4 sunflowers. How many daisies keep the same ratio?</div>
+    <div className="gardenRatioScene">
+      <div className="ratioBed">
+        <small>BED 1</small>
+        <div className="flowerRow sunflowers">{flowers(2)}</div>
+        <div className="flowerRow daisies">{flowers(3)}</div>
+        <b>2 : 3</b>
+      </div>
+      <div className="ratioArrow">×2 →</div>
+      <div className="ratioBed target">
+        <small>BED 2</small>
+        <div className="flowerRow sunflowers">{flowers(4)}</div>
+        <div className="flowerRow daisies">{answer?flowers(answer):<span className="flowerMystery">?</span>}</div>
+        <b>4 : {answer||'?'}</b>
+      </div>
+    </div>
+    <div className="microChoiceRow">
+      {[5,6,8].map(v=><button key={v} className={answer===v?(v===correct?'correct':'wrong'):''} onClick={()=>setAnswer(v)}><b>{v} daisies</b></button>)}
+    </div>
+    {answer&&<div className={'microFeedback '+(solved?'good':'try')}>{solved?'Exactly — both parts doubled.':'That changes the ratio. What happened to 2 when it became 4?'}</div>}
+  </Frame>;
+}
+
+function ObservatoryOrbit({onClose,onGoTo}){
+  const [radius,setRadius]=useState(2);
+  const [changed,setChanged]=useState(false);
+  const speed=Number((3.6/Math.sqrt(radius)).toFixed(1));
+  const period=Number((radius**1.5).toFixed(1));
+  const orbitSize=55+radius*27;
+  return <Frame icon="🔭" title="Observatory Orbit Lab" kicker="DISTANCE + ORBIT" takeaway="Farther orbits are larger and take longer to complete; near orbits move around the planet more quickly." discovered={changed} onClose={onClose} onGoTo={onGoTo} goLabel="Enter Observatory">
+    <div className="microPrompt">Move the satellite farther from the planet. What happens to its orbital speed and trip time?</div>
+    <div className="orbitScene">
+      <div className="orbitSystem">
+        <div className="planet">🌍</div>
+        <div className="orbitRing" style={{width:orbitSize+'px',height:orbitSize+'px'}}>
+          <span className="satellite" style={{animationDuration:(1.8+radius*1.25)+'s'}}>🛰️</span>
+        </div>
+      </div>
+      <div className="orbitReadout">
+        <span><small>ORBIT DISTANCE</small><b>{radius}×</b></span>
+        <span><small>RELATIVE SPEED</small><b>{speed}×</b></span>
+        <span><small>TRIP TIME</small><b>{period}×</b></span>
+      </div>
+    </div>
+    <div className="microChoiceRow">
+      {[1,2,3].map(v=><button key={v} className={radius===v?'active':''} onClick={()=>{setRadius(v);setChanged(true)}}><span>{v===1?'◉':v===2?'◎':'◌'}</span><b>{v===1?'Near':v===2?'Middle':'Far'}</b></button>)}
+    </div>
+  </Frame>;
+}
+
 export function TownMicroExperience({id,onClose,onGoTo}){
   const props={onClose,onGoTo};
   if(id==='windlab')return <WindLab {...props}/>;
   if(id==='forest')return <ForestTrail {...props}/>;
   if(id==='shore')return <ShoreCurrent {...props}/>;
   if(id==='cliffs')return <CliffsLaunch {...props}/>;
+  if(id==='buildersyard')return <BuildersBalance {...props}/>;
+  if(id==='gardenlab')return <GardenRatio {...props}/>;
+  if(id==='observatorylab')return <ObservatoryOrbit {...props}/>;
   return null;
 }
