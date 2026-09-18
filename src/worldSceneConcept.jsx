@@ -2,11 +2,11 @@ import React,{useEffect,useMemo,useState}from'react';
 import'./worldConcept.css';
 import'./worldConceptV2.css';
 import{worldBuildings,buildingUnlocked}from'./data/world';
-import{unlockedOrderMeta}from'./data/worldOrders';
+import{unlockedOrderMeta,pendingOrderCount}from'./data/worldOrders';
 import{NewBuildingInterior}from'./newBuildingInteriors';
 
 const activityIds={bakery:1,clinic:1,design:1,lab:1};
-const newInteriorIds=new Set(['transit','architect','observatory']);
+const newInteriorIds=new Set(['transit','architect','observatory','market','bridge','carnival','spaceport']);
 const shopSides=['left','right','left','right','left','right','left'];
 const customerLooks=['🐰','🦊','🐼','🐶','🐱','🦝','🐻'];
 const customerNames=['Mia','Theo','Pip','Luna','Nico','Zoe','Finn'];
@@ -21,11 +21,12 @@ const loadAvatar=()=>{try{return {...defaultAvatar,...JSON.parse(localStorage.ge
 const saveAvatar=a=>{try{localStorage.setItem(AVATAR_KEY,JSON.stringify(a))}catch{}};
 
 function Avatar({avatar,large=false}){return <div className={`cwAvatar ${large?'large':''}`} style={{'--shirt':avatarColors[avatar.color]}}><span className="cwAvatarFace">{avatarFaces[avatar.face]}</span><span className="cwAvatarShirt">★</span><span className="cwAvatarPack">{avatarBackpacks[avatar.backpack]}</span></div>}
-function BuildingArt({o}){return <><span className="cwBuildingArt"><i className="cwRoof"/><i className="cwFront"/><i className="cwAwning"/><b className="cwIcon">{o.b.emoji}</b><i className="cwWindow w1"/><i className="cwWindow w2"/><i className="cwDoor"/></span><strong className="cwBuildingLabel">{o.b.name}</strong></>}
+function BuildingArt({o}){return <><span className={`cwBuildingArt level${o.level||1}`}><i className="cwRoof"/><i className="cwFront"/><i className="cwAwning"/><b className="cwIcon">{o.b.emoji}</b><i className="cwWindow w1"/><i className="cwWindow w2"/><i className="cwDoor"/>{(o.level||1)>1&&<i className="cwUpgradeFlag">★</i>}</span><strong className="cwBuildingLabel">{o.b.name}</strong>{o.pending>0&&<span className="cwBuildingOrders">{o.pending} waiting</span>}</>}
 
 export function GrowingWorldScene({world,completedLessons,onEnter,onChooseLot,coins=0,onBuild}){
  const placed=world?.placements||{},mastery=mastered(completedLessons),[inside,setInside]=useState(null),[lane,setLane]=useState(0),[distance,setDistance]=useState(0),[dialogue,setDialogue]=useState(null),[accepted,setAccepted]=useState(null),[questOpen,setQuestOpen]=useState(false),[mapOpen,setMapOpen]=useState(false),[avatarOpen,setAvatarOpen]=useState(false),[selfTalk,setSelfTalk]=useState(false),[avatar,setAvatar]=useState(loadAvatar),[buildLot,setBuildLot]=useState(null),[townOpen,setTownOpen]=useState(false);
- const buildings=useMemo(()=>Object.entries(placed).map(([lot,id],idx)=>({lot:+lot,id,b:worldBuildings.find(x=>x.id===id),side:shopSides[idx%shopSides.length],d:18+idx*17})).filter(x=>x.b),[placed]);
+ const cityTier=Math.min(5,1+Math.floor(mastery/10));
+ const buildings=useMemo(()=>Object.entries(placed).map(([lot,id],idx)=>{const completedCount=Object.keys(world?.activities?.[id]?.completedOrders||{}).length;return{lot:+lot,id,b:worldBuildings.find(x=>x.id===id),side:shopSides[idx%shopSides.length],d:18+idx*17,level:Math.min(3,1+Math.floor(completedCount/3)),pending:pendingOrderCount(id,world,completedLessons)}}).filter(x=>x.b),[placed,world,completedLessons]);
  const usedLots=useMemo(()=>new Set(Object.keys(placed).map(Number)),[placed]);
  const openLots=useMemo(()=>Array.from({length:12},(_,i)=>i).filter(i=>!usedLots.has(i)),[usedLots]);
  const placedIds=useMemo(()=>new Set(Object.values(placed)),[placed]);
@@ -40,17 +41,17 @@ export function GrowingWorldScene({world,completedLessons,onEnter,onChooseLot,co
  useEffect(()=>{const key=e=>{if(['INPUT','BUTTON','TEXTAREA'].includes(e.target.tagName))return;const k=e.key.toLowerCase();if(k==='arrowleft'||k==='a')move(-1,0);if(k==='arrowright'||k==='d')move(1,0);if(k==='arrowup'||k==='w')move(0,5);if(k==='arrowdown'||k==='s')move(0,-5);if(k==='m')setMapOpen(true)};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)},[]);
  if(inside)return <NewBuildingInterior buildingId={inside} onExit={()=>setInside(null)}/>;
  const enter=id=>newInteriorIds.has(id)?setInside(id):onEnter(id),accept=c=>{setAccepted(c);setDialogue(null)},jumpToTarget=()=>targetBuilding&&travel(targetBuilding),updateAvatar=patch=>{const next={...avatar,...patch};setAvatar(next);saveAvatar(next)},chooseLot=lot=>{setBuildLot(lot);onChooseLot?.(lot)},buildHere=b=>{if(!onBuild||buildLot===null||coins<b.cost)return;onBuild(buildLot,b);setBuildLot(null);setMapOpen(false)};
- return <div className="conceptWorld">
-   <div className="cwSkyGlow"/><div className="cwMountains"/><div className="cwHills"/><span className="cwSun">☀️</span><span className="cwCloud c1">☁️</span><span className="cwCloud c2">☁️</span><span className="cwCloud c3">☁️</span>
+ return <div className={`conceptWorld cityTier${cityTier}`}>
+   <div className="cwSkyGlow"/><div className="cwMountains"/><div className="cwHills"/><span className="cwSun">☀️</span><span className="cwCloud c1">☁️</span><span className="cwCloud c2">☁️</span><span className="cwCloud c3">☁️</span><div className="cwTownGrowth"><span className="cwGrowthBadge">Town Tier {cityTier}</span>{mastery>=10&&<span className="cwPond">🦆<i>Town Pond</i></span>}{mastery>=20&&<span className="cwMarketScene">⛱️ 🛒 🍎<i>Market Plaza</i></span>}{mastery>=30&&<span className="cwBridgeScene">🌉<i>River Crossing</i></span>}{mastery>=40&&<span className="cwCarnivalScene">🎡 🎈<i>Festival Grounds</i></span>}{mastery>=50&&<span className="cwSpaceScene">🚀 ✨<i>Space District</i></span>}</div>
    <div className="cwScene"><div className="cwRoad"/><div className="cwSidewalk left"/><div className="cwSidewalk right"/><button className="cwTownCenter" onClick={()=>setTownOpen(true)}><span>🏫</span><b>Learning Valley</b></button><div className="cwFountain">⛲</div>
      <span className="cwTree t1">🌳</span><span className="cwTree t2">🌲</span><span className="cwTree t3">🌳</span><span className="cwTree t4">🌲</span><span className="cwTree t5">🌳</span><span className="cwTree t6">🌳</span>
      <span className="cwLamp l1">🏮</span><span className="cwLamp l2">🏮</span><span className="cwLamp l3">🏮</span><span className="cwLamp l4">🏮</span><span className="cwFlower f1">🌼</span><span className="cwFlower f2">🌻</span><span className="cwFlower f3">🌷</span><span className="cwFlower f4">🌸</span><span className="cwBench b1">🪑</span><span className="cwBench b2">🪑</span>
      {visibleBuildings.map(o=>{const depth=Math.max(.38,1-o.rel/110),bottom=16+(1-depth)*30,x=o.side==='left'?8+depth*15:92-depth*15,target=accepted?.shopId===o.id;return <button key={`${o.lot}-${o.id}`} className={`cwBuilding ${o.id} ${target?'destination':''}`} style={{left:`${x}%`,bottom:`${bottom}%`,transform:`translateX(-50%) scale(${depth})`,zIndex:20+Math.round(depth*70)}} onClick={()=>travel(o)}><BuildingArt o={o}/>{target&&<small>YOUR DESTINATION</small>}</button>})}
      {visibleCustomers.map(c=>{const depth=Math.max(.48,1-c.rel/80),bottom=15+(1-depth)*28,x=c.side==='left'?32-depth*7:68+depth*7,near=activeCustomer?.id===c.id;return <button key={c.id} className={`cwCustomer ${near?'near':''}`} style={{left:`${x}%`,bottom:`${bottom}%`,transform:`translateX(-50%) scale(${depth})`,zIndex:45+Math.round(depth*65)}} onClick={()=>{setDistance(Math.max(0,c.d-2));setLane(c.side==='left'?-1:1);setDialogue(c)}}><span className="shadow"/><span className="sprite">{c.look}</span>{near&&<span className="cwTalkBubble">💬 Talk</span>}</button>})}
-     {buildings.length===0&&openLots.slice(0,2).map((lot,i)=><button key={lot} className={`cwPlot p${i+1}`} onClick={()=>chooseLot(lot)}><span>🏗️</span><b>Open building lot</b><small>Tap to build</small></button>)}
+     {openLots.slice(0,Math.min(2,openLots.length)).map((lot,i)=><button key={lot} className={`cwPlot p${i+1} ${buildChoices.length?"ready":"lockedPlot"}`} onClick={()=>chooseLot(lot)}><span>{buildChoices.length?"🏗️":"🌱"}</span><b>{buildChoices.length?"Ready to build":"Future lot"}</b><small>{buildChoices.length?"Tap to choose":"Keep learning"}</small></button>)}
      <button className="cwPlayer" style={{left:`${50+lane*8}%`,bottom:`${1.7+Math.min(12,distance*.18)}%`}} onClick={()=>setSelfTalk(true)} aria-label="Talk to your character"><Avatar avatar={avatar}/></button>
    </div>
-   <div className="cwHud"><button className="cwProfile" onClick={()=>setSelfTalk(true)}><Avatar avatar={avatar}/><div><small>{avatar.name.toUpperCase()}</small><b>Explorer · Lv. {1+Math.floor(mastery/2)}</b></div></button><div className="cwStats"><span>⭐ {mastery}</span><span>🪙 {coins}</span></div></div>
+   <div className="cwHud"><button className="cwProfile" onClick={()=>setSelfTalk(true)}><Avatar avatar={avatar}/><div><small>{avatar.name.toUpperCase()}</small><b>Explorer · Lv. {1+Math.floor(mastery/2)}</b></div></button><div className="cwStats"><span>🏘️ Tier {cityTier}</span><span>⭐ {mastery}</span><span>🪙 {coins}</span></div></div>
    <button className="cwMiniMap" onClick={()=>setMapOpen(true)}><div className="river"/><span className="cwMiniPlayer" style={{top:`${77-Math.min(66,distance*.55)}%`}}>●</span>{buildings.slice(0,5).map((o,i)=><span key={o.id} className="cwMiniDot" style={{left:`${20+(i%3)*28}%`,top:`${17+Math.floor(i/3)*34}%`}}>{o.b.emoji}</span>)}<b>MAP</b></button>
    {accepted&&<div className="cwOrder"><span>{accepted.look}</span><div><small>ACTIVE ORDER · {accepted.name}</small><b>{accepted.order.label}</b><p>Head to {accepted.shopName}.</p></div><button onClick={jumpToTarget}>Show me →</button></div>}
    <div className="cwControls"><button onClick={()=>move(0,5)}>▲</button><div><button onClick={()=>move(-1,0)}>◀</button><button onClick={()=>move(0,-5)}>▼</button><button onClick={()=>move(1,0)}>▶</button></div><small>WALK</small></div>
