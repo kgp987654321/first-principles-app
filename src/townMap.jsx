@@ -2,6 +2,7 @@ import React,{useMemo,useState}from'react';
 import'./townMap.css';
 import'./townMapRefinement.css';
 import'./townMapArtPass.css';
+import'./townMapRoads.css';
 import{worldBuildings,buildingUnlocked}from'./data/world';
 import{GrowingWorldScene as StreetWorld}from'./worldSceneConcept';
 import{NewBuildingInterior}from'./newBuildingInteriors';
@@ -80,6 +81,106 @@ function Landmark({d,state,selected,onSelect,onVisit}){
   </button>
 }
 
+
+const mainRoads=[
+  {id:'plaza-numbers',d:'M 49 56 C 42 53, 34 47, 27 42',to:'numbers'},
+  {id:'plaza-builders',d:'M 49 56 C 47 49, 46 41, 43 35',to:'builders'},
+  {id:'plaza-patterns',d:'M 49 56 C 54 51, 58 46, 63 42',to:'patterns'},
+  {id:'patterns-think',d:'M 63 42 C 69 40, 76 41, 82 45',to:'think'},
+  {id:'plaza-science',d:'M 49 56 C 57 59, 63 64, 70 68',to:'science'}
+];
+
+const secondaryRoads=[
+  {id:'numbers-geometry',d:'M 27 42 C 23 51, 20 60, 18 68',to:'geometry'},
+  {id:'science-garden',d:'M 70 68 C 77 70, 83 70, 89 70',to:'garden'},
+  {id:'patterns-observatory',d:'M 63 42 C 72 36, 81 29, 88 23',to:'observatory'}
+];
+
+const footpaths=[
+  {id:'numbers',x:28,y:45,rotate:-18},
+  {id:'builders',x:44,y:38,rotate:76},
+  {id:'patterns',x:63,y:45,rotate:82},
+  {id:'think',x:78,y:45,rotate:4},
+  {id:'science',x:68,y:65,rotate:28},
+  {id:'geometry',x:19,y:64,rotate:72},
+  {id:'garden',x:85,y:69,rotate:3},
+  {id:'observatory',x:85,y:27,rotate:-40}
+];
+
+const districtPads=[
+  {id:'numbers',x:27,y:43},
+  {id:'builders',x:43,y:36},
+  {id:'patterns',x:63,y:43},
+  {id:'think',x:82,y:46},
+  {id:'science',x:70,y:69},
+  {id:'geometry',x:18,y:69},
+  {id:'garden',x:89,y:71},
+  {id:'observatory',x:88,y:24}
+];
+
+const roadProps=[
+  {id:'lamp-west',type:'lamp',x:36,y:49},
+  {id:'lamp-east',type:'lamp',x:57,y:51},
+  {id:'sign-center',type:'sign',x:45,y:53},
+  {id:'bench-center',type:'bench',x:53,y:57},
+  {id:'shrub-west',type:'shrub',x:32,y:54},
+  {id:'shrub-south',type:'shrub',x:60,y:60},
+  {id:'rock-ridge',type:'rock',x:74,y:34},
+  {id:'flowers-garden',type:'flowers',x:83,y:67}
+];
+
+function RoadNetwork({selectedId}){
+  return <svg className="roadNetwork" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <g className="mainRoadGroup">
+      {mainRoads.map(road=><g key={road.id} className={\`roadSegment \${road.to===selectedId?'selectedRoad':''}\`}>
+        <path className="roadShadow" d={road.d}/>
+        <path className="roadEdge" d={road.d}/>
+        <path className="roadSurface" d={road.d}/>
+        <path className="roadHighlight" d={road.d}/>
+      </g>)}
+    </g>
+    <g className="secondaryRoadGroup">
+      {secondaryRoads.map(road=><g key={road.id} className={\`secondarySegment \${road.to===selectedId?'selectedRoad':''}\`}>
+        <path className="secondaryShadow" d={road.d}/>
+        <path className="secondaryEdge" d={road.d}/>
+        <path className="secondarySurface" d={road.d}/>
+      </g>)}
+    </g>
+  </svg>;
+}
+
+function DistrictGrounds(){
+  return <>{districtPads.map(pad=><div
+    key={pad.id}
+    className={\`districtGround \${pad.id}Pad\`}
+    style={{left:\`\${pad.x}%\`,top:\`\${pad.y}%\`}}
+  />)}</>;
+}
+
+function Footpaths(){
+  return <>{footpaths.map(path=><i
+    key={path.id}
+    className={\`buildingFootpath footpath-\${path.id}\`}
+    style={{left:\`\${path.x}%\`,top:\`\${path.y}%\`,transform:\`rotate(\${path.rotate}deg)\`}}
+  />)}</>;
+}
+
+function RoadBridges(){
+  return <>
+    <div className="roadBridge eastBridge"><i/><i/><i/><i/><i/></div>
+    <div className="roadBridge scienceBridge"><i/><i/><i/><i/><i/></div>
+  </>;
+}
+
+function RoadsideProps(){
+  return <>{roadProps.map(prop=><span
+    key={prop.id}
+    className={\`roadProp prop-\${prop.type}\`}
+    style={{left:\`\${prop.x}%\`,top:\`\${prop.y}%\`}}
+    aria-hidden="true"
+  />)}</>;
+}
+
 function TownLife({mastery,completedLessons}){
   const bridgePowered=hasMastered(completedLessons,'bridge-torque');
   const windPowered=hasMastered(completedLessons,'roller-energy')||hasMastered(completedLessons,'bridge-torque');
@@ -144,9 +245,12 @@ export function TownWorld(props){
         <div className="townWaterfall"><i/><i/><i/></div>
         <div className="townRiver riverA"><span className="riverShine s1"/><span className="riverShine s2"/><span className="riverShine s3"/></div>
         <div className="townRiver riverB"><span className="riverShine s4"/><span className="riverShine s5"/></div>
-        <div className="townRoad roadA"/><div className="townRoad roadB"/><div className="townRoad roadC"/>
+        <DistrictGrounds/>
+        <RoadNetwork selectedId={selectedId}/>
+        <RoadBridges/>
+        <Footpaths/>
+        <RoadsideProps/>
         <div className="townPlaza"><span className="townFountain"><i/><i/><i/></span><b>A BRIGHTER TOMORROW<br/>BUILDS FROM FIRST PRINCIPLES</b></div>
-        <div className="townBridge"><i/><i/><i/><b>CURIOSITY CONNECTS US</b></div>
         <div className="townShore"><span>⛵</span><b>The Shore</b><small>Reflect · explore · play</small></div>
         <div className="townForest"><span>🌲🌳🌲</span><b>The Forest</b><small>Make connections</small></div>
         <div className="townCliffs"><span>⛰️</span><b>The Cliffs</b><small>Greater challenges</small></div>
