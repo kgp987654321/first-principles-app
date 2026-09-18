@@ -65,15 +65,15 @@ function BuildingArt({id,state}){
   </span>
 }
 
-function Landmark({d,state,selected,onSelect}){
+function Landmark({d,state,selected,onSelect,onVisit}){
   return <button
     className={`townLandmark ${d.id} ${selected?'selected':''} ${state.unlocked?'unlocked':'locked'} ${state.built?'built':'foundation'} level${state.level}`}
     style={{left:`${d.x}%`,top:`${d.y}%`}}
-    onClick={()=>onSelect(d.id)}
+    onClick={()=>selected&&state.unlocked?onVisit(d,state):onSelect(d.id)}
     aria-label={`${d.name}. ${state.unlocked?'Available':'Locked'}.`}
   >
     <BuildingArt id={d.id} state={state}/>
-    <span className="townLabel"><strong>{d.name}</strong><small>{d.topic}</small></span>
+    <span className="townLabel"><strong>{d.name}</strong><small>{selected&&state.unlocked?'Tap again to enter · ':''}{d.topic}</small></span>
     {!state.unlocked&&<span className="townLock">🔒</span>}
     {state.unlocked&&state.conceptWins>0&&<span className="conceptBadge">{state.conceptWins} ideas</span>}
   </button>
@@ -114,12 +114,13 @@ export function TownWorld(props){
   if(inside)return <NewBuildingInterior buildingId={inside} onExit={()=>setInside(null)}/>;
   if(mode==='street')return <div className="streetWorldShell"><button className="mapReturnButton" onClick={()=>setMode('map')}>🗺️ Town map</button><StreetWorld {...props}/></div>;
 
-  const visit=()=>{
-    if(!state.unlocked){onBack?.();return}
-    if(selected.lessons){onBack?.();return}
-    if(selected.interior){setInside(selected.buildingId);return}
-    if(selected.entry){onEnter?.(selected.entry);return}
+  const visitDestination=(destination,destinationState)=>{
+    if(!destinationState.unlocked){onBack?.();return}
+    if(destination.lessons){onBack?.();return}
+    if(destination.interior){setInside(destination.buildingId);return}
+    if(destination.entry){onEnter?.(destination.entry);return}
   };
+  const visit=()=>visitDestination(selected,state);
 
   const nextTierAt=tier>=5?50:tier*10;
   const nextTierProgress=tier>=5?100:Math.max(0,Math.min(100,((mastery-(tier-1)*10)/10)*100));
@@ -150,7 +151,7 @@ export function TownWorld(props){
         <div className="townCliffs"><span>⛰️</span><b>The Cliffs</b><small>Greater challenges</small></div>
         <div className="townSign"><b>Explore</b><b>Build</b><b>Discover</b><b>Grow</b><b>Belong</b></div>
         <TownLife mastery={mastery} completedLessons={completedLessons}/>
-        {destinations.map(d=><Landmark key={d.id} d={d} state={states[d.id]} selected={selectedId===d.id} onSelect={setSelectedId}/>)}
+        {destinations.map(d=><Landmark key={d.id} d={d} state={states[d.id]} selected={selectedId===d.id} onSelect={setSelectedId} onVisit={visitDestination}/>)}
       </div>
     </div>
 
