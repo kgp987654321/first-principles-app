@@ -249,3 +249,40 @@ body:has(.conceptWorld) .worldLayout>.panel:first-child{padding:0!important;bord
 .cwPlot{transition:transform .18s ease,box-shadow .18s ease}.cwPlot.ready{animation:cwBuildPulse 1.7s ease-in-out infinite alternate}.cwPlot.ready:hover{transform:translateY(-4px)}.cwPlot.lockedPlot{opacity:.68}
 @keyframes cwBuildPulse{from{box-shadow:0 10px 24px rgba(41,63,43,.18)}to{box-shadow:0 10px 28px rgba(109,93,252,.34),0 0 0 5px rgba(109,93,252,.08)}}
 @media(max-width:700px){.cwGrowthBadge{top:82px}.cwTownGrowth>span:not(.cwGrowthBadge){font-size:24px}.cwTownGrowth i{font-size:5px}.cwPond{left:2%;top:39%}.cwMarketScene{right:2%;top:39%}.cwBridgeScene{display:none}.cwCarnivalScene{top:26%;font-size:28px!important}.cwSpaceScene{top:24%;font-size:28px!important}.cwBuildingOrders{font-size:6px;top:-13px}.cwUpgradeFlag{width:22px;height:22px;right:14px;top:14px}}
+
+
+/* V3 — living town, building progression, districts */
+.cwBuilding{position:absolute!important}
+.cwBuilding .cwLevelBadge{position:absolute;right:-4px;top:86px;z-index:14;padding:4px 7px;border-radius:999px;background:#2f3447;color:#fff;font-size:7px;font-weight:950;border:2px solid #fff;box-shadow:0 5px 12px #0002}
+.cwBuilding .cwPendingBadge{position:absolute;left:-10px;top:65px;z-index:15;padding:5px 8px;border-radius:999px;background:#ff5a5f;color:#fff;font-size:8px;font-weight:950;border:3px solid white;box-shadow:0 7px 16px #9d222a44;animation:cwOrderPulse 1.1s ease-in-out infinite alternate}
+.cwBuildingProps{position:absolute;left:8px;right:8px;bottom:0;z-index:9;display:flex;justify-content:space-between;align-items:end;pointer-events:none}
+.cwBuildingProps em{font-style:normal;font-size:22px;filter:drop-shadow(0 6px 4px #253b3030)}
+.cwBuildingArt.level2 .cwFront{height:126px!important;box-shadow:inset 0 -14px 0 rgba(151,111,68,.15),inset 7px 0 12px rgba(255,255,255,.42),0 0 0 4px rgba(255,219,109,.18)}
+.cwBuildingArt.level3 .cwFront{height:132px!important;box-shadow:inset 0 -14px 0 rgba(151,111,68,.15),0 0 0 5px rgba(255,230,118,.26),0 0 30px rgba(255,211,74,.18)}
+.cwUpgradeWing{position:absolute;left:-13px;bottom:14px;width:36px;height:72px;border-radius:10px 7px 5px 5px;background:#f5e3bc;border:3px solid #fff3dd;z-index:4;box-shadow:0 7px 10px #0002}
+.cwUpgradeTower{position:absolute;right:9px;top:0;width:41px;height:74px;border-radius:17px 17px 6px 6px;background:linear-gradient(#fff6d6,#ecd39f);z-index:4;border:3px solid #fff6df;box-shadow:0 7px 12px #0002}
+.cwUpgradeTower:before{content:'★';position:absolute;inset:12px 0 auto;text-align:center;color:#f0b625;font-size:18px}
+.cwChimney{position:absolute;right:12px;top:3px;font-size:23px;z-index:9;animation:cwSmoke 2.2s ease-in-out infinite}
+.cwPlot{transition:transform .2s ease,box-shadow .2s ease!important}
+.cwPlot.ready{border-style:solid!important;border-color:#ffd75a!important;background:rgba(255,250,214,.92)!important;box-shadow:0 0 0 5px rgba(255,219,83,.16),0 12px 28px rgba(69,63,35,.18)!important;animation:cwBuildGlow 1.4s ease-in-out infinite alternate}
+.cwPlot.locked{opacity:.72}
+.cwPlot.p3{left:50%;top:60%;transform:translateX(-50%)}
+.cwBalloon{position:absolute;right:18%;top:18%;z-index:3;font-size:40px;animation:cwBalloonFloat 5s ease-in-out infinite alternate;filter:drop-shadow(0 8px 4px #0002)}
+.cwBird{position:absolute;z-index:7;font-size:22px;animation:cwBirdFly 9s linear infinite}.bird1{left:8%;top:17%}.bird2{left:-8%;top:28%;animation-delay:4s}
+.cwButterfly{position:absolute;left:16%;bottom:18%;z-index:20;font-size:20px;animation:cwButterfly 3.5s ease-in-out infinite alternate}
+.cwWalker,.cwPetWalker{position:absolute;z-index:42;font-size:34px;filter:drop-shadow(0 8px 4px #22352c30);animation:cwTownWalk 13s ease-in-out infinite alternate}.walker1{left:34%;bottom:24%}.walker2{right:30%;bottom:28%;animation-delay:2s}.cwPetWalker{right:25%;bottom:24%;font-size:28px;animation-delay:2.2s}
+.cwDistrictSign{position:absolute;z-index:12;display:grid;justify-items:center;padding:7px 10px;border-radius:12px;background:rgba(255,250,235,.9);border:3px solid #fff;box-shadow:0 8px 18px #29403324;pointer-events:none}.cwDistrictSign b{font-size:8px}.cwDistrictSign small{font-size:6px;color:#6d5dfc}.ds1{left:6%;top:41%}.ds2{right:5%;top:43%}.ds3{left:8%;top:68%}.ds4{right:7%;top:66%}.ds5{left:50%;top:24%;transform:translateX(-50%)}
+.cwMapDistrict{position:absolute;z-index:2;padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.68);border:2px solid rgba(255,255,255,.9);box-shadow:0 5px 12px #24452d24}.cwMapDistrict b{font-size:7px;color:#38553b}.md1{left:43%;top:44%}.md2{left:11%;top:20%}.md3{right:10%;top:25%}.md4{left:14%;bottom:20%}.md5{right:12%;bottom:19%}.md6{left:50%;top:7%;transform:translateX(-50%)}
+.cwFountain{animation:cwFountainBob 1.5s ease-in-out infinite alternate}
+.cwLamp{animation:cwLampGlow 1.8s ease-in-out infinite alternate}
+.cwBuilding:hover .cwBuildingArt{filter:drop-shadow(0 25px 18px rgba(37,57,45,.28)) brightness(1.05)}
+@keyframes cwOrderPulse{to{transform:translateY(-4px) scale(1.05)}}
+@keyframes cwSmoke{0%{transform:translate(0,0) scale(.8);opacity:.6}100%{transform:translate(12px,-22px) scale(1.3);opacity:.05}}
+@keyframes cwBuildGlow{to{transform:translateY(-3px);box-shadow:0 0 0 8px rgba(255,219,83,.10),0 16px 34px rgba(69,63,35,.22)}}
+@keyframes cwBalloonFloat{to{transform:translateY(18px) rotate(3deg)}}
+@keyframes cwBirdFly{0%{transform:translateX(0)}100%{transform:translateX(1150px)}}
+@keyframes cwButterfly{to{transform:translate(24px,-18px) rotate(12deg)}}
+@keyframes cwTownWalk{0%{transform:translateX(-18px)}100%{transform:translateX(34px)}}
+@keyframes cwFountainBob{to{transform:translateX(-50%) translateY(-3px) scale(1.04)}}
+@keyframes cwLampGlow{to{filter:drop-shadow(0 0 9px rgba(255,211,71,.72))}}
+@media(max-width:700px){.cwDistrictSign{display:none}.cwWalker,.cwPetWalker{font-size:26px}.cwBuildingProps em{font-size:17px}.cwBuilding .cwPendingBadge{top:52px}.cwBuilding .cwLevelBadge{top:66px}.cwPlot.p3{top:64%}}
