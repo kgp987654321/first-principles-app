@@ -276,9 +276,6 @@ export function TownWorld(props){
   const state=selected?states[selected.id]:null;
   const selectedPoi=scenicSpots.find(s=>s.id===selectedPoiId)||null;
 
-  if(inside)return <NewBuildingInterior buildingId={inside} onExit={()=>setInside(null)}/>;
-  if(mode==='street')return <div className="streetWorldShell"><button className="mapReturnButton" onClick={()=>setMode('map')}>🗺️ Town map</button><StreetWorld {...props}/></div>;
-
   const visitDestination=(destination,destinationState)=>{
     if(!destinationState.unlocked){onBack?.();return}
     if(destination.lessons){onBack?.();return}
@@ -306,6 +303,9 @@ export function TownWorld(props){
     window.addEventListener('keydown',handleKey);
     return()=>window.removeEventListener('keydown',handleKey);
   },[inside,mode,selectedId,selected,state]);
+
+  if(inside)return <NewBuildingInterior buildingId={inside} onExit={()=>setInside(null)}/>;
+  if(mode==='street')return <div className="streetWorldShell"><button className="mapReturnButton" onClick={()=>setMode('map')}>🗺️ Town map</button><StreetWorld {...props}/></div>;
 
   const nextTierAt=tier>=5?50:tier*10;
   const nextTierProgress=tier>=5?100:Math.max(0,Math.min(100,((mastery-(tier-1)*10)/10)*100));
