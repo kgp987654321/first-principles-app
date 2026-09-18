@@ -1,6 +1,7 @@
 import React,{useMemo,useState}from'react';
 import'./townMap.css';
 import'./townMapRefinement.css';
+import'./townMapArtPass.css';
 import{worldBuildings,buildingUnlocked}from'./data/world';
 import{GrowingWorldScene as StreetWorld}from'./worldSceneConcept';
 import{NewBuildingInterior}from'./newBuildingInteriors';
@@ -52,14 +53,14 @@ function BuildingArt({id,state}){
     <i className="isoDoor"/>
     <i className="isoWindow win1"/><i className="isoWindow win2"/>
     <span className="artIcon">{destinations.find(d=>d.id===id)?.emoji}</span>
-    {id==='numbers'&&<><i className="detail awning"/><i className="detail numberStack">½<br/>%</i></>}
+    {id==='numbers'&&<><i className="detail awning"/><i className="detail numberStack">½<br/>%</i><i className="detail numberTower">1<br/>2<br/>3</i><i className="detail abacus"><b/><b/><b/><b/></i></>}
     {id==='geometry'&&<><i className="detail triangleTower"/><i className="detail draftingArm"/></>}
-    {id==='builders'&&<><i className="detail cranePole"/><i className="detail craneArm"/><i className="detail craneHook"/></>}
+    {id==='builders'&&<><i className="detail cranePole"/><i className="detail craneArm"/><i className="detail craneHook"/><i className="detail craneCab"/><i className="detail scaffold"><b/><b/><b/></i><i className="detail beamStack"/></>}
     {id==='patterns'&&<><i className="detail pavilionWing left"/><i className="detail pavilionWing right"/><i className="detail patternFlag">◆</i></>}
     {id==='think'&&<><i className="detail thinkDome"/><i className="detail thinkSpark">✦</i></>}
-    {id==='science'&&<><i className="detail labTube t1"/><i className="detail labTube t2"/><i className="detail antenna"/></>}
+    {id==='science'&&<><i className="detail labTube t1"/><i className="detail labTube t2"/><i className="detail antenna"/><i className="detail scienceDome"/><i className="detail energyCoil"><b/><b/><b/></i><i className="detail weatherVane"/></>}
     {id==='garden'&&<><i className="detail greenhouse"/><i className="detail sprout">🌿</i></>}
-    {id==='observatory'&&<><i className="detail observatoryDome"/><i className="detail telescope"/><i className="detail starPulse">✦</i></>}
+    {id==='observatory'&&<><i className="detail observatoryDome"/><i className="detail observatorySlit"/><i className="detail telescope"/><i className="detail telescopeStand"/><i className="detail starPulse">✦</i><i className="detail starMarker sA">✦</i><i className="detail starMarker sB">•</i></>}
     {state.level>=2&&<i className="upgradePiece">★</i>}
     {state.level>=3&&<><i className="upgradeGlow"/><i className="upgradeBanner">MASTERED</i></>}
   </span>
@@ -150,6 +151,10 @@ export function TownWorld(props){
         <div className="townForest"><span>🌲🌳🌲</span><b>The Forest</b><small>Make connections</small></div>
         <div className="townCliffs"><span>⛰️</span><b>The Cliffs</b><small>Greater challenges</small></div>
         <div className="townSign"><b>Explore</b><b>Build</b><b>Discover</b><b>Grow</b><b>Belong</b></div>
+        <div className="districtDecor districtNumbers"><i className="districtPad"/><span className="countingStones"><b>1</b><b>2</b><b>3</b><b>4</b></span><span className="numberRuler">0 · 1 · 2 · 3 · 4</span></div>
+        <div className="districtDecor districtBuilders"><i className="districtPad"/><span className="yardBeam"/><span className="yardCrate"/><span className="yardCone">▲</span></div>
+        <div className="districtDecor districtScience"><i className="districtPad"/><span className="scienceProp p1"/><span className="scienceProp p2"/><span className="scienceWind">✣</span></div>
+        <div className="districtDecor districtObservatory"><i className="districtPad ridge"/><span className="ridgeRock r1"/><span className="ridgeRock r2"/><span className="ridgeStars">✦ · ✦</span></div>
         <TownLife mastery={mastery} completedLessons={completedLessons}/>
         {destinations.map(d=><Landmark key={d.id} d={d} state={states[d.id]} selected={selectedId===d.id} onSelect={setSelectedId} onVisit={visitDestination}/>)}
       </div>
