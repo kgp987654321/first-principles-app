@@ -1,0 +1,149 @@
+/* Interactive motion + focus pass */
+
+@keyframes fpWaterfallFlow{
+  from{background-position:0 0}
+  to{background-position:0 34px}
+}
+@keyframes fpShimmerDrift{
+  0%,100%{transform:translateX(0);opacity:.42}
+  50%{transform:translateX(9px);opacity:.72}
+}
+@keyframes fpGentleBob{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-3px)}
+}
+@keyframes fpSlowSpin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+@keyframes fpTwinkle{
+  0%,100%{opacity:.5;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.14)}
+}
+@keyframes fpSpotPulse{
+  0%,100%{box-shadow:0 7px 16px rgba(28,44,52,.16)}
+  50%{box-shadow:0 10px 22px rgba(28,44,52,.22),0 0 0 4px rgba(255,239,158,.12)}
+}
+
+/* Scenic discovery spots */
+.scenicSpot{
+  position:absolute;
+  z-index:56;
+  transform:translate(-50%,-50%);
+  display:grid;
+  justify-items:center;
+  gap:2px;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  font:inherit;
+  color:inherit;
+  transition:transform .18s ease,filter .18s ease,opacity .18s ease
+}
+.scenicSpot:hover,.scenicSpot.selected{
+  transform:translate(-50%,-54%) scale(1.04)
+}
+.spotIcon{
+  display:grid;
+  place-items:center;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:rgba(250,253,246,.92);
+  border:2px solid rgba(255,255,255,.9);
+  box-shadow:0 4px 10px rgba(35,55,47,.14);
+  font-size:16px;
+  animation:fpGentleBob 3.4s ease-in-out infinite
+}
+.spotLabel{
+  display:grid;
+  gap:1px;
+  min-width:92px;
+  padding:4px 7px;
+  border-radius:9px;
+  background:rgba(43,64,64,.70);
+  color:#fff;
+  backdrop-filter:blur(7px);
+  box-shadow:0 7px 16px rgba(28,44,52,.16)
+}
+.spotLabel strong{font-size:9px;line-height:1.05}
+.spotLabel small{font-size:5.5px;opacity:.76;letter-spacing:.4px}
+.scenicSpot.selected .spotLabel{
+  background:rgba(35,55,64,.88);
+  animation:fpSpotPulse 2s ease-in-out infinite
+}
+.scenicSpot.selected .spotIcon{
+  box-shadow:0 6px 14px rgba(35,55,47,.18),0 0 0 4px rgba(255,239,158,.14)
+}
+.spot-cliffs{z-index:42}
+.spot-forest{z-index:46}
+.spot-shore{z-index:46}
+.spot-windlab{z-index:48}
+
+/* Motion that reinforces the world rather than distracting from it */
+.townWaterfall{
+  background-size:100% 34px;
+  animation:fpWaterfallFlow 2.8s linear infinite
+}
+.riverShine{animation:fpShimmerDrift 4.2s ease-in-out infinite}
+.ambientWalker{animation:fpGentleBob 3.6s ease-in-out infinite}
+.windBlades{display:inline-block;animation:fpSlowSpin 7s linear infinite}
+.starPulse,.ridgeStars{animation:fpTwinkle 2.6s ease-in-out infinite}
+
+/* Selected destinations become obvious without turning into neon */
+.townMapCanvas.hasSelection .townLandmark:not(.selected){
+  opacity:.88
+}
+.townLandmark.selected{
+  z-index:82
+}
+.townLandmark.selected .townBuildingArt{
+  transform:translateY(-4px) scale(1.03);
+  transition:transform .22s ease,filter .22s ease
+}
+.selectedRoad .roadSurface,
+.selectedRoad .secondarySurface{
+  filter:brightness(1.08) saturate(1.03)
+}
+.selectedRoad .roadHighlight{
+  stroke:rgba(255,244,173,.76);
+  stroke-width:.9
+}
+
+/* Scenic selection also quiets unrelated landmark labels slightly */
+.townMapCanvas.hasSelection .townLabel{transition:opacity .18s ease}
+.townMapCanvas:has(.scenicSpot.selected) .townLandmark .townLabel{opacity:.82}
+
+/* Garden and Observatory need stronger local contrast */
+.townLandmark.observatory{
+  opacity:.98
+}
+.townLandmark.observatory .townBuildingArt{
+  filter:
+    drop-shadow(7px 12px 10px rgba(32,48,58,.24))
+    saturate(1.12)
+    contrast(1.08)
+    brightness(1.01)
+}
+.townLandmark.observatory .townLabel{
+  background:rgba(46,58,71,.92)
+}
+.townLandmark.garden .townBuildingArt{
+  transform:scale(1.04)
+}
+.townLandmark.garden .townLabel{
+  background:rgba(52,74,58,.9)
+}
+.districtGarden{filter:saturate(1.12) brightness(1.03)}
+
+.scenicCard{
+  border-color:rgba(235,239,210,.95);
+  background:linear-gradient(135deg,rgba(252,250,232,.97),rgba(241,248,230,.95))
+}
+.scenicCard .townInfoIcon{
+  background:linear-gradient(145deg,#f2f8df,#eef5ff)
+}
+
+@media(prefers-reduced-motion:reduce){
+  .spotIcon,.townWaterfall,.riverShine,.ambientWalker,.windBlades,.starPulse,.ridgeStars,.scenicSpot.selected .spotLabel{animation:none!important}
+}

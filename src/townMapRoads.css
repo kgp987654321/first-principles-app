@@ -1,0 +1,302 @@
+/* Learning Valley circulation layer */
+
+.roadNetwork{
+  position:absolute;
+  inset:0;
+  z-index:12;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:visible
+}
+.roadSegment path,.secondarySegment path{
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round
+}
+.roadShadow{
+  stroke:rgba(92,72,48,.16);
+  stroke-width:5.1;
+  transform:translateY(.65px)
+}
+.roadEdge{
+  stroke:#efe2c2;
+  stroke-width:4.7
+}
+.roadSurface{
+  stroke:#d2bd95;
+  stroke-width:3.8
+}
+.roadHighlight{
+  stroke:rgba(255,255,255,.22);
+  stroke-width:.5;
+  transform:translateY(-.45px)
+}
+.secondaryShadow{
+  stroke:rgba(79,69,50,.11);
+  stroke-width:3.2;
+  transform:translateY(.5px)
+}
+.secondaryEdge{
+  stroke:#ebdcbb;
+  stroke-width:2.9
+}
+.secondarySurface{
+  stroke:#d2bf99;
+  stroke-width:2.25
+}
+.selectedRoad .roadSurface,
+.selectedRoad .secondarySurface{filter:brightness(1.08) saturate(1.03)}
+.selectedRoad .roadHighlight{
+  stroke:rgba(255,244,173,.76);
+  stroke-width:.9
+}
+
+/* The plaza is now a small civic anchor rather than a road hub graphic. */
+.townPlaza{
+  width:8.8%;
+  left:49%;
+  top:56.2%;
+  z-index:18;
+  background:
+    radial-gradient(circle,#eee2c8 0 34%,#ccb487 35% 40%,#ead9b6 41% 54%,transparent 55%);
+  filter:drop-shadow(0 6px 6px rgba(63,70,54,.10))
+}
+.townFountain{transform:scale(.48)}
+.townPlaza b{
+  top:82%;
+  font-size:4.6px;
+  padding:2px 5px;
+  opacity:.72
+}
+
+/* Old giant bridge is intentionally retired. */
+.townBridge,.bridgeLights{display:none!important}
+
+/* Real bridges live only at water crossings. */
+.roadBridge{
+  position:absolute;
+  z-index:19;
+  width:64px;
+  height:18px;
+  display:flex;
+  align-items:center;
+  gap:2px;
+  padding:2px 3px;
+  border-radius:7px;
+  background:#937453;
+  border:2px solid rgba(244,227,194,.68);
+  box-shadow:0 5px 7px rgba(45,58,49,.16);
+  pointer-events:none
+}
+.roadBridge i{
+  flex:1;
+  height:100%;
+  border-radius:2px;
+  background:linear-gradient(#e5cf9f,#c3a16e);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:inset 0 -2px rgba(98,74,46,.14)
+}
+.eastBridge{
+  left:55.5%;
+  top:48.5%;
+  transform:rotate(-29deg)
+}
+.scienceBridge{
+  left:59%;
+  top:60.2%;
+  transform:rotate(28deg)
+}
+
+/* Local approach paths make every destination feel connected to its neighborhood. */
+.buildingFootpath{
+  position:absolute;
+  z-index:13;
+  width:54px;
+  height:12px;
+  border-radius:50%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #dbcba9 0 8px,
+      #eee2c8 8px 12px
+    );
+  box-shadow:0 3px 5px rgba(65,61,49,.12);
+  pointer-events:none
+}
+.footpath-builders,.footpath-science,.footpath-observatory{
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #bda783 0 8px,
+      #d9c8a7 8px 12px
+    )
+}
+.footpath-garden{
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #e0d5b4 0 7px,
+      #f4ead0 7px 12px
+    )
+}
+
+/* District landing pads */
+.districtGround{
+  position:absolute;
+  z-index:11;
+  width:148px;
+  height:68px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  pointer-events:none;
+  filter:drop-shadow(0 5px 5px rgba(50,67,48,.08))
+}
+.numbersPad{
+  background:
+    radial-gradient(ellipse,#ead8aa 0 47%,#c8b07f 48% 52%,transparent 53%)
+}
+.buildersPad{
+  background:
+    radial-gradient(ellipse,#b18a62 0 48%,#8d6b4a 49% 52%,transparent 53%)
+}
+.patternsPad{
+  background:
+    repeating-conic-gradient(from 45deg,rgba(211,188,226,.9) 0 12.5%,rgba(238,225,245,.9) 0 25%);
+  opacity:.78
+}
+.thinkPad{
+  background:
+    radial-gradient(circle,#e8bc9b 0 43%,#bd785d 44% 47%,transparent 48%)
+}
+.sciencePad{
+  background:
+    radial-gradient(ellipse,#c6e0da 0 50%,#8bbcb5 51% 55%,transparent 56%)
+}
+.geometryPad{
+  border-radius:34% 56% 39% 61%;
+  background:linear-gradient(35deg,#e5c775,#d4ae58);
+  opacity:.78
+}
+.gardenPad{
+  background:
+    radial-gradient(ellipse,#7bb06d 0 50%,#5c9056 51% 56%,transparent 57%)
+}
+.observatoryPad{
+  width:172px;
+  height:76px;
+  background:
+    radial-gradient(ellipse,#89949d 0 47%,#687780 48% 52%,transparent 53%)
+}
+
+/* Roadside detail: low-volume punctuation, not clutter. */
+.roadProp{
+  position:absolute;
+  z-index:20;
+  width:20px;
+  height:20px;
+  transform:translate(-50%,-50%);
+  pointer-events:none
+}
+.prop-lamp:before{
+  content:"";
+  position:absolute;
+  left:9px;
+  top:0;
+  width:3px;
+  height:18px;
+  background:#6b6e64;
+  border-radius:3px
+}
+.prop-lamp:after{
+  content:"";
+  position:absolute;
+  left:4px;
+  top:-4px;
+  width:12px;
+  height:10px;
+  border-radius:50% 50% 45% 45%;
+  background:#ffe484;
+  box-shadow:0 0 8px rgba(255,228,132,.55)
+}
+.prop-sign:before{
+  content:"";
+  position:absolute;
+  left:9px;
+  top:7px;
+  width:3px;
+  height:16px;
+  background:#76583b
+}
+.prop-sign:after{
+  content:"→";
+  position:absolute;
+  left:0;
+  top:-1px;
+  width:24px;
+  height:12px;
+  display:grid;
+  place-items:center;
+  border-radius:3px;
+  background:#9b6f44;
+  color:#fff0c8;
+  font-size:8px;
+  font-weight:900
+}
+.prop-bench:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:6px;
+  width:22px;
+  height:7px;
+  border-radius:3px;
+  background:#8b6748;
+  box-shadow:0 7px 0 -2px #6d5139
+}
+.prop-shrub:before{
+  content:"";
+  position:absolute;
+  inset:3px 0 0;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#8ec778,#4e8d51 68%);
+  box-shadow:8px 3px 0 -2px #5f9f5e,-7px 4px 0 -2px #72af68
+}
+.prop-rock:before{
+  content:"";
+  position:absolute;
+  left:2px;
+  top:6px;
+  width:19px;
+  height:13px;
+  background:#7f8a8b;
+  clip-path:polygon(20% 100%,0 58%,34% 0,74% 22%,100% 100%)
+}
+.prop-flowers:before{
+  content:"✿ ✿";
+  position:absolute;
+  left:-1px;
+  top:0;
+  color:#f3d55e;
+  font-size:13px;
+  text-shadow:8px 5px #f09aa7
+}
+
+/* Reduce legacy spoke styling if old CSS remains in cascade. */
+.townRoad{display:none!important}
+
+/* District art sits above pads but below labels/buildings. */
+.districtDecor{z-index:14}
+
+/* Slight vegetation trim so paths stay legible. */
+.grove1{left:6%;top:49%}
+.grove2{right:3%;top:58%}
+
+@media(max-width:900px){
+  .roadBridge{transform-origin:center}
+  .districtGround{opacity:.86}
+  .roadProp{opacity:.78}
+}
+@media(prefers-reduced-motion:reduce){
+  .selectedRoad .roadHighlight{transition:none}
+}
