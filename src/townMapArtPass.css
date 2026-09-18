@@ -1,0 +1,99 @@
+/* Anchor landmark art pass: establish a cohesive illustrated world language */
+
+/* Center becomes civic punctuation rather than the dominant object. */
+.townPlaza{width:12.8%;left:49%;top:56%;opacity:.9}
+.townFountain{transform:scale(.7)}
+.townPlaza b{font-size:5.8px;top:80%;padding:3px 7px}
+.townBridge{left:50.5%;top:69.5%;width:21%;height:6.4%;opacity:.92}
+.townBridge b{font-size:5.7px}
+.bridgeLights{left:51.2%;top:69.6%;width:18.5%}
+
+/* Clearer terrain pads under anchor destinations. */
+.districtDecor{position:absolute;z-index:14;pointer-events:none}
+.districtDecor .districtPad{position:absolute;inset:auto;border-radius:48%;background:radial-gradient(ellipse,rgba(246,235,199,.9),rgba(213,193,149,.58) 58%,transparent 71%);filter:drop-shadow(0 6px 6px rgba(61,67,49,.12))}
+.districtNumbers{left:20.5%;top:33%;width:15%;height:18%}
+.districtNumbers .districtPad{left:0;right:0;bottom:0;height:49%}
+.countingStones{position:absolute;left:8%;bottom:11%;display:flex;gap:5px}
+.countingStones b{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#f3e7c8;border:2px solid #fff8e9;color:#486ba7;font-size:8px;box-shadow:0 3px 5px #0002}
+.numberRuler{position:absolute;left:18%;bottom:0;font-size:7px;font-weight:900;letter-spacing:2px;color:#50657c;background:rgba(255,255,255,.66);padding:3px 6px;border-radius:8px}
+
+.districtBuilders{left:36%;top:24%;width:17%;height:18%}
+.districtBuilders .districtPad{left:4%;right:1%;bottom:0;height:50%;background:radial-gradient(ellipse,rgba(190,153,111,.85),rgba(128,97,66,.38) 59%,transparent 72%)}
+.yardBeam{position:absolute;left:5%;bottom:12%;width:48px;height:7px;background:#725d49;box-shadow:0 8px 0 #8b704f,0 16px 0 #a4845c;transform:rotate(-6deg);border-radius:3px}
+.yardCrate{position:absolute;right:14%;bottom:11%;width:25px;height:22px;background:linear-gradient(135deg,#b98952,#8e6337);border:2px solid #e1b57d;box-shadow:inset 0 0 0 2px rgba(93,61,35,.2)}
+.yardCone{position:absolute;right:3%;bottom:8%;color:#f6a326;font-size:20px;text-shadow:0 3px 0 #ba6f12}
+
+.districtScience{left:63%;top:57%;width:16%;height:18%}
+.districtScience .districtPad{left:0;right:0;bottom:0;height:48%;background:radial-gradient(ellipse,rgba(201,231,226,.92),rgba(118,176,176,.36) 58%,transparent 72%)}
+.scienceProp{position:absolute;bottom:11%;width:18px;height:30px;border-radius:6px 6px 12px 12px;border:3px solid #ecfbff;background:linear-gradient(transparent 36%,#77dac1 37%);box-shadow:0 4px 8px #0002}.scienceProp.p1{left:9%}.scienceProp.p2{left:29%;height:38px;background:linear-gradient(transparent 36%,#91a5ef 37%)}
+.scienceWind{position:absolute;right:10%;bottom:9%;font-size:35px;color:#e8f8ff;text-shadow:0 0 0 #506e7c;animation:scienceSpin 6s linear infinite}
+
+.districtObservatory{right:4%;top:10%;width:17%;height:17%}
+.districtObservatory .districtPad.ridge{left:0;right:0;bottom:0;height:58%;background:radial-gradient(ellipse,rgba(150,162,175,.7),rgba(92,104,118,.33) 55%,transparent 72%)}
+.ridgeRock{position:absolute;bottom:12%;background:#7f8a93;clip-path:polygon(50% 0,100% 100%,0 100%)}.ridgeRock.r1{left:7%;width:28px;height:24px}.ridgeRock.r2{right:8%;width:36px;height:31px;background:#6f7a85}
+.ridgeStars{position:absolute;right:17%;top:2%;font-size:13px;color:#fff7b7;text-shadow:0 0 10px #fff}
+
+/* Numbers Lab — taller, friendlier, unmistakably mathematical. */
+.art-numbers{width:145px;height:125px}
+.art-numbers .isoBase{left:11px;right:3px}
+.art-numbers .isoFront{left:26px;right:14px;bottom:14px;height:69px;border-radius:8px;background:linear-gradient(90deg,#4f73bc,#79a9e7 58%,#5c84ca);box-shadow:inset -13px 0 rgba(34,66,121,.16),inset 0 7px rgba(255,255,255,.18)}
+.art-numbers .isoSide{right:3px;width:34px;height:65px;background:linear-gradient(90deg,#496aa4,#36527f)}
+.art-numbers .isoRoof{left:17px;top:16px;width:110px;height:41px;background:linear-gradient(135deg,#31567f,#1e3e67)}
+.art-numbers .numberTower{left:1px;bottom:13px;width:30px;height:69px;border-radius:7px;background:linear-gradient(#fef4cf,#efd788);border:3px solid #fff5db;color:#4967a3;font-size:9px;font-weight:1000;line-height:18px;text-align:center;padding-top:6px;box-shadow:0 8px 10px #0002}
+.art-numbers .abacus{right:-8px;bottom:17px;width:31px;height:34px;border:4px solid #eed79f;border-radius:5px;background:#fff7e0;display:grid;gap:3px;padding:4px}
+.art-numbers .abacus b{display:block;height:3px;border-radius:5px;background:linear-gradient(90deg,#ed7061 0 28%,#f5ca52 28% 58%,#6e9fd6 58% 100%)}
+
+/* Builders' Yard — open industrial silhouette, crane and material storage. */
+.art-builders{width:150px;height:132px}
+.art-builders .isoFront{left:30px;right:10px;bottom:14px;height:60px;background:linear-gradient(90deg,#ab633e,#d8925b 58%,#b86d43);border-radius:3px 8px 7px 7px}
+.art-builders .isoRoof{left:25px;top:27px;width:111px;height:31px;background:#405b66;clip-path:polygon(0 25%,82% 0,100% 40%,88% 100%,4% 100%)}
+.cranePole{left:5px;top:-19px;height:91px;width:7px}
+.craneArm{left:8px;top:-19px;width:98px;height:7px}
+.craneHook{left:92px;top:-13px;height:50px}
+.craneCab{left:11px;top:1px;width:27px;height:22px;background:linear-gradient(135deg,#f5c24a,#c88b1e);border:3px solid #ffe89a;clip-path:polygon(0 0,100% 0,82% 100%,0 100%)}
+.scaffold{right:-6px;bottom:18px;width:34px;height:49px;border:3px solid #5c6a6d;background:repeating-linear-gradient(90deg,transparent 0 8px,#748286 8px 10px)}
+.scaffold b{display:block;height:3px;background:#5f6d70;margin-top:10px}
+.beamStack{left:6px;bottom:11px;width:45px;height:8px;background:#62737a;box-shadow:0 9px 0 #7c8c91,0 18px 0 #53646c;transform:skewX(-13deg)}
+
+/* Science Studio — dome + coil reads as a real experiment destination. */
+.art-science{width:150px;height:126px}
+.art-science .isoFront{left:28px;right:14px;bottom:14px;height:64px;background:linear-gradient(90deg,#46718f,#76a7c5 58%,#557f9b)}
+.art-science .isoRoof{left:20px;top:22px;width:114px;height:35px;background:linear-gradient(135deg,#2f5063,#436f84)}
+.scienceDome{left:45px;top:-3px;width:64px;height:37px;border-radius:64px 64px 8px 8px;background:radial-gradient(circle at 38% 30%,#ecfbff,#8fc6d8 58%,#517d91);border:4px solid #dff7ff}
+.energyCoil{right:-6px;bottom:19px;width:34px;height:48px;border-radius:10px;background:#effaff;border:3px solid #d2f0f8;display:grid;align-content:center;gap:4px;padding:4px;box-shadow:0 7px 10px #0002}
+.energyCoil b{height:4px;border-radius:999px;background:linear-gradient(90deg,#7ee7d1,#9a8bf2);box-shadow:0 0 6px rgba(115,218,226,.7)}
+.weatherVane{left:20px;top:-3px;width:4px;height:34px;background:#5d737e}.weatherVane:before{content:"";position:absolute;top:3px;left:-11px;width:25px;height:5px;background:#daeaf0;border-radius:8px;transform:rotate(18deg)}
+
+/* Observatory — premium skyline object, no generic house read. */
+.art-observatory{width:158px;height:132px}
+.art-observatory .isoFront{left:31px;right:18px;bottom:14px;height:62px;background:linear-gradient(90deg,#d6d8d7,#f2f1ea 58%,#b7bec4)}
+.art-observatory .isoSide{right:4px;height:60px;background:linear-gradient(90deg,#9ca7b0,#778694)}
+.art-observatory .observatoryDome{left:32px;top:0;width:95px;height:57px;border-radius:95px 95px 10px 10px;background:radial-gradient(circle at 36% 28%,#fbfdff,#b9c6d0 56%,#7f909e);border:4px solid #edf5fa;box-shadow:inset 0 -8px #748795}
+.observatorySlit{left:76px;top:1px;width:13px;height:56px;background:linear-gradient(#26384a,#63798a);clip-path:polygon(22% 0,78% 0,100% 100%,0 100%)}
+.telescope{left:82px;top:1px;width:63px;height:14px;transform:rotate(-25deg);background:linear-gradient(90deg,#243a50,#708fa8);border:3px solid #d2dde5}
+.telescopeStand{left:85px;top:24px;width:6px;height:42px;background:#586b79;transform:rotate(10deg);transform-origin:top}
+.starMarker{position:absolute;color:#fff2a6;text-shadow:0 0 12px #fff;font-style:normal}.starMarker.sA{right:-4px;top:16px;font-size:17px;animation:starPulse 1.8s ease-in-out infinite alternate}.starMarker.sB{right:12px;top:-6px;font-size:20px}
+
+/* Anchor landmark labels can be slightly stronger because silhouettes now carry meaning. */
+.townLandmark.numbers .townLabel,.townLandmark.builders .townLabel,.townLandmark.science .townLabel,.townLandmark.observatory .townLabel{background:rgba(34,49,66,.87)}
+
+/* More natural vegetation punctuation around the map. */
+.townMapCanvas:before{
+  background:
+    radial-gradient(ellipse at 11% 73%,#5f9c61 0 12%,transparent 13%),
+    radial-gradient(ellipse at 25% 40%,#6dab68 0 16%,transparent 17%),
+    radial-gradient(ellipse at 76% 31%,#72b46c 0 17%,transparent 18%),
+    radial-gradient(ellipse at 53% 72%,#7abb71 0 30%,transparent 31%),
+    radial-gradient(circle at 35% 62%,rgba(91,155,82,.52) 0 5%,transparent 5.5%),
+    radial-gradient(circle at 83% 63%,rgba(87,149,80,.46) 0 6%,transparent 6.5%),
+    linear-gradient(#9acb89,#70ae67)
+}
+@keyframes scienceSpin{to{transform:rotate(360deg)}}
+
+@media(max-width:900px){
+  .districtDecor{opacity:.8}
+  .art-numbers,.art-builders,.art-science,.art-observatory{transform-origin:50% 100%}
+}
+@media(prefers-reduced-motion:reduce){
+  .scienceWind{animation:none!important}
+}
