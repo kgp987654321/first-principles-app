@@ -5,7 +5,11 @@ export const worldBuildings = [
   {id:'lab',name:'Measurement Lab',emoji:'🧪',cost:150,requires:['pour-three-fourths'],description:'Where fractions become real measurements.'},
   {id:'transit',name:'Number Line Transit',emoji:'🚉',cost:170,requires:['launch-negative-two'],description:'Unlocked by understanding positive and negative direction.'},
   {id:'architect',name:'Architecture Studio',emoji:'🏛️',cost:190,requires:['fold-one-hole'],description:'Spatial reasoning and symmetry made visible.'},
-  {id:'observatory',name:'Sky Observatory',emoji:'🔭',cost:240,requires:['fold-two-folds','launch-positive-three'],description:'A landmark for multi-step spatial and quantitative reasoning.'}
+  {id:'observatory',name:'Sky Observatory',emoji:'🔭',cost:240,requires:['fold-two-folds','launch-positive-three'],description:'A landmark for multi-step spatial and quantitative reasoning.'},
+  {id:'market',name:'Market Square',emoji:'🛍️',cost:220,requires:['unit-price'],description:'Compare rates, prices, and quantities to run the town market.'},
+  {id:'bridge',name:'Bridge Works',emoji:'🌉',cost:280,requires:['bridge-torque'],description:'Use forces, balance, and structure to connect new parts of town.'},
+  {id:'carnival',name:'Logic Carnival',emoji:'🎡',cost:300,requires:['carnival-mission'],description:'Probability, combinations, and logic power the games.'},
+  {id:'spaceport',name:'Valley Spaceport',emoji:'🚀',cost:360,requires:['spaceport-mission'],description:'The final district for vectors, gravity, orbits, and exploration.'}
 ];
 
 export const worldLots = Array.from({length:12},(_,i)=>i);
