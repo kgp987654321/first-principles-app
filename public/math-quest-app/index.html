@@ -1015,10 +1015,11 @@
         const b=document.createElement("button");b.className="foodChoice";b.textContent=item.icon+" "+item.name;b.addEventListener("click",()=>restaurantChoice(item===o));choices.appendChild(b);
       });
     }else{
-      $("#stationPrompt").textContent="The total is $"+o.price+". Take the correct payment.";
-      const amounts=[o.price,o.price+1,Math.max(1,o.price-1),o.price+2].sort(()=>Math.random()-.5);
+      const tender=10,change=tender-o.price;
+      $("#stationPrompt").textContent="The customer gave you $"+tender+" for a $"+o.price+" meal. What is the change?";
+      const amounts=[change,change+1,change-1,change+2].sort(()=>Math.random()-.5);
       amounts.forEach(amount=>{
-        const b=document.createElement("button");b.className="payChoice";b.textContent="💵 $"+amount;b.addEventListener("click",()=>restaurantChoice(amount===o.price));choices.appendChild(b);
+        const b=document.createElement("button");b.className="payChoice";b.textContent="💵 $"+amount;b.addEventListener("click",()=>restaurantChoice(amount===change));choices.appendChild(b);
       });
     }
     updateRestaurantHUD();
