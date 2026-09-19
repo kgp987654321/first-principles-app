@@ -131,7 +131,7 @@ function CliffsLaunch({onClose,onGoTo}){
     <div className="microPrompt"><b>{level.name}:</b> {level.goal} Grab the blue ball, pull it back like a slingshot, and release.</div>
     <div className="angryLaunchGame">
       <div className="angryLaunchStage">
-        <svg ref={svgRef} viewBox="0 0 420 210" aria-label={'Slingshot launch at '+angle+' degrees and '+power+' percent force}>
+        <svg ref={svgRef} viewBox="0 0 420 210" aria-label={'Slingshot launch at '+angle+' degrees and '+power+' percent force'}>
           <defs><linearGradient id="cliffSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#b9e8ff"/><stop offset="1" stopColor="#eefbd6"/></linearGradient></defs>
           <rect width="420" height="210" fill="url(#cliffSky)"/>
           <circle cx="350" cy="35" r="20" className="angrySun"/>
