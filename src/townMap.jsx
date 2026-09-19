@@ -22,7 +22,8 @@ const destinationConcepts={
   think:['mystery-machine','build-function-rule','reverse-machine','multi-step-rule','analogy-machine','logic-switches','systems-mission'],
   science:['race-rate','speed-track','vector-spaceship','momentum-crash','roller-energy','gravity-worlds','change-graph'],
   garden:['match-one-half','match-three-fourths','system-recipe-4-3','deal-hidden-unit','equivalence-five-eighths'],
-  observatory:['vector-spaceship','gravity-worlds','orbit-puzzle','spaceport-mission']
+  observatory:['vector-spaceship','gravity-worlds','orbit-puzzle','spaceport-mission'],
+  sports:['race-rate','speed-track','vector-spaceship','momentum-crash','slope-mountain','probability-bag','change-graph']
 };
 
 const destinations=[
@@ -33,7 +34,8 @@ const destinations=[
   {id:'think',name:'The Think Tank',emoji:'🧠',x:82,y:45,buildingId:'think',interior:true,core:true,min:0,topic:'Logic · analogy · flexible reasoning',blurb:'Enter the puzzle lounge to solve analogies, classifications, constraints, and multi-step logic.'},
   {id:'science',name:'Science Studio',emoji:'🧪',x:70,y:64.5,buildingId:'lab',entry:'lab',core:true,min:0,topic:'Forces · motion · energy',blurb:'Use experiments to discover measurement, motion, change, and physical relationships.'},
   {id:'garden',name:'The Garden',emoji:'🌱',x:88.5,y:66.5,buildingId:'clinic',entry:'clinic',micro:'gardenlab',core:true,min:0,topic:'Grow your ideas',blurb:'Apply number sense, sorting, comparison, and patterns in living systems.'},
-  {id:'observatory',name:'The Observatory',emoji:'🔭',x:88,y:23,buildingId:'observatory',interior:true,micro:'observatorylab',min:10,topic:'Patterns beyond',blurb:'A high-level destination for multi-step reasoning, space, scale, and prediction.'}
+  {id:'observatory',name:'The Observatory',emoji:'🔭',x:88,y:23,buildingId:'observatory',interior:true,micro:'observatorylab',min:10,topic:'Patterns beyond',blurb:'A high-level destination for multi-step reasoning, space, scale, and prediction.'},
+  {id:'sports',name:'Athletics Park',emoji:'⚾',x:55,y:82,entry:'sports',core:true,min:0,topic:'Angles · force · rates · data',blurb:'Play baseball, basketball, soccer, track, football, golf, and hockey while exploring the math and physics inside sports.'}
 ];
 
 function destinationState(d,completedLessons,world,mastery){
