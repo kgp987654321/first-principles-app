@@ -202,7 +202,7 @@ function GardenRatio({onClose,onGoTo}){
   const correct=6;
   const solved=answer===correct;
   const flowers=n=>Array.from({length:n},(_,i)=><i key={i}>✿</i>);
-  return <Frame icon="🌱" title="Garden Ratio Beds" kicker="SCALE A PATTERN" takeaway={solved?'Doubling 2 sunflowers to 4 means doubling 3 daisies to 6. The 2:3 ratio stays the same.':'When one part of a ratio scales, the other part must scale by the same factor.'} discovered={solved} onClose={onClose} onGoTo={onGoTo} goLabel="Enter The Garden">
+  return <Frame icon="🌱" title="Garden Ratio Beds" kicker="SCALE A PATTERN" takeaway={solved?'Doubling 2 sunflowers to 4 means doubling 3 daisies to 6. The 2:3 ratio stays the same.':'When one part of a ratio scales, the other part must scale by the same factor.'} discovered={solved} onClose={onClose} onGoTo={onGoTo} goLabel="Enter Learning Greenhouse">
     <div className="microPrompt">The first bed has 2 sunflowers for every 3 daisies. The second bed has 4 sunflowers. How many daisies keep the same ratio?</div>
     <div className="gardenRatioScene">
       <div className="ratioBed">
