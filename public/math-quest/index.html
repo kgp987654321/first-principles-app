@@ -55,13 +55,27 @@
     .strategyDot{width:11px;height:11px;border-radius:50%;background:#d9ddea}.strategyDot.on{background:var(--purple)}
     .factVisual{padding:18px;text-align:center}.factQuestion{font-size:2.3rem;font-weight:950;margin:10px 0}.factInput{width:min(220px,100%);height:56px;border:2px solid var(--line);border-radius:14px;text-align:center;font-size:1.5rem;font-weight:900;outline:none}
     .factInput:focus{border-color:var(--purple)}.array{display:grid;gap:4px;justify-content:center;margin:14px auto}.dot{width:15px;height:15px;border-radius:50%;background:var(--blue)}
+    .divisionBoard{margin:14px auto 16px;max-width:520px}
+    .divisionPrompt{font-size:.86rem;color:var(--muted);font-weight:800;margin-bottom:10px}
+    .groupGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    .groupBox{min-height:78px;border:1px solid var(--line);border-radius:14px;background:#fbfaff;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+    .groupLabel{font-size:.68rem;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+    .gemDots{display:grid;grid-template-columns:repeat(4,8px);gap:4px;justify-content:center}
+    .gemDot{width:8px;height:8px;border-radius:3px;background:linear-gradient(145deg,#65c9ff,#4c7dff);transform:rotate(45deg)}
+    .divisionEquation{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px auto}
+    .eqTile{min-width:64px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;font-weight:900;font-size:1.05rem}
+    .arrayWrap{display:flex;justify-content:center;margin:12px auto}.divisionArray{display:grid;gap:5px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fbfaff}
+    .arrayGem{width:12px;height:12px;border-radius:4px;background:linear-gradient(145deg,#65c9ff,#4c7dff);transform:rotate(45deg)}
+    .jumpLine{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:14px auto;max-width:540px}
+    .jumpNum{padding:7px 9px;border:1px solid var(--line);border-radius:10px;background:#fff;font-weight:900}.jumpArrow{color:var(--purple);font-weight:900}
+    .divisionKey{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px}.divisionKey span{font-size:.76rem;color:var(--muted);font-weight:800}
     .missionFooter{margin-top:16px;background:#25324a;color:white;border-radius:18px;padding:15px;display:flex;justify-content:space-between;align-items:center;gap:12px}.missionFooter small{color:#cbd4e4}.missionFooter b{display:block}
     .quizChoices{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.choice{border:1px solid var(--line);background:white;border-radius:14px;padding:13px;font-size:1.05rem;font-weight:900}.choice:hover{border-color:var(--purple)}
     .summary{display:none}.summary.show{display:block}.summaryGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.summaryStat{border:1px solid var(--line);border-radius:15px;padding:14px;text-align:center}.summaryStat b{font-size:1.5rem;display:block}
     .habitList{display:grid;gap:8px;margin-top:12px}.habit{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:10px 12px}.habit span:last-child{font-weight:900}
     .hidden{display:none!important}.tiny{font-size:.78rem;color:var(--muted)}
     @media(max-width:760px){.gameGrid{grid-template-columns:1fr 1fr}.workspace{grid-template-columns:1fr}.placeGrid{grid-template-columns:56px repeat(3,minmax(48px,1fr))}.summaryGrid{grid-template-columns:1fr 1fr}}
-    @media(max-width:430px){.app{padding:12px 10px 44px}.hero,.card{padding:15px}.gameGrid{gap:8px}.gameCard{min-height:116px;padding:11px}.placeGrid{grid-template-columns:50px repeat(3,minmax(44px,1fr));gap:5px}.numBox,.digit{height:50px;font-size:1.35rem}.quizChoices{grid-template-columns:1fr}.topbar .pill{display:none}}
+    @media(max-width:430px){.app{padding:12px 10px 44px}.hero,.card{padding:15px}.gameGrid{gap:8px}.gameCard{min-height:116px;padding:11px}.placeGrid{grid-template-columns:50px repeat(3,minmax(44px,1fr));gap:5px}.numBox,.digit{height:50px;font-size:1.35rem}.quizChoices{grid-template-columns:1fr}.topbar .pill{display:none}.groupGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.groupBox{min-height:70px;padding:7px}.gemDots{grid-template-columns:repeat(4,7px);gap:3px}.gemDot{width:7px;height:7px}}
   </style>
 </head>
 <body>
@@ -211,12 +225,14 @@
        steps:["Find half of one factor when possible.","Solve the easier fact.","Double the result."]}
     ],
     divide:[
-      {name:"Equal groups",intro:"Division asks how many are in each equal group.",
-       steps:["Start with the total.","Make the requested number of equal groups.","Count how many land in each group."]},
-      {name:"Fact family",intro:"Turn division into a multiplication question.",
-       steps:["Rewrite it as divisor × ? = total.","Recall the multiplication fact.","Use the missing factor as the quotient."]},
-      {name:"Repeated subtraction",intro:"Keep taking away equal groups until you reach zero.",
-       steps:["Subtract the divisor once.","Repeat the same jump.","Count how many jumps you made."]}
+      {name:"Share into equal groups",intro:"Split the total into a small set of equal boxes instead of one long list.",
+       steps:["Make one box for each group.","Share the gems evenly across the boxes.","Count the gems in one box."]},
+      {name:"Build an array",intro:"Arrange the total in equal rows and connect division to multiplication.",
+       steps:["Use one row for each group.","Keep the same number of gems in every row.","The row length is the quotient."]},
+      {name:"Fact family",intro:"Turn the division problem into a multiplication fact you know.",
+       steps:["Ask: divisor × ? = total.","Find the missing factor.","That missing factor is the quotient."]},
+      {name:"Number jumps",intro:"Subtract one equal group at a time and count the jumps.",
+       steps:["Start at the total.","Jump backward by the divisor.","The number of jumps to zero is the quotient."]}
     ]
   };
 
@@ -278,8 +294,49 @@
     if(state.mode==="multiply" && state.strategy===0){
       const p=state.problem,grid=document.createElement("div");grid.className="array";grid.style.gridTemplateColumns="repeat("+p.b+",15px)";
       for(let i=0;i<p.answer;i++){const d=document.createElement("span");d.className="dot";grid.appendChild(d)}holder.appendChild(grid);
-    }else if(state.mode==="divide" && state.strategy===0){
-      const p=state.problem;holder.innerHTML='<div class="tiny">Picture '+p.a+' gems shared into '+p.b+' equal groups.</div><div style="font-size:1.5rem;letter-spacing:4px;margin-top:9px">💎 '.repeat(Math.min(p.a,20))+'</div>';
+      return;
+    }
+    if(state.mode!=="divide")return;
+    const p=state.problem;
+    if(state.strategy===0){
+      const board=document.createElement("div");board.className="divisionBoard";
+      board.innerHTML='<div class="divisionPrompt">Share '+p.a+' gems into '+p.b+' equal groups. How many belong in each group?</div>';
+      const groups=document.createElement("div");groups.className="groupGrid";
+      for(let g=0;g<p.b;g++){
+        const box=document.createElement("div");box.className="groupBox";
+        const label=document.createElement("div");label.className="groupLabel";label.textContent="Group "+(g+1);
+        const dots=document.createElement("div");dots.className="gemDots";
+        for(let i=0;i<p.answer;i++){const gem=document.createElement("span");gem.className="gemDot";dots.appendChild(gem)}
+        box.appendChild(label);box.appendChild(dots);groups.appendChild(box);
+      }
+      board.appendChild(groups);
+      const key=document.createElement("div");key.className="divisionKey";key.innerHTML='<span>'+p.b+' equal groups</span><span>•</span><span>Count one box</span>';
+      board.appendChild(key);holder.appendChild(board);
+    }else if(state.strategy===1){
+      const wrap=document.createElement("div");wrap.className="divisionBoard";
+      wrap.innerHTML='<div class="divisionPrompt">The same '+p.a+' gems can form '+p.b+' equal rows.</div>';
+      const aw=document.createElement("div");aw.className="arrayWrap";
+      const grid=document.createElement("div");grid.className="divisionArray";grid.style.gridTemplateColumns="repeat("+p.answer+",12px)";
+      for(let i=0;i<p.a;i++){const gem=document.createElement("span");gem.className="arrayGem";grid.appendChild(gem)}
+      aw.appendChild(grid);wrap.appendChild(aw);
+      const key=document.createElement("div");key.className="divisionKey";key.innerHTML='<span>'+p.b+' rows</span><span>×</span><span>? in each row</span><span>=</span><span>'+p.a+'</span>';
+      wrap.appendChild(key);holder.appendChild(wrap);
+    }else if(state.strategy===2){
+      const board=document.createElement("div");board.className="divisionBoard";
+      board.innerHTML='<div class="divisionPrompt">Use the multiplication fact that matches this division problem.</div><div class="divisionEquation"><div class="eqTile">'+p.b+' × ?</div><strong>=</strong><div class="eqTile">'+p.a+'</div></div><div class="divisionEquation"><div class="eqTile">'+p.a+' ÷ '+p.b+'</div><strong>=</strong><div class="eqTile">?</div></div>';
+      holder.appendChild(board);
+    }else{
+      const board=document.createElement("div");board.className="divisionBoard";
+      board.innerHTML='<div class="divisionPrompt">Jump backward by '+p.b+' until you reach 0. Count the jumps.</div>';
+      const line=document.createElement("div");line.className="jumpLine";
+      let n=p.a,jumps=0;
+      while(n>=0 && jumps<=p.answer){
+        const tile=document.createElement("span");tile.className="jumpNum";tile.textContent=n;line.appendChild(tile);
+        if(n===0)break;
+        const arrow=document.createElement("span");arrow.className="jumpArrow";arrow.textContent="←";
+        line.appendChild(arrow);n-=p.b;jumps++;
+      }
+      board.appendChild(line);holder.appendChild(board);
     }
   }
 
