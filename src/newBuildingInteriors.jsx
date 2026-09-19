@@ -73,148 +73,119 @@ const rulerJobs=[
   {id:'two-inch',label:'4 pieces from 2 inches',length:2,pieces:4,cuts:[.5,1,1.5],prompt:'You have a 2-inch board. Tap the board at the 3 places that make 4 equal pieces.',result:'A 2-inch board split into 4 equal pieces makes four 1/2-inch pieces.'}
 ];
 const sameCuts=(a,b)=>a.length===b.length&&b.every(x=>a.some(y=>Math.abs(x-y)<.001));
-function CarpentryRulerBench(){
-  const[jobIndex,setJobIndex]=useState(0),[cuts,setCuts]=useState([]),[note,setNote]=useState('Start by tapping a cut point directly on the board.'),[showHint,setShowHint]=useState(false);
-  const job=rulerJobs[jobIndex];
-  const step=.25;
-  const ticks=Array.from({length:Math.round(job.length/step)+1},(_,i)=>i*step);
-  const possibleCuts=ticks.filter(v=>v>0&&v<job.length);
-  const toggle=value=>{
-    setCuts(v=>v.some(x=>Math.abs(x-value)<.001)?v.filter(x=>Math.abs(x-value)>=.001):[...v,value].sort((a,b)=>a-b));
-    setShowHint(false);
-    setNote('Good — now look at the piece sizes. Are they equal?');
-  };
+
+function CarpentryRulerBench({onComplete,onStep}){
+  const[jobIndex,setJobIndex]=useState(0),[cuts,setCuts]=useState([]),[note,setNote]=useState('Start by tapping a cut point directly on the board.'),[showHint,setShowHint]=useState(false),[solved,setSolved]=useState([]);
+  const job=rulerJobs[jobIndex],step=.25,ticks=Array.from({length:Math.round(job.length/step)+1},(_,i)=>i*step),possibleCuts=ticks.filter(v=>v>0&&v<job.length);
+  const toggle=value=>{setCuts(v=>v.some(x=>Math.abs(x-value)<.001)?v.filter(x=>Math.abs(x-value)>=.001):[...v,value].sort((a,b)=>a-b));setShowHint(false);setNote('Good — now compare the piece sizes.')};
   const correct=sameCuts(cuts,job.cuts);
-  const chooseJob=i=>{setJobIndex(i);setCuts([]);setShowHint(false);setNote('Start by tapping a cut point directly on the board.')};
-  const check=()=>setNote(correct?'Nice work! '+job.result:'Not quite equal yet. Compare the piece lengths and move your cut marks.');
-  const fractionLabel=v=>{
-    const rounded=Math.round(v*4)/4;
-    if(rounded===.25)return '1/4"';
-    if(rounded===.5)return '1/2"';
-    if(rounded===.75)return '3/4"';
-    if(rounded===1)return '1"';
-    if(rounded===1.25)return '1 1/4"';
-    if(rounded===1.5)return '1 1/2"';
-    if(rounded===1.75)return '1 3/4"';
-    if(rounded===2)return '2"';
-    return rounded+'"';
+  const chooseJob=i=>{setJobIndex(i);setCuts([]);setShowHint(false);setNote(solved.includes(rulerJobs[i].id)?'This cut is already verified. Try it again or choose another.':'Tap the board where the equal cuts belong.');onStep?.(i)};
+  const check=()=>{
+    if(!correct){setNote('Not quite equal yet. Compare the piece lengths and move your cut marks.');return}
+    const nextSolved=solved.includes(job.id)?solved:[...solved,job.id];setSolved(nextSolved);setNote('✓ '+job.result);
+    onStep?.(Math.min(2,nextSolved.length));
+    if(nextSolved.length===rulerJobs.length)onComplete?.('All three cut jobs are correct — halves, quarters, and equivalent lengths are verified.');
+    else{const next=rulerJobs.findIndex(x=>!nextSolved.includes(x.id));setTimeout(()=>chooseJob(next),450)}
   };
-  const boundaries=[0,...cuts,job.length];
-  const segments=boundaries.slice(0,-1).map((start,i)=>({start,end:boundaries[i+1],size:boundaries[i+1]-start}));
-  return <section className="carpentryRulerBench intuitiveBench">
-    <div className="carpentryToolHead">
-      <div><small>WOODSHOP TOOL</small><h3>Cut the Board</h3><p>{job.prompt}</p></div>
-      <div className="cutGoal"><small>GOAL</small><strong>{job.pieces} equal pieces</strong><span>from {job.length}"</span></div>
-    </div>
-
-    <div className="woodshopSteps" aria-label="How to use the ruler bench">
-      <span className="done"><b>1</b> Choose a job</span>
-      <span className={cuts.length?'done':'active'}><b>2</b> Tap cut points</span>
-      <span className={correct?'done':cuts.length?'active':''}><b>3</b> Check the pieces</span>
-    </div>
-
-    <div className="rulerJobTabs">{rulerJobs.map((x,i)=><button key={x.id} className={i===jobIndex?'active':''} onClick={()=>chooseJob(i)}>{x.label}</button>)}</div>
-
-    <div className="rulerBenchSurface simpleRulerSurface">
-      <div className="boardInstruction">👇 Tap a dashed line to make a cut</div>
-
-      <div className="boardAndRuler">
-        <div className="woodBoard interactiveBoard">
-          <span className="grain g1"/><span className="grain g2"/><span className="grain g3"/>
-          {possibleCuts.map(v=>{
-            const selected=cuts.some(x=>Math.abs(x-v)<.001);
-            const target=job.cuts.some(x=>Math.abs(x-v)<.001);
-            return <button
-              key={v}
-              className={'boardCutTarget '+(selected?'selected ':'')+(showHint&&target?'hint ':'')}
-              style={{left:(v/job.length*100)+'%'}}
-              onClick={()=>toggle(v)}
-              aria-label={'Cut at '+fractionLabel(v)}
-            >
-              <i/><span>{fractionLabel(v)}</span>
-            </button>;
-          })}
-        </div>
-
-        <div className="alignedRuler">
-          {ticks.map(v=><span key={v} className={Number.isInteger(v)?'whole':Math.abs((v*2)%1)<.01?'half':'quarter'} style={{left:(v/job.length*100)+'%'}}><i/><b>{fractionLabel(v)}</b></span>)}
-        </div>
-      </div>
-
-      <div className="pieceResultArea">
-        <small>YOUR PIECES</small>
-        <div className="pieceSegments">
-          {segments.map((seg,i)=><span key={i} style={{flex:seg.size}}>
-            <b>{fractionLabel(seg.size)}</b>
-          </span>)}
-        </div>
-        <div className="pieceSummary">
-          <strong>{segments.length} piece{segments.length===1?'':'s'}</strong>
-          <span>{correct?'All equal ✓':'Try to make every piece the same length.'}</span>
-        </div>
-      </div>
-    </div>
-
-    <div className={'fractionDiscovery '+(correct?'revealed':'')}>
-      {correct?<><div className="fractionDiscoveryTitle">✨ What did you discover?</div>
-        {job.id==='half'&&<div className="fractionBlocks"><span><i/><i/></span><b>2 halves = 1 whole</b></div>}
-        {job.id==='quarters'&&<><div className="fractionBlocks quarters"><span><i/><i/><i/><i/></span><b>4 quarters = 1 whole</b></div><div className="fractionBlocks halves"><span><i/><i/></span><b>2 quarters = 1/2 inch</b></div></>}
-        {job.id==='two-inch'&&<div className="fractionBlocks quarters"><span><i/><i/><i/><i/></span><b>4 × 1/2" = 2"</b></div>}
-      </>:<><div className="fractionDiscoveryTitle">What will the cuts make?</div><p>Once the pieces are equal, we’ll connect them to halves, quarters, and whole inches.</p></>}
-    </div>
-
-    <div className="carpentryActions guidedActions">
-      <button onClick={()=>{setCuts([]);setShowHint(false);setNote('Board reset. Tap the board where you want to cut.')}} disabled={!cuts.length}>↶ Reset</button>
-      <button className="showCutHint" onClick={()=>{setShowHint(true);setNote('Hint: the glowing dashed lines show equal cut positions.')}}>💡 Show me</button>
-      <button className="carpentryCheck" onClick={check}>Check my cuts</button>
-    </div>
-    <p className={'carpentryNote '+(correct?'success':'')}>{correct?'✓ ':''}{note}</p>
-  </section>;
+  const fractionLabel=v=>{const rounded=Math.round(v*4)/4;if(rounded===.25)return '1/4"';if(rounded===.5)return '1/2"';if(rounded===.75)return '3/4"';if(rounded===1)return '1"';if(rounded===1.25)return '1 1/4"';if(rounded===1.5)return '1 1/2"';if(rounded===1.75)return '1 3/4"';if(rounded===2)return '2"';return rounded+'"'};
+  const boundaries=[0,...cuts,job.length],segments=boundaries.slice(0,-1).map((start,i)=>({start,end:boundaries[i+1],size:boundaries[i+1]-start}));
+  return <section className="carpentryRulerBench intuitiveBench toolMission">
+    <div className="carpentryToolHead"><div><small>MISSION TOOL</small><h3>Cut the Board</h3><p>{job.prompt}</p></div><div className="cutGoal"><small>GOAL</small><strong>{job.pieces} equal pieces</strong><span>{solved.length}/3 jobs verified</span></div></div>
+    <div className="rulerJobTabs">{rulerJobs.map((x,i)=><button key={x.id} className={(i===jobIndex?'active ':'')+(solved.includes(x.id)?'done':'')} onClick={()=>chooseJob(i)}>{solved.includes(x.id)?'✓ ':''}{x.label}</button>)}</div>
+    <div className="rulerBenchSurface simpleRulerSurface"><div className="boardInstruction">👇 Tap a dashed line to make a cut</div><div className="boardAndRuler"><div className="woodBoard interactiveBoard"><span className="grain g1"/><span className="grain g2"/><span className="grain g3"/>{possibleCuts.map(v=>{const selected=cuts.some(x=>Math.abs(x-v)<.001),target=job.cuts.some(x=>Math.abs(x-v)<.001);return <button key={v} className={'boardCutTarget '+(selected?'selected ':'')+(showHint&&target?'hint ':'')} style={{left:(v/job.length*100)+'%'}} onClick={()=>toggle(v)}><i/><span>{fractionLabel(v)}</span></button>})}</div><div className="alignedRuler">{ticks.map(v=><span key={v} className={Number.isInteger(v)?'whole':Math.abs((v*2)%1)<.01?'half':'quarter'} style={{left:(v/job.length*100)+'%'}}><i/><b>{fractionLabel(v)}</b></span>)}</div></div><div className="pieceResultArea"><small>YOUR PIECES</small><div className="pieceSegments">{segments.map((seg,i)=><span key={i} style={{flex:seg.size}}><b>{fractionLabel(seg.size)}</b></span>)}</div><div className="pieceSummary"><strong>{segments.length} piece{segments.length===1?'':'s'}</strong><span>{correct?'All equal ✓':'Make every piece the same length.'}</span></div></div></div>
+    <div className="carpentryActions guidedActions"><button onClick={()=>{setCuts([]);setShowHint(false);setNote('Board reset.')}} disabled={!cuts.length}>↶ Reset</button><button className="showCutHint" onClick={()=>{setShowHint(true);setNote('The glowing lines mark equal cut positions.')}}>💡 Show me</button><button className="carpentryCheck" onClick={check}>Verify this cut</button></div><p className={'carpentryNote '+(correct?'success':'')}>{note}</p>
+  </section>
 }
 
-
-function SymmetryTrimBench(){
-  const[pos,setPos]=useState(null);
-  const correct=pos===2;
-  return <section className="symmetryTrimBench">
-    <div className="woodshopToolMiniHead"><small>WOODSHOP TOOL</small><h3>Mirror the Trim</h3><p>A cut sits 2 inches left of center. Tap where its matching cut belongs.</p></div>
-    <div className="symmetryFrame">
-      <div className="frameCenterLine"><span>CENTER</span></div>
-      <div className="fixedTrim left"><b>-2"</b></div>
-      {[1,2,3].map(v=><button key={v} className={pos===v?(v===2?'correct':'wrong'):''} style={{left:(50+v*13)+'%'}} onClick={()=>setPos(v)}><i/><span>+{v}"</span></button>)}
-    </div>
-    <p className={'toolMiniNote '+(correct?'success':'')}>{pos===null?'The matching piece should be the same distance from the center.':correct?'✓ Exactly — 2 inches left mirrors to 2 inches right.':'That distance does not mirror the left-side cut. Try the same distance on the right.'}</p>
-  </section>;
+function SymmetryTrimBench({onComplete,onStep}){
+  const[stage,setStage]=useState(0),[pos,setPos]=useState(null),[slats,setSlats]=useState(3),[brace,setBrace]=useState(null),[note,setNote]=useState('Mirror the first trim mark.');
+  const advance=()=>{
+    if(stage===0){if(pos!==2){setNote('The mirror mark must be the same distance from center.');return}setStage(1);onStep?.(1);setNote('Great. Now mirror the three slats onto both sides.');return}
+    if(stage===1){if(slats!==6){setNote('Three slats on each mirrored side makes six total.');return}setStage(2);onStep?.(2);setNote('Last check: which piece can live on the symmetry line itself?');return}
+    if(brace!=='center'){setNote('A piece exactly on the symmetry line mirrors onto itself.');return}
+    setNote('✓ Symmetrical frame verified.');onComplete?.('The trim marks, paired slats, and center brace all preserve mirror symmetry.');
+  };
+  return <section className="symmetryTrimBench toolMission"><div className="woodshopToolMiniHead"><small>MISSION TOOL · {stage+1}/3</small><h3>Build the Symmetrical Frame</h3><p>{stage===0?'Place the matching cut 2 inches from center.':stage===1?'Set the total number of slats for two mirrored sides.':'Choose the piece that can sit on the symmetry line.'}</p></div>
+    {stage===0&&<div className="symmetryFrame"><div className="frameCenterLine"><span>CENTER</span></div><div className="fixedTrim left"><b>-2"</b></div>{[1,2,3].map(v=><button key={v} className={pos===v?(v===2?'correct':'wrong'):''} style={{left:(50+v*13)+'%'}} onClick={()=>setPos(v)}><i/><span>+{v}"</span></button>)}</div>}
+    {stage===1&&<div className="slatMirrorTool"><div>{Array.from({length:3},(_,i)=><i key={'l'+i}/>)}</div><span className="mirrorAxis">MIRROR</span><div>{Array.from({length:Math.max(0,slats-3)},(_,i)=><i key={'r'+i}/>)}</div><label>Total slats <input type="range" min="3" max="9" value={slats} onChange={e=>setSlats(+e.target.value)}/><b>{slats}</b></label></div>}
+    {stage===2&&<div className="braceChoice"><button className={brace==='side'?'chosen':''} onClick={()=>setBrace('side')}>Side trim</button><button className={brace==='center'?'chosen correct':''} onClick={()=>setBrace('center')}>Center brace</button><button className={brace==='corner'?'chosen':''} onClick={()=>setBrace('corner')}>Corner block</button></div>}
+    <button className="toolMissionAction" onClick={advance}>{stage<2?'Lock it in →':'Finish frame ✓'}</button><p className="toolMiniNote">{note}</p></section>
 }
 
-function FrameScaleBench(){
-  const[factor,setFactor]=useState(2);
-  const width=3*factor,length=4*factor,area=width*length;
-  return <section className="frameScaleBench">
-    <div className="woodshopToolMiniHead"><small>WOODSHOP TOOL</small><h3>Scale the Frame</h3><p>Change the scale factor and watch every dimension change together.</p></div>
-    <div className="scaleFactorButtons">{[1,2,3].map(v=><button key={v} className={factor===v?'active':''} onClick={()=>setFactor(v)}>{v}× scale</button>)}</div>
-    <div className="frameScaleVisual">
-      <div className="scaleModelCard">
-        <small>MODEL</small>
-        <div className="frameGrid original"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div>
-        <b>3 × 4</b>
-        <span>area = 12</span>
-      </div>
-      <div className="scaleArrow">× {factor} →</div>
-      <div className="scaleModelCard result">
-        <small>BUILD</small>
-        <div className="frameGrid scaled" style={{width:(96+factor*22)+'px',height:(72+factor*18)+'px'}}/>
-        <b>{width} × {length}</b>
-        <span>area = {area}</span>
-      </div>
-    </div>
-    <div className="scaleRelationshipRow">
-      <span><small>WIDTH</small><b>3 → {width}</b></span>
-      <span><small>LENGTH</small><b>4 → {length}</b></span>
-      <span><small>AREA</small><b>12 → {area}</b></span>
-    </div>
-    <p className="toolMiniNote">{factor===2?'At 2× scale, every length doubles: 3 × 4 becomes 6 × 8. The area becomes 4× as large.':'Change the scale factor and watch all three relationships update together.'}</p>
-  </section>;
+function FrameScaleBench({onComplete,onStep}){
+  const[factor,setFactor]=useState(1),width=3*factor,length=4*factor,area=width*length,ready=factor===2;
+  useEffect(()=>{onStep?.(ready?2:0)},[ready]);
+  return <section className="frameScaleBench toolMission"><div className="woodshopToolMiniHead"><small>MISSION TOOL</small><h3>Scale the Workbench Frame</h3><p>Find the scale factor that makes every length double, then inspect what happens to area.</p></div><div className="scaleFactorButtons">{[1,2,3].map(v=><button key={v} className={factor===v?'active':''} onClick={()=>setFactor(v)}>{v}× scale</button>)}</div><div className="frameScaleVisual"><div className="scaleModelCard"><small>MODEL</small><div className="frameGrid original"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div><b>3 × 4</b><span>area = 12</span></div><div className="scaleArrow">× {factor} →</div><div className="scaleModelCard result"><small>BUILD</small><div className="frameGrid scaled" style={{width:(96+factor*22)+'px',height:(72+factor*18)+'px'}}/><b>{width} × {length}</b><span>area = {area}</span></div></div><div className="scaleRelationshipRow"><span className={width===6?'correct':''}><small>WIDTH</small><b>3 → {width}</b></span><span className={length===8?'correct':''}><small>LENGTH</small><b>4 → {length}</b></span><span className={area===48?'correct':''}><small>AREA</small><b>12 → {area}</b></span></div><button className="toolMissionAction" disabled={!ready} onClick={()=>onComplete?.('At 2× scale, every length doubles while area becomes four times as large.')}>{ready?'Use this 6 × 8 build ✓':'Find the double-scale build'}</button><p className="toolMiniNote">{ready?'All dimensions are correct: 6 × 8 with area 48.':'Change the scale factor and watch width, length, and area together.'}</p></section>
 }
 
-export function NewBuildingInterior({buildingId,onExit}){const building=BUILDINGS[buildingId],[missionIndex,setMissionIndex]=useState(0),[step,setStep]=useState(0),[message,setMessage]=useState('Choose an answer to start the mission.'),[completed,setCompleted]=useState(()=>load(buildingId)),[hintStep,setHintStep]=useState(0);const mission=building?.missions[missionIndex],current=mission?.steps[step],doneCount=Object.keys(completed).length;const progress=useMemo(()=>mission?Math.round(((step+(completed[mission.id]?1:0))/mission.steps.length)*100):0,[mission,step,completed]);useEffect(()=>{try{localStorage.setItem(key(buildingId),JSON.stringify(completed))}catch{}},[buildingId,completed]);if(!building)return null;const choose=(ok,explain)=>{setHintStep(0);if(!ok){setMessage('Not quite. Look at the relationship and try again.');return}if(step===mission.steps.length-1){setCompleted(v=>({...v,[mission.id]:true}));setMessage(`Mission complete! ${explain}`)}else{setMessage(explain);setTimeout(()=>{setStep(s=>s+1);setMessage('Nice. Use that idea on the next control.')},350)}};const selectMission=i=>{setMissionIndex(i);setStep(0);setHintStep(0);setMessage(completed[building.missions[i].id]?'You solved this mission already. Try it again or choose another.':'Choose an answer to start the mission.')};const help=()=>{const hints=current?.hints||[];const next=Math.min(hintStep,hints.length-1);if(hints.length){setMessage(`🛟 ${hints[next]}`);setHintStep(v=>Math.min(v+1,hints.length))}};return <div className={`newInterior ${buildingId}Interior`}><header className="interiorHeader"><div><small>MY WORLD · INTERIOR</small><h1>{building.emoji} {building.name}</h1><p>{building.tagline}</p></div><button onClick={onExit}>← Back outside</button></header><div className="interiorScene"><div className="interiorBackdrop">{building.scene}</div><div className="interiorCounter"><b>{doneCount}/{building.missions.length} missions complete</b><span>Your completed missions are saved when you leave.</span></div></div><div className="interiorLayout"><aside className="missionShelf"><small>CHOOSE A MISSION</small>{building.missions.map((m,i)=><button key={m.id} className={i===missionIndex?'active':''} onClick={()=>selectMission(i)}><span>{completed[m.id]?'✅':i+1}</span><div><b>{m.title}</b><small>{completed[m.id]?'Complete':'Ready'}</small></div></button>)}</aside><section className="missionWorkbench"><div className="workbenchTop"><div><small>MISSION {missionIndex+1}</small><h2>{mission.title}</h2><p>{mission.story}</p></div><div className="missionGauge"><strong>{progress}%</strong><span>complete</span></div></div><div className="controlTrack">{mission.steps.map((s,i)=><div key={s.label} className={`${i<step||completed[mission.id]?'done':''} ${i===step&&!completed[mission.id]?'active':''}`}><span>{i<step||completed[mission.id]?'✓':i+1}</span><b>{s.label}</b></div>)}</div>{buildingId==='architect'&&mission.id==='cuts'&&<CarpentryRulerBench/>}{buildingId==='architect'&&mission.id==='facade'&&<SymmetryTrimBench/>}{buildingId==='architect'&&mission.id==='courtyard'&&<FrameScaleBench/>}{completed[mission.id]?<div className="missionComplete"><span>🌟</span><h3>Mission accomplished!</h3><p>You used the idea across several connected steps.</p><button onClick={()=>{setStep(0);setCompleted(v=>{const n={...v};delete n[mission.id];return n});setMessage('Try the mission again from the start.')}}>Replay mission</button></div>:<><div className="challengeCard"><small>CONTROL {step+1} OF {mission.steps.length}</small><h3>{current.label}</h3><p>{current.prompt}</p><div className="answerDeck">{current.choices.map(([label,ok])=><button key={label} onClick={()=>choose(ok,current.explain)}>{label}</button>)}</div><button className="interiorHelp" onClick={help}>🛟 I’m stuck — walk me through it</button></div><p className="interiorFeedback">{message}</p></>}</section></div></div>}
+function BridgeLoadBench({onComplete,onStep}){
+  const[stage,setStage]=useState(0),[weight,setWeight]=useState(2),[distance,setDistance]=useState(4),[side,setSide]=useState(null),[pivot,setPivot]=useState(42),[note,setNote]=useState('Balance the 4-unit load sitting 2 spaces left of the pivot.');
+  const torque=weight*distance,target=8;
+  const next=()=>{
+    if(stage===0){if(torque!==target){setNote('Right torque must also equal 8. Try weight × distance.');return}setStage(1);onStep?.(1);setNote('Balanced. Now compare the stronger turning effects.');return}
+    if(stage===1){if(side!=='left'){setNote('12 is greater than 10, so the left side has more torque.');return}setStage(2);onStep?.(2);setNote('Final check: place the pivot at the center.');return}
+    if(pivot!==50){setNote('A symmetric deck needs its pivot at exactly 50%.');return}onComplete?.('You balanced torque, compared turning effects, and centered the pivot.');setNote('✓ Bridge system verified.');
+  };
+  return <section className="bridgeLoadBench toolMission"><div className="toolRoomHead"><small>BRIDGE CONTROL · {stage+1}/3</small><h3>{stage===0?'Balance the deck':stage===1?'Which side tips?':'Center the pivot'}</h3></div>
+    {stage===0&&<><div className="bridgeBeamVisual" style={{transform:'rotate('+Math.max(-12,Math.min(12,(torque-target)*1.5))+'deg)'}}><span className="load left">4 × 2</span><i/><span className="load right">{weight} × {distance}</span></div><div className="toolSliderGrid"><label>Right weight <input type="range" min="1" max="8" value={weight} onChange={e=>setWeight(+e.target.value)}/><b>{weight}</b></label><label>Right distance <input type="range" min="1" max="8" value={distance} onChange={e=>setDistance(+e.target.value)}/><b>{distance}</b></label></div><div className="toolEquation">Left: 4 × 2 = 8 <strong>{torque===8?'=':'≠'}</strong> Right: {weight} × {distance} = {torque}</div></>}
+    {stage===1&&<div className="torqueCompare"><button className={side==='left'?'chosen':''} onClick={()=>setSide('left')}><b>LEFT</b><span>3 × 4 = 12</span></button><button className={side==='right'?'chosen':''} onClick={()=>setSide('right')}><b>RIGHT</b><span>5 × 2 = 10</span></button></div>}
+    {stage===2&&<div className="pivotTool"><div className="pivotDeck"><i style={{left:pivot+'%'}}/></div><label>Pivot position <input type="range" min="20" max="80" step="5" value={pivot} onChange={e=>setPivot(+e.target.value)}/><b>{pivot}%</b></label></div>}
+    <button className="toolMissionAction" onClick={next}>{stage<2?'Check & continue →':'Approve bridge ✓'}</button><p className="toolMiniNote">{note}</p></section>
+}
+
+function ThinkTankBoard({mission,onComplete,onStep}){
+  const[stage,setStage]=useState(0),[pick,setPick]=useState(null),[candidate,setCandidate]=useState(7),[note,setNote]=useState('Use the board, not a guess.');
+  const configurations={
+    analogy:[
+      {prompt:'Bee needs the same relationship as bird → nest.',options:[['Hive','hive'],['Flower','flower'],['Wing','wing']],answer:'hive'},
+      {prompt:'Password gives access to what, like key → lock?',options:[['Account','account'],['Keyboard','keyboard'],['Screen','screen']],answer:'account'},
+      {prompt:'What is the shared relationship?',options:[['access / home relationship','relation'],['same color','color'],['same word length','length']],answer:'relation'}
+    ],
+    classification:[
+      {prompt:'Select the odd one out.',options:[['△ triangle','triangle'],['□ square','square'],['▭ rectangle','rectangle'],['○ circle','circle']],answer:'circle'},
+      {prompt:'Which number breaks the ×4 pattern?',options:[['8','8'],['12','12'],['16','16'],['18','18']],answer:'18'},
+      {prompt:'A strong classification rule should be…',options:[['testable property','rule'],['whatever looks odd','odd'],['longest item','long']],answer:'rule'}
+    ]
+  };
+  if(mission.id==='logic'){
+    const constraints=stage===0?[candidate>5,candidate<10]:[candidate>5,candidate<10,candidate%2===1,candidate!==7],target=stage===0?7:9,ok=candidate===target;
+    const next=()=>{if(!ok){setNote('The number must satisfy every lit clue at once.');return}if(stage<2){setStage(s=>s+1);onStep?.(stage+1);setCandidate(9);setNote(stage===0?'New clues added: odd and not 7.':'Notice how added constraints remove possibilities.')}else onComplete?.('You narrowed the solution set by keeping every constraint true at once.')};
+    return <section className="thinkBoard toolMission"><div className="toolRoomHead"><small>PUZZLE BOARD · {stage+1}/3</small><h3>Constraint Safe</h3><p>Turn every clue green with one number.</p></div><div className="constraintLights">{['> 5','< 10','odd','not 7'].slice(0,constraints.length).map((x,i)=><span key={x} className={constraints[i]?'on':''}>{constraints[i]?'✓':'○'} {x}</span>)}</div><label className="numberDial">Mystery number <input type="range" min="0" max="12" value={candidate} onChange={e=>setCandidate(+e.target.value)}/><b>{candidate}</b></label><button className="toolMissionAction" onClick={next}>{stage<2?'Lock clue set →':'Open the safe ✓'}</button><p className="toolMiniNote">{note}</p></section>
+  }
+  const items=configurations[mission.id]||configurations.analogy,current=items[stage];
+  const next=()=>{if(pick!==current.answer){setNote('That choice does not preserve the relationship/rule.');return}if(stage===2){onComplete?.('You solved all three reasoning transfers by using the relationship, not surface appearance.');setNote('✓ Puzzle wall unlocked.')}else{setStage(s=>s+1);onStep?.(stage+1);setPick(null);setNote('Good. Transfer the same reasoning habit to the next card.')}}
+  return <section className="thinkBoard toolMission"><div className="toolRoomHead"><small>PUZZLE BOARD · {stage+1}/3</small><h3>{mission.title}</h3><p>{current.prompt}</p></div><div className="reasoningCards">{current.options.map(([label,id])=><button key={id} className={pick===id?'chosen':''} onClick={()=>setPick(id)}>{label}</button>)}</div><button className="toolMissionAction" onClick={next}>{stage<2?'Connect the clue →':'Unlock board ✓'}</button><p className="toolMiniNote">{note}</p></section>
+}
+
+function ObservatoryBench({mission,onComplete,onStep}){
+  const[stage,setStage]=useState(0),[x,setX]=useState(4),[y,setY]=useState(4),[input,setInput]=useState(2),[reverse,setReverse]=useState(8),[note,setNote]=useState('Use the live sky instruments.');
+  if(mission.id==='constellation'){
+    const ok=stage===0?x===4&&y===4:stage===1?x===y:stage===2?x===7&&y===7:false;
+    const next=()=>{if(!ok){setNote(stage===0?'Continue both coordinates by +1.':stage===1?'The rule is x = y. Keep them matched.':'Set x to 7 and preserve x = y.');return}if(stage<2){setStage(s=>s+1);onStep?.(stage+1);if(stage===0){setX(5);setY(5)}else{setX(7);setY(6)}setNote('Rule confirmed. Now use it again.')}else onComplete?.('You extended the constellation by preserving the x = y relationship.')};
+    return <section className="observatoryBench toolMission"><div className="toolRoomHead"><small>STAR MAP · {stage+1}/3</small><h3>Map the Constellation</h3></div><div className="starGrid"><span style={{left:'18%',bottom:'18%'}}>✦</span><span style={{left:'34%',bottom:'34%'}}>✦</span><span style={{left:'50%',bottom:'50%'}}>✦</span><span className={ok?'target ok':'target'} style={{left:(10+x*10)+'%',bottom:(10+y*10)+'%'}}>✦</span></div><div className="toolSliderGrid"><label>x <input type="range" min="1" max="8" value={x} onChange={e=>setX(+e.target.value)}/><b>{x}</b></label><label>y <input type="range" min="1" max="8" value={y} onChange={e=>setY(+e.target.value)}/><b>{y}</b></label></div><button className="toolMissionAction" onClick={next}>{stage<2?'Plot & continue →':'Save constellation ✓'}</button><p className="toolMiniNote">{note}</p></section>
+  }
+  const output=input*2+1,reverseOutput=reverse*2+1,ok=stage===0?input===2:stage===1?input===8:reverse===10;
+  const next=()=>{if(!ok){setNote(stage===0?'Start from one known pair: 2 → 5.':stage===1?'Set input 8 and apply ×2 +1.':'Find the input that produces 21.');return}if(stage<2){setStage(s=>s+1);onStep?.(stage+1);if(stage===0)setInput(8);else setReverse(9);setNote('Signal rule holds. Test it again.')}else onComplete?.('You identified ×2 + 1, predicted a new output, and reversed the rule.')};
+  return <section className="observatoryBench toolMission"><div className="toolRoomHead"><small>SIGNAL CONSOLE · {stage+1}/3</small><h3>Decode the Satellite</h3></div>{stage<2?<><label className="numberDial">Input <input type="range" min="1" max="12" value={input} onChange={e=>setInput(+e.target.value)}/><b>{input}</b></label><div className="signalMachine"><span>{input}</span><i>×2 + 1</i><strong>{output}</strong></div></>:<><label className="numberDial">Which input makes 21? <input type="range" min="1" max="12" value={reverse} onChange={e=>setReverse(+e.target.value)}/><b>{reverse}</b></label><div className="signalMachine"><span>{reverse}</span><i>×2 + 1</i><strong>{reverseOutput}</strong></div></>}<button className="toolMissionAction" onClick={next}>{stage<2?'Run signal test →':'Lock signal rule ✓'}</button><p className="toolMiniNote">{note}</p></section>
+}
+export function NewBuildingInterior({buildingId,onExit}){
+  const building=BUILDINGS[buildingId],[missionIndex,setMissionIndex]=useState(0),[step,setStep]=useState(0),[message,setMessage]=useState('Use the mission tool to begin.'),[completed,setCompleted]=useState(()=>load(buildingId)),[hintStep,setHintStep]=useState(0);
+  const mission=building?.missions[missionIndex],current=mission?.steps[step],doneCount=Object.keys(completed).length;
+  const customTool=['architect','bridge','think','observatory'].includes(buildingId);
+  const progress=useMemo(()=>mission?completed[mission.id]?100:Math.round(step/Math.max(1,mission.steps.length)*100):0,[mission,step,completed]);
+  useEffect(()=>{try{localStorage.setItem(key(buildingId),JSON.stringify(completed))}catch{}},[buildingId,completed]);
+  if(!building)return null;
+  const finishTool=text=>{setCompleted(v=>({...v,[mission.id]:true}));setStep(mission.steps.length);setMessage('Mission complete! '+text)};
+  const choose=(ok,explain)=>{setHintStep(0);if(!ok){setMessage('Not quite. Look at the relationship and try again.');return}if(step===mission.steps.length-1){finishTool(explain)}else{setMessage(explain);setTimeout(()=>{setStep(s=>s+1);setMessage('Nice. Use that idea on the next control.')},350)}};
+  const selectMission=i=>{setMissionIndex(i);setStep(0);setHintStep(0);setMessage(completed[building.missions[i].id]?'You solved this mission already. Replay it or choose another.':'Use the mission tool to begin.')};
+  const help=()=>{const hints=current?.hints||[];const next=Math.min(hintStep,hints.length-1);if(hints.length){setMessage('🛟 '+hints[next]);setHintStep(v=>Math.min(v+1,hints.length))}};
+  const replay=()=>{setStep(0);setCompleted(v=>{const n={...v};delete n[mission.id];return n});setMessage('Mission reset. Use the tool to solve it again.')};
+  const tool=!completed[mission.id]&&(
+    buildingId==='architect'?(mission.id==='cuts'?<CarpentryRulerBench onStep={setStep} onComplete={finishTool}/>:mission.id==='facade'?<SymmetryTrimBench onStep={setStep} onComplete={finishTool}/>:<FrameScaleBench onStep={setStep} onComplete={finishTool}/>)
+    :buildingId==='bridge'?<BridgeLoadBench onStep={setStep} onComplete={finishTool}/>
+    :buildingId==='think'?<ThinkTankBoard key={mission.id} mission={mission} onStep={setStep} onComplete={finishTool}/>
+    :buildingId==='observatory'?<ObservatoryBench key={mission.id} mission={mission} onStep={setStep} onComplete={finishTool}/>
+    :null
+  );
+  return <div className={'newInterior '+buildingId+'Interior'}><header className="interiorHeader"><div><small>MY WORLD · INTERIOR</small><h1>{building.emoji} {building.name}</h1><p>{building.tagline}</p></div><button onClick={onExit}>← Back outside</button></header><div className="interiorScene"><div className="interiorBackdrop">{building.scene}</div><div className="interiorCounter"><b>{doneCount}/{building.missions.length} missions complete</b><span>Your completed missions are saved when you leave.</span></div></div><div className="interiorLayout"><aside className="missionShelf"><small>CHOOSE A MISSION</small>{building.missions.map((m,i)=><button key={m.id} className={i===missionIndex?'active':''} onClick={()=>selectMission(i)}><span>{completed[m.id]?'✅':i+1}</span><div><b>{m.title}</b><small>{completed[m.id]?'Complete':'Ready'}</small></div></button>)}</aside><section className="missionWorkbench"><div className="workbenchTop"><div><small>MISSION {missionIndex+1}</small><h2>{mission.title}</h2><p>{mission.story}</p></div><div className="missionGauge"><strong>{progress}%</strong><span>complete</span></div></div><div className="controlTrack">{mission.steps.map((s,i)=><div key={s.label} className={(i<step||completed[mission.id]?'done ':'')+(i===step&&!completed[mission.id]?'active':'')}><span>{i<step||completed[mission.id]?'✓':i+1}</span><b>{s.label}</b></div>)}</div>{completed[mission.id]?<div className="missionComplete"><span>🌟</span><h3>Mission accomplished!</h3><p>You used the idea across several connected steps.</p><button onClick={replay}>Replay mission</button></div>:customTool?<>{tool}<p className="interiorFeedback">{message}</p></>:<><div className="challengeCard"><small>CONTROL {step+1} OF {mission.steps.length}</small><h3>{current.label}</h3><p>{current.prompt}</p><div className="answerDeck">{current.choices.map(([label,ok])=><button key={label} onClick={()=>choose(ok,current.explain)}>{label}</button>)}</div><button className="interiorHelp" onClick={help}>🛟 I’m stuck — walk me through it</button></div><p className="interiorFeedback">{message}</p></>}</section></div></div>
+}
