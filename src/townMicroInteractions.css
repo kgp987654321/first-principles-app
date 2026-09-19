@@ -202,3 +202,219 @@
   .balanceBeam,.rightLoad,.orbitRing{transition:none}
   .satellite{animation:none!important}
 }
+
+
+/* Cliff Launch Lab — target challenge */
+.targetLaunchScene{align-items:stretch}
+.targetLaunchStage{position:relative}
+.targetLaunchStage svg{height:250px}
+.protractorArc{
+  fill:none;
+  stroke:rgba(91,99,219,.42);
+  stroke-width:2.5;
+  stroke-dasharray:4 4
+}
+.protractorTick{
+  stroke:#6670d8;
+  stroke-width:2
+}
+.protractorText{
+  font-size:8px;
+  font-weight:950;
+  fill:#4f5a9a
+}
+.angleBaseRay{
+  stroke:#668850;
+  stroke-width:4;
+  stroke-linecap:round
+}
+.angleLaunchRay{
+  stroke:#5e68d5;
+  stroke-width:4;
+  stroke-linecap:round
+}
+.angleWedgeArc{
+  fill:none;
+  stroke:#5e68d5;
+  stroke-width:3.5;
+  stroke-linecap:round
+}
+.angleWedgeLabel{
+  font-size:9px;
+  font-weight:950;
+  fill:#374176
+}
+.angleVertex{
+  fill:#fff;
+  stroke:#5e68d5;
+  stroke-width:2.5
+}
+.launchTarget line{
+  stroke:#7c5840;
+  stroke-width:3
+}
+.launchTarget path{
+  fill:#ed6f5f;
+  stroke:#b94b40;
+  stroke-width:2
+}
+.launchTarget circle:nth-of-type(1){
+  fill:#fff3d8;
+  stroke:#d7a84d;
+  stroke-width:2
+}
+.launchTarget circle:nth-of-type(2){
+  fill:#f4be4e
+}
+.launchTarget circle:nth-of-type(3){
+  fill:#d9574b
+}
+.previewArc{opacity:.82}
+.launchAimGhost{
+  fill:#fff;
+  stroke:#6f78db;
+  stroke-width:2;
+  stroke-dasharray:2 2;
+  opacity:.72
+}
+.bullseyeBall{
+  fill:#65b66f;
+  stroke:#eaffec;
+  filter:drop-shadow(0 0 7px rgba(101,182,111,.8))
+}
+.angleMeasureCaption{
+  position:absolute;
+  left:16px;
+  bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.92);
+  border:1px solid #dce2ef;
+  box-shadow:0 3px 9px rgba(57,67,88,.08);
+  font-size:7px;
+  font-weight:950;
+  color:#687387;
+  letter-spacing:.05em
+}
+.angleMeasureCaption b{
+  color:#4c56b8;
+  font-size:10px
+}
+.targetScore.hitScore{
+  background:#eaf8ed!important
+}
+.targetScore.hitScore b{
+  color:#3d7b49
+}
+.launchAngleControl{
+  margin-top:14px;
+  padding:13px 15px;
+  border-radius:16px;
+  background:#f4f3ff;
+  border:1px solid #dedaff
+}
+.angleSliderHeader{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:8px;
+  margin-bottom:7px
+}
+.angleSliderHeader span{
+  font-size:8px;
+  font-weight:900;
+  color:#7a8393
+}
+.angleSliderHeader span:last-child{text-align:right}
+.angleSliderHeader b{
+  min-width:60px;
+  text-align:center;
+  font-size:18px;
+  color:#4550a2
+}
+.launchAngleControl input{
+  width:100%;
+  accent-color:#5e68d5
+}
+.anglePresetRow{
+  display:flex;
+  justify-content:center;
+  gap:7px;
+  margin-top:9px
+}
+.anglePresetRow button{
+  min-width:62px;
+  padding:6px 10px;
+  border:1px solid #d2d6e4;
+  border-radius:999px;
+  background:#fff;
+  font-weight:900
+}
+.anglePresetRow button.active{
+  border-color:#6972db;
+  background:#ececff;
+  color:#4853ae
+}
+.targetLaunchActions{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+  margin-top:11px
+}
+.launchNowButton{
+  min-height:48px;
+  border:0;
+  border-radius:14px;
+  background:#5e68d5;
+  color:#fff;
+  font-size:15px;
+  font-weight:950;
+  box-shadow:0 5px 0 #444da8
+}
+.newTargetButton{
+  min-height:48px;
+  padding:0 15px;
+  border:2px solid #d9dde8;
+  border-radius:14px;
+  background:#fff;
+  font-weight:900;
+  color:#4e5868
+}
+.microFeedback small{
+  display:block;
+  margin-top:4px;
+  font-size:8px;
+  color:#7c8795
+}
+.angleDiscovery{
+  display:grid;
+  gap:4px;
+  margin-top:10px;
+  padding:11px 13px;
+  border-radius:13px;
+  background:#edf8ef;
+  border:1px solid #b8dbbf;
+  color:#42684a
+}
+.angleDiscovery b{
+  font-size:10px
+}
+.angleDiscovery span{
+  font-size:9px;
+  line-height:1.4
+}
+
+@media(max-width:700px){
+  .targetLaunchStage svg{height:220px}
+  .targetLaunchActions{grid-template-columns:1fr}
+  .newTargetButton{width:100%}
+  .angleMeasureCaption{
+    position:static;
+    width:max-content;
+    max-width:100%;
+    margin:8px 0 0 10px
+  }
+}
