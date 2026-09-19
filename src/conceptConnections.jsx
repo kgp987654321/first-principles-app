@@ -79,6 +79,22 @@ function SlopeLab({lesson}){
 
 function GenericLab({lesson}){return <div className="connectionModules"><article><small>CONCEPT</small><strong>{lesson.concept}</strong><p>{lesson.intro}</p></article><article><small>STRUCTURE</small><strong>What changes?</strong><p>Try the discovery challenge, then compare another example.</p></article><article><small>TRANSFER</small><strong>What stays the same?</strong><p>Look for the relationship underneath the surface objects.</p></article></div>}
 
+const sportTransferByMechanic={
+  slope:{icon:'⚾🏀',title:'Angles in Athletics Park',text:'Baseball launch angle and basketball release angle use the same idea: a direction measured from a reference line changes the path.'},
+  race:{icon:'🏃⚾',title:'Rates in Athletics Park',text:'Track pace and baseball base running use distance = rate × time. Change speed and both the animation and time respond.'},
+  ratio:{icon:'⚾',title:'Ratios in the dugout',text:'Hits ÷ at-bats can be represented as a fraction, decimal, or percent—just like equivalent ratio representations here.'},
+  deal:{icon:'🏃',title:'Per-one thinking in Track',text:'Pace is another “per one” relationship: seconds per lap or distance per second.'},
+  coordinate:{icon:'⚽🏈',title:'Targets on a field',text:'Soccer and football use location plus direction to predict where a ball should go.'},
+  scale:{icon:'⚾',title:'Scale on the baseball diamond',text:'The diamond keeps the same shape while dimensions change, just like any scaled model.'},
+  'scale-map':{icon:'🏟️',title:'Field maps use scale',text:'A sports field diagram is a scaled representation of real distances.'},
+  balance:{icon:'⛳',title:'Balancing effects',text:'Golf combines angle, force, and wind. One change can be balanced by another to reach the same target.'}
+};
+function SportsTransfer({mechanic}){
+  const item=sportTransferByMechanic[mechanic];
+  if(!item)return null;
+  return <div className="sportsTransferCard"><span>{item.icon}</span><div><small>SAME IDEA · NEW SURFACE</small><b>{item.title}</b><p>{item.text}</p><em>Try it in My World → Athletics Park.</em></div></div>;
+}
+
 export function ConceptConnections({lesson}){
   const mechanic=lesson.expandedMechanic||lesson.mechanic;
   let content;
@@ -94,5 +110,5 @@ export function ConceptConnections({lesson}){
   else if(mechanic==='deal')content=<UnitRateLab key={lesson.id} lesson={lesson}/>;
   else if(mechanic==='slope')content=<SlopeLab key={lesson.id} lesson={lesson}/>;
   else content=<GenericLab lesson={lesson}/>;
-  return <><section className="panel connectionsLab"><div className="connectionsHeading"><div><small>TOUCH IT · CHANGE IT · CONNECT IT</small><h2>Connections Lab</h2><p>Change one thing and watch the picture, number, rule, and real situation respond together.</p></div><span>🧠</span></div>{content}</section><MiniSudoku/></>
+  return <><section className="panel connectionsLab"><div className="connectionsHeading"><div><small>TOUCH IT · CHANGE IT · CONNECT IT</small><h2>Connections Lab</h2><p>Change one thing and watch the picture, number, rule, and real situation respond together.</p></div><span>🧠</span></div>{content}<SportsTransfer mechanic={mechanic}/></section><MiniSudoku/></>
 }
