@@ -384,3 +384,350 @@
   .fractionRelationship{grid-template-columns:1fr}
   .carpentryActions{grid-template-columns:1fr}
 }
+
+
+/* Intuitive woodshop ruler bench — board-first interaction */
+.intuitiveBench{
+  padding:20px;
+  background:
+    linear-gradient(rgba(255,255,255,.76),rgba(255,255,255,.76)),
+    repeating-linear-gradient(90deg,#e3bf91 0 60px,#d7aa76 60px 62px)
+}
+.intuitiveBench .carpentryToolHead{margin-bottom:12px}
+.intuitiveBench .cutGoal{
+  min-width:145px;
+  background:#fff8e9
+}
+.intuitiveBench .cutGoal strong{
+  display:block;
+  font-size:17px;
+  line-height:1.1
+}
+.intuitiveBench .cutGoal span{
+  display:block;
+  margin-top:3px;
+  font-size:9px;
+  color:#8b6a50
+}
+.woodshopSteps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin:12px 0
+}
+.woodshopSteps>span{
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border:2px solid #e2d4c2;
+  border-radius:12px;
+  background:#fffdfa;
+  color:#8a796b;
+  font-size:9px;
+  font-weight:900
+}
+.woodshopSteps>span b{
+  width:22px;height:22px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#ece6df;
+  color:#75685c
+}
+.woodshopSteps>span.active{
+  border-color:#c1814c;
+  background:#fff1df;
+  color:#754b2d
+}
+.woodshopSteps>span.active b{
+  background:#b96f39;
+  color:#fff
+}
+.woodshopSteps>span.done{
+  border-color:#a9cda8;
+  background:#f2f8ef;
+  color:#4f704d
+}
+.woodshopSteps>span.done b{
+  background:#78a774;
+  color:#fff
+}
+
+.intuitiveBench .rulerJobTabs{
+  margin:10px 0 14px
+}
+.intuitiveBench .rulerJobTabs button{
+  min-height:46px;
+  border-radius:13px;
+  font-size:9px
+}
+
+.simpleRulerSurface{
+  padding:22px 24px 18px;
+  min-height:0
+}
+.boardInstruction{
+  margin:0 auto 14px;
+  width:max-content;
+  max-width:100%;
+  padding:8px 13px;
+  border-radius:999px;
+  background:#fff0d9;
+  border:2px solid #d6a975;
+  color:#744a2e;
+  font-size:10px;
+  font-weight:950;
+  box-shadow:0 3px 0 #e4c49d
+}
+.boardAndRuler{
+  width:min(760px,94%);
+  margin:0 auto
+}
+.interactiveBoard{
+  width:100%!important;
+  min-width:0;
+  height:92px;
+  overflow:visible;
+  border-radius:9px;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.13),transparent 25%,rgba(88,50,24,.05)),
+    #c9894d;
+  box-shadow:0 8px 0 #7b4d2b,0 13px 17px rgba(75,44,24,.16)
+}
+.boardCutTarget{
+  position:absolute;
+  top:-13px;
+  bottom:-13px;
+  width:48px;
+  min-height:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  transform:translateX(-50%);
+  cursor:pointer;
+  overflow:visible;
+  z-index:5
+}
+.boardCutTarget i{
+  position:absolute;
+  left:50%;
+  top:0;
+  bottom:0;
+  width:0;
+  border-left:4px dashed rgba(255,248,231,.82);
+  transform:translateX(-50%);
+  transition:border-color .15s,filter .15s
+}
+.boardCutTarget span{
+  position:absolute;
+  top:-29px;
+  left:50%;
+  transform:translateX(-50%);
+  min-width:48px;
+  padding:4px 5px;
+  border-radius:8px;
+  background:#fffaf1;
+  border:2px solid #dec3a2;
+  color:#67482f;
+  font-size:8px;
+  font-weight:950;
+  box-shadow:0 2px 4px #0001
+}
+.boardCutTarget:hover i{
+  border-left-color:#f7d267
+}
+.boardCutTarget:hover span{
+  border-color:#d1985d;
+  background:#fff1d9
+}
+.boardCutTarget.selected i{
+  border-left-style:solid;
+  border-left-color:#e95049;
+  box-shadow:0 0 0 4px rgba(233,80,73,.12)
+}
+.boardCutTarget.selected span{
+  color:#9b3d37;
+  border-color:#e58b83;
+  background:#fff0ee
+}
+.boardCutTarget.selected:after{
+  content:'✂';
+  position:absolute;
+  left:50%;
+  bottom:-29px;
+  transform:translateX(-50%) rotate(-24deg);
+  font-size:17px;
+  filter:drop-shadow(0 2px 1px #0002)
+}
+.boardCutTarget.hint i{
+  border-left-color:#ffcf4e;
+  filter:drop-shadow(0 0 7px rgba(255,207,78,.8))
+}
+.boardCutTarget.hint span{
+  background:#fff7c9;
+  border-color:#e4bb3f
+}
+
+.alignedRuler{
+  position:relative;
+  height:66px;
+  margin-top:19px;
+  border:3px solid #bc8b31;
+  border-radius:7px;
+  background:#efc85a;
+  box-shadow:0 5px 0 #966b26
+}
+.alignedRuler:before{
+  content:'RULER';
+  position:absolute;
+  right:8px;
+  bottom:5px;
+  font-size:6px;
+  font-weight:950;
+  letter-spacing:.12em;
+  color:#73551f
+}
+.alignedRuler>span{
+  position:absolute;
+  top:0;
+  width:1px;
+  height:100%;
+  transform:translateX(-50%)
+}
+.alignedRuler>span i{
+  display:block;
+  width:2px;
+  height:24px;
+  margin:0 auto;
+  background:#664b1c
+}
+.alignedRuler>span.half i{height:34px}
+.alignedRuler>span.whole i{height:44px;width:3px}
+.alignedRuler>span b{
+  position:absolute;
+  top:43px;
+  left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font-size:7px;
+  color:#5f461b
+}
+
+.pieceResultArea{
+  margin-top:18px;
+  padding:13px;
+  border-radius:14px;
+  background:#fffdf8;
+  border:2px solid #dfcfbb
+}
+.pieceResultArea>small{
+  display:block;
+  margin-bottom:8px;
+  font-size:7px;
+  letter-spacing:.12em;
+  color:#8c715c;
+  font-weight:950
+}
+.pieceSegments{
+  display:flex;
+  height:54px;
+  gap:4px
+}
+.pieceSegments>span{
+  min-width:26px;
+  display:grid;
+  place-items:center;
+  border:2px solid #8b5a32;
+  border-radius:6px;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.12),transparent),
+    #ce8d50;
+  box-shadow:0 4px 0 #7d4d2a
+}
+.pieceSegments>span b{
+  font-size:9px;
+  color:#533823
+}
+.pieceSummary{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:9px;
+  align-items:center
+}
+.pieceSummary strong{font-size:10px;color:#584233}
+.pieceSummary span{font-size:9px;color:#806b5c}
+
+.fractionDiscovery{
+  margin-top:13px;
+  min-height:78px;
+  padding:13px;
+  border-radius:14px;
+  border:2px dashed #d7c8b5;
+  background:#fffdf9;
+  color:#7b6c60
+}
+.fractionDiscovery.revealed{
+  border-style:solid;
+  border-color:#a8cda5;
+  background:#f1f8ef;
+  color:#456247
+}
+.fractionDiscoveryTitle{
+  margin-bottom:8px;
+  font-size:10px;
+  font-weight:950
+}
+.fractionDiscovery p{
+  margin:0;
+  font-size:9px
+}
+.fractionBlocks{
+  display:grid;
+  grid-template-columns:1.2fr auto;
+  gap:10px;
+  align-items:center
+}
+.fractionBlocks+ .fractionBlocks{margin-top:8px}
+.fractionBlocks>span{
+  display:flex;
+  height:38px;
+  overflow:hidden;
+  border-radius:7px;
+  border:2px solid #966139;
+  background:#d59758
+}
+.fractionBlocks>span i{
+  flex:1;
+  border-right:3px solid #fff5e7
+}
+.fractionBlocks>span i:last-child{border-right:0}
+.fractionBlocks>b{
+  font-size:10px;
+  color:#49674b
+}
+
+.guidedActions{
+  grid-template-columns:auto auto 1fr
+}
+.showCutHint{
+  background:#fff6cf;
+  border-color:#e0bb4d;
+  color:#75581d;
+  font-weight:900
+}
+.guidedActions button:disabled{
+  opacity:.45;
+  cursor:not-allowed
+}
+
+@media(max-width:700px){
+  .woodshopSteps{grid-template-columns:1fr}
+  .boardAndRuler{width:100%}
+  .interactiveBoard{height:78px}
+  .boardCutTarget span{font-size:7px;min-width:43px}
+  .pieceSummary{display:grid}
+  .guidedActions{grid-template-columns:1fr}
+}
