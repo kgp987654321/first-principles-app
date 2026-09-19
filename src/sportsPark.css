@@ -33,3 +33,134 @@
 .sportsConnectionBar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;padding:13px 15px;border-radius:16px;background:#f2f4ff;border:1px solid #dde1ff}.sportsConnectionBar b{width:100%;color:#4c57a5}.sportsConnectionBar span{padding:6px 9px;border-radius:999px;background:#fff;font-size:9px;font-weight:800}
 @media(max-width:900px){.sportsNav{grid-template-columns:repeat(4,1fr)}.sportTrajectory{grid-template-columns:1fr}.sportControls{grid-template-columns:1fr}.sportMiniGrid{grid-template-columns:1fr}.trackVisual{grid-template-columns:1fr}}
 @media(max-width:600px){.sportsHero{display:grid}.sportsNav{grid-template-columns:repeat(2,1fr)}.sportTrajectory svg{min-height:220px}.sportsTrajectoryStats{grid-template-columns:repeat(4,1fr)}}
+
+
+/* Sport-specific visual identity */
+.sportsNav .nav-baseball{background:linear-gradient(#fff,#f7f0dd)}
+.sportsNav .nav-basketball{background:linear-gradient(#fff,#fff1df)}
+.sportsNav .nav-soccer{background:linear-gradient(#fff,#edf8e8)}
+.sportsNav .nav-track{background:linear-gradient(#fff,#fff0ec)}
+.sportsNav .nav-football{background:linear-gradient(#fff,#eef7e9)}
+.sportsNav .nav-golf{background:linear-gradient(#fff,#eef9e7)}
+.sportsNav .nav-hockey{background:linear-gradient(#fff,#eef8ff)}
+.sportsNav .nav-baseball.active{border-color:#b98b51}
+.sportsNav .nav-basketball.active{border-color:#df8a38}
+.sportsNav .nav-soccer.active{border-color:#62a75e}
+.sportsNav .nav-track.active{border-color:#c86b55}
+.sportsNav .nav-football.active{border-color:#5d8f4f}
+.sportsNav .nav-golf.active{border-color:#70a65b}
+.sportsNav .nav-hockey.active{border-color:#6e9fc2}
+
+.baseballTrajectory svg{background:linear-gradient(#bfe1f6 0 43%,#7bb66b 43%)}
+.baseballOutfield{fill:#78b369;stroke:#edf6df;stroke-width:.8}
+.baseballInfield{fill:#d7ad70;stroke:#f4e5c8;stroke-width:1}
+.baseballBase{fill:#fff;stroke:#ddd;stroke-width:.4}
+.baseballFence{fill:none;stroke:#4d6d46;stroke-width:1.1;stroke-dasharray:2 1}
+.sceneTinyLabel{font-size:3px;font-weight:950;fill:#324355}
+.baseballBall{fill:#fff;stroke:#d65f56;stroke-width:.8}
+
+.basketballTrajectory svg{background:linear-gradient(#f5eadf 0 42%,#d9a563 42%)}
+.basketCourt{fill:#dca35f;stroke:#fff4df;stroke-width:1}
+.courtLine{fill:none;stroke:#fff7ea;stroke-width:.7}
+.backboard{fill:#eef7ff;stroke:#535f69;stroke-width:.7}
+.basketRim{fill:none;stroke:#d8613f;stroke-width:1.2}
+.basketballBall{fill:#e58a34;stroke:#6d3c1f;stroke-width:.6}
+.basketballTrajectory .sportTargetText{display:none}
+
+.footballTrajectory svg{background:linear-gradient(#c9e8f7 0 40%,#6ea75e 40%)}
+.footballField{fill:#679f58;stroke:#f4f6ea;stroke-width:1}
+.yardLine{stroke:#f2f6ea;stroke-width:.55;opacity:.92}
+.endZoneLine{stroke:#fff;stroke-width:1.5}
+.goalPost{fill:none;stroke:#f4d151;stroke-width:1.5}
+.receiverMarker{fill:#eef2ff;stroke:#4856b8;stroke-width:.8}
+.receiverText{font-size:3px;font-weight:950;fill:#3d478d}
+.footballBall{fill:#7e4a2f;stroke:#fff;stroke-width:.45}
+.footballTrajectory .sportTargetText{display:none}
+
+.golfTrajectory svg{background:linear-gradient(#c8e7fa 0 43%,#8bbd6e 43%)}
+.golfRough{fill:#78ab62}
+.golfFairway{fill:none;stroke:#9dce7d;stroke-width:14;stroke-linecap:round}
+.golfGreen{fill:#b6dd8e;stroke:#f0f4d5;stroke-width:.8}
+.golfBunker{fill:#e9d59b}
+.golfFlagPole{stroke:#5b6264;stroke-width:.6}
+.golfFlag{fill:#ef6256}
+.golfBall{fill:#fff;stroke:#9ea6ae;stroke-width:.45}
+.golfTrajectory .sportTargetText{display:none}
+
+.soccerField{
+  background:
+    linear-gradient(90deg,transparent 49.5%,rgba(255,255,255,.9) 49.5% 50.5%,transparent 50.5%),
+    repeating-linear-gradient(90deg,#80b96f 0 60px,#75ad68 60px 120px)
+}
+.soccerField:before{
+  content:'';
+  position:absolute;
+  inset:14px;
+  border:3px solid rgba(255,255,255,.88);
+  border-radius:2px
+}
+.soccerMidline{position:absolute;left:50%;top:14px;bottom:14px;width:3px;background:#fff;transform:translateX(-50%)}
+.soccerCenterCircle{position:absolute;left:50%;top:50%;width:74px;height:74px;border:3px solid #fff;border-radius:50%;transform:translate(-50%,-50%)}
+.soccerPenaltyBox{position:absolute;left:50%;top:14px;width:155px;height:55px;border:3px solid #fff;border-top:0;transform:translateX(-50%)}
+.soccerGoal{z-index:3}
+.soccerCone{position:absolute;bottom:55px;color:#f39a3f;font-size:23px;filter:drop-shadow(0 2px 1px #0002)}
+.leftCone{left:30%}.rightCone{right:30%}
+.soccerKickLine{position:absolute;left:50%;bottom:52px;width:90px;height:4px;border-radius:999px;background:rgba(70,81,185,.72);transform-origin:left center}
+.soccerBall{z-index:4}
+
+.hockeyReflection{
+  background:
+    radial-gradient(circle at 25% 30%,transparent 0 26px,#d95b5b 27px 29px,transparent 30px),
+    radial-gradient(circle at 75% 70%,transparent 0 26px,#d95b5b 27px 29px,transparent 30px),
+    #eef8ff
+}
+.rinkCenterLine{position:absolute;left:50%;top:0;bottom:0;width:4px;background:#d95f65;transform:translateX(-50%)}
+.rinkBlueLine{position:absolute;top:0;bottom:0;width:4px;background:#5d87c9}
+.leftBlue{left:33%}.rightBlue{right:33%}
+.rinkCircle{position:absolute;width:48px;height:48px;border:3px solid rgba(208,76,82,.72);border-radius:50%}
+.rinkCircle.c1{left:13%;top:18%}.rinkCircle.c2{right:13%;bottom:18%}
+.hockeyGoal{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:42px}
+.hockeyPuck{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:20px;color:#222;z-index:3}
+
+.trackOval{
+  border-width:26px;
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.5),0 6px 18px #0001
+}
+.trackOval .lane{
+  position:absolute;
+  border:2px solid rgba(255,255,255,.72);
+  border-radius:50%;
+  pointer-events:none
+}
+.trackOval .l1{inset:-15px}
+.trackOval .l2{inset:-8px}
+.trackOval .l3{inset:0}
+.trackStart,.trackFinish{
+  position:absolute;
+  bottom:13px;
+  padding:3px 5px;
+  border-radius:4px;
+  background:#fff;
+  color:#8c5041;
+  font-size:7px;
+  font-weight:950
+}
+.trackStart{left:12px}.trackFinish{right:12px}
+.trackGraph:before{
+  content:'DISTANCE vs TIME';
+  position:absolute;
+  top:6px;
+  left:10px;
+  font-size:7px;
+  font-weight:950;
+  color:#6b7585
+}
+.trackGraph{position:relative}
+
+.sportTrajectoryStats span:first-child{background:#f3f0ff}
+.sportTrajectoryStats span:nth-child(2){background:#fff4e8}
+
+@media(max-width:700px){
+  .soccerCenterCircle{width:56px;height:56px}
+  .soccerPenaltyBox{width:120px}
+}
