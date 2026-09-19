@@ -687,15 +687,62 @@
     const vals=["ansH","ansT","ansO"].map(id=>$("#"+id).value);
     if(vals.some(v=>v===""))return null;return Number(vals.join(""));
   }
+
+  function visibleProblemAnswer(){
+    const p=state.problem;
+    if(!p)return null;
+
+    if(p.mode==="add"){
+      const top=Number(["topH","topT","topO"].map(id=>$("#"+id).textContent.trim()).join(""));
+      const bottom=Number(["bottomH","bottomT","bottomO"].map(id=>$("#"+id).textContent.trim()).join(""));
+      if(!Number.isFinite(top)||!Number.isFinite(bottom))return null;
+      return top+bottom;
+    }
+
+    if(p.mode==="multiply"||p.mode==="divide"){
+      const text=$("#factQuestion").textContent.trim();
+      const match=text.match(/^(\d+)\s*([×÷])\s*(\d+)\s*=\s*\?$/);
+      if(!match)return null;
+      const a=Number(match[1]),op=match[2],b=Number(match[3]);
+      if(op==="×")return a*b;
+      if(op==="÷"&&b!==0&&a%b===0)return a/b;
+      return null;
+    }
+
+    return p.answer;
+  }
+
+  function mathSelfCheck(){
+    const modes=["add","subtract","multiply","divide"];
+    for(const mode of modes){
+      for(let i=0;i<120;i++){
+        const p=makeProblem(mode);
+        const expected=mode==="add"?p.a+p.b:
+          mode==="subtract"?p.a-p.b:
+          mode==="multiply"?p.a*p.b:p.a/p.b;
+        if(!Number.isFinite(expected)||p.answer!==expected||!Number.isInteger(p.answer)){
+          console.error("Math Quest problem validation failed",p);
+          return false;
+        }
+        if(mode==="add"&&p.answer>999)return false;
+        if(mode==="subtract"&&p.answer<0)return false;
+        if(mode==="divide"&&p.a%p.b!==0)return false;
+      }
+    }
+    return true;
+  }
+
   function check(){
     if(state.locked)return;
     const p=state.problem,isFact=p.mode==="multiply"||p.mode==="divide";
     let given=isFact?Number($("#factAnswer").value):getColumnAnswer();
     if(given===null || Number.isNaN(given)){ $("#feedback").textContent="Finish the answer first — then I’ll check it.";return;}
+    const visibleExpected=visibleProblemAnswer();
+    const expected=visibleExpected===null?p.answer:visibleExpected;
     state.attempted++;
     let shown=isFact?state.strategy>0:noteUsed();
     if(shown)state.workShown++;
-    if(given===p.answer){
+    if(given===expected){
       state.correct++;state.streak++;state.sessionStars+=shown?3:2;lifetime+=shown?3:2;
       recordQuestionComplete();
       $("#feedback").textContent=shown?"✅ Correct — and your thinking is visible. +3 stars":"✅ Correct! +2 stars. Try showing a note or another strategy next time for a bonus star.";
@@ -1169,6 +1216,7 @@
   $("#restaurantReturn").addEventListener("click",()=>{closeRestaurant();renderProblem()});
   $("#restaurantTracker").addEventListener("click",()=>{if(restaurantUnlockPending)openRestaurantBonus()});
   $("#factAnswer").addEventListener("keydown",e=>{if(e.key==="Enter")check()});
+  mathSelfCheck();
   renderProblem();updateHUD();
   if(restaurantUnlockPending)setTimeout(openRestaurantBonus,700);
 })();
