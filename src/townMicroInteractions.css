@@ -526,3 +526,25 @@
 @media(prefers-reduced-motion:reduce){
  .angryTarget.knocked .targetCrate,.angryTarget.knocked .targetFlag,.landingBurst.hit{animation:none}
 }
+
+
+/* Cliff Launch Lab v4 — pull-back-and-release game */
+.angryLaunchShell{display:grid;grid-template-columns:minmax(0,1fr) 145px;gap:12px;align-items:stretch}
+.angryLaunchStage{position:relative;border:3px solid #b9d7c6;border-radius:22px;overflow:hidden;background:#dff4ff;box-shadow:0 7px 0 #94b9a8}
+.angryLaunchStage svg{display:block;width:100%;height:340px;touch-action:none;user-select:none}
+.angrySky{fill:#bfe6ff}.angryGround{fill:#78ad62}.angrySun{fill:#ffe27a;filter:drop-shadow(0 0 11px #ffe27aaa)}.angryCloud{fill:none;stroke:#fff;stroke-width:12;stroke-linecap:round;opacity:.8}.angryCliff{fill:#756f60}
+.slingshot line:nth-child(-n+2){stroke:#6f4930;stroke-width:8;stroke-linecap:round}.slingshot line:nth-child(n+3){stroke:#49311f;stroke-width:4;stroke-linecap:round}
+.angryPreview{fill:none;stroke:#5867dc;stroke-width:4;stroke-dasharray:8 8;opacity:.46}
+.pullBall{cursor:grab;filter:drop-shadow(0 5px 4px rgba(49,66,126,.36))}
+.pullBall:active{cursor:grabbing}.pullBall circle:first-child{fill:#5e73df;stroke:#fff;stroke-width:3}.pullEye{fill:#dfe8ff}.pullSmile{fill:none;stroke:#24346a;stroke-width:2;stroke-linecap:round}
+.flyingLaunchBall{fill:#5e73df;stroke:#fff;stroke-width:3;filter:drop-shadow(0 3px 4px rgba(48,63,124,.45))}.flyingLaunchBall.hit{fill:#ffca42}
+.angryAngleReadout path{fill:none;stroke:#fff;stroke-width:2}.angryAngleReadout text{fill:#4250ac;font-size:9px;font-weight:950}
+.angryTarget{transform-box:fill-box;transform-origin:center bottom}.targetPlatform{fill:#77533a}.targetCrate{fill:#c98c4c;stroke:#82552f;stroke-width:2}.targetCritter{fill:#81be61;stroke:#fff;stroke-width:2}.targetEye{fill:#1f3f25}
+.angryTarget.knocked{animation:angryKnock .7s ease forwards}
+.pullInstruction{position:absolute;left:14px;bottom:12px;padding:8px 10px;border-radius:11px;background:rgba(255,255,255,.92);color:#49566a;font-size:9px;font-weight:900;box-shadow:0 4px 12px rgba(35,58,45,.12)}
+.angryLaunchHud{display:grid;gap:8px}.angryLaunchHud span{min-height:68px;padding:10px;border:2px solid #e0e5ec;border-radius:15px;background:#fff;display:grid;align-content:center}.angryLaunchHud small{font-size:7px;font-weight:950;color:#75818f;letter-spacing:.08em}.angryLaunchHud b{font-size:20px;color:#30465a}.angryLaunchHud .hudHit{background:#eff9eb;border-color:#9dcb91}
+.angryFallbackControls{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}.angryFallbackControls label{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;padding:9px 11px;border:1px solid #dde2eb;border-radius:12px;background:#f8f9fc}.angryFallbackControls input{width:100%;accent-color:#5d68d8}.angryFallbackControls span,.angryFallbackControls b{font-size:9px;font-weight:900;color:#4d596c}
+@keyframes angryKnock{0%{transform:translate(0,0) rotate(0)}55%{transform:translate(11px,-13px) rotate(14deg)}100%{transform:translate(22px,7px) rotate(30deg);opacity:.62}}
+@media(max-width:760px){.angryLaunchShell{grid-template-columns:1fr}.angryLaunchHud{grid-template-columns:repeat(4,1fr)}.angryLaunchStage svg{height:300px}}
+@media(max-width:540px){.angryLaunchHud{grid-template-columns:repeat(2,1fr)}.angryFallbackControls{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.angryTarget.knocked{animation:none}}
