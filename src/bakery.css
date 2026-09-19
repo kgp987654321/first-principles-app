@@ -997,3 +997,155 @@
   .numbersLabApp .bakeryHero h1{font-size:27px!important}
   .compactKitchenDecor{height:125px!important;min-height:125px!important}
 }
+
+
+/* =========================================================
+   BAKERY / TEST KITCHEN PRODUCTION COMPLETION
+   ========================================================= */
+.bakeryTestKitchenApp .numbersLabBoard .windowShelf{align-content:start}
+.numberExperimentCard.servedTicket{
+  border:2px solid #abd0b2!important;
+  background:linear-gradient(#fbfffb,#edf8ef)!important;
+  opacity:.9
+}
+.numberExperimentCard.servedTicket>em{color:#3f7c4c!important}
+.numberExperimentCard.servedTicket:after{
+  content:'SERVED';
+  position:absolute;right:8px;top:8px;
+  padding:3px 6px;border-radius:999px;background:#dff3e3;color:#3d7448;
+  font-size:7px;font-weight:950;letter-spacing:.07em
+}
+.numberExperimentCard.servedTicket.active{
+  border-color:#596de0!important;
+  background:#fff!important;
+  opacity:1
+}
+
+.bakeryTestKitchenApp .activityFirstWorkbench{
+  padding-top:166px!important
+}
+.bakeryTestKitchenApp .compactKitchenDecor{
+  position:absolute!important;
+  inset:0 0 auto 0!important;
+  margin:0!important;
+  height:148px!important;
+  min-height:148px!important;
+  border-radius:0!important;
+  border-bottom:2px solid #e6d9c8;
+  opacity:1
+}
+.bakeryTestKitchenApp .activityFirstBrief{
+  margin-bottom:12px!important;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:11px;
+  padding:13px 15px!important;
+  border:2px solid #ebdfcf;
+  border-radius:16px;
+  background:rgba(255,253,247,.97);
+  box-shadow:0 5px 12px rgba(77,53,36,.06)
+}
+.replayOrderButton{
+  min-height:38px;padding:7px 11px;
+  border:2px solid #d9d1c6;border-radius:11px;background:#fff8ee;
+  color:#75533c;font-size:9px;font-weight:950;white-space:nowrap
+}
+.replayOrderButton:hover{border-color:#be805c;background:#fff0df}
+
+.activeOrderBench{
+  position:relative;
+  margin:0 0 14px;
+  padding:16px;
+  border:3px solid #b7774f;
+  border-radius:20px;
+  background:
+    linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92)),
+    repeating-linear-gradient(90deg,#ecd1ad 0 38px,#e4c39a 38px 40px);
+  box-shadow:0 7px 0 #8f5d40,0 13px 22px rgba(89,55,34,.1)
+}
+.activeOrderLabel{
+  position:absolute;left:14px;top:-13px;
+  padding:5px 9px;border-radius:8px;
+  background:#d86658;color:#fff;
+  font-size:8px;font-weight:950;letter-spacing:.1em;
+  box-shadow:0 3px 0 #a5473d
+}
+.activeOrderBench>.bakeryOrderActivity>.bakeryPizza,
+.activeOrderBench>.bakeryOrderActivity>.bakeryMeasure,
+.activeOrderBench>.bakeryOrderActivity>.cookieCounter,
+.activeOrderBench>.bakeryOrderActivity>.hubTiles,
+.activeOrderBench>.bakeryOrderActivity>.partyProgress{margin-top:12px}
+
+.orderUsesLabCallout{
+  display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;
+  margin:4px 0 15px;padding:12px 14px;
+  border:2px solid #d7c394;border-radius:15px;
+  background:linear-gradient(90deg,#fff9e9,#fffdf8)
+}
+.orderUsesLabCallout>span{font-size:38px}
+.orderUsesLabCallout small{display:block;color:#9a7043;font-size:7px;font-weight:950;letter-spacing:.09em}
+.orderUsesLabCallout b{display:block;margin:2px 0;font-size:13px;color:#5c4331}
+.orderUsesLabCallout p{margin:0;font-size:9px;color:#766557}
+.orderUsesLab .kitchenMeasureStation{margin:8px 0 4px!important}
+
+.persistentTestKitchen{
+  position:relative;
+  margin-top:25px;
+  padding-top:12px;
+  border-top:5px double #d7b88f
+}
+.testKitchenDivider{
+  display:grid;grid-template-columns:auto 1fr;column-gap:11px;align-items:center;
+  margin:0 0 14px;padding:12px 15px;border-radius:16px;
+  background:linear-gradient(90deg,#fff3dd,#fffaf0 62%,#f1f7ff);
+  border:2px solid #e0c69e
+}
+.testKitchenDivider>span{
+  grid-row:1/3;padding:7px 10px;border-radius:10px;background:#77533d;color:#fff4e4;
+  font-size:10px;font-weight:950;letter-spacing:.08em
+}
+.testKitchenDivider>b{font-size:16px;color:#523b2e}
+.testKitchenDivider>p{grid-column:2;margin:2px 0 0;font-size:9px;color:#786557}
+
+.measurementConnections{
+  margin-top:14px;padding:13px;
+  border:2px solid #d8d6eb;border-radius:16px;
+  background:linear-gradient(135deg,#fbfaff,#fffdf8)
+}
+.measurementConnectionHead small{display:block;color:#6557ca;font-size:7px;font-weight:950;letter-spacing:.1em}
+.measurementConnectionHead b{display:block;margin-top:2px;font-size:12px;color:#4b4660}
+.measurementRepresentations{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px
+}
+.measurementRepresentations>span{
+  min-height:70px;padding:9px;border:2px solid #e2e0ec;border-radius:12px;background:#fff;text-align:center
+}
+.measurementRepresentations small{display:block;color:#7d7892;font-size:6px;font-weight:950;letter-spacing:.07em}
+.measurementRepresentations strong{display:block;margin-top:7px;font-size:18px;color:#4b4566}
+.measureFractionBar{height:14px;margin-top:12px;border-radius:999px;background:#ebeaf0;overflow:hidden}
+.measureFractionBar i{display:block;height:100%;background:linear-gradient(90deg,#6c73dc,#70b7e6);border-radius:inherit}
+.measureEquivalenceStrip{
+  display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;
+  margin-top:9px;padding:8px;border-radius:11px;background:#f6f4fb;
+  font-size:8px;font-weight:900;color:#5c5870
+}
+.measureEquivalenceStrip span{padding:4px 7px;border-radius:8px;background:#fff;border:1px solid #dfdce9}
+.measureEquivalenceStrip b{color:#8c87a0}
+
+.bakeryTestKitchenApp .successNote{
+  margin-top:10px;
+  background:#eef8ef;border-color:#b4d8bb
+}
+
+@media(max-width:900px){
+  .measurementRepresentations{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .bakeryTestKitchenApp .activityFirstWorkbench{padding-top:132px!important}
+  .bakeryTestKitchenApp .compactKitchenDecor{height:118px!important;min-height:118px!important}
+  .bakeryTestKitchenApp .activityFirstBrief{grid-template-columns:auto 1fr}
+  .replayOrderButton{grid-column:1/-1;width:100%}
+  .testKitchenDivider{grid-template-columns:1fr}.testKitchenDivider>span{grid-row:auto}.testKitchenDivider>p{grid-column:auto}
+  .measurementRepresentations{grid-template-columns:1fr 1fr}
+}
