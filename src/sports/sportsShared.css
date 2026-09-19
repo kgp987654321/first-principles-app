@@ -86,3 +86,14 @@
 .tryAnotherSport{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 14px;border-radius:15px;background:linear-gradient(135deg,#f1edff,#edf8f1);border:1px solid #d7d0f5}.tryAnotherSport small{display:block;font-size:8px;font-weight:950;color:#6356b8;letter-spacing:.1em}.tryAnotherSport b{display:block;font-size:12px;color:#30415d;margin-top:2px}.tryAnotherSport span{display:block;font-size:9px;color:#687588;margin-top:2px}.tryAnotherSport button{border:0;border-radius:12px;background:#5b65d7;color:#fff;padding:10px 13px;font-weight:900}
 .sportConnectionCue{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-radius:13px;background:#eff5ff;border:1px solid #d9e6ff;color:#405574}.sportConnectionCue b{font-size:10px}.sportConnectionCue span{font-size:9px}
 @media(max-width:720px){.sportModeBar{grid-template-columns:1fr}.sportModeButtons{display:grid;grid-template-columns:repeat(3,1fr)}.sportModeButtons button{min-width:0}.tryAnotherSport{display:grid}}
+
+
+/* Play animations */
+.sportFlightPath{stroke-dasharray:18 14;animation:sportTrace .78s ease both}
+.bbBall,.scBall,.fbBall,.gfBall{animation:sportObjectPop .86s ease both}
+.hkIncoming,.hkOutgoing{stroke-dasharray:16 10;animation:sportTrace .78s ease both}
+.trRunner{animation:runnerBurst .72s ease both}
+@keyframes sportTrace{from{stroke-dashoffset:180;opacity:.25}to{stroke-dashoffset:0;opacity:1}}
+@keyframes sportObjectPop{0%,55%{opacity:.2;transform:scale(.55);transform-origin:center}100%{opacity:1;transform:scale(1)}}
+@keyframes runnerBurst{from{opacity:.45;transform:translateX(-22px)}to{opacity:1;transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.sportFlightPath,.bbBall,.scBall,.fbBall,.gfBall,.hkIncoming,.hkOutgoing,.trRunner{animation:none!important}}
