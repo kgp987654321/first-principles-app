@@ -32,7 +32,9 @@ const kitchenMeasures=[
   {id:'tsp',label:'1 tsp',short:'1 tsp',value:1/48,kind:'spoon'}
 ];
 const kitchenTargets=[
+  {label:'1/12 cup',value:1/12},
   {label:'1/8 cup',value:1/8},
+  {label:'3/16 cup',value:3/16},
   {label:'1/6 cup',value:1/6},
   {label:'1/4 cup',value:.25},
   {label:'1/3 cup',value:1/3},
@@ -49,7 +51,7 @@ const kitchenTargets=[
 ];
 const amountLabel=value=>{
   const v=Math.round(value*48)/48;
-  const known=[[0,'0'],[1/48,'1 tsp'],[1/16,'1 Tbsp'],[1/8,'1/8 cup'],[1/6,'1/6 cup'],[.25,'1/4 cup'],[1/3,'1/3 cup'],[3/8,'3/8 cup'],[.5,'1/2 cup'],[5/8,'5/8 cup'],[2/3,'2/3 cup'],[.75,'3/4 cup'],[5/6,'5/6 cup'],[7/8,'7/8 cup'],[1,'1 cup'],[1.25,'1 1/4 cups'],[1.5,'1 1/2 cups']];
+  const known=[[0,'0'],[1/48,'1 tsp'],[1/16,'1 Tbsp'],[1/12,'1/12 cup'],[1/8,'1/8 cup'],[3/16,'3/16 cup'],[1/6,'1/6 cup'],[.25,'1/4 cup'],[1/3,'1/3 cup'],[3/8,'3/8 cup'],[.5,'1/2 cup'],[5/8,'5/8 cup'],[2/3,'2/3 cup'],[.75,'3/4 cup'],[5/6,'5/6 cup'],[7/8,'7/8 cup'],[1,'1 cup'],[1.25,'1 1/4 cups'],[1.5,'1 1/2 cups']];
   const hit=known.find(([n])=>Math.abs(v-n)<.012);
   return hit?hit[1]:v.toFixed(2)+' cups';
 };
@@ -73,7 +75,7 @@ const measureTargetForOrder=order=>{
   return map[order?.id]??.75;
 };
 const fractionForAmount=value=>{
-  const known=[[1/8,'1/8'],[1/6,'1/6'],[.25,'1/4'],[1/3,'1/3'],[3/8,'3/8'],[.5,'1/2'],[5/8,'5/8'],[2/3,'2/3'],[.75,'3/4'],[5/6,'5/6'],[7/8,'7/8'],[1,'1'],[1.25,'1 1/4'],[1.5,'1 1/2']];
+  const known=[[1/12,'1/12'],[1/8,'1/8'],[3/16,'3/16'],[1/6,'1/6'],[.25,'1/4'],[1/3,'1/3'],[3/8,'3/8'],[.5,'1/2'],[5/8,'5/8'],[2/3,'2/3'],[.75,'3/4'],[5/6,'5/6'],[7/8,'7/8'],[1,'1'],[1.25,'1 1/4'],[1.5,'1 1/2']];
   return known.find(([n])=>Math.abs(value-n)<.012)?.[1]||amountLabel(value);
 };
 const percentForAmount=value=>Math.round(value*1000)/10+'%';
