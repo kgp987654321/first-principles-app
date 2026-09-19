@@ -152,7 +152,7 @@ function Soccer({record,onRecord,onChallenge,onDiscover}){
   const height=Math.round((startY-Math.min(shotY,420))/9+Math.sin(rad(angle))*power*.08),distance=Math.round(8+(shotX-startX)/22);
   const basicHit=miss<46,masteryHit=basicHit&&power<=70;
   const success=mode==='explore'?true:mode==='challenge'?basicHit:masteryHit;
-  const contactPresets={curve:{angle:30,power:74},center:{angle:32,power:74},chip:{angle:36,power:70}};
+  const contactPresets={curve:{angle:30,power:74},center:{angle:32,power:74},chip:{angle:34,power:70}};
   const applyContact=type=>{const p=contactPresets[type];setContact(type);setAngle(p.angle);setPower(p.power);setResult(null);setAttempt(v=>v+1)};
   const kick=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('vector');if(success&&mode!=='explore')onChallenge('soccer:'+mode);if(basicHit)onRecord('soccer',Math.max(record||0,100-Math.round(miss)))};
   const resetTry=()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?3:-3),15,50));setPower(p=>clamp(p+(attempt%2?-5:5),30,100))};
@@ -160,7 +160,7 @@ function Soccer({record,onRecord,onChallenge,onDiscover}){
   return <SportLab icon="⚽" title="Goal Kick Math" subtitle="Explore how angle and kick force change the path of a soccer ball." promptTitle="Take the kick!" promptText="Put the ball through the red target ring. The ring is the exact target used to score the kick." scene={<SoccerScene key={attempt+'-'+contact} played={result!==null} angle={angle} power={power} shotX={shotX} shotY={shotY} contact={contact}/>}
     stats={[{icon:'📐',label:'Kick Angle',value:angle+'°'},{icon:'🔥',label:'Kick Force',value:power+'%'},{icon:'📍',label:'Reach',value:distance+' FT'},{icon:'⬆',label:'Max Height',value:height+' FT'}]}
     controls={<><SportControl label="Kick angle" value={angle} min={15} max={50} onChange={v=>{setAngle(v);setResult(null)}} suffix="°"/><SportControl label="Kick force" value={power} min={30} max={100} onChange={v=>{setPower(v);setResult(null)}} suffix="%"/></>}
-    choices={<ChoiceButtons options={[{id:'curve',label:'low curve · 30° / 74%'},{id:'center',label:'center strike · 32° / 74%'},{id:'chip',label:'high chip · 36° / 70%'}]} value={contact} onChange={applyContact}/>}
+    choices={<ChoiceButtons options={[{id:'curve',label:'low curve · 30° / 74%'},{id:'center',label:'center strike · 32° / 74%'},{id:'chip',label:'high chip · 34° / 70%'}]} value={contact} onChange={applyContact}/>}
     actionLabel="⚽ Kick!" onAction={kick} feedback={feedback} success={result===true}
     mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('soccer',mode)} connectionText={SPORTS_CHALLENGES.soccer.connection} onTryAnother={resetTry}/>;
 }
