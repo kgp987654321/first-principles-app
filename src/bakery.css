@@ -450,3 +450,184 @@
   .numbersWindow{right:14px;top:20px;width:118px;height:82px}
   .numbersLamp{left:235px;top:90px}
 }
+
+
+/* Fraction Bakery & Test Kitchen — immersive cooking theme */
+.numbersLabHero{
+  background:
+    radial-gradient(circle at 82% 18%,rgba(255,224,121,.36),transparent 20%),
+    linear-gradient(135deg,#fffaf2,#fff1df 48%,#fff9f1)!important;
+  border-color:#edd7bf!important;
+  box-shadow:0 10px 28px rgba(112,77,49,.08)
+}
+.numbersStatus{
+  background:linear-gradient(90deg,#fffdfa,#fff8ef)!important;
+  border-color:#ead9c7!important
+}
+.numbersLabLayout{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.18) 0 68%,rgba(99,65,44,.04) 68%),
+    repeating-linear-gradient(90deg,#e7caa3 0 74px,#dcb98b 74px 76px) bottom/100% 24% no-repeat,
+    linear-gradient(#f4e6d7,#faefe3 68%,#dcb98b 68%);
+  border-color:#dec7b4
+}
+.numbersLabLayout:before{
+  background:repeating-linear-gradient(90deg,#d96f63 0 34px,#fff0d8 34px 68px)
+}
+.numbersLabLayout:after{
+  background:#b98760
+}
+
+.numbersLabQueue{
+  background:linear-gradient(#fff1df,#f7ddc3)!important;
+  box-shadow:
+    inset 0 0 0 4px rgba(255,255,255,.58),
+    0 14px 30px rgba(105,69,46,.13)!important
+}
+.numbersLabSign{
+  background:repeating-linear-gradient(90deg,#df7669 0 42px,#fff2dc 42px 84px)!important;
+  color:#713d26!important;
+  border-bottom-color:#9b583a!important
+}
+.numbersLabSign:after{
+  content:'RECIPES · PORTIONS · RATIOS';
+  color:#8a5d43
+}
+.numbersLabBoard{
+  border-color:#8e6247!important;
+  background:
+    linear-gradient(rgba(255,255,255,.06),rgba(255,255,255,.06)),
+    linear-gradient(#8b644d,#75513c)!important
+}
+.numbersLabBoard .windowShelf:before{
+  content:'ORDER BOARD';
+  background:#fff3df;
+  color:#7a5139
+}
+.numberExperimentCard{
+  background:#fffdf5!important;
+  box-shadow:
+    0 5px 9px rgba(72,45,31,.22),
+    inset 0 0 0 1px rgba(118,83,57,.10)!important
+}
+.numberExperimentCard.active{
+  border-color:#d66a5b!important;
+  box-shadow:0 8px 16px rgba(113,73,52,.22),0 0 0 4px rgba(214,106,91,.09)!important
+}
+.numberExperimentCard>em{color:#a15f3e!important}
+.numbersToolShelf{
+  background:linear-gradient(#9a6b4a,#744c35)!important;
+  border-top-color:#5b3b2d!important
+}
+.numbersLabQueue .servedTally{
+  background:#fffaf0;
+  border-color:#e4cbaa;
+  color:#6f533f
+}
+
+.numbersWorkbench{
+  background:
+    linear-gradient(180deg,rgba(255,252,247,.98) 0 70%,rgba(216,179,137,.95) 70%)!important;
+  border-color:#e2cdb9!important;
+  border-bottom-color:#a97954!important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.72),
+    0 14px 30px rgba(92,61,42,.12)
+}
+.recipeBoard{
+  border-bottom-color:#7f5c43
+}
+.recipeBoard:before{
+  content:'RECIPE SCALE';
+  color:#8a6c59
+}
+.recipeBoard span{
+  color:#704f3c
+}
+.recipeBoard span:after{
+  background:#7f5c43
+}
+.kitchenShelf{
+  border-bottom-color:#8a613f
+}
+.recipeCards:before{
+  content:'MEASURING GUIDE';
+  color:#8a6c59
+}
+.recipeCards i:nth-child(1){background:#f0a95c}
+.recipeCards i:nth-child(2){background:repeating-linear-gradient(90deg,#e7836f 0 36px,#f9d9c9 36px 38px)}
+.recipeCards i:nth-child(3){background:repeating-linear-gradient(90deg,#f2c75f 0 24px,#fff1bb 24px 26px)}
+.recipeCards i:nth-child(4){background:#83b36f}
+.ingredientJars:before{
+  content:'INGREDIENTS';
+  color:#8a6c59
+}
+.ingredientJars span{
+  background:linear-gradient(rgba(255,244,230,.75),rgba(255,255,255,.5));
+  border-color:#fff8ef;
+  font-size:22px
+}
+.bakeryOven{
+  border-color:#f8eee4;
+  border-bottom-color:#b7825b;
+  background:
+    linear-gradient(#4b4b52,#60646a 60%,#31343a 60%)!important;
+  box-shadow:
+    0 7px 0 #8c6147,
+    0 10px 15px rgba(88,59,43,.14),
+    inset 0 0 0 3px #b9b9bc
+}
+.bakeryOven:before,.bakeryOven:after{background:#c9c9cc}
+.bakeryOven i{
+  bottom:12px;
+  width:32px;
+  height:18px;
+  background:#f0a753;
+  border-radius:50%;
+  clip-path:none;
+  box-shadow:0 0 10px rgba(240,167,83,.45)
+}
+.bakeryOven i:first-child{left:22px}
+.bakeryOven i:last-child{right:20px;height:18px}
+
+.numbersBrief{
+  background:#fffdf6!important;
+  box-shadow:0 6px 14px rgba(87,57,42,.13),inset 0 0 0 1px rgba(123,89,65,.1)
+}
+.numbersBrief small{color:#956449!important}
+.numbersBrief h2{color:#513b31}
+
+.numbersWorkbench .bakeryPizza,
+.numbersWorkbench .bakeryMeasure,
+.numbersWorkbench .cookieCounter,
+.numbersWorkbench .hubTiles,
+.numbersWorkbench .partyWork{
+  border-color:#9a6e4e;
+  background:
+    linear-gradient(rgba(122,87,63,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(122,87,63,.045) 1px,transparent 1px),
+    #fffefa;
+  background-size:24px 24px;
+  box-shadow:
+    0 10px 0 #765039,
+    0 16px 20px rgba(78,49,32,.14),
+    inset 0 0 0 3px #f1e3d1
+}
+.numbersWorkbench .bakeryPizza:before,
+.numbersWorkbench .bakeryMeasure:before,
+.numbersWorkbench .cookieCounter:before,
+.numbersWorkbench .hubTiles:before,
+.numbersWorkbench .partyWork:before{
+  content:'PREP COUNTER';
+  background:#d66a5b;
+  box-shadow:0 3px 0 #a34f43
+}
+.numbersWorkbench>.primary{
+  background:#d66a5b;
+  border-color:#d66a5b;
+  box-shadow:0 5px 0 #a34f43
+}
+.numbersWorkbench .partyStation.active{
+  border-color:#d66a5b;
+  background:#fff0eb
+}
