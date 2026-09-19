@@ -45,3 +45,36 @@
   .sharedSportControls{grid-template-columns:1fr}
   .sharedChoiceButtons,.sharedSportAction{grid-column:auto}
 }
+
+
+.sportSceneSvg{display:block;width:100%;height:auto;min-height:470px}
+.sportFlightPath{fill:none;stroke:#3565ff;stroke-width:9;stroke-linecap:round;stroke-dasharray:18 14;filter:drop-shadow(0 2px 2px rgba(39,67,170,.14))}
+.sceneMarker{font-size:16px;font-weight:950;fill:#fff;paint-order:stroke;stroke:#31556b;stroke-width:5;stroke-linejoin:round}
+
+/* Basketball */
+.bbSky{fill:#8ed0ff}.bbCourt{fill:#d98759}.bbCourtLines{fill:#d98759;stroke:#fff;stroke-width:5}.bbThree,.bbFreeCircle,.bbLane{fill:none;stroke:#fff;stroke-width:5}.bbPaint{fill:#3e72a8;stroke:#fff;stroke-width:5}
+.bbHoop rect:first-child{fill:#d9edff;stroke:#4d5968;stroke-width:7}.bbHoop rect:nth-child(2){fill:none;stroke:#fff;stroke-width:5}.bbHoop ellipse{fill:none;stroke:#e15f3b;stroke-width:8}.bbHoop path{fill:none;stroke:#fff;stroke-width:3}
+.bbPlayer circle{fill:#5b3a2d}.bbPlayer rect{fill:#2d5fd1}.bbPlayer line{stroke:#c98f72;stroke-width:12;stroke-linecap:round}.bbBall{fill:#e8812e;stroke:#693b1f;stroke-width:3}
+
+/* Soccer */
+.scSky{fill:#8fd1ff}.scField{fill:#65ad55}.scBoundary,.scBox,.scLine{fill:none;stroke:#fff;stroke-width:5}.scGoal rect{fill:none;stroke:#fff;stroke-width:9}.scGoal line{stroke:#fff;stroke-width:2;opacity:.85}
+.scPlayer circle{fill:#5a3728}.scPlayer rect{fill:#2359c9}.scPlayer line{stroke:#f0c2a4;stroke-width:14;stroke-linecap:round}.scBall{fill:#fff;stroke:#111;stroke-width:4}.scTarget{fill:rgba(255,255,255,.18);stroke:#ff5252;stroke-width:7}.scTargetText{fill:#fff;font-size:10px;font-weight:950;text-anchor:middle}
+
+/* Football */
+.fbSky{fill:#8dcfff}.fbField{fill:#4d9145}.fbYard{stroke:#fff;stroke-width:3;opacity:.82}.fbNumber{fill:#fff;font-size:22px;font-weight:950;text-anchor:middle;opacity:.85}.fbEndZone{fill:#275ca9;opacity:.85}
+.fbGoal line{stroke:#f4d24f;stroke-width:9;stroke-linecap:round}.fbQuarterback circle,.fbReceiver circle{fill:#244fab}.fbQuarterback rect,.fbReceiver rect{fill:#245dc7}.fbQuarterback line,.fbReceiver line{stroke:#f0f3f8;stroke-width:13;stroke-linecap:round}
+.fbBall{fill:#8b4d2f;stroke:#fff;stroke-width:3}.fbTarget{fill:#fff;stroke:#ff5148;stroke-width:8}.fbTargetText{fill:#cf3d38;font-size:9px;font-weight:950;text-anchor:middle}
+
+/* Golf */
+.gfSky{fill:#9bd6ff}.gfRough{fill:#69a853}.gfFairway{fill:none;stroke:#91c875;stroke-width:125;stroke-linecap:round}.gfGreen{fill:#aedd88;stroke:#eaf5d9;stroke-width:5}.gfBunker{fill:#e8d69c}
+.gfFlagPole{stroke:#5f6468;stroke-width:5}.gfFlag{fill:#ef5f55}.gfGolfer circle{fill:#ecd1ba}.gfGolfer rect{fill:#4873c8}.gfGolfer line{stroke:#76563b;stroke-width:10;stroke-linecap:round}.gfBall{fill:#fff;stroke:#9da6ad;stroke-width:2}.gfWind{fill:#fff;font-size:18px;font-weight:950;paint-order:stroke;stroke:#4b6f86;stroke-width:5}
+
+/* Hockey */
+.hkIce{fill:#dff4ff}.hkRink{fill:#f8fdff;stroke:#7da2ba;stroke-width:10}.hkRed{stroke:#d8565e;stroke-width:6}.hkBlue{stroke:#4a78c0;stroke-width:7}.hkCircle{fill:none;stroke:#d8565e;stroke-width:4}.hkGoal{fill:none;stroke:#dd5b58;stroke-width:8}
+.hkPlayer circle{fill:#263e6b}.hkPlayer rect{fill:#285ec8}.hkPlayer line{stroke:#29333b;stroke-width:12;stroke-linecap:round}.hkIncoming,.hkOutgoing{stroke:#4d62d8;stroke-width:8;stroke-linecap:round}.hkOutgoing{stroke:#7a47ca}.hkNormal{stroke:#6c7380;stroke-width:4;stroke-dasharray:9 7}.hkPuck{fill:#222}.hkImpact{fill:#fff;stroke:#ff6a54;stroke-width:5}.hkAngleText{fill:#31437c;font-size:18px;font-weight:950}
+
+/* Track */
+.trSky{fill:#9ed8fb}.trGrass{fill:#73ad62}.trOuter{fill:#c7684e}.trInner{fill:#6bab5a}.trLane{fill:none;stroke:rgba(255,255,255,.78);stroke-width:3}.trFinish{stroke:#fff;stroke-width:9;stroke-dasharray:7 5}
+.trRunner circle{fill:#2d5ec9}.trRunner line{stroke:#1f3f7f;stroke-width:10;stroke-linecap:round}.trGraph rect{fill:#fff;stroke:#d9e1ea;stroke-width:2}.trGraph line{stroke:#66788f;stroke-width:4}.trGraph line:last-of-type{stroke:#5267d8;stroke-width:7}.trGraph text{fill:#64748a;font-size:15px;font-weight:900}
+
+@media(max-width:720px){.sportSceneSvg{min-height:340px}}
