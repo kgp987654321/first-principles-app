@@ -1,1 +1,386 @@
 .newInterior{min-height:100vh;padding:24px;background:linear-gradient(#eaf7ff,#f7fbef);color:#17213a}.interiorHeader{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 22px;border-radius:24px;background:white;box-shadow:0 8px 25px rgba(44,60,85,.08)}.interiorHeader small,.missionShelf>small,.workbenchTop small,.challengeCard>small{font-weight:950;letter-spacing:.09em;color:#6d5dfc}.interiorHeader h1{margin:3px 0;font-size:32px}.interiorHeader p{margin:0;color:#667085}.interiorHeader button{border:2px solid #e1e5ee;border-radius:14px;background:white;padding:11px 16px;font-weight:900}.interiorScene{max-width:1180px;height:210px;margin:18px auto;position:relative;overflow:hidden;border-radius:28px;background:linear-gradient(#9edbf4 0 45%,#d9caa2 45%);border:5px solid white;box-shadow:0 9px 25px rgba(44,60,85,.1)}.architectInterior .interiorScene{background:linear-gradient(#c9e7ff 0 42%,#d9c3a4 42%)}.observatoryInterior .interiorScene{background:linear-gradient(#1d2852 0 65%,#51496e 65%)}.interiorBackdrop{height:100%;display:grid;place-items:center;font-size:72px;letter-spacing:24px;filter:drop-shadow(0 8px 5px rgba(0,0,0,.18))}.interiorCounter{position:absolute;left:18px;bottom:15px;padding:10px 14px;border-radius:15px;background:rgba(255,255,255,.94);display:flex;flex-direction:column}.interiorCounter b{font-size:12px}.interiorCounter span{font-size:9px;color:#6d7280}.interiorLayout{max-width:1180px;margin:auto;display:grid;grid-template-columns:280px 1fr;gap:18px}.missionShelf,.missionWorkbench{background:white;border-radius:24px;padding:18px;box-shadow:0 8px 25px rgba(44,60,85,.08)}.missionShelf{align-self:start}.missionShelf>button{width:100%;display:grid;grid-template-columns:38px 1fr;gap:9px;align-items:center;text-align:left;margin-top:10px;padding:12px;border:2px solid #e6e9f0;border-radius:16px;background:#fafbfe}.missionShelf>button.active{border-color:#6d5dfc;background:#f1efff}.missionShelf>button>span{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;background:white;font-weight:950}.missionShelf b,.missionShelf small{display:block}.missionShelf small{font-size:8px;color:#788091}.workbenchTop{display:flex;justify-content:space-between;gap:20px}.workbenchTop h2{margin:3px 0;font-size:27px}.workbenchTop p{margin:4px 0;color:#626b7c}.missionGauge{width:82px;height:82px;border-radius:50%;display:grid;place-content:center;text-align:center;background:#f1efff;border:7px solid #d7d1ff}.missionGauge strong{font-size:19px}.missionGauge span{font-size:8px}.controlTrack{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}.controlTrack>div{display:flex;align-items:center;gap:8px;padding:10px;border:2px solid #e4e7ee;border-radius:14px;color:#7a8190}.controlTrack span{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:#edf0f5;font-weight:950}.controlTrack .active{border-color:#6d5dfc;background:#f3f1ff;color:#382e87}.controlTrack .done{border-color:#8ed09d;background:#f0faf2;color:#2e6b3c}.challengeCard{padding:22px;border-radius:22px;background:linear-gradient(145deg,#f7faff,#fff9ec);border:3px solid #e4e7ef}.challengeCard h3{font-size:24px;margin:4px 0}.challengeCard p{font-size:17px;line-height:1.45}.answerDeck{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.answerDeck button{min-height:68px;border:2px solid #dce1eb;border-radius:17px;background:white;font-size:18px;font-weight:950;box-shadow:0 4px 0 #e2e5eb}.answerDeck button:hover{transform:translateY(-2px);border-color:#6d5dfc}.interiorFeedback{font-weight:800;color:#4f586b}.missionComplete{text-align:center;padding:30px;border-radius:22px;background:#f0faf2;border:3px solid #a5d9af}.missionComplete>span{font-size:55px}.missionComplete h3{font-size:26px;margin:4px}.missionComplete button{padding:10px 16px;border:0;border-radius:13px;background:#6d5dfc;color:white;font-weight:900}@media(max-width:760px){.newInterior{padding:10px}.interiorHeader{align-items:flex-start}.interiorHeader h1{font-size:23px}.interiorScene{height:160px}.interiorBackdrop{font-size:48px}.interiorLayout{grid-template-columns:1fr}.missionShelf{display:grid;grid-template-columns:1fr 1fr;gap:8px}.missionShelf>small{grid-column:1/-1}.missionShelf>button{margin:0}.answerDeck{grid-template-columns:1fr}.workbenchTop h2{font-size:22px}}
+
+
+/* Geometry Workshop: immersive carpentry woodshop */
+.architectInterior{
+  background:
+    radial-gradient(circle at 86% 8%,rgba(255,232,161,.28),transparent 24%),
+    linear-gradient(#f5f0e6,#edf3ea)
+}
+.architectInterior .interiorHeader{
+  background:linear-gradient(135deg,#fffaf0,#f2eadb 55%,#e8f1e8);
+  border-color:#dfccb0;
+  box-shadow:0 9px 24px rgba(82,59,40,.10)
+}
+.architectInterior .interiorHeader small{color:#87633f}
+.architectInterior .interiorScene{
+  position:relative;
+  height:250px;
+  overflow:hidden;
+  background:
+    linear-gradient(rgba(255,255,255,.06),rgba(255,255,255,.06)),
+    linear-gradient(#dfceb6 0 68%,#b9875c 68%);
+  border:6px solid #8b6548;
+  box-shadow:inset 0 0 0 3px #f6e9d6,0 12px 25px rgba(68,47,31,.16)
+}
+.architectInterior .interiorScene:before{
+  content:'';
+  position:absolute;
+  left:28px;top:24px;
+  width:380px;height:115px;
+  border:7px solid #8a664c;
+  border-radius:10px;
+  background:
+    radial-gradient(circle,#8c684d 0 2px,transparent 2.4px) 0 0/24px 24px,
+    #d7b78e;
+  box-shadow:0 7px 10px #0002
+}
+.architectInterior .interiorScene:after{
+  content:'HAMMER   SQUARE   RULER   CLAMP';
+  position:absolute;
+  left:52px;top:51px;
+  width:330px;
+  height:68px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  color:#684c39;
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.25em;
+  border-bottom:9px solid #6d4b34;
+  background:
+    linear-gradient(90deg,transparent 0 12%,#7f8790 12% 16%,transparent 16% 33%,#e7b84f 33% 39%,transparent 39% 55%,#d9b046 55% 62%,transparent 62% 78%,#a15f49 78% 84%,transparent 84%);
+  opacity:.95
+}
+.architectInterior .interiorBackdrop{
+  position:absolute;
+  right:36px;
+  top:34px;
+  width:330px;
+  height:140px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:
+    linear-gradient(rgba(69,95,117,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(69,95,117,.08) 1px,transparent 1px),
+    #f8f4e9;
+  background-size:18px 18px;
+  border:7px solid #8d6a4f;
+  box-shadow:0 7px 10px #0002;
+  font-size:48px
+}
+.architectInterior .interiorBackdrop:before{
+  content:'SHOP PLAN';
+  position:absolute;
+  left:12px;top:8px;
+  font-size:8px;
+  letter-spacing:.12em;
+  font-weight:950;
+  color:#7d6859
+}
+.architectInterior .interiorCounter{
+  z-index:3;
+  background:#fff8ea;
+  border-color:#d7bd98
+}
+.architectInterior .interiorLayout{
+  grid-template-columns:285px 1fr;
+  gap:18px
+}
+.architectInterior .missionShelf{
+  background:linear-gradient(#f5ead8,#ead7bb);
+  border-color:#d4b48b;
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.45),0 10px 24px rgba(77,53,35,.10)
+}
+.architectInterior .missionShelf>small{color:#87633f}
+.architectInterior .missionShelf>button{
+  background:#fffaf0;
+  border-color:#dbc5a7
+}
+.architectInterior .missionShelf>button.active{
+  border-color:#b77943;
+  background:#fff1dd;
+  box-shadow:0 4px 0 rgba(155,99,55,.13)
+}
+.architectInterior .missionWorkbench{
+  background:linear-gradient(#fffdf8,#f8f2e8);
+  border-color:#e0cfb9
+}
+.architectInterior .workbenchTop small{color:#9a6538}
+.architectInterior .controlTrack>div.active{
+  border-color:#b77943;
+  background:#fff1df
+}
+
+/* Interactive ruler bench */
+.carpentryRulerBench{
+  position:relative;
+  margin:22px 0 20px;
+  padding:18px;
+  border:3px solid #c49362;
+  border-radius:20px;
+  background:
+    linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)),
+    repeating-linear-gradient(90deg,#e4c093 0 56px,#d8ad79 56px 58px);
+  box-shadow:0 9px 0 #94643f,0 15px 24px rgba(78,51,31,.14)
+}
+.carpentryRulerBench:before{
+  content:'RULER BENCH';
+  position:absolute;
+  left:18px;top:-14px;
+  padding:5px 10px;
+  border-radius:8px;
+  background:#6e4b34;
+  color:#fff6e9;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.11em;
+  box-shadow:0 3px 0 #4e3526
+}
+.carpentryToolHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:14px
+}
+.carpentryToolHead h3{margin:2px 0 4px;font-size:21px;color:#50392a}
+.carpentryToolHead p{margin:0;color:#715b4b;font-size:12px}
+.cutGoal{
+  min-width:110px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:#fff7e8;
+  border:2px solid #d9b98f;
+  text-align:center
+}
+.cutGoal small{display:block;font-size:7px;color:#8c6647}
+.cutGoal strong{font-size:22px;color:#563b2a}
+.rulerJobTabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin:14px 0
+}
+.rulerJobTabs button{
+  min-height:42px;
+  padding:7px 8px;
+  border:2px solid #dfccb5;
+  background:#fffdf8;
+  font-size:9px;
+  font-weight:850
+}
+.rulerJobTabs button.active{
+  background:#fff0d9;
+  border-color:#b77943;
+  color:#865128;
+  box-shadow:0 3px 0 #dab58e
+}
+.rulerBenchSurface{
+  position:relative;
+  min-height:235px;
+  padding:36px 24px 22px;
+  overflow:hidden;
+  border-radius:17px;
+  background:
+    linear-gradient(rgba(76,86,93,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(76,86,93,.055) 1px,transparent 1px),
+    #f8f5ee;
+  background-size:22px 22px;
+  border:3px solid #d5c4ad;
+  box-shadow:inset 0 6px 14px rgba(82,57,37,.05)
+}
+.woodshopRuler{
+  position:relative;
+  height:58px;
+  margin:0 2% 18px;
+  border:3px solid #c19033;
+  border-radius:7px;
+  background:
+    repeating-linear-gradient(90deg,#f2c85a 0 12.2%,#e7b742 12.2% 12.5%);
+  box-shadow:0 5px 0 #a87928
+}
+.woodshopRuler:before{
+  content:'INCHES';
+  position:absolute;
+  right:8px;bottom:4px;
+  font-size:6px;
+  font-weight:950;
+  letter-spacing:.1em;
+  color:#79591d
+}
+.woodshopRuler button{
+  position:absolute;
+  top:0;
+  width:28px;
+  height:73px;
+  min-height:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  transform:translateX(-50%);
+  cursor:pointer;
+  overflow:visible
+}
+.woodshopRuler button:disabled{opacity:.18}
+.woodshopRuler button i{
+  display:block;
+  width:2px;
+  height:25px;
+  margin:0 auto;
+  background:#6d521f
+}
+.woodshopRuler button.half i{height:34px}
+.woodshopRuler button.whole i{height:45px;width:3px}
+.woodshopRuler button.quarter i{height:22px}
+.woodshopRuler button span{
+  position:absolute;
+  top:42px;
+  left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font-size:7px;
+  font-weight:950;
+  color:#5c441c
+}
+.woodshopRuler button.cut i{
+  background:#d54f45;
+  width:4px;
+  box-shadow:0 0 0 3px rgba(213,79,69,.14)
+}
+.woodBoard{
+  position:relative;
+  min-width:50%;
+  height:72px;
+  border:3px solid #8d5c31;
+  border-radius:7px;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.14),transparent 28%,rgba(98,58,27,.07)),
+    #c98a4e;
+  box-shadow:0 7px 0 #80502c,0 11px 13px rgba(73,44,25,.15);
+  transition:width .25s ease
+}
+.woodBoard .grain{
+  position:absolute;
+  height:3px;
+  border-radius:50%;
+  background:rgba(105,61,29,.26)
+}
+.woodBoard .g1{left:8%;right:10%;top:18px}
+.woodBoard .g2{left:20%;right:5%;top:37px}
+.woodBoard .g3{left:5%;right:30%;top:53px}
+.sawCut{
+  position:absolute;
+  top:-12px;
+  bottom:-12px;
+  width:3px;
+  border-left:3px dashed #f8e8d3;
+  transform:translateX(-50%)
+}
+.sawCut b{
+  position:absolute;
+  top:-21px;left:-11px;
+  font-size:14px;
+  transform:rotate(-30deg)
+}
+.pieceReadout{
+  display:flex;
+  margin-top:9px;
+  min-height:28px;
+  gap:5px;
+  align-items:center
+}
+.pieceReadout span{
+  min-width:52px;
+  padding:5px 7px;
+  border-radius:999px;
+  background:#fff3dd;
+  border:1px solid #deb98c;
+  text-align:center;
+  font-size:8px;
+  font-weight:950;
+  color:#714b2e
+}
+.fractionRelationship{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto;
+  gap:8px;
+  align-items:center;
+  margin-top:13px;
+  padding:11px;
+  border-radius:14px;
+  background:#fff9ed;
+  border:2px solid #e0c9a7
+}
+.fractionRelationship>span{
+  position:relative;
+  display:flex;
+  height:34px;
+  border-radius:7px;
+  overflow:hidden;
+  background:#d99b58
+}
+.fractionRelationship>span b{
+  position:absolute;
+  z-index:2;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:#5e3e26;
+  font-size:8px
+}
+.fractionRelationship>span i{
+  flex:1;
+  border-right:2px solid #fff3df
+}
+.fractionRelationship>span i:last-child{border-right:0}
+.fractionRelationship>strong{
+  font-size:9px;
+  text-align:center;
+  color:#71543c
+}
+.carpentryActions{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:8px;
+  margin-top:12px
+}
+.carpentryCheck{
+  background:#a96838;
+  border-color:#a96838;
+  color:white;
+  font-weight:900;
+  box-shadow:0 4px 0 #774821
+}
+.carpentryNote{
+  min-height:40px;
+  margin:10px 0 0;
+  padding:10px 12px;
+  border-radius:12px;
+  background:#fffaf1;
+  border:1px solid #e1ceb4;
+  color:#6b5544;
+  font-size:10px;
+  font-weight:800
+}
+.carpentryNote.success{
+  background:#eff8ed;
+  border-color:#a8d09f;
+  color:#426642
+}
+
+@media(max-width:850px){
+  .architectInterior .interiorLayout{grid-template-columns:1fr}
+  .fractionRelationship{grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+  .architectInterior .interiorScene{height:205px}
+  .architectInterior .interiorScene:before{left:15px;width:240px;height:95px}
+  .architectInterior .interiorScene:after{left:28px;width:210px;font-size:7px}
+  .architectInterior .interiorBackdrop{right:15px;width:210px;height:115px;font-size:34px}
+  .carpentryToolHead{display:grid}
+  .rulerJobTabs{grid-template-columns:1fr}
+  .fractionRelationship{grid-template-columns:1fr}
+  .carpentryActions{grid-template-columns:1fr}
+}
