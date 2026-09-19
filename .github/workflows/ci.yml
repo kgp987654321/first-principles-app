@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, issue-1-lesson-engine, street-level-world, feature/learning-system-final]
+    branches: [main, issue-1-lesson-engine, street-level-world]
   pull_request:
     branches: [main]
 
