@@ -32,9 +32,11 @@ export function SportLab({
       <StatRail stats={stats}/>
     </div>
     <div className="sharedSportControls">
-      {controls}
-      {choices}
-      <button className="sharedSportAction" onClick={onAction}>{actionLabel}</button>
+      <div className="sharedControlSliders">{controls}</div>
+      <div className="sharedControlBottom">
+        <div className="sharedChoiceSlot">{choices}</div>
+        <button className="sharedSportAction" onClick={onAction}>{actionLabel}</button>
+      </div>
     </div>
     {feedback&&<div className={success?'sharedSportFeedback success':'sharedSportFeedback'}>{feedback}</div>}
     {success&&onTryAnother&&<div className="tryAnotherSport"><div><small>FLEXIBLE THINKING</small><b>Can you get the same result another way?</b><span>Change at least two controls and try again.</span></div><button onClick={onTryAnother}>Try another way →</button></div>}
