@@ -1,75 +1,12 @@
 
 import React,{useState}from'react';
 import'./sportsPark.css';
-import{SportLab,SportControl,ChoiceButtons,AngleOverlay}from'./sports/SportLab';
+import{SportLab,SportControl,ChoiceButtons}from'./sports/SportLab';
 import{BasketballScene,SoccerScene,FootballScene,GolfScene,HockeyScene,TrackScene}from'./sports/SportScenes';
 import{SPORTS_CHALLENGES,challengeText}from'./sports/sportsChallenges';
 
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 const rad=d=>d*Math.PI/180;
-const pct=n=>Math.round(n);
-
-function TrajectoryField({angle=45,power=70,target=72,label='TARGET',wind=0,theme='baseball'}){
-  const range=clamp(Math.sin(2*rad(angle))*(power/100)*100+wind,5,100);
-  const height=clamp(Math.sin(rad(angle))**2*(power/100)*100,4,96);
-  const end=10+range*.78;
-  const peak=82-height*.58;
-  const mid=(10+end)/2;
-  const targetX=10+target*.78;
-  const rayX=10+Math.cos(rad(angle))*14;
-  const rayY=82-Math.sin(rad(angle))*14;
-  const arcX=10+Math.cos(rad(angle))*9;
-  const arcY=82-Math.sin(rad(angle))*9;
-  const labelX=12+Math.cos(rad(angle/2))*12;
-  const labelY=80-Math.sin(rad(angle/2))*12;
-  return <div className={'sportTrajectory '+theme+'Trajectory'}>
-    <svg viewBox="0 0 100 100" role="img" aria-label={theme+' trajectory at '+angle+' degrees'}>
-      {theme==='baseball'&&<>
-        <path d="M 8 82 Q 50 27 92 82 Z" className="baseballOutfield"/>
-        <path d="M 10 82 L 31 61 L 52 82 L 31 96 Z" className="baseballInfield"/>
-        <rect x="8.5" y="80.5" width="3" height="3" transform="rotate(45 10 82)" className="baseballBase"/>
-        <rect x="29.5" y="59.5" width="3" height="3" transform="rotate(45 31 61)" className="baseballBase"/>
-        <rect x="50.5" y="80.5" width="3" height="3" transform="rotate(45 52 82)" className="baseballBase"/>
-        <path d="M 7 77 Q 50 18 93 77" className="baseballFence"/>
-        <text x="87" y="18" className="sceneTinyLabel">SCORE</text>
-      </>}
-      {theme==='basketball'&&<>
-        <rect x="5" y="42" width="90" height="43" rx="3" className="basketCourt"/>
-        <path d="M 50 42 V 85 M 50 64 A 11 11 0 1 1 49.9 64" className="courtLine"/>
-        <path d="M 18 42 V 65 A 15 15 0 0 0 33 80 M 82 42 V 65 A 15 15 0 0 1 67 80" className="courtLine"/>
-        <rect x={targetX-2} y="49" width="10" height="6" className="backboard"/>
-        <ellipse cx={targetX} cy="58" rx="3.4" ry="1.2" className="basketRim"/>
-      </>}
-      {theme==='football'&&<>
-        <rect x="5" y="42" width="90" height="43" rx="3" className="footballField"/>
-        {[15,25,35,45,55,65,75,85].map(x=><line key={x} x1={x} y1="43" x2={x} y2="84" className="yardLine"/>)}
-        <line x1="8" y1="42" x2="8" y2="85" className="endZoneLine"/>
-        <line x1="92" y1="42" x2="92" y2="85" className="endZoneLine"/>
-        <path d="M 89 46 V 59 M 85 46 V 52 H 93 V 46" className="goalPost"/>
-        <circle cx={targetX} cy="67" r="3.5" className="receiverMarker"/>
-        <text x={targetX} y="68.2" textAnchor="middle" className="receiverText">R</text>
-      </>}
-      {theme==='golf'&&<>
-        <path d="M 5 84 C 18 65 31 66 43 55 C 56 43 72 43 95 58 L95 84 Z" className="golfRough"/>
-        <path d="M 10 82 C 28 70 34 63 47 58 C 61 52 71 55 91 63" className="golfFairway"/>
-        <ellipse cx={targetX} cy="68" rx="11" ry="6" className="golfGreen"/>
-        <ellipse cx={targetX-14} cy="72" rx="5" ry="2.5" className="golfBunker"/>
-        <line x1={targetX} y1="55" x2={targetX} y2="69" className="golfFlagPole"/>
-        <path d={'M '+targetX+' 55 L '+(targetX+7)+' 58 L '+targetX+' 61 Z'} className="golfFlag"/>
-      </>}
-      <line x1="5" y1="82" x2="95" y2="82" className="sportGround"/>
-      <line x1="10" y1="82" x2="24" y2="82" className="sportBaseRay"/>
-      <line x1="10" y1="82" x2={rayX} y2={rayY} className="sportAngleRay"/>
-      <path d={'M 19 82 A 9 9 0 0 0 '+arcX+' '+arcY} className="sportAngleArc"/>
-      <text x={labelX} y={labelY} className="sportAngleText">{angle}°</text>
-      {theme==='baseball'&&<><line x1={targetX} y1="57" x2={targetX} y2="82" className="sportTargetPole"/><path d={'M '+targetX+' 57 L '+(targetX+8)+' 61 L '+targetX+' 65 Z'} className="sportTargetFlag"/></>}
-      {theme!=='basketball'&&theme!=='football'&&theme!=='golf'&&<text x={targetX} y="92" textAnchor="middle" className="sportTargetText">{label}</text>}
-      <path d={'M 10 82 Q '+mid+' '+peak+' '+end+' 82'} className="sportArc"/>
-      <circle cx={end} cy="82" r="2.5" className={'sportBall '+theme+'Ball'}/>
-    </svg>
-    <div className="sportTrajectoryStats"><span><small>ANGLE</small><b>{angle}°</b></span><span><small>POWER</small><b>{power}%</b></span><span><small>DISTANCE</small><b>{pct(range)}</b></span><span><small>HEIGHT</small><b>{pct(height)}</b></span></div>
-  </div>
-}
 
 function Control({label,value,min,max,step=1,onChange,suffix=''}){return <label className="sportControl"><span>{label}</span><input type="range" min={min} max={max} step={step} value={value} onChange={e=>onChange(+e.target.value)}/><b>{value}{suffix}</b></label>}
 
@@ -78,11 +15,11 @@ function BaseballHeroScene({angle,power,contact,range,result,onAngle,onPower,onC
   const launchAngle=clamp(angle+(contact==='low'?8:contact==='high'?-7:0),8,55);
   const distance=Math.round(95+range*1.15);
   const maxHeight=Math.round(18+Math.sin(rad(launchAngle))*power*.72);
-  const startX=575,startY=488;
-  const endX=clamp(650+(range-50)*7.3,700,1080);
-  const endY=270;
-  const apexX=startX+(endX-startX)*.5;
-  const apexY=clamp(startY-(105+maxHeight*2.5),85,330);
+  const startX=575,startY=488,targetDistance=175;
+  const fieldY=d=>clamp(520-Math.sqrt(clamp(d,0,400)/400)*330,190,500);
+  const endX=600,endY=fieldY(distance),targetX=600,targetY=fieldY(targetDistance);
+  const apexX=startX+135;
+  const apexY=clamp(Math.min(startY,endY)-(65+maxHeight*1.8),82,300);
   const path='M '+startX+' '+startY+' Q '+apexX+' '+apexY+' '+endX+' '+endY;
   const wedgeR=70;
   const wedgeX=startX+Math.cos(rad(launchAngle))*wedgeR;
@@ -122,9 +59,10 @@ function BaseballHeroScene({angle,power,contact,range,result,onAngle,onPower,onC
           <path d={wedgePath} className="hrAngleArc"/>
           <line x1={startX} y1={startY} x2={startX+Math.cos(rad(launchAngle))*112} y2={startY-Math.sin(rad(launchAngle))*112} className="hrAngleRay"/>
           <path d={path} className="hrTrajectory"/>
-          <g className="hrAngleTag" transform={'translate('+(startX+Math.cos(rad(launchAngle/2))*94-25)+' '+(startY-Math.sin(rad(launchAngle/2))*94-21)+')'}><rect width="60" height="40" rx="12"/><text x="30" y="27">{launchAngle}°</text></g>
-          <g className="hrLanding" transform={'translate('+endX+' '+endY+')'}><circle cx="0" cy="0" r="14"/><path d="M-7 -10 C-2 -5,-2 5,-7 10 M7 -10 C2 -5,2 5,7 10"/><line x1="35" y1="-10" x2="35" y2="80"/><path d="M35 -10 L91 13 L35 36 Z"/><ellipse cx="35" cy="83" rx="33" ry="11"/></g>
-          <g className="hrDistanceTag" transform={'translate('+(Math.min(endX+58,1030))+' '+(endY+27)+')'}><rect width="116" height="44" rx="12"/><text x="58" y="29">{distance} FT</text></g>
+          <g className="hrAngleTag" transform={'translate('+(startX+Math.cos(rad(launchAngle/2))*94-25)+' '+(startY-Math.sin(rad(launchAngle/2))*94-21)+')'}><rect width="60" height="40" rx="12"/><text x="30" y="27">{launchAngle}°</text></g><text x={startX-18} y={startY+32} className="hrAngleCaption">LAUNCH ANGLE · SIDE VIEW</text>
+          <g className="hrTargetMarker" transform={'translate('+targetX+' '+targetY+')'}><ellipse cx="0" cy="0" rx="34" ry="13"/><line x1="34" y1="-72" x2="34" y2="0"/><path d="M34 -72 L92 -48 L34 -24 Z"/><text x="48" y="28">175 FT TARGET</text></g>
+          <g className="hrBallLanding" transform={'translate('+endX+' '+endY+')'}><circle cx="0" cy="0" r="14"/><path d="M-7 -10 C-2 -5,-2 5,-7 10 M7 -10 C2 -5,2 5,7 10"/></g>
+          <g className="hrDistanceTag" transform={'translate('+(endX+48)+' '+(endY-16)+')'}><rect width="116" height="44" rx="12"/><text x="58" y="29">{distance} FT</text></g>
         </svg>
       </div>
       <aside className="homeRunStats">
