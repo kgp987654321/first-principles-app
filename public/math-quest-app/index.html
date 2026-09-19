@@ -1183,11 +1183,9 @@
   $("#resetLaunchBtn").addEventListener("click",()=>resetLaunch(true));
   $("#nextLaunchLevel").addEventListener("click",nextLaunchLevel);
   window.addEventListener("resize",()=>{if(!breakState.launching&&$("#launchGame")&&!$("#launchGame").classList.contains("hidden")){placeLaunchLevel();renderTrajectory()}});
-  makeMatchBoard();resetBlocks();resetLaunch(true);showBreak("match");
-
   $$("input.digit").forEach(el=>el.addEventListener("input",()=>{el.value=el.value.replace(/[^0-9]/g,"").slice(0,1)}));
   $("#factAnswer").addEventListener("input",e=>e.target.value=e.target.value.replace(/[^0-9]/g,"").slice(0,3));
-  $$$(".gameCard").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;if(state.mode==="subtract")startTrail();else renderProblem()}));
+  $$(".gameCard").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;if(state.mode==="subtract")startTrail();else renderProblem()}));
   $("#switchStrategy").addEventListener("click",()=>{state.strategy=(state.strategy+1)%strategies[state.mode].length;state.strategyStep=0;renderStrategy();renderFactVisual()});
   $("#checkBtn").addEventListener("click",check);
   $("#clearBtn").addEventListener("click",clearInputs);
@@ -1218,6 +1216,15 @@
   $("#factAnswer").addEventListener("keydown",e=>{if(e.key==="Enter")check()});
   mathSelfCheck();
   renderProblem();updateHUD();
+
+  // Initialize bonus games only after the core math controls are live.
+  // A bonus-game failure must never disable addition/subtraction/multiplication/division.
+  try{
+    makeMatchBoard();resetBlocks();resetLaunch(true);showBreak("match");
+  }catch(err){
+    console.error("Brain Break Arcade initialization failed:",err);
+  }
+
   if(restaurantUnlockPending)setTimeout(openRestaurantBonus,700);
 })();
 </script>
