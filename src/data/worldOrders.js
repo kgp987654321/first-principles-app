@@ -1,6 +1,6 @@
 export const worldOrderMeta={
   bakery:[
-    {id:'pizza-three-fourths',label:'Three-fourths pizza'},
+    {id:'pizza-three-fourths',label:'Five-eighths pizza'},
     {id:'half-cup',label:'Half-cup recipe'},
     {id:'third-cup-cocoa',label:'One-third cup cocoa',unlockAfter:'fraction-three-fourths',unlockLabel:'Part-to-whole fractions'},
     {id:'two-thirds-sauce',label:'Two-thirds cup sauce',unlockAfter:'match-one-half',unlockLabel:'Equivalent fractions'},
@@ -16,7 +16,7 @@ export const worldOrderMeta={
     {id:'bakery-function-price',label:'Mystery cake price',unlockAfter:'mystery-machine',unlockLabel:'Crack the mystery machine'},
     {id:'bakery-best-deal',label:'Buy the best berry deal',unlockAfter:'unit-price',unlockLabel:'Which deal wins?'},
     {id:'bakery-catering-mission',label:'Catering mission',unlockAfter:'relationship-mission',unlockLabel:'Relationship mission'},
-    {id:'bakery-chance-box',label:'Build the surprise pastry box',unlockAfter:'probability-bag',unlockLabel:'Build a 3-in-4 chance'},
+    {id:'bakery-chance-box',label:'Build the surprise pastry box',unlockAfter:'probability-bag',unlockLabel:'Build a 5-in-6 chance'},
     {id:'bakery-combo-menu',label:'Count the party-menu combinations',unlockAfter:'combination-lab',unlockLabel:'Count every combination'}
   ],
   clinic:[
