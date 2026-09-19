@@ -378,7 +378,7 @@
   function renderProblem(){
     clearInputs();state.problem=makeProblem(state.mode);state.strategy=0;state.strategyStep=0;
     const p=state.problem;
-    $$(".gameCard").forEach(b=>b.classList.toggle("active",b.dataset.mode===state.mode));
+    $$$(".gameCard").forEach(b=>b.classList.toggle("active",b.dataset.mode===state.mode));
     const isFact=state.mode==="multiply"||state.mode==="divide",isTrail=state.mode==="subtract";
     $("#columnPractice").classList.toggle("hidden",isFact||isTrail);
     $("#mazePractice").classList.toggle("hidden",!isTrail);
@@ -641,7 +641,7 @@
   }
   function showBreak(name){
     breakState.active=name;
-    $(".breakCard").forEach(b=>b.classList.toggle("active",b.dataset.break===name));
+    $$(".breakCard").forEach(b=>b.classList.toggle("active",b.dataset.break===name));
     $("#matchGame").classList.toggle("hidden",name!=="match");
     $("#blockGame").classList.toggle("hidden",name!=="blocks");
     $("#launchGame").classList.toggle("hidden",name!=="launch");
@@ -851,7 +851,7 @@
     requestAnimationFrame(frame);
   }
 
-  $(".breakCard").forEach(b=>b.addEventListener("click",()=>showBreak(b.dataset.break)));
+  $$(".breakCard").forEach(b=>b.addEventListener("click",()=>showBreak(b.dataset.break)));
   $("#newMatch").addEventListener("click",makeMatchBoard);
   $("#blockStart").addEventListener("click",()=>toggleBlock());
   $("#blockLeft").addEventListener("click",()=>moveBlock(-1));
@@ -866,9 +866,9 @@
   window.addEventListener("resize",()=>{if(!breakState.launching&&$("#launchGame")&&!$("#launchGame").classList.contains("hidden")){placeLaunchLevel();renderTrajectory()}});
   makeMatchBoard();resetBlocks();resetLaunch(true);showBreak("match");
 
-  $("input.digit").forEach(el=>el.addEventListener("input",()=>{el.value=el.value.replace(/[^0-9]/g,"").slice(0,1)}));
+  $$("input.digit").forEach(el=>el.addEventListener("input",()=>{el.value=el.value.replace(/[^0-9]/g,"").slice(0,1)}));
   $("#factAnswer").addEventListener("input",e=>e.target.value=e.target.value.replace(/[^0-9]/g,"").slice(0,3));
-  $(".gameCard").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;if(state.mode==="subtract")startTrail();else renderProblem()}));
+  $$(".gameCard").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;if(state.mode==="subtract")startTrail();else renderProblem()}));
   $("#switchStrategy").addEventListener("click",()=>{state.strategy=(state.strategy+1)%strategies[state.mode].length;state.strategyStep=0;renderStrategy();renderFactVisual()});
   $("#checkBtn").addEventListener("click",check);
   $("#clearBtn").addEventListener("click",clearInputs);
