@@ -952,3 +952,118 @@
   .scaleArrow{transform:rotate(90deg)}
   .scaleRelationshipRow{grid-template-columns:1fr}
 }
+
+
+/* Think Tank — cozy reasoning lounge */
+.thinkInterior{
+  background:
+    radial-gradient(circle at 85% 8%,rgba(255,215,133,.18),transparent 24%),
+    linear-gradient(#f2eef8,#eef2f7)
+}
+.thinkInterior .interiorHeader{
+  background:linear-gradient(135deg,#fffaf4,#f4ecfb 52%,#edf1fb);
+  border-color:#d9cbea;
+  box-shadow:0 9px 24px rgba(74,55,95,.10)
+}
+.thinkInterior .interiorHeader small{color:#8061a4}
+.thinkInterior .interiorScene{
+  position:relative;
+  height:245px;
+  overflow:hidden;
+  background:linear-gradient(#d9c7e8 0 68%,#9a7457 68%);
+  border:6px solid #76543f;
+  box-shadow:inset 0 0 0 3px #f5e9dc,0 12px 25px rgba(61,42,73,.16)
+}
+.thinkInterior .interiorScene:before{
+  content:'';
+  position:absolute;
+  left:26px;top:28px;
+  width:320px;height:128px;
+  border:7px solid #76543f;
+  border-radius:12px;
+  background:
+    linear-gradient(90deg,transparent 32%,rgba(255,255,255,.12) 32% 34%,transparent 34% 66%,rgba(255,255,255,.12) 66% 68%,transparent 68%),
+    linear-gradient(#57445f,#4b394f);
+  box-shadow:0 7px 12px rgba(0,0,0,.18)
+}
+.thinkInterior .interiorScene:after{
+  content:'ANALOGIES   LOGIC   PATTERNS   CLUES';
+  position:absolute;
+  left:53px;top:58px;
+  width:267px;
+  min-height:68px;
+  display:grid;
+  place-items:center;
+  padding:10px;
+  color:#f9e8a8;
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-align:center;
+  background:
+    radial-gradient(circle at 18% 28%,#efb54f 0 3px,transparent 4px),
+    radial-gradient(circle at 75% 70%,#82c7d9 0 3px,transparent 4px),
+    radial-gradient(circle at 50% 45%,#d57cb6 0 3px,transparent 4px)
+}
+.thinkInterior .interiorBackdrop{
+  position:absolute;
+  right:36px;
+  top:34px;
+  width:300px;
+  height:135px;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  background:linear-gradient(#f8efe6,#ead7ca);
+  border:7px solid #795843;
+  box-shadow:0 7px 10px rgba(0,0,0,.16);
+  font-size:44px
+}
+.thinkInterior .interiorBackdrop:before{
+  content:'PUZZLE TABLE';
+  position:absolute;
+  left:50%;
+  bottom:10px;
+  transform:translateX(-50%);
+  font-size:8px;
+  letter-spacing:.12em;
+  font-weight:950;
+  color:#765d50
+}
+.thinkInterior .missionShelf{
+  background:linear-gradient(#f5ecfa,#eadcf1);
+  border-color:#d2bde0
+}
+.thinkInterior .missionShelf>button{
+  background:#fffafc;
+  border-color:#dbcbe4
+}
+.thinkInterior .missionShelf>button.active{
+  border-color:#8d6ac2;
+  background:#f5efff;
+  box-shadow:0 4px 0 rgba(98,74,133,.13)
+}
+.thinkInterior .workbenchTop small{color:#805faf}
+.thinkInterior .controlTrack>div.active{
+  border-color:#8d6ac2;
+  background:#f4effc
+}
+.thinkInterior .missionGauge{
+  border-color:#bca8d8
+}
+.thinkInterior .missionGauge strong{color:#6d50a0}
+.thinkInterior .answerDeck button:hover{
+  border-color:#9676c6;
+  background:#f7f2ff
+}
+.thinkInterior .interiorHelp{
+  border-color:#d4c8e3;
+  background:#fbf8ff
+}
+
+@media(max-width:700px){
+  .thinkInterior .interiorScene{height:205px}
+  .thinkInterior .interiorScene:before{left:14px;width:220px;height:95px}
+  .thinkInterior .interiorScene:after{left:32px;top:51px;width:180px;font-size:7px}
+  .thinkInterior .interiorBackdrop{right:14px;width:190px;height:110px;font-size:30px}
+}
