@@ -33,7 +33,7 @@ const destinations=[
   {id:'patterns',name:'Pattern Studio',emoji:'🎨',x:63,y:42,buildingId:'design',entry:'design',core:true,min:0,topic:'Design · predict · generalize',blurb:'Complete customer design commissions by finding, extending, and creating visual rules.'},
   {id:'think',name:'The Think Tank',emoji:'🧠',x:82,y:45,buildingId:'think',interior:true,core:true,min:0,topic:'Logic · analogy · flexible reasoning',blurb:'Enter the puzzle lounge to solve analogies, classifications, constraints, and multi-step logic.'},
   {id:'science',name:'Science Studio',emoji:'🧪',x:70,y:64.5,buildingId:'lab',entry:'lab',core:true,min:0,topic:'Forces · motion · energy',blurb:'Use experiments to discover measurement, motion, change, and physical relationships.'},
-  {id:'garden',name:'The Garden',emoji:'🌱',x:88.5,y:66.5,buildingId:'clinic',entry:'clinic',micro:'gardenlab',core:true,min:0,topic:'Grow your ideas',blurb:'Apply number sense, sorting, comparison, and patterns in living systems.'},
+  {id:'garden',name:'Learning Greenhouse',emoji:'🌱',x:88.5,y:66.5,entry:'garden',micro:'gardenlab',core:true,min:0,topic:'Fractions · ratios · patterns · growth',blurb:'Grow a living math garden with planting fractions, ratios, repeating paths, and pattern thinking.'},
   {id:'observatory',name:'The Observatory',emoji:'🔭',x:88,y:23,buildingId:'observatory',interior:true,micro:'observatorylab',min:10,topic:'Patterns beyond',blurb:'A high-level destination for multi-step reasoning, space, scale, and prediction.'},
   {id:'sports',name:'Athletics Park',emoji:'⚾',x:55,y:82,entry:'sports',core:true,min:0,topic:'Angles · force · rates · data',blurb:'Play baseball, basketball, soccer, track, football, golf, and hockey while exploring the math and physics inside sports.'}
 ];
