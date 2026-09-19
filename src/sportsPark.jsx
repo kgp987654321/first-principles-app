@@ -167,80 +167,90 @@ function BaseballStations(){
   </div>
 }
 
-function Basketball({record,onRecord}){
-  const[angle,setAngle]=useState(52),[power,setPower]=useState(66),[spot,setSpot]=useState('free'),[result,setResult]=useState(null);
+function Basketball({record,onRecord,onChallenge,onDiscover}){
+  const[angle,setAngle]=useState(52),[power,setPower]=useState(66),[spot,setSpot]=useState('free'),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
   const targets={short:45,free:68,three:86},feet={short:8,free:15,three:23};
   const target=targets[spot],range=clamp(Math.sin(2*rad(angle))*(power/100)*105,0,110),miss=Math.abs(range-target);
-  const apex=Math.round(5+Math.sin(rad(angle))*power*.16),hit=miss<6;
-  const shoot=()=>{setResult(hit);if(hit)onRecord('basketball',Math.max(record||0,Math.round(100-miss)))};
-  const scene=<BasketballScene angle={angle} power={power} range={range} shotType={spot}/>;
-  return <SportLab icon="🏀" title="Hoop Shot Math" subtitle="Explore how angle and push force change the path of a basketball." promptTitle="Take a shot!" promptText="Adjust angle and force, then see whether the arc reaches the hoop." scene={scene}
+  const apex=Math.round(5+Math.sin(rad(angle))*power*.16),basicHit=miss<6,masteryHit=basicHit&&spot==='free'&&power<=65;
+  const success=mode==='explore'?true:mode==='challenge'?basicHit:masteryHit;
+  const shoot=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('angle');if(success&&mode!=='explore')onChallenge('basketball:'+mode);if(basicHit)onRecord('basketball',Math.max(record||0,Math.round(100-miss)))};
+  const resetTry=()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?5:-4),30,70));setPower(p=>clamp(p+(attempt%2?-6:5),30,90))};
+  return <SportLab icon="🏀" title="Hoop Shot Math" subtitle="Explore how angle and push force change the path of a basketball." promptTitle="Take a shot!" promptText="Adjust angle and force, then see whether the arc reaches the hoop." scene={<BasketballScene angle={angle} power={power} range={range} shotType={spot}/>}
     stats={[{icon:'📐',label:'Release Angle',value:angle+'°'},{icon:'🔥',label:'Shot Force',value:power+'%'},{icon:'📍',label:'Distance',value:feet[spot]+' FT'},{icon:'⬆',label:'Apex',value:apex+' FT'}]}
     controls={<><SportControl label="Shot angle" value={angle} min={30} max={70} onChange={v=>{setAngle(v);setResult(null)}} suffix="°"/><SportControl label="Shot force" value={power} min={30} max={90} onChange={v=>{setPower(v);setResult(null)}} suffix="%"/></>}
     choices={<ChoiceButtons options={[{id:'short',label:'short range'},{id:'free',label:'free throw'},{id:'three',label:'three-point'}]} value={spot} onChange={v=>{setSpot(v);setResult(null)}}/>}
-    actionLabel="🏀 Shoot!" onAction={shoot} feedback={result===null?null:(result?'Swish! You matched distance, angle, and force.':'Missed the target. Change one variable and watch how the arc responds.')} success={result===true}/>;
+    actionLabel="🏀 Shoot!" onAction={shoot} feedback={result===null?null:(result?(mode==='explore'?'Watch the arc: changing angle and force changes both height and range.':'Swish! Mission complete.'):(mode==='mastery'?'Make a free throw with 65% force or less.':'Missed the target. Change one variable and compare.'))} success={result===true}
+    mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('basketball',mode)} connectionText={SPORTS_CHALLENGES.basketball.connection} onTryAnother={resetTry}/>;
 }
 
-function Soccer({record,onRecord}){
-  const[angle,setAngle]=useState(32),[power,setPower]=useState(74),[contact,setContact]=useState('center'),[result,setResult]=useState(null);
+function Soccer({record,onRecord,onChallenge,onDiscover}){
+  const[angle,setAngle]=useState(32),[power,setPower]=useState(74),[contact,setContact]=useState('center'),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
   const contactShift=contact==='curve'?-6:contact==='chip'?6:0;
-  const endpoint=(angle-32)*1.15+contactShift,miss=Math.abs(endpoint),height=Math.round(3+Math.sin(rad(angle))*power*.14),distance=Math.round(12+power*.16);
-  const kick=()=>{const hit=miss<5;setResult(hit);if(hit)onRecord('soccer',Math.max(record||0,100-Math.round(miss*8)))};
-  const scene=<SoccerScene angle={angle} power={power} end={endpoint} contact={contact}/>;
-  return <SportLab icon="⚽" title="Goal Kick Math" subtitle="Explore how angle and kick force change the path of a soccer ball." promptTitle="Take the kick!" promptText="Aim through the target zone. Change angle, force, and contact style." scene={scene}
+  const endpoint=(angle-32)*1.15+contactShift,miss=Math.abs(endpoint),height=Math.round(3+Math.sin(rad(angle))*power*.14),distance=Math.round(12+power*.16),basicHit=miss<5,masteryHit=basicHit&&power<=70;
+  const success=mode==='explore'?true:mode==='challenge'?basicHit:masteryHit;
+  const kick=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('vector');if(success&&mode!=='explore')onChallenge('soccer:'+mode);if(basicHit)onRecord('soccer',Math.max(record||0,100-Math.round(miss*8)))};
+  const resetTry=()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?4:-5),15,50));setPower(p=>clamp(p+(attempt%2?-8:6),30,100))};
+  return <SportLab icon="⚽" title="Goal Kick Math" subtitle="Explore how angle and kick force change the path of a soccer ball." promptTitle="Take the kick!" promptText="Aim through the target zone. Change angle, force, and contact style." scene={<SoccerScene angle={angle} power={power} end={endpoint} contact={contact}/>}
     stats={[{icon:'📐',label:'Kick Angle',value:angle+'°'},{icon:'🔥',label:'Kick Force',value:power+'%'},{icon:'📍',label:'Distance',value:distance+' FT'},{icon:'⬆',label:'Max Height',value:height+' FT'}]}
     controls={<><SportControl label="Kick angle" value={angle} min={15} max={50} onChange={v=>{setAngle(v);setResult(null)}} suffix="°"/><SportControl label="Kick force" value={power} min={30} max={100} onChange={v=>{setPower(v);setResult(null)}} suffix="%"/></>}
     choices={<ChoiceButtons options={[{id:'curve',label:'low curve'},{id:'center',label:'center strike'},{id:'chip',label:'high chip'}]} value={contact} onChange={v=>{setContact(v);setResult(null)}}/>}
-    actionLabel="⚽ Kick!" onAction={kick} feedback={result===null?null:(result?'Goal! Your vector reached the target zone.':'Off target. Change angle or contact direction and try again.')} success={result===true}/>;
+    actionLabel="⚽ Kick!" onAction={kick} feedback={result===null?null:(result?(mode==='explore'?'Notice: angle and contact change direction while force changes how far the ball travels.':'Goal! Mission complete.'):(mode==='mastery'?'Hit the target using 70% force or less.':'Off target. Change direction or contact and try again.'))} success={result===true}
+    mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('soccer',mode)} connectionText={SPORTS_CHALLENGES.soccer.connection} onTryAnother={resetTry}/>;
 }
 
-function Football({record,onRecord}){
-  const[angle,setAngle]=useState(38),[power,setPower]=useState(68),[passType,setPassType]=useState('spiral'),[receiver,setReceiver]=useState(8),[result,setResult]=useState(null);
+function Football({record,onRecord,onChallenge,onDiscover}){
+  const[angle,setAngle]=useState(38),[power,setPower]=useState(68),[passType,setPassType]=useState('spiral'),[receiver,setReceiver]=useState(8),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
   const typeFactor=passType==='short'?.88:passType==='lob'?.83:1;
-  const throwDist=Math.sin(2*rad(angle))*power*.75*typeFactor,receiverDist=receiver*4,miss=Math.abs(throwDist-receiverDist),height=Math.round(6+Math.sin(rad(angle))*power*.18);
-  const pass=()=>{const hit=miss<5;setResult(hit);if(hit)onRecord('football',Math.max(record||0,100-Math.round(miss*3)))};
-  const scene=<FootballScene angle={angle} power={power} receiverDist={receiverDist} throwDist={throwDist}/>;
-  return <SportLab icon="🏈" title="Pass Arc Math" subtitle="Explore how angle, force, and receiver speed change a football pass." promptTitle="Make the pass!" promptText="Throw where the receiver will be, not where the receiver started." scene={scene}
+  const throwDist=Math.sin(2*rad(angle))*power*.75*typeFactor,receiverDist=receiver*4,miss=Math.abs(throwDist-receiverDist),height=Math.round(6+Math.sin(rad(angle))*power*.18),basicHit=miss<5,masteryHit=basicHit&&receiver>=10;
+  const success=mode==='explore'?true:mode==='challenge'?basicHit:masteryHit;
+  const pass=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('prediction');onDiscover('rate');if(success&&mode!=='explore')onChallenge('football:'+mode);if(basicHit)onRecord('football',Math.max(record||0,100-Math.round(miss*3)))};
+  const resetTry=()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?5:-4),20,60));setPower(p=>clamp(p+(attempt%2?-7:6),35,100))};
+  return <SportLab icon="🏈" title="Pass Arc Math" subtitle="Explore how angle, force, and receiver speed change a football pass." promptTitle="Make the pass!" promptText="Throw where the receiver will be, not where the receiver started." scene={<FootballScene angle={angle} power={power} receiverDist={receiverDist} throwDist={throwDist}/>}
     stats={[{icon:'📐',label:'Throw Angle',value:angle+'°'},{icon:'🔥',label:'Throw Force',value:power+'%'},{icon:'📍',label:'Distance',value:Math.round(throwDist)+' YD'},{icon:'⬆',label:'Max Height',value:height+' FT'}]}
     controls={<><SportControl label="Throw angle" value={angle} min={20} max={60} onChange={v=>{setAngle(v);setResult(null)}} suffix="°"/><SportControl label="Throw force" value={power} min={35} max={100} onChange={v=>{setPower(v);setResult(null)}} suffix="%"/><SportControl label="Receiver speed" value={receiver} min={4} max={14} onChange={v=>{setReceiver(v);setResult(null)}} suffix=" yd/s"/></>}
     choices={<ChoiceButtons options={[{id:'short',label:'short pass'},{id:'spiral',label:'spiral'},{id:'lob',label:'lob'}]} value={passType} onChange={v=>{setPassType(v);setResult(null)}}/>}
-    actionLabel="🏈 Pass!" onAction={pass} feedback={result===null?null:(result?'Complete! You led the receiver successfully.':'Incomplete. Compare throw distance with the moving target distance.')} success={result===true}/>;
+    actionLabel="🏈 Pass!" onAction={pass} feedback={result===null?null:(result?(mode==='explore'?'The receiver moves while the ball is in flight, so the target is a prediction.':'Complete! Mission accomplished.'):(mode==='mastery'?'Lead a receiver moving at least 10 yd/s.':'Incomplete. Compare throw distance with receiver target distance.'))} success={result===true}
+    mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('football',mode)} connectionText={SPORTS_CHALLENGES.football.connection} onTryAnother={resetTry}/>;
 }
 
-function Golf({record,onRecord}){
-  const[angle,setAngle]=useState(42),[power,setPower]=useState(72),[wind,setWind]=useState(0),[club,setClub]=useState('iron'),[result,setResult]=useState(null),target=76;
+function Golf({record,onRecord,onChallenge,onDiscover}){
+  const[angle,setAngle]=useState(42),[power,setPower]=useState(72),[wind,setWind]=useState(0),[club,setClub]=useState('iron'),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0),target=76;
   const clubFactor=club==='wedge'?.78:club==='driver'?1.12:1;
-  const range=clamp(Math.sin(2*rad(angle))*(power/100)*100*clubFactor+wind,0,120),miss=Math.abs(range-target),height=Math.round(8+Math.sin(rad(angle))*power*.38);
-  const swing=()=>{const hit=miss<7;setResult(hit);if(hit)onRecord('golf',Math.max(record||0,100-Math.round(miss)))};
-  const scene=<GolfScene angle={angle} power={power} wind={wind} range={range} target={target}/>;
-  return <SportLab icon="⛳" title="Green Landing Math" subtitle="Explore how club angle, swing force, and wind combine." promptTitle="Land on the green!" promptText="Use the wind instead of ignoring it. Different inputs can reach the same green." scene={scene}
+  const range=clamp(Math.sin(2*rad(angle))*(power/100)*100*clubFactor+wind,0,120),miss=Math.abs(range-target),basicHit=miss<7,masteryHit=basicHit&&wind!==0&&power<=80;
+  const success=mode==='explore'?true:mode==='challenge'?basicHit:masteryHit;
+  const swing=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('vector');onDiscover('wind');if(success&&mode!=='explore')onChallenge('golf:'+mode);if(basicHit)onRecord('golf',Math.max(record||0,100-Math.round(miss)))};
+  const resetTry=()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?6:-5),20,65));setPower(p=>clamp(p+(attempt%2?-8:6),30,100))};
+  return <SportLab icon="⛳" title="Green Landing Math" subtitle="Explore how club angle, swing force, and wind combine." promptTitle="Land on the green!" promptText="Use the wind instead of ignoring it. Different inputs can reach the same green." scene={<GolfScene angle={angle} power={power} wind={wind} range={range} target={target}/>}
     stats={[{icon:'📐',label:'Club Angle',value:angle+'°'},{icon:'🔥',label:'Swing Force',value:power+'%'},{icon:'📍',label:'Carry',value:Math.round(range*2.2)+' YD'},{icon:'💨',label:'Wind',value:(wind>0?'+':'')+wind}]}
     controls={<><SportControl label="Club angle" value={angle} min={20} max={65} onChange={v=>{setAngle(v);setResult(null)}} suffix="°"/><SportControl label="Swing force" value={power} min={30} max={100} onChange={v=>{setPower(v);setResult(null)}} suffix="%"/><SportControl label="Wind" value={wind} min={-15} max={15} onChange={v=>{setWind(v);setResult(null)}}/></>}
     choices={<ChoiceButtons options={[{id:'wedge',label:'wedge'},{id:'iron',label:'iron'},{id:'driver',label:'driver'}]} value={club} onChange={v=>{setClub(v);setResult(null)}}/>}
-    actionLabel="⛳ Swing!" onAction={swing} feedback={result===null?null:(result?'On the green! Angle, force, club, and wind balanced out.':'Off the green. Change one variable at a time and compare the result.')} success={result===true}/>;
+    actionLabel="⛳ Swing!" onAction={swing} feedback={result===null?null:(result?(mode==='explore'?'Compare this shot with the same controls under different wind.':'On the green! Mission complete.'):(mode==='mastery'?'Use non-zero wind and 80% force or less.':'Off the green. Change one variable at a time.'))} success={result===true}
+    mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('golf',mode)} connectionText={SPORTS_CHALLENGES.golf.connection} onTryAnother={resetTry}/>;
 }
 
-function Hockey({record,onRecord}){
-  const[angle,setAngle]=useState(35),[force,setForce]=useState(65),[result,setResult]=useState(null),target=35;
-  const reflected=angle,miss=Math.abs(reflected-target);
-  const shoot=()=>{const hit=miss<4;setResult(hit);if(hit)onRecord('hockey',Math.max(record||0,100-Math.round(miss*5)))};
-  const scene=<HockeyScene angle={angle} reflected={reflected}/>;
-  return <SportLab icon="🏒" title="Bank Shot Math" subtitle="Explore reflection: the angle into the boards matches the angle out." promptTitle="Bank it in!" promptText="Aim at the boards so the reflected puck path reaches the goal." scene={scene}
+function Hockey({record,onRecord,onChallenge,onDiscover}){
+  const[angle,setAngle]=useState(35),[force,setForce]=useState(65),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),target=35;
+  const reflected=angle,miss=Math.abs(reflected-target),basicHit=miss<4;
+  const success=mode==='explore'?true:basicHit;
+  const shoot=()=>{setResult(success);onDiscover('reflection');if(success&&mode!=='explore')onChallenge('hockey:'+mode);if(basicHit)onRecord('hockey',Math.max(record||0,100-Math.round(miss*5)))};
+  return <SportLab icon="🏒" title="Bank Shot Math" subtitle="Explore reflection: the angle into the boards matches the angle out." promptTitle="Bank it in!" promptText="Aim at the boards so the reflected puck path reaches the goal." scene={<HockeyScene angle={angle} reflected={reflected}/>}
     stats={[{icon:'↘',label:'Incoming Angle',value:angle+'°'},{icon:'↗',label:'Reflected Angle',value:reflected+'°'},{icon:'🔥',label:'Shot Force',value:force+'%'},{icon:'🎯',label:'Target',value:target+'°'}]}
     controls={<><SportControl label="Bank angle" value={angle} min={15} max={75} onChange={v=>{setAngle(v);setResult(null)}} suffix="°"/><SportControl label="Shot force" value={force} min={30} max={100} onChange={v=>{setForce(v);setResult(null)}} suffix="%"/></>}
-    choices={<ChoiceButtons options={[{id:'normal',label:'show normal'},{id:'rays',label:'show rays'},{id:'target',label:'show target'}]} value="rays" onChange={()=>{}}/>}
-    actionLabel="🏒 Shoot!" onAction={shoot} feedback={result===null?null:(result?'Bank shot! The incoming and reflected angles match.':'The reflection rule is right, but the chosen angle misses the target.')} success={result===true}/>;
+    choices={<ChoiceButtons options={[{id:'normal',label:'normal line'},{id:'rays',label:'angle rays'},{id:'target',label:'target path'}]} value="rays" onChange={()=>{}}/>}
+    actionLabel="🏒 Shoot!" onAction={shoot} feedback={result===null?null:(result?(mode==='explore'?'Angle in equals angle out when both are measured from the normal.':'Bank shot! Mission complete.'):'The reflection rule is right, but this angle misses the target.')} success={result===true}
+    mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('hockey',mode)} connectionText={SPORTS_CHALLENGES.hockey.connection} onTryAnother={()=>{setResult(null);setAngle(a=>clamp(70-a,15,75))}}/>;
 }
 
-function Track({record,onRecord}){
-  const[speed,setSpeed]=useState(12),[laps,setLaps]=useState(2),[result,setResult]=useState(null),lap=400,distance=laps*lap,time=distance/speed,pace=(400/speed).toFixed(1);
-  const run=()=>{setResult(true);onRecord('track',Math.max(record||0,Math.round(speed*10)))};
-  const scene=<TrackScene speed={speed} laps={laps}/>;
-  return <SportLab icon="🏃" title="Pace & Graph Math" subtitle="Explore how speed changes time, pace, and the slope of a distance-time graph." promptTitle="Set your pace!" promptText="Change speed and laps. Watch the runner and graph respond together." scene={scene}
+function Track({record,onRecord,onChallenge,onDiscover}){
+  const[speed,setSpeed]=useState(12),[laps,setLaps]=useState(2),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),lap=400,distance=laps*lap,time=distance/speed,pace=(400/speed).toFixed(1);
+  const success=mode==='explore'?true:mode==='challenge'?laps>=1:(laps>=2&&speed>=12);
+  const run=()=>{setResult(success);onDiscover('rate');onDiscover('graph');if(success&&mode!=='explore')onChallenge('track:'+mode);onRecord('track',Math.max(record||0,Math.round(speed*10)))};
+  return <SportLab icon="🏃" title="Pace & Graph Math" subtitle="Explore how speed changes time, pace, and the slope of a distance-time graph." promptTitle="Set your pace!" promptText="Change speed and laps. Watch the runner and graph respond together." scene={<TrackScene speed={speed} laps={laps}/>}
     stats={[{icon:'⚡',label:'Speed',value:speed+' m/s'},{icon:'📍',label:'Distance',value:distance+' m'},{icon:'⏱',label:'Time',value:time.toFixed(1)+' s'},{icon:'📈',label:'400m Pace',value:pace+' s'}]}
     controls={<><SportControl label="Speed" value={speed} min={6} max={20} onChange={v=>{setSpeed(v);setResult(null)}} suffix=" m/s"/><SportControl label="Laps" value={laps} min={1} max={4} onChange={v=>{setLaps(v);setResult(null)}}/></>}
     choices={<ChoiceButtons options={[{id:'steady',label:'steady pace'},{id:'sprint',label:'sprint'},{id:'distance',label:'distance'}]} value="steady" onChange={()=>{}}/>}
-    actionLabel="🏃 Run!" onAction={run} feedback={result?'Run complete. A faster constant speed makes a steeper distance-time graph.':null} success={result===true}/>;
+    actionLabel="🏃 Run!" onAction={run} feedback={result===null?null:(result?(mode==='explore'?'Faster constant speed makes a steeper distance-time line.':'Run complete. Mission accomplished.'):'For mastery, use at least 2 laps and a speed of 12 m/s or more.')} success={result===true}
+    mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('track',mode)} connectionText={SPORTS_CHALLENGES.track.connection} onTryAnother={()=>{setResult(null);setSpeed(s=>clamp(s===12?18:12,6,20))}}/>;
 }
 
 const sports=[
