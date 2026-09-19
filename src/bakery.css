@@ -631,3 +631,297 @@
   border-color:#d66a5b;
   background:#fff0eb
 }
+
+
+/* Interactive measuring station */
+.kitchenMeasureStation{
+  position:relative;
+  z-index:3;
+  margin:26px 0 24px;
+  padding:18px;
+  border:3px solid #d8b487;
+  border-radius:20px;
+  background:
+    linear-gradient(rgba(255,255,255,.75),rgba(255,255,255,.75)),
+    repeating-linear-gradient(90deg,#ecd1ad 0 38px,#e4c39a 38px 40px);
+  box-shadow:0 9px 0 #b8845d,0 15px 24px rgba(92,59,36,.12)
+}
+.kitchenMeasureStation:before{
+  content:'MEASURING STATION';
+  position:absolute;
+  left:18px;top:-14px;
+  padding:5px 10px;
+  border-radius:8px;
+  background:#7b553d;
+  color:#fff6e8;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.11em;
+  box-shadow:0 3px 0 #5e3f2d
+}
+.measureStationHead{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-start;
+  margin-bottom:14px
+}
+.measureStationHead h3{margin:2px 0 4px;font-size:21px;color:#513c31}
+.measureStationHead p{margin:0;font-size:12px;color:#715d50}
+.recipeGoal{
+  min-width:120px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:#fff7e9;
+  border:2px solid #e4c89d;
+  text-align:center
+}
+.recipeGoal small{display:block;color:#9a6947;font-size:7px}
+.recipeGoal strong{font-size:19px;color:#5a3e2d}
+.measureStationBody{
+  display:grid;
+  grid-template-columns:1.15fr 1fr .9fr;
+  gap:12px
+}
+.measureRack,.measurePreview,.mixingStation{
+  min-width:0;
+  padding:13px;
+  border-radius:16px;
+  background:rgba(255,252,245,.92);
+  border:2px solid #ead8bd
+}
+.measureRack>b{
+  display:block;
+  margin:1px 0 7px;
+  font-size:10px;
+  color:#6b5140
+}
+.measureRack>b:nth-of-type(2){margin-top:12px}
+.measureTools{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px
+}
+.measureTools button,.spoonTools button{
+  min-width:0;
+  padding:7px 4px;
+  border:2px solid #eadfce;
+  background:#fff;
+  display:grid;
+  justify-items:center;
+  gap:4px;
+  border-radius:12px;
+  box-shadow:0 3px 0 #e0cfb8
+}
+.measureTools button.selected,.spoonTools button.selected{
+  border-color:#d66a5b;
+  background:#fff1ed;
+  transform:translateY(-2px)
+}
+.measureTools strong,.spoonTools strong{font-size:8px;color:#5d4a3d}
+.measureCup{
+  position:relative;
+  display:block;
+  width:39px;height:43px;
+  overflow:hidden;
+  border:3px solid #6f7d85;
+  border-top:0;
+  border-radius:4px 4px 11px 11px;
+  background:linear-gradient(90deg,#f8fcff,#e9f2f6)
+}
+.measureCup:after{
+  content:'';
+  position:absolute;
+  right:-12px;top:9px;
+  width:14px;height:19px;
+  border:3px solid #6f7d85;
+  border-left:0;
+  border-radius:0 10px 10px 0
+}
+.measureCup i{
+  position:absolute;left:0;right:0;bottom:0;
+  background:#b7dff2
+}
+.measureCup.third i{background:#d8c27b}
+.measureCup.quarter i{background:#f0b08f}
+.spoonTools{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.measureSpoon{
+  position:relative;
+  width:48px;height:24px;
+  display:block
+}
+.measureSpoon:before{
+  content:'';
+  position:absolute;
+  left:0;top:4px;
+  width:20px;height:16px;
+  border:3px solid #7f8588;
+  border-radius:50%;
+  background:#f4f7f8
+}
+.measureSpoon:after{
+  content:'';
+  position:absolute;
+  left:18px;top:10px;
+  width:29px;height:4px;
+  border-radius:4px;
+  background:#7f8588
+}
+.measureSpoon i{
+  position:absolute;left:5px;top:9px;
+  width:10px;height:7px;
+  border-radius:50%;
+  background:#e4b55d
+}
+.previewMeasure{
+  display:grid;
+  grid-template-columns:82px 1fr;
+  gap:11px;
+  align-items:center;
+  min-height:112px;
+  margin:8px 0 10px
+}
+.previewMeasure>div strong{font-size:15px;color:#563e31}
+.previewMeasure p{margin:4px 0 0;font-size:10px;color:#746255}
+.previewCup{
+  position:relative;
+  justify-self:center;
+  width:62px;height:78px;
+  border:5px solid #647681;
+  border-top:0;
+  border-radius:5px 5px 16px 16px;
+  overflow:hidden;
+  background:#f7fbfd
+}
+.previewCup i{
+  position:absolute;left:0;right:0;bottom:0;
+  background:linear-gradient(#bde4f6,#9fd2ea)
+}
+.previewSpoon{
+  position:relative;
+  width:72px;height:38px;
+  justify-self:center
+}
+.previewSpoon:before{
+  content:'';
+  position:absolute;left:0;top:4px;
+  width:34px;height:28px;
+  border:5px solid #6d7478;
+  border-radius:50%;
+  background:#f6d987
+}
+.previewSpoon:after{
+  content:'';
+  position:absolute;left:32px;top:15px;
+  width:39px;height:7px;border-radius:5px;background:#6d7478
+}
+.ingredientTabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px
+}
+.ingredientTabs button{
+  min-height:37px;padding:6px 4px;font-size:8px
+}
+.ingredientTabs button.active{
+  border-color:#d66a5b;background:#fff0eb
+}
+.pourButton{
+  width:100%;
+  margin-top:8px;
+  background:#d66a5b;
+  color:white;
+  border-color:#d66a5b;
+  font-weight:900;
+  box-shadow:0 3px 0 #a44e42
+}
+.mixingStation{
+  display:grid;
+  justify-items:center;
+  align-content:center
+}
+.mixingBowl{
+  position:relative;
+  width:145px;height:96px;
+  overflow:hidden;
+  border-radius:12px 12px 68px 68px
+}
+.mixingBowl>span{
+  position:absolute;inset:0;
+  z-index:2;
+  display:grid;
+  place-items:center;
+  font-size:105px;
+  line-height:1;
+  filter:drop-shadow(0 5px 3px #0002)
+}
+.bowlFill{
+  position:absolute;left:13px;right:13px;bottom:10px;
+  z-index:1;
+  border-radius:0 0 54px 54px;
+  transition:height .25s ease;
+  background:#c8e7f5
+}
+.bowlFill.flour{background:#ede4d4}
+.bowlFill.sugar{background:#fff5dc}
+.bowlReadout{text-align:center;margin-top:3px}
+.bowlReadout small{display:block;font-size:7px;color:#986c4d}
+.bowlReadout strong{display:block;font-size:21px;color:#503a2e}
+.bowlReadout span{font-size:9px;color:#786254}
+.pourHistory{
+  display:flex;
+  gap:4px;
+  flex-wrap:wrap;
+  justify-content:center;
+  min-height:24px;
+  margin-top:8px
+}
+.pourHistory span{
+  padding:3px 6px;
+  border-radius:999px;
+  background:#fff3d9;
+  border:1px solid #e6ca99;
+  font-size:7px;
+  font-weight:900
+}
+.pourHistory em{font-size:8px;color:#9a8878}
+.measureTargets{
+  display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+  margin-top:12px
+}
+.measureTargets>span{font-size:9px;font-weight:900;color:#765a46}
+.measureTargets button{
+  min-height:34px;padding:5px 9px;font-size:9px
+}
+.measureTargets button.active{background:#fff0eb;border-color:#d66a5b;color:#9d4e43;font-weight:900}
+.measureActions{
+  display:grid;
+  grid-template-columns:auto auto 1fr;
+  gap:7px;
+  margin-top:10px
+}
+.measureActions button{min-height:39px}
+.measureActions .primary{margin:0}
+.measureNote{
+  margin:10px 0 0;
+  min-height:37px;
+  padding:9px 11px;
+  border-radius:11px;
+  background:#fffaf2;
+  border:1px solid #ead8bd;
+  font-size:10px;
+  font-weight:800;
+  color:#6a5648
+}
+.measureNote.success{background:#eef9ef;border-color:#a9d6af;color:#3d6848}
+
+@media(max-width:900px){
+  .measureStationBody{grid-template-columns:1fr 1fr}
+  .mixingStation{grid-column:1/-1}
+}
+@media(max-width:700px){
+  .measureStationHead{display:grid}
+  .measureStationBody{grid-template-columns:1fr}
+  .mixingStation{grid-column:auto}
+  .measureActions{grid-template-columns:1fr}
+}
