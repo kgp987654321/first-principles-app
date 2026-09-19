@@ -925,3 +925,75 @@
   .mixingStation{grid-column:auto}
   .measureActions{grid-template-columns:1fr}
 }
+
+
+/* Activity-first bakery layout */
+.numbersLabApp .bakeryHero{
+  padding:16px 22px!important;
+  margin-bottom:10px!important;
+}
+.numbersLabApp .bakeryHero h1{
+  margin:2px 0 4px!important;
+  font-size:32px!important;
+  line-height:1.05!important;
+}
+.numbersLabApp .bakeryHero p{
+  margin:0!important;
+  font-size:13px!important;
+}
+.numbersLabApp .bakeryStatus{
+  padding:10px 16px!important;
+  margin-bottom:12px!important;
+  min-height:0!important;
+}
+.numbersLabApp .bakeryStatus>div{
+  min-height:0!important;
+}
+.numbersLabApp .bakeryLayout{
+  margin-top:0!important;
+  align-items:start;
+}
+.activityFirstWorkbench{
+  padding-top:16px!important;
+}
+.activityFirstBrief{
+  margin:0 0 12px!important;
+  min-height:0!important;
+}
+.activityFirstBrief h2{
+  margin:2px 0 3px!important;
+  font-size:22px!important;
+}
+.activityFirstBrief p{
+  margin:0!important;
+  font-size:12px!important;
+}
+.activityFirstWorkbench .kitchenMeasureStation{
+  margin-top:12px!important;
+}
+.compactKitchenDecor{
+  margin-top:18px!important;
+  min-height:150px!important;
+  height:150px!important;
+  overflow:hidden!important;
+  border-radius:18px!important;
+  opacity:.92;
+}
+.compactKitchenDecor .recipeBoard{
+  top:18px!important;
+}
+.compactKitchenDecor .kitchenShelf{
+  top:75px!important;
+}
+.compactKitchenDecor .ingredientJars{
+  transform:scale(.8);
+  transform-origin:top right;
+}
+.compactKitchenDecor .bakeryOven{
+  transform:scale(.78);
+  transform-origin:top right;
+}
+@media(max-width:700px){
+  .numbersLabApp .bakeryHero h1{font-size:27px!important}
+  .compactKitchenDecor{height:125px!important;min-height:125px!important}
+}
