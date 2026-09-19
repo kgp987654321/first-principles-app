@@ -36,7 +36,7 @@ const amountLabel=value=>{
   return hit?hit[1]:v.toFixed(2)+' cups';
 };
 function BakeryMeasuringStation({order}){
-  const initialTarget=order?.id==='half-cup'?.5:order?.id==='bakery-ratio-batch'?.75:order?.id==='bakery-catering-mission'?1:.75;
+  const initialTarget=order?.id==='half-cup' ? .5 : order?.id==='bakery-ratio-batch' ? .75 : order?.id==='bakery-catering-mission' ? 1 : .75;
   const[selected,setSelected]=useState('half'),[ingredient,setIngredient]=useState('milk'),[target,setTarget]=useState(initialTarget),[pours,setPours]=useState([]),[note,setNote]=useState('Choose a measure, then pour it into the bowl.'),[solvedWays,setSolvedWays]=useState([]);
   const[servings,setServings]=useState(4),[broken,setBroken]=useState(false);
   const measure=kitchenMeasures.find(m=>m.id===selected)||kitchenMeasures[0];
