@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#7c5cff">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Math Quest</title>
+  <style>
+    :root{
+      --ink:#263248;--muted:#71809a;--paper:#fffdf8;--panel:#f6f3ff;--line:#dfe4ef;
+      --purple:#7c5cff;--purple2:#a995ff;--mint:#38c9a3;--yellow:#ffd166;--coral:#ff7a7a;
+      --blue:#58a7ff;--shadow:0 14px 36px rgba(57,67,99,.12);--radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-rounded,"SF Pro Rounded","Segoe UI",system-ui,sans-serif;color:var(--ink);
+      background:linear-gradient(180deg,#f5f1ff 0,#fbfdff 42%,#fffaf3 100%);min-height:100vh}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .app{width:min(1040px,100%);margin:0 auto;padding:18px 16px 60px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .brand{display:flex;align-items:center;gap:10px}.logo{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;
+      background:linear-gradient(145deg,var(--purple),#9a7cff);color:white;font-size:26px;box-shadow:var(--shadow)}
+    .brand h1{font-size:1.25rem;margin:0}.brand small{display:block;color:var(--muted);margin-top:2px}
+    .pill{border:1px solid var(--line);background:white;border-radius:999px;padding:9px 12px;font-weight:800;white-space:nowrap}
+    .hero{background:white;border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+    .hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-70px;top:-80px;background:#efe9ff}
+    .hero>*{position:relative;z-index:1}.eyebrow{font-size:.75rem;font-weight:900;letter-spacing:.08em;color:var(--purple);text-transform:uppercase}
+    h2{font-size:clamp(1.55rem,4vw,2.35rem);line-height:1.05;margin:7px 0 10px}
+    .hero p{margin:0;color:var(--muted);max-width:680px;line-height:1.5}
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.stat{background:var(--panel);border-radius:14px;padding:10px 12px;font-weight:800}
+    .progressWrap{margin-top:18px}.progressMeta{display:flex;justify-content:space-between;gap:10px;font-size:.82rem;font-weight:800;margin-bottom:7px}
+    .bar{height:11px;background:#edf0f6;border-radius:999px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--mint));transition:.25s}
+    .sectionTitle{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:22px 2px 10px}.sectionTitle h3{margin:0;font-size:1.1rem}.sectionTitle span{color:var(--muted);font-size:.85rem}
+    .gameGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.gameCard{border:1px solid var(--line);background:white;border-radius:18px;padding:14px;text-align:left;min-height:128px;transition:.15s;box-shadow:0 8px 20px rgba(57,67,99,.06)}
+    .gameCard:hover{transform:translateY(-2px)}.gameCard.active{border:2px solid var(--purple);background:#faf8ff}.gameIcon{font-size:27px}.gameCard b{display:block;margin-top:8px}.gameCard small{display:block;color:var(--muted);margin-top:4px;line-height:1.25}
+    .workspace{margin-top:16px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:14px;align-items:start}
+    .card{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:0 10px 28px rgba(57,67,99,.07)}
+    .problemHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.problemHead h3{margin:3px 0 0;font-size:1.25rem}.tag{display:inline-flex;border-radius:999px;padding:7px 10px;background:#f1edff;color:#5c47ce;font-size:.78rem;font-weight:900}
+    .notebook{margin-top:14px;border:1px solid #d7dfed;border-radius:18px;padding:16px;background-color:#fffefb;
+      background-image:linear-gradient(rgba(100,139,195,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(100,139,195,.08) 1px,transparent 1px);
+      background-size:30px 30px}
+    .placeGrid{display:grid;grid-template-columns:76px repeat(3,minmax(60px,88px));gap:7px;justify-content:center;align-items:center}
+    .placeHead{text-align:center;color:var(--muted);font-size:.72rem;font-weight:900;text-transform:uppercase}
+    .rowLabel{text-align:right;color:var(--muted);font-size:.75rem;font-weight:900;padding-right:4px}.op{text-align:right;font-size:1.45rem;font-weight:900;padding-right:7px}
+    .numBox,.digit{height:54px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.94);display:grid;place-items:center;font-size:1.55rem;font-weight:900;color:var(--ink)}
+    input.digit{width:100%;text-align:center;outline:none}.carry{height:38px;border-style:dashed;font-size:1rem;background:#f8f7ff}.rule{grid-column:2/5;height:2px;background:#34415b;opacity:.5}
+    .digit:focus{border:2px solid var(--purple)}.good{border:2px solid var(--mint)!important;background:#effcf8!important}.bad{border:2px solid var(--coral)!important;background:#fff3f3!important}
+    .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.btn{border:1px solid var(--line);border-radius:13px;background:white;padding:11px 14px;font-weight:900;color:var(--ink);min-height:45px}
+    .btn.primary{background:var(--purple);color:white;border-color:var(--purple)}.btn.alt{background:#f2efff;border-color:#ddd4ff;color:#5c47ce}.btn.success{background:var(--mint);color:white;border-color:var(--mint)}
+    .feedback{min-height:24px;margin-top:12px;font-weight:850;line-height:1.35}
+    .strategyCard{background:linear-gradient(180deg,#f7f5ff,#fff);border:1px solid var(--line);border-radius:18px;padding:15px}.strategyCard h4{margin:0 0 5px}.strategyCard p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.4}
+    .strategySteps{margin-top:12px;display:grid;gap:9px}.strategyStep{display:flex;gap:9px;align-items:flex-start;background:white;border:1px solid var(--line);border-radius:12px;padding:10px}
+    .bubble{flex:0 0 28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#f0ecff;color:#5c47ce;font-weight:900}
+    .strategyStep div:last-child{font-size:.92rem;line-height:1.4}.switchRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .strategyDot{width:11px;height:11px;border-radius:50%;background:#d9ddea}.strategyDot.on{background:var(--purple)}
+    .factVisual{padding:18px;text-align:center}.factQuestion{font-size:2.3rem;font-weight:950;margin:10px 0}.factInput{width:min(220px,100%);height:56px;border:2px solid var(--line);border-radius:14px;text-align:center;font-size:1.5rem;font-weight:900;outline:none}
+    .factInput:focus{border-color:var(--purple)}.array{display:grid;gap:4px;justify-content:center;margin:14px auto}.dot{width:15px;height:15px;border-radius:50%;background:var(--blue)}
+    .divisionBoard{margin:14px auto 16px;max-width:520px}
+    .divisionPrompt{font-size:.86rem;color:var(--muted);font-weight:800;margin-bottom:10px}
+    .groupGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    .groupBox{min-height:78px;border:1px solid var(--line);border-radius:14px;background:#fbfaff;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+    .groupLabel{font-size:.68rem;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+    .gemDots{display:grid;grid-template-columns:repeat(4,8px);gap:4px;justify-content:center}
+    .gemDot{width:8px;height:8px;border-radius:3px;background:linear-gradient(145deg,#65c9ff,#4c7dff);transform:rotate(45deg)}
+    .divisionEquation{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px auto}
+    .eqTile{min-width:64px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;font-weight:900;font-size:1.05rem}
+    .arrayWrap{display:flex;justify-content:center;margin:12px auto}.divisionArray{display:grid;gap:5px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fbfaff}
+    .arrayGem{width:12px;height:12px;border-radius:4px;background:linear-gradient(145deg,#65c9ff,#4c7dff);transform:rotate(45deg)}
+    .jumpLine{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:14px auto;max-width:540px}
+    .jumpNum{padding:7px 9px;border:1px solid var(--line);border-radius:10px;background:#fff;font-weight:900}.jumpArrow{color:var(--purple);font-weight:900}
+    .divisionKey{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px}.divisionKey span{font-size:.76rem;color:var(--muted);font-weight:800}
+    .missionFooter{margin-top:16px;background:#25324a;color:white;border-radius:18px;padding:15px;display:flex;justify-content:space-between;align-items:center;gap:12px}.missionFooter small{color:#cbd4e4}.missionFooter b{display:block}
+    .quizChoices{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.choice{border:1px solid var(--line);background:white;border-radius:14px;padding:13px;font-size:1.05rem;font-weight:900}.choice:hover{border-color:var(--purple)}
+    .summary{display:none}.summary.show{display:block}.summaryGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.summaryStat{border:1px solid var(--line);border-radius:15px;padding:14px;text-align:center}.summaryStat b{font-size:1.5rem;display:block}
+    .habitList{display:grid;gap:8px;margin-top:12px}.habit{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:10px 12px}.habit span:last-child{font-weight:900}
+    .breakHub{margin-top:18px}.breakTop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+    .breakTop h3{margin:4px 0 0;font-size:1.2rem}.breakGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+    .breakCard{border:1px solid var(--line);background:white;border-radius:16px;padding:13px;text-align:left;min-height:105px;transition:.15s}
+    .breakCard:hover{transform:translateY(-2px);border-color:var(--purple2)}.breakCard.active{border:2px solid var(--purple);background:#faf8ff}
+    .breakCard .gameIcon{font-size:24px}.breakCard b{display:block;margin-top:6px}.breakCard small{display:block;color:var(--muted);margin-top:4px;line-height:1.25}
+    .breakStage{margin-top:12px;border:1px solid var(--line);border-radius:18px;background:#fbfcff;padding:14px;min-height:285px}
+    .breakHeader{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px;flex-wrap:wrap}.breakHeader h4{margin:0;font-size:1rem}.breakScore{font-weight:900}
+    .matchBoard{display:grid;grid-template-columns:repeat(6,46px);gap:5px;justify-content:center;margin:12px auto}
+    .candyCell{width:46px;height:46px;border:1px solid var(--line);border-radius:13px;background:white;font-size:25px;display:grid;place-items:center;padding:0}
+    .candyCell.selected{outline:3px solid var(--purple);outline-offset:1px}.candyCell.matched{animation:pop .18s ease}
+    @keyframes pop{50%{transform:scale(.72)}}
+    .blockWrap{display:flex;gap:14px;align-items:flex-start;justify-content:center;flex-wrap:wrap}.blockBoard{display:grid;grid-template-columns:repeat(10,20px);grid-template-rows:repeat(14,20px);gap:2px;background:#273149;padding:7px;border-radius:12px}
+    .blockCell{width:20px;height:20px;border-radius:4px;background:#34415d}.blockCell.on{background:var(--yellow)}.blockCell.live{background:var(--mint)}
+    .blockControls{display:grid;grid-template-columns:repeat(3,46px);gap:6px;justify-content:center}.blockControls .btn{padding:7px;min-height:42px}
+    .launchField{position:relative;height:300px;border:1px solid #b8d9ed;border-radius:18px;overflow:hidden;background:linear-gradient(#dff5ff 0 66%,#d9f0c8 66% 100%);margin-top:10px;isolation:isolate}
+    .launchField:before{content:"";position:absolute;left:-5%;right:-5%;bottom:23%;height:55px;background:radial-gradient(ellipse at 50% 100%,#b9dda2 0 58%,transparent 60%);opacity:.8;z-index:0}
+    .cloud{position:absolute;color:rgba(255,255,255,.94);font-size:32px;z-index:0;filter:drop-shadow(0 3px 2px rgba(80,130,160,.08))}
+    .sling{position:absolute;left:38px;bottom:35px;width:58px;height:83px;z-index:4}
+    .slingPost{position:absolute;bottom:0;width:12px;height:65px;background:linear-gradient(90deg,#82502d,#b87942,#704126);border-radius:8px;transform-origin:bottom}
+    .slingPost.left{left:9px;transform:rotate(-10deg)}.slingPost.right{right:9px;transform:rotate(10deg)}
+    .slingBand{position:absolute;left:18px;top:13px;width:25px;height:4px;background:#563825;border-radius:999px}
+    .slingBase{position:absolute;left:17px;bottom:0;width:30px;height:13px;background:#805232;border-radius:50% 50% 7px 7px}
+    .projectile{position:absolute;width:28px;height:28px;border-radius:50%;left:72px;bottom:69px;background:radial-gradient(circle at 34% 30%,#9be1ff 0 13%,#5b9dff 15% 44%,#4b5ed9 70%);border:2px solid rgba(39,55,110,.25);box-shadow:0 3px 7px rgba(38,59,110,.24);z-index:6;transform:translate(-50%,50%)}
+    .projectile:after{content:"";position:absolute;right:-7px;top:8px;border-left:8px solid #765ee8;border-top:5px solid transparent;border-bottom:5px solid transparent;opacity:.72}
+    .trajectoryLayer{position:absolute;inset:0;z-index:3;pointer-events:none}.trajectoryDot{position:absolute;width:7px;height:7px;border-radius:50%;background:rgba(77,87,145,.48);transform:translate(-50%,50%);box-shadow:0 1px 2px rgba(255,255,255,.8)}
+    .launchTarget{position:absolute;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#fff 0 18%,#ff5f70 19% 36%,#fff 37% 55%,#ff5f70 56% 75%,#fff 76%);border:2px solid #c74656;box-shadow:0 4px 7px rgba(94,54,60,.2);z-index:5;transform:translate(-50%,50%);transition:transform .22s ease,opacity .22s ease}
+    .launchTarget:after{content:"";width:7px;height:7px;border-radius:50%;background:#573f9f}.launchTarget.hit{opacity:.15;transform:translate(-50%,50%) scale(.45) rotate(24deg)}
+    .woodPlatform{position:absolute;height:14px;background:linear-gradient(#d49b58,#b9783a);border:2px solid #8e592c;border-radius:4px;z-index:2;box-shadow:inset 0 2px rgba(255,255,255,.22)}
+    .woodPlatform:after{content:"";position:absolute;left:20%;top:3px;width:48%;height:2px;background:rgba(102,57,25,.25);border-radius:999px}
+    .launchControls{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-top:11px}.launchControls label{font-size:.76rem;font-weight:900;color:var(--muted);display:flex;justify-content:space-between;gap:8px}.launchControls input{width:100%;accent-color:var(--purple)}
+    .launchButtons{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:9px}.launchStatus{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:7px;font-size:.78rem;font-weight:850;color:var(--muted)}
+    .launchStatus span{background:#f5f3ff;border:1px solid var(--line);padding:5px 8px;border-radius:999px}.breakDone.success{color:#188b6f}
+    .breakHint{text-align:center;color:var(--muted);font-size:.82rem;margin-top:8px}.breakDone{font-weight:900;color:#188b6f;text-align:center;margin-top:8px}
+    .hidden{display:none!important}.tiny{font-size:.78rem;color:var(--muted)}
+    @media(max-width:760px){.gameGrid{grid-template-columns:1fr 1fr}.workspace{grid-template-columns:1fr}.placeGrid{grid-template-columns:56px repeat(3,minmax(48px,1fr))}.summaryGrid{grid-template-columns:1fr 1fr}.breakGrid{grid-template-columns:1fr 1fr}.launchControls{grid-template-columns:1fr 1fr}.launchControls .btn{grid-column:1/3}.launchField{height:270px}.matchBoard{grid-template-columns:repeat(6,40px)}.candyCell{width:40px;height:40px}}
+    @media(max-width:430px){.app{padding:12px 10px 44px}.hero,.card{padding:15px}.gameGrid{gap:8px}.gameCard{min-height:116px;padding:11px}.placeGrid{grid-template-columns:50px repeat(3,minmax(44px,1fr));gap:5px}.numBox,.digit{height:50px;font-size:1.35rem}.quizChoices{grid-template-columns:1fr}.topbar .pill{display:none}.groupGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.groupBox{min-height:70px;padding:7px}.gemDots{grid-template-columns:repeat(4,7px);gap:3px}.gemDot{width:7px;height:7px}}
+
+    .missionStrip{display:grid;grid-template-columns:auto minmax(220px,1fr);gap:14px;align-items:center;background:white;border:1px solid var(--line);border-radius:14px;padding:8px 10px;box-shadow:0 5px 14px rgba(57,67,99,.05);margin-bottom:7px}
+    .miniStats{display:flex;gap:6px;flex-wrap:wrap}.miniStats span{background:var(--panel);border-radius:9px;padding:6px 8px;font-size:.76rem;font-weight:800;white-space:nowrap}
+    .miniProgress .progressMeta{font-size:.7rem;margin-bottom:4px}.miniProgress .bar{height:7px}
+    @media(max-width:620px){.missionStrip{grid-template-columns:1fr}.miniStats{justify-content:space-between}}
+
+    /* Practice-first layout: keep the current question above the fold */
+    .topbar{margin-bottom:8px}
+    .logo{width:40px;height:40px;border-radius:13px;font-size:22px}
+    .brand h1{font-size:1.08rem}.brand small{font-size:.76rem}
+    .hero{padding:9px 12px;border-radius:16px;box-shadow:0 6px 16px rgba(57,67,99,.06);display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.8fr);gap:12px;align-items:center}
+    .hero:after,.hero>h2,.hero>p,.hero>.eyebrow{display:none}
+    .hero .stats{margin:0;gap:7px;flex-wrap:nowrap}
+    .hero .stat{padding:7px 9px;border-radius:10px;font-size:.78rem;white-space:nowrap}
+    .hero .progressWrap{margin:0}
+    .hero .progressMeta{margin-bottom:4px;font-size:.72rem}
+    .hero .bar{height:7px}
+    .sectionTitle{display:none}
+    .gameGrid{grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}
+    .gameCard{min-height:0;height:48px;border-radius:12px;padding:7px 10px;display:flex;align-items:center;gap:7px;box-shadow:none}
+    .gameCard .gameIcon{font-size:19px;line-height:1}
+    .gameCard b{margin:0;font-size:.8rem;line-height:1.05}
+    .gameCard small{display:none}
+    .gameCard.active{border-width:2px}
+    .workspace{margin-top:8px;gap:10px}
+    .workspace>.card{padding:14px}
+    .problemHead h3{font-size:1.1rem;margin-top:2px}
+    .problemHead .eyebrow{font-size:.68rem}
+    .tag{padding:5px 8px;font-size:.7rem}
+    .notebook{margin-top:9px;padding:11px}
+    .numBox,.digit{height:48px;font-size:1.4rem}
+    .carry{height:32px;font-size:.9rem}
+    .actions{margin-top:9px}
+    .actions .btn{min-height:40px;padding:8px 12px}
+    .feedback{margin-top:7px;min-height:20px;font-size:.88rem}
+    .strategyCard{padding:11px}.strategySteps{gap:6px;margin-top:8px}.strategyStep{padding:7px}
+    .strategyStep div:last-child{font-size:.82rem}.bubble{flex-basis:24px;height:24px;font-size:.75rem}
+    .habitList{gap:5px}.habit{padding:7px 9px;font-size:.82rem}
+    #newBtn::after{content:" Question"}
+    @media(max-width:760px){
+      .hero{grid-template-columns:1fr}.hero .stats{justify-content:space-between}
+      .gameGrid{grid-template-columns:repeat(4,1fr)}
+      .gameCard{justify-content:center;padding:7px}.gameCard b{font-size:.72rem}.gameCard .gameIcon{font-size:17px}
+    }
+    @media(max-width:520px){
+      .topbar{margin-bottom:6px}.brand small{display:none}
+      .hero{padding:8px}.hero .stats{gap:4px}.hero .stat{padding:6px;font-size:.7rem}
+      .gameGrid{grid-template-columns:1fr 1fr}
+      .gameCard{height:42px;justify-content:flex-start}
+      .workspace{margin-top:7px}
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand"><div class="logo">✦</div><div><h1>Math Quest</h1><small>Smart practice. Neat thinking.</small></div></div>
+      <div class="pill">⭐ <span id="totalStars">0</span> stars</div>
+    </header>
+
+    <section class="missionStrip" aria-label="Practice progress">
+      <div class="miniStats">
+        <span>🎯 <b id="accuracy">—</b></span>
+        <span>🔥 <b id="streak">0</b></span>
+        <span>✏️ <b id="workShown">0</b></span>
+      </div>
+      <div class="miniProgress">
+        <div class="progressMeta"><span>Today's mission</span><span id="progressText">0 / 8</span></div>
+        <div class="bar"><div class="fill" id="progressFill"></div></div>
+      </div>
+    </section>
+    <section class="gameGrid">
+      <button class="gameCard active" data-mode="add"><span class="gameIcon">🏗️</span><b>Add & Build</b><small>3-digit addition + regrouping</small></button>
+      <button class="gameCard" data-mode="subtract"><span class="gameIcon">🧭</span><b>Subtract & Navigate</b><small>3-digit subtraction + borrowing</small></button>
+      <button class="gameCard" data-mode="multiply"><span class="gameIcon">🤖</span><b>Robot Factory</b><small>Multiplication facts + strategies</small></button>
+      <button class="gameCard" data-mode="divide"><span class="gameIcon">💎</span><b>Gem Sorter</b><small>Division facts + equal groups</small></button>
+    </section>
+
+    <section class="workspace" id="practiceWorkspace">
+      <div class="card">
+        <div class="problemHead">
+          <div><div class="eyebrow" id="skillLabel">3-DIGIT ADDITION</div><h3 id="problemTitle">Solve it neatly</h3></div>
+          <div class="tag" id="problemTag">Regrouping</div>
+        </div>
+
+        <div id="columnPractice">
+          <div class="notebook">
+            <div class="placeGrid">
+              <div></div><div class="placeHead">Hundreds</div><div class="placeHead">Tens</div><div class="placeHead">Ones</div>
+              <div class="rowLabel">Notes</div>
+              <input id="noteH" class="digit carry" maxlength="1" inputmode="numeric" aria-label="Hundreds note">
+              <input id="noteT" class="digit carry" maxlength="1" inputmode="numeric" aria-label="Tens note">
+              <input id="noteO" class="digit carry" maxlength="1" inputmode="numeric" aria-label="Ones note">
+              <div class="rowLabel">Top</div>
+              <div id="topH" class="numBox">4</div><div id="topT" class="numBox">3</div><div id="topO" class="numBox">7</div>
+              <div class="op" id="operator">+</div>
+              <div id="bottomH" class="numBox">2</div><div id="bottomT" class="numBox">8</div><div id="bottomO" class="numBox">6</div>
+              <div></div><div class="rule"></div>
+              <div class="rowLabel">Answer</div>
+              <input id="ansH" class="digit" maxlength="1" inputmode="numeric" aria-label="Answer hundreds">
+              <input id="ansT" class="digit" maxlength="1" inputmode="numeric" aria-label="Answer tens">
+              <input id="ansO" class="digit" maxlength="1" inputmode="numeric" aria-label="Answer ones">
+            </div>
+          </div>
+          <div class="tiny" style="margin-top:8px">Use the top row for regrouping or borrowing notes. The goal is to make your thinking visible.</div>
+        </div>
+
+        <div id="factPractice" class="hidden">
+          <div class="factVisual">
+            <div class="eyebrow" id="factMiniLabel">MULTIPLICATION</div>
+            <div class="factQuestion" id="factQuestion">6 × 7 = ?</div>
+            <div id="visualHolder"></div>
+            <input id="factAnswer" class="factInput" inputmode="numeric" placeholder="answer" aria-label="Final answer">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="checkBtn">Check my work</button>
+          <button class="btn" id="clearBtn">Clear</button>
+          <button class="btn alt" id="newBtn">Next</button>
+        </div>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+      </div>
+
+      <aside class="card">
+        <div class="eyebrow">STRATEGY LAB</div>
+        <div class="strategyCard">
+          <h4 id="strategyName">Standard algorithm</h4>
+          <p id="strategyIntro">Stack the numbers, line up place values, and regroup when needed.</p>
+          <div class="strategySteps" id="strategySteps"></div>
+          <div class="switchRow">
+            <button class="btn alt" id="switchStrategy">🔄 Show another way</button>
+            <div style="display:flex;align-items:center;gap:5px" id="strategyDots"></div>
+          </div>
+        </div>
+        <div class="sectionTitle" style="margin-top:16px"><h3 style="font-size:1rem">The neat-work habit</h3></div>
+        <div class="habitList">
+          <div class="habit"><span>📐 Line up place values</span><span>1</span></div>
+          <div class="habit"><span>✏️ Write regrouping</span><span>2</span></div>
+          <div class="habit"><span>➡️ Work in order</span><span>3</span></div>
+          <div class="habit"><span>🔍 Check reasonableness</span><span>4</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="missionFooter">
+      <div><small>MISSION GOAL</small><b id="missionMessage">Complete 8 mixed problems with neat work.</b></div>
+      <button class="btn success" id="mixBtn">🎲 Mix it up</button>
+    </section>
+
+    <section class="card breakHub" id="brainBreakHub">
+      <div class="breakTop">
+        <div><div class="eyebrow">BRAIN BREAK ARCADE</div><h3>Play for 2–3 minutes, then jump back into math.</h3></div>
+        <div class="pill">🎮 Break score <span id="breakScoreTotal">0</span></div>
+      </div>
+      <div class="breakGrid">
+        <button class="breakCard active" data-break="match"><span class="gameIcon">🍬</span><b>Sweet Swap</b><small>Swap neighbors and match 3 or more.</small></button>
+        <button class="breakCard" data-break="blocks"><span class="gameIcon">🧱</span><b>Block Drop</b><small>Rotate, slide, and clear complete rows.</small></button>
+        <button class="breakCard" data-break="launch"><span class="gameIcon">🎯</span><b>Target Launch</b><small>Pick angle + power and knock down targets.</small></button>
+      </div>
+
+      <div class="breakStage">
+        <div class="breakHeader">
+          <h4 id="breakTitle">Sweet Swap</h4><span id="launchBuildBadge" class="tag hidden">Target Launch v2.1</span>
+          <div class="breakScore" id="breakScoreLabel">Score: 0 • Moves: 12</div>
+        </div>
+
+        <div id="matchGame">
+          <div class="matchBoard" id="matchBoard" aria-label="Sweet Swap game board"></div>
+          <div class="breakHint">Tap one sweet, then tap a neighbor to swap. Make a line of 3+.</div>
+          <div class="actions" style="justify-content:center"><button class="btn alt" id="newMatch">New board</button></div>
+        </div>
+
+        <div id="blockGame" class="hidden">
+          <div class="blockWrap">
+            <div class="blockBoard" id="blockBoard" aria-label="Block Drop board"></div>
+            <div>
+              <div class="blockControls">
+                <span></span><button class="btn" id="blockRotate">↻</button><span></span>
+                <button class="btn" id="blockLeft">←</button><button class="btn" id="blockDown">↓</button><button class="btn" id="blockRight">→</button>
+              </div>
+              <div class="actions" style="justify-content:center"><button class="btn primary" id="blockStart">Start / Pause</button></div>
+              <div class="breakHint">Fill a whole row to clear it.</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="launchGame" class="hidden">
+          <div class="launchField" id="launchField" aria-label="Target Launch play field">
+            <div class="cloud" style="left:18%;top:12%">☁</div>
+            <div class="cloud" style="right:20%;top:20%;font-size:24px">☁</div>
+            <div class="trajectoryLayer" id="trajectoryLayer"></div>
+            <div class="sling" aria-hidden="true">
+              <div class="slingPost left"></div><div class="slingPost right"></div><div class="slingBand"></div><div class="slingBase"></div>
+            </div>
+            <div class="projectile" id="launchBird" aria-label="Launch ball"></div>
+            <div class="woodPlatform" id="platform1"></div>
+            <div class="woodPlatform" id="platform2"></div>
+            <div class="woodPlatform" id="platform3"></div>
+            <div class="launchTarget" id="target1"></div>
+            <div class="launchTarget" id="target2"></div>
+            <div class="launchTarget" id="target3"></div>
+          </div>
+          <div class="launchControls">
+            <div><label for="angleRange"><span>ANGLE</span><strong id="angleVal">45°</strong></label><input id="angleRange" type="range" min="20" max="70" value="45" step="1"></div>
+            <div><label for="powerRange"><span>POWER</span><strong id="powerVal">80</strong></label><input id="powerRange" type="range" min="35" max="100" value="80" step="1"></div>
+            <button class="btn primary" id="launchBtn">Launch!</button>
+          </div>
+          <div class="launchStatus">
+            <span>🎯 Level <b id="launchLevel">1</b></span>
+            <span>🏹 Shots <b id="launchShots">0</b></span>
+            <span>✨ Targets left <b id="launchTargetsLeft">3</b></span>
+          </div>
+          <div class="launchButtons">
+            <button class="btn" id="resetLaunchBtn">Reset level</button>
+            <button class="btn success hidden" id="nextLaunchLevel">Next level</button>
+          </div>
+          <div class="breakHint">Adjust angle and power. The dotted arc is the exact flight path.</div>
+          <div class="breakDone" id="launchMessage"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card summary" id="summaryCard" style="margin-top:16px">
+      <div class="eyebrow">MISSION COMPLETE</div>
+      <h3 style="margin:5px 0">Nice work! Here’s what you practiced.</h3>
+      <div class="summaryGrid">
+        <div class="summaryStat"><b id="sumAccuracy">0%</b><span class="tiny">accuracy</span></div>
+        <div class="summaryStat"><b id="sumStars">0</b><span class="tiny">stars earned</span></div>
+        <div class="summaryStat"><b id="sumWork">0</b><span class="tiny">work shown</span></div>
+      </div>
+      <div class="actions"><button class="btn primary" id="restartMission">Start another mission</button></div>
+    </section>
+  </main>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+  const state={mode:"add",problem:null,strategy:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:8,locked:false};
+  let lifetime=Number(localStorage.getItem("mathQuestStars")||0);
+  $("#totalStars").textContent=lifetime;
+  const breakState={active:"match",total:0,matchScore:0,matchMoves:12,selected:null,board:[],blockScore:0,blockRunning:false,blockTimer:null,blockGrid:[],piece:null,launchScore:0,launching:false,launchLevel:0,launchShots:0,targets:[true,true,true],targetPositions:[]};
+
+  const strategies={
+    add:[
+      {name:"Standard algorithm",intro:"Stack the numbers, line up place values, and regroup when needed.",
+       steps:["Start with the ones column.","If the sum is 10 or more, write the ones digit and regroup 1 ten.","Continue through tens and hundreds."]},
+      {name:"Expanded form",intro:"Break each number into hundreds, tens, and ones.",
+       steps:["Split both numbers by place value.","Add hundreds, tens, and ones separately.","Combine the partial sums."]},
+      {name:"Compensation",intro:"Turn one addend into a friendly number, then fix the difference.",
+       steps:["Round one number to a nearby 10 or 100.","Add using the friendlier number.","Subtract back the amount you added."]}
+    ],
+    subtract:[
+      {name:"Standard algorithm",intro:"Stack the numbers and borrow carefully when a top digit is too small.",
+       steps:["Start in the ones column.","Regroup from the next place when needed.","Keep every changed digit visible."]},
+      {name:"Count up",intro:"Think about the distance from the smaller number to the larger one.",
+       steps:["Jump to the next friendly ten.","Jump by hundreds or tens.","Add all of your jumps."]},
+      {name:"Compensation",intro:"Subtract a nearby friendly number and then adjust.",
+       steps:["Round the number being subtracted.","Subtract the friendlier number.","Correct for the amount you rounded."]}
+    ],
+    multiply:[
+      {name:"Array thinking",intro:"Picture multiplication as equal rows and columns.",
+       steps:["Make one row for each group.","Put the same number in every row.","Count or combine the groups."]},
+      {name:"Break apart",intro:"Split a harder fact into facts you already know.",
+       steps:["Use a nearby ×5 or ×10 fact.","Find the leftover group.","Add the partial products."]},
+      {name:"Double a known fact",intro:"Use doubling when one factor is twice an easier number.",
+       steps:["Find half of one factor when possible.","Solve the easier fact.","Double the result."]}
+    ],
+    divide:[
+      {name:"Share into equal groups",intro:"Split the total into a small set of equal boxes instead of one long list.",
+       steps:["Make one box for each group.","Share the gems evenly across the boxes.","Count the gems in one box."]},
+      {name:"Build an array",intro:"Arrange the total in equal rows and connect division to multiplication.",
+       steps:["Use one row for each group.","Keep the same number of gems in every row.","The row length is the quotient."]},
+      {name:"Fact family",intro:"Turn the division problem into a multiplication fact you know.",
+       steps:["Ask: divisor × ? = total.","Find the missing factor.","That missing factor is the quotient."]},
+      {name:"Number jumps",intro:"Subtract one equal group at a time and count the jumps.",
+       steps:["Start at the total.","Jump backward by the divisor.","The number of jumps to zero is the quotient."]}
+    ]
+  };
+
+  function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+  function digits(n){return [Math.floor(n/100)%10,Math.floor(n/10)%10,n%10]}
+  function makeProblem(mode){
+    if(mode==="add"){
+      let a,b;
+      do{a=rand(235,789);b=rand(124,689)}while(a+b>999 || ((a%10)+(b%10)<10 && (Math.floor(a/10)%10)+(Math.floor(b/10)%10)<10));
+      return {mode,a,b,answer:a+b,op:"+",tag:"Regrouping"};
+    }
+    if(mode==="subtract"){
+      let a,b;
+      do{a=rand(431,958);b=rand(123,a-100)}while((a%10)>=(b%10) && (Math.floor(a/10)%10)>=(Math.floor(b/10)%10));
+      return {mode,a,b,answer:a-b,op:"−",tag:"Borrowing"};
+    }
+    if(mode==="multiply"){
+      const a=rand(3,10),b=rand(3,10);return {mode,a,b,answer:a*b,op:"×",tag:"Fact strategy"};
+    }
+    const d=rand(3,10),q=rand(2,10);return {mode,a:d*q,b:d,answer:q,op:"÷",tag:"Equal groups"};
+  }
+
+  function setDigits(prefix,num){
+    const d=digits(num);$("#"+prefix+"H").textContent=d[0];$("#"+prefix+"T").textContent=d[1];$("#"+prefix+"O").textContent=d[2];
+  }
+  function clearInputs(){
+    ["noteH","noteT","noteO","ansH","ansT","ansO"].forEach(id=>{$("#"+id).value="";$("#"+id).classList.remove("good","bad")});
+    $("#factAnswer").value="";$("#factAnswer").classList.remove("good","bad");$("#feedback").textContent="";state.locked=false;
+    $("#newBtn").classList.remove("success");
+  }
+  function renderProblem(){
+    clearInputs();state.problem=makeProblem(state.mode);state.strategy=0;
+    const p=state.problem;
+    $$(".gameCard").forEach(b=>b.classList.toggle("active",b.dataset.mode===state.mode));
+    const isFact=state.mode==="multiply"||state.mode==="divide";
+    $("#columnPractice").classList.toggle("hidden",isFact);
+    $("#factPractice").classList.toggle("hidden",!isFact);
+    if(!isFact){
+      $("#skillLabel").textContent=state.mode==="add"?"3-DIGIT ADDITION":"3-DIGIT SUBTRACTION";
+      $("#problemTitle").textContent="Solve "+p.a+" "+p.op+" "+p.b;
+      $("#problemTag").textContent=p.tag;setDigits("top",p.a);setDigits("bottom",p.b);$("#operator").textContent=p.op;
+    }else{
+      $("#skillLabel").textContent=state.mode==="multiply"?"MULTIPLICATION":"DIVISION";
+      $("#problemTitle").textContent=state.mode==="multiply"?"Build the fact":"Sort the groups";
+      $("#problemTag").textContent=p.tag;$("#factMiniLabel").textContent=$("#skillLabel").textContent;
+      $("#factQuestion").textContent=p.a+" "+p.op+" "+p.b+" = ?";
+    }
+    renderStrategy();renderFactVisual();
+  }
+
+  function renderStrategy(){
+    const list=strategies[state.mode],s=list[state.strategy];
+    $("#strategyName").textContent=s.name;$("#strategyIntro").textContent=s.intro;
+    $("#strategySteps").innerHTML=s.steps.map((x,i)=>'<div class="strategyStep"><span class="bubble">'+(i+1)+'</span><div>'+x+'</div></div>').join("");
+    $("#strategyDots").innerHTML=list.map((x,i)=>'<span class="strategyDot '+(i===state.strategy?'on':'')+'"></span>').join("");
+  }
+
+  function renderFactVisual(){
+    const holder=$("#visualHolder");holder.innerHTML="";
+    if(state.mode==="multiply" && state.strategy===0){
+      const p=state.problem,grid=document.createElement("div");grid.className="array";grid.style.gridTemplateColumns="repeat("+p.b+",15px)";
+      for(let i=0;i<p.answer;i++){const d=document.createElement("span");d.className="dot";grid.appendChild(d)}holder.appendChild(grid);
+      return;
+    }
+    if(state.mode!=="divide")return;
+    const p=state.problem;
+    if(state.strategy===0){
+      const board=document.createElement("div");board.className="divisionBoard";
+      board.innerHTML='<div class="divisionPrompt">Share '+p.a+' gems into '+p.b+' equal groups. How many belong in each group?</div>';
+      const groups=document.createElement("div");groups.className="groupGrid";
+      for(let g=0;g<p.b;g++){
+        const box=document.createElement("div");box.className="groupBox";
+        const label=document.createElement("div");label.className="groupLabel";label.textContent="Group "+(g+1);
+        const dots=document.createElement("div");dots.className="gemDots";
+        for(let i=0;i<p.answer;i++){const gem=document.createElement("span");gem.className="gemDot";dots.appendChild(gem)}
+        box.appendChild(label);box.appendChild(dots);groups.appendChild(box);
+      }
+      board.appendChild(groups);
+      const key=document.createElement("div");key.className="divisionKey";key.innerHTML='<span>'+p.b+' equal groups</span><span>•</span><span>Count one box</span>';
+      board.appendChild(key);holder.appendChild(board);
+    }else if(state.strategy===1){
+      const wrap=document.createElement("div");wrap.className="divisionBoard";
+      wrap.innerHTML='<div class="divisionPrompt">The same '+p.a+' gems can form '+p.b+' equal rows.</div>';
+      const aw=document.createElement("div");aw.className="arrayWrap";
+      const grid=document.createElement("div");grid.className="divisionArray";grid.style.gridTemplateColumns="repeat("+p.answer+",12px)";
+      for(let i=0;i<p.a;i++){const gem=document.createElement("span");gem.className="arrayGem";grid.appendChild(gem)}
+      aw.appendChild(grid);wrap.appendChild(aw);
+      const key=document.createElement("div");key.className="divisionKey";key.innerHTML='<span>'+p.b+' rows</span><span>×</span><span>? in each row</span><span>=</span><span>'+p.a+'</span>';
+      wrap.appendChild(key);holder.appendChild(wrap);
+    }else if(state.strategy===2){
+      const board=document.createElement("div");board.className="divisionBoard";
+      board.innerHTML='<div class="divisionPrompt">Use the multiplication fact that matches this division problem.</div><div class="divisionEquation"><div class="eqTile">'+p.b+' × ?</div><strong>=</strong><div class="eqTile">'+p.a+'</div></div><div class="divisionEquation"><div class="eqTile">'+p.a+' ÷ '+p.b+'</div><strong>=</strong><div class="eqTile">?</div></div>';
+      holder.appendChild(board);
+    }else{
+      const board=document.createElement("div");board.className="divisionBoard";
+      board.innerHTML='<div class="divisionPrompt">Jump backward by '+p.b+' until you reach 0. Count the jumps.</div>';
+      const line=document.createElement("div");line.className="jumpLine";
+      let n=p.a,jumps=0;
+      while(n>=0 && jumps<=p.answer){
+        const tile=document.createElement("span");tile.className="jumpNum";tile.textContent=n;line.appendChild(tile);
+        if(n===0)break;
+        const arrow=document.createElement("span");arrow.className="jumpArrow";arrow.textContent="←";
+        line.appendChild(arrow);n-=p.b;jumps++;
+      }
+      board.appendChild(line);holder.appendChild(board);
+    }
+  }
+
+  function noteUsed(){return ["noteH","noteT","noteO"].some(id=>$("#"+id).value!=="")}
+  function getColumnAnswer(){
+    const vals=["ansH","ansT","ansO"].map(id=>$("#"+id).value);
+    if(vals.some(v=>v===""))return null;return Number(vals.join(""));
+  }
+  function check(){
+    if(state.locked)return;
+    const p=state.problem,isFact=p.mode==="multiply"||p.mode==="divide";
+    let given=isFact?Number($("#factAnswer").value):getColumnAnswer();
+    if(given===null || Number.isNaN(given)){ $("#feedback").textContent="Finish the answer first — then I’ll check it.";return;}
+    state.attempted++;
+    let shown=isFact?state.strategy>0:noteUsed();
+    if(shown)state.workShown++;
+    if(given===p.answer){
+      state.correct++;state.streak++;state.sessionStars+=shown?3:2;lifetime+=shown?3:2;
+      $("#feedback").textContent=shown?"✅ Correct — and your thinking is visible. +3 stars":"✅ Correct! +2 stars. Try showing a note or another strategy next time for a bonus star.";
+      if(isFact)$("#factAnswer").classList.add("good");else ["ansH","ansT","ansO"].forEach(id=>$("#"+id).classList.add("good"));
+      state.locked=true;
+      $("#newBtn").classList.add("success");
+      $("#newBtn").focus();
+    }else{
+      state.streak=0;$("#feedback").textContent="Not quite. Keep your work organized and use the strategy card to check your thinking.";
+      if(isFact)$("#factAnswer").classList.add("bad");else ["ansH","ansT","ansO"].forEach(id=>$("#"+id).classList.add("bad"));
+    }
+    localStorage.setItem("mathQuestStars",String(lifetime));updateHUD();
+    if(state.attempted>=state.goal)finishMission();
+  }
+
+  function updateHUD(){
+    $("#totalStars").textContent=lifetime;$("#streak").textContent=state.streak;$("#workShown").textContent=state.workShown;
+    $("#accuracy").textContent=state.attempted?Math.round(state.correct/state.attempted*100)+"%":"—";
+    $("#progressText").textContent=Math.min(state.attempted,state.goal)+" / "+state.goal+" problems";
+    $("#progressFill").style.width=Math.min(100,state.attempted/state.goal*100)+"%";
+  }
+
+  function finishMission(){
+    $("#summaryCard").classList.add("show");
+    $("#sumAccuracy").textContent=Math.round(state.correct/state.attempted*100)+"%";
+    $("#sumStars").textContent=state.sessionStars;$("#sumWork").textContent=state.workShown;
+    $("#missionMessage").textContent="Mission complete! Review your score below.";
+    $("#summaryCard").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+
+  function restart(){
+    Object.assign(state,{mode:"add",problem:null,strategy:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:8,locked:false});
+    $("#summaryCard").classList.remove("show");$("#missionMessage").textContent="Complete 8 mixed problems with neat work.";updateHUD();renderProblem();window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  // Brain Break Arcade
+  const sweets=["🍬","🍭","🧁","🍪","🍓","🍋"];
+  function updateBreakHUD(){
+    $("#breakScoreTotal").textContent=breakState.total;
+    if(breakState.active==="match")$("#breakScoreLabel").textContent="Score: "+breakState.matchScore+" • Moves: "+breakState.matchMoves;
+    if(breakState.active==="blocks")$("#breakScoreLabel").textContent="Score: "+breakState.blockScore+" • Clear rows!";
+    if(breakState.active==="launch")$("#breakScoreLabel").textContent="Score: "+breakState.launchScore+" • Level: "+(breakState.launchLevel+1)+" • Shots: "+breakState.launchShots;
+  }
+  function showBreak(name){
+    breakState.active=name;
+    $(".breakCard").forEach(b=>b.classList.toggle("active",b.dataset.break===name));
+    $("#matchGame").classList.toggle("hidden",name!=="match");
+    $("#blockGame").classList.toggle("hidden",name!=="blocks");
+    $("#launchGame").classList.toggle("hidden",name!=="launch");
+    $("#breakTitle").textContent=name==="match"?"Sweet Swap":name==="blocks"?"Block Drop":"Target Launch";$("#launchBuildBadge").classList.toggle("hidden",name!=="launch");
+    if(name!=="blocks"&&breakState.blockRunning)toggleBlock(false);
+    updateBreakHUD();
+    if(name==="launch"){
+      requestAnimationFrame(()=>{placeLaunchLevel();renderTrajectory();});
+    }
+  }
+
+  function makeMatchBoard(){
+    breakState.matchScore=0;breakState.matchMoves=12;breakState.selected=null;
+    breakState.board=Array.from({length:36},()=>Math.floor(Math.random()*sweets.length));
+    for(let guard=0;guard<20;guard++){
+      let bad=findMatches();
+      if(!bad.length)break;
+      bad.forEach(i=>breakState.board[i]=Math.floor(Math.random()*sweets.length));
+    }
+    renderMatch();updateBreakHUD();
+  }
+  function renderMatch(){
+    const el=$("#matchBoard");el.innerHTML="";
+    breakState.board.forEach((v,i)=>{
+      const b=document.createElement("button");b.className="candyCell"+(breakState.selected===i?" selected":"");b.type="button";b.textContent=sweets[v];b.setAttribute("aria-label","Sweet "+(i+1));
+      b.addEventListener("click",()=>pickCandy(i));el.appendChild(b);
+    });
+  }
+  function adjacent(a,b){const ar=Math.floor(a/6),ac=a%6,br=Math.floor(b/6),bc=b%6;return Math.abs(ar-br)+Math.abs(ac-bc)===1}
+  function findMatches(){
+    const hit=new Set();
+    for(let r=0;r<6;r++){let start=0;for(let col=1;col<=6;col++){if(col===6||breakState.board[r*6+col]!==breakState.board[r*6+start]){if(col-start>=3)for(let k=start;k<col;k++)hit.add(r*6+k);start=col}}}
+    for(let col=0;col<6;col++){let start=0;for(let r=1;r<=6;r++){if(r===6||breakState.board[r*6+col]!==breakState.board[start*6+col]){if(r-start>=3)for(let k=start;k<r;k++)hit.add(k*6+col);start=r}}}
+    return [...hit];
+  }
+  function collapseMatch(matches){
+    const hit=new Set(matches);
+    for(let col=0;col<6;col++){
+      const keep=[];for(let r=5;r>=0;r--){const idx=r*6+col;if(!hit.has(idx))keep.push(breakState.board[idx])}
+      for(let r=5,k=0;r>=0;r--,k++)breakState.board[r*6+col]=k<keep.length?keep[k]:Math.floor(Math.random()*sweets.length);
+    }
+  }
+  function resolveMatch(){
+    let loops=0;
+    while(loops<8){const m=findMatches();if(!m.length)break;breakState.matchScore+=m.length*10;breakState.total+=m.length*10;collapseMatch(m);loops++}
+    renderMatch();updateBreakHUD();
+  }
+  function pickCandy(i){
+    if(breakState.matchMoves<=0){$("#breakScoreLabel").textContent="Nice break! Score: "+breakState.matchScore+" • Tap New board";return}
+    if(breakState.selected===null){breakState.selected=i;renderMatch();return}
+    const a=breakState.selected;breakState.selected=null;
+    if(!adjacent(a,i)){breakState.selected=i;renderMatch();return}
+    const tmp=breakState.board[a];breakState.board[a]=breakState.board[i];breakState.board[i]=tmp;
+    const m=findMatches();
+    if(!m.length){const t=breakState.board[a];breakState.board[a]=breakState.board[i];breakState.board[i]=t;renderMatch();return}
+    breakState.matchMoves--;resolveMatch();
+  }
+
+  const shapes=[
+    [[1,1,1,1]],[[1,1],[1,1]],[[0,1,0],[1,1,1]],[[1,0,0],[1,1,1]],[[0,0,1],[1,1,1]],[[1,1,0],[0,1,1]],[[0,1,1],[1,1,0]]
+  ];
+  function emptyBlock(){return Array.from({length:14},()=>Array(10).fill(0))}
+  function rotateShape(s){return s[0].map((_,i)=>s.map(row=>row[i]).reverse())}
+  function newPiece(){const shape=shapes[Math.floor(Math.random()*shapes.length)].map(r=>r.slice());breakState.piece={shape,x:Math.floor((10-shape[0].length)/2),y:0};if(collides(breakState.piece))resetBlocks()}
+  function collides(p){
+    for(let y=0;y<p.shape.length;y++)for(let x=0;x<p.shape[y].length;x++)if(p.shape[y][x]){const gx=p.x+x,gy=p.y+y;if(gx<0||gx>=10||gy>=14||(gy>=0&&breakState.blockGrid[gy][gx]))return true}
+    return false;
+  }
+  function mergePiece(){const p=breakState.piece;for(let y=0;y<p.shape.length;y++)for(let x=0;x<p.shape[y].length;x++)if(p.shape[y][x]&&p.y+y>=0)breakState.blockGrid[p.y+y][p.x+x]=1}
+  function clearRows(){
+    let cleared=0;for(let y=13;y>=0;y--){if(breakState.blockGrid[y].every(Boolean)){breakState.blockGrid.splice(y,1);breakState.blockGrid.unshift(Array(10).fill(0));cleared++;y++}}
+    if(cleared){const pts=cleared*100;breakState.blockScore+=pts;breakState.total+=pts}
+  }
+  function blockStep(){
+    if(!breakState.piece)return;
+    const next={...breakState.piece,y:breakState.piece.y+1};
+    if(collides(next)){mergePiece();clearRows();newPiece()}else breakState.piece=next;
+    renderBlocks();updateBreakHUD();
+  }
+  function renderBlocks(){
+    const board=$("#blockBoard");board.innerHTML="";
+    const live=new Set();if(breakState.piece){const p=breakState.piece;for(let y=0;y<p.shape.length;y++)for(let x=0;x<p.shape[y].length;x++)if(p.shape[y][x]&&p.y+y>=0)live.add((p.y+y)*10+p.x+x)}
+    for(let y=0;y<14;y++)for(let x=0;x<10;x++){const d=document.createElement("span");d.className="blockCell"+(breakState.blockGrid[y][x]?" on":"")+(live.has(y*10+x)?" live":"");board.appendChild(d)}
+  }
+  function moveBlock(dx){
+    if(!breakState.piece)return;const n={...breakState.piece,x:breakState.piece.x+dx};if(!collides(n)){breakState.piece=n;renderBlocks()}
+  }
+  function turnBlock(){if(!breakState.piece)return;const n={...breakState.piece,shape:rotateShape(breakState.piece.shape)};if(!collides(n)){breakState.piece=n;renderBlocks()}}
+  function resetBlocks(){breakState.blockGrid=emptyBlock();breakState.blockScore=0;newPiece();renderBlocks();updateBreakHUD()}
+  function toggleBlock(force){
+    const target=typeof force==="boolean"?force:!breakState.blockRunning;breakState.blockRunning=target;
+    if(breakState.blockTimer){clearInterval(breakState.blockTimer);breakState.blockTimer=null}
+    if(target)breakState.blockTimer=setInterval(blockStep,650);
+  }
+
+  const launchLevels=[
+    {solutions:[{angle:26,power:75,t:.80},{angle:42,power:82,t:1.10},{angle:40,power:95,t:1.20}]},
+    {solutions:[{angle:31,power:79,t:.86},{angle:50,power:86,t:1.02},{angle:36,power:98,t:1.18}]},
+    {solutions:[{angle:24,power:84,t:.92},{angle:56,power:88,t:.93},{angle:43,power:96,t:1.23}]},
+    {solutions:[{angle:34,power:76,t:.88},{angle:61,power:91,t:.92},{angle:38,power:100,t:1.22}]}
+  ];
+  function launchPhysics(){
+    const field=$("#launchField"),w=field.clientWidth,h=field.clientHeight;
+    return {w,h,x0:72,y0:69,g:760*(w/1000)};
+  }
+  function trajectoryPoint(angleDeg,power,t){
+    const p=launchPhysics(),a=angleDeg*Math.PI/180,v=power*(p.w/1000)*8;
+    return {x:p.x0+v*Math.cos(a)*t,y:p.y0+v*Math.sin(a)*t-.5*p.g*t*t};
+  }
+  function placeLaunchLevel(){
+    const field=$("#launchField");
+    if(!field || field.clientWidth<100)return;
+    const p=launchPhysics(),level=launchLevels[breakState.launchLevel%launchLevels.length];
+    breakState.targetPositions=level.solutions.map(s=>{
+      const pt=trajectoryPoint(s.angle,s.power,s.t);
+      return {x:Math.min(p.w-34,Math.max(170,pt.x)),y:Math.min(p.h-38,Math.max(34,pt.y)),solution:s};
+    });
+    ["target1","target2","target3"].forEach((id,i)=>{
+      const t=breakState.targetPositions[i],el=$("#"+id),platform=$("#platform"+(i+1));
+      el.style.left=t.x+"px";el.style.bottom=t.y+"px";el.classList.toggle("hit",!breakState.targets[i]);
+      const pw=68;
+      platform.style.width=pw+"px";platform.style.left=(t.x-pw/2)+"px";platform.style.bottom=Math.max(17,t.y-28)+"px";
+    });
+    $("#launchLevel").textContent=breakState.launchLevel+1;
+    $("#launchShots").textContent=breakState.launchShots;
+    $("#launchTargetsLeft").textContent=breakState.targets.filter(Boolean).length;
+  }
+  function renderTrajectory(){
+    if(breakState.launching)return;
+    const layer=$("#trajectoryLayer"),field=$("#launchField"),angle=Number($("#angleRange").value),power=Number($("#powerRange").value);
+    layer.innerHTML="";
+    const p=launchPhysics();
+    for(let t=.08,count=0;t<4&&count<26;t+=.085){
+      const pt=trajectoryPoint(angle,power,t);
+      if(pt.x>p.w+10||pt.y<0)break;
+      if(pt.y<=p.h+8&&pt.x>=0){
+        const d=document.createElement("span");d.className="trajectoryDot";d.style.left=pt.x+"px";d.style.bottom=pt.y+"px";layer.appendChild(d);count++;
+      }
+    }
+    const bird=$("#launchBird");bird.style.left=p.x0+"px";bird.style.bottom=p.y0+"px";
+  }
+  function hitLaunchTargets(pt){
+    let hitAny=false;
+    breakState.targetPositions.forEach((target,i)=>{
+      if(!breakState.targets[i])return;
+      if(Math.hypot(pt.x-target.x,pt.y-target.y)<=31){
+        breakState.targets[i]=false;hitAny=true;
+        $("#target"+(i+1)).classList.add("hit");
+        breakState.launchScore+=100;breakState.total+=100;
+      }
+    });
+    $("#launchTargetsLeft").textContent=breakState.targets.filter(Boolean).length;
+    return hitAny;
+  }
+  function completeLaunchLevel(){
+    const bonus=Math.max(100,420-breakState.launchShots*45);
+    breakState.launchScore+=bonus;breakState.total+=bonus;
+    $("#launchMessage").className="breakDone success";
+    $("#launchMessage").textContent="Level cleared! +"+bonus+" efficiency bonus 🎉";
+    $("#nextLaunchLevel").classList.remove("hidden");
+    $("#launchBtn").textContent="Level cleared";
+    $("#launchBtn").disabled=true;
+    updateBreakHUD();
+  }
+  function resetLaunch(useLevelDefaults=true){
+    breakState.targets=[true,true,true];breakState.launching=false;breakState.launchShots=0;
+    const level=launchLevels[breakState.launchLevel%launchLevels.length],first=level.solutions[0];
+    if(useLevelDefaults){$("#angleRange").value=first.angle;$("#powerRange").value=first.power}
+    $("#angleVal").textContent=$("#angleRange").value+"°";$("#powerVal").textContent=$("#powerRange").value;
+    $("#launchMessage").className="breakDone";$("#launchMessage").textContent="";
+    $("#nextLaunchLevel").classList.add("hidden");$("#launchBtn").disabled=false;$("#launchBtn").textContent="Launch!";
+    if($("#launchField").clientWidth>=100){placeLaunchLevel();renderTrajectory()}
+    updateBreakHUD();
+  }
+  function nextLaunchLevel(){
+    breakState.launchLevel=(breakState.launchLevel+1)%launchLevels.length;resetLaunch(true);
+  }
+  function launch(){
+    if(breakState.launching||!breakState.targets.some(Boolean))return;
+    breakState.launching=true;breakState.launchShots++;$("#launchShots").textContent=breakState.launchShots;
+    $("#launchBtn").disabled=true;$("#trajectoryLayer").innerHTML="";$("#launchMessage").textContent="";
+    const field=$("#launchField"),bird=$("#launchBird"),angle=Number($("#angleRange").value),power=Number($("#powerRange").value),p=launchPhysics();
+    let t=0,last=performance.now(),hitThisShot=false;
+    function frame(now){
+      const dt=Math.min(.028,(now-last)/1000);last=now;t+=dt;
+      const pt=trajectoryPoint(angle,power,t);
+      bird.style.left=pt.x+"px";bird.style.bottom=Math.max(0,pt.y)+"px";
+      if(hitLaunchTargets(pt))hitThisShot=true;
+      if(pt.x>p.w+30||(pt.y<0&&t>.25)||t>4){
+        breakState.launching=false;$("#launchBtn").disabled=false;
+        if(!breakState.targets.some(Boolean)){completeLaunchLevel();return}
+        if(hitThisShot){
+          const nextIndex=breakState.targets.findIndex(Boolean),next=breakState.targetPositions[nextIndex];
+          if(next&&next.solution){
+            $("#angleRange").value=next.solution.angle;$("#powerRange").value=next.solution.power;
+            $("#angleVal").textContent=next.solution.angle+"°";$("#powerVal").textContent=next.solution.power;
+            $("#launchMessage").textContent="Nice hit! The next preview is lined up with another reachable target.";
+          }
+        }else{
+          $("#launchMessage").textContent="Missed — follow the dotted path and adjust angle or power.";
+        }
+        $("#launchBtn").textContent="Launch!";
+        renderTrajectory();updateBreakHUD();return;
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  $$(".breakCard").forEach(b=>b.addEventListener("click",()=>showBreak(b.dataset.break)));
+  $("#newMatch").addEventListener("click",makeMatchBoard);
+  $("#blockStart").addEventListener("click",()=>toggleBlock());
+  $("#blockLeft").addEventListener("click",()=>moveBlock(-1));
+  $("#blockRight").addEventListener("click",()=>moveBlock(1));
+  $("#blockDown").addEventListener("click",blockStep);
+  $("#blockRotate").addEventListener("click",turnBlock);
+  $("#angleRange").addEventListener("input",e=>{$("#angleVal").textContent=e.target.value+"°";renderTrajectory()});
+  $("#powerRange").addEventListener("input",e=>{$("#powerVal").textContent=e.target.value;renderTrajectory()});
+  $("#launchBtn").addEventListener("click",launch);
+  $("#resetLaunchBtn").addEventListener("click",()=>resetLaunch(true));
+  $("#nextLaunchLevel").addEventListener("click",nextLaunchLevel);
+  window.addEventListener("resize",()=>{if(!breakState.launching&&$("#launchGame")&&!$("#launchGame").classList.contains("hidden")){placeLaunchLevel();renderTrajectory()}});
+  makeMatchBoard();resetBlocks();resetLaunch(true);showBreak("match");
+
+  $$("input.digit").forEach(el=>el.addEventListener("input",()=>{el.value=el.value.replace(/[^0-9]/g,"").slice(0,1)}));
+  $("#factAnswer").addEventListener("input",e=>e.target.value=e.target.value.replace(/[^0-9]/g,"").slice(0,3));
+  $$(".gameCard").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;renderProblem()}));
+  $("#switchStrategy").addEventListener("click",()=>{state.strategy=(state.strategy+1)%strategies[state.mode].length;renderStrategy();renderFactVisual()});
+  $("#checkBtn").addEventListener("click",check);
+  $("#clearBtn").addEventListener("click",clearInputs);
+  $("#newBtn").addEventListener("click",renderProblem);
+  $("#mixBtn").addEventListener("click",()=>{const m=["add","subtract","multiply","divide"];state.mode=m[rand(0,3)];renderProblem()});
+  $("#restartMission").addEventListener("click",restart);
+  $("#factAnswer").addEventListener("keydown",e=>{if(e.key==="Enter")check()});
+  renderProblem();updateHUD();
+  if(location.hash==="#practice")$("#practiceWorkspace").scrollIntoView({block:"start"});
+})();
+</script>
+</body>
+</html>
