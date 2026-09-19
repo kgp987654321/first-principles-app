@@ -68,6 +68,7 @@ function BuildingArt({id,state}){
     {id==='science'&&<><i className="detail labTube t1"/><i className="detail labTube t2"/><i className="detail antenna"/><i className="detail scienceDome"/><i className="detail energyCoil"><b/><b/><b/></i><i className="detail weatherVane"/></>}
     {id==='garden'&&<><i className="detail greenhouse"/><i className="detail sprout">🌿</i><i className="detail gardenTrellis"><b/><b/><b/></i><i className="detail gardenBed bed1"/><i className="detail gardenBed bed2"/><i className="detail gardenFlower f1">✿</i><i className="detail gardenFlower f2">✿</i></>}
     {id==='observatory'&&<><i className="detail observatoryDome"/><i className="detail observatorySlit"/><i className="detail telescope"/><i className="detail telescopeStand"/><i className="detail starPulse">✦</i><i className="detail starMarker sA">✦</i><i className="detail starMarker sB">•</i></>}
+    {id==='sports'&&<><i className="detail sportsField"/><i className="detail sportsDiamond"/><i className="detail sportsScoreboard">1 2 3</i><i className="detail sportsHoop"/><i className="detail sportsTrack"/></>}
     {state.level>=2&&<i className="upgradePiece">★</i>}
     {state.level>=3&&<><i className="upgradeGlow"/><i className="upgradeBanner">MASTERED</i></>}
   </span>
