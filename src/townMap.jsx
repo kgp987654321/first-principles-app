@@ -26,11 +26,11 @@ const destinationConcepts={
 };
 
 const destinations=[
-  {id:'numbers',name:'Numbers Lab',emoji:'🔢',x:27,y:42,buildingId:'bakery',entry:'bakery',core:true,min:0,topic:'Fractions · decimals · ratios',blurb:'Experiment with quantity, equivalence, scaling, and number relationships.'},
-  {id:'geometry',name:'Geometry Workshop',emoji:'📐',x:18,y:68,buildingId:'architect',interior:true,core:true,min:0,topic:'Shapes · space · design',blurb:'Build spatial intuition through symmetry, folding, angles, area, and design.'},
+  {id:'numbers',name:'Fraction Bakery',emoji:'🥐',x:27,y:42,buildingId:'bakery',entry:'bakery',core:true,min:0,topic:'Recipes · fractions · ratios',blurb:'Run the test kitchen with measuring cups, recipe scaling, equivalence, and ratio thinking.'},
+  {id:'geometry',name:'Geometry Woodshop',emoji:'🪚',x:18,y:68,buildingId:'architect',interior:true,core:true,min:0,topic:'Measure · cut · build',blurb:'Use rulers, measured cuts, symmetry, scale, area, and shape to build real projects.'},
   {id:'builders',name:"Builders’ Yard",emoji:'🏗️',x:43,y:35,buildingId:'bridge',interior:true,micro:'buildersyard',core:true,min:0,topic:'Create · experiment · solve',blurb:'Use measurement, structure, forces, and scaling to make things that work.'},
-  {id:'patterns',name:'Pattern Pavilion',emoji:'🔷',x:63,y:42,buildingId:'design',entry:'design',core:true,min:0,topic:'Notice · predict · generalize',blurb:'Find hidden rules, visual patterns, sequences, and transformations.'},
-  {id:'think',name:'The Think Tank',emoji:'🧠',x:82,y:45,core:true,min:0,topic:'Verbal · quantitative · nonverbal',blurb:'Practice analogy, classification, logic, constraints, and flexible reasoning.',lessons:true},
+  {id:'patterns',name:'Pattern Studio',emoji:'🎨',x:63,y:42,buildingId:'design',entry:'design',core:true,min:0,topic:'Design · predict · generalize',blurb:'Complete customer design commissions by finding, extending, and creating visual rules.'},
+  {id:'think',name:'The Think Tank',emoji:'🧠',x:82,y:45,buildingId:'think',interior:true,core:true,min:0,topic:'Logic · analogy · flexible reasoning',blurb:'Enter the puzzle lounge to solve analogies, classifications, constraints, and multi-step logic.'},
   {id:'science',name:'Science Studio',emoji:'🧪',x:70,y:64.5,buildingId:'lab',entry:'lab',core:true,min:0,topic:'Forces · motion · energy',blurb:'Use experiments to discover measurement, motion, change, and physical relationships.'},
   {id:'garden',name:'The Garden',emoji:'🌱',x:88.5,y:66.5,buildingId:'clinic',entry:'clinic',micro:'gardenlab',core:true,min:0,topic:'Grow your ideas',blurb:'Apply number sense, sorting, comparison, and patterns in living systems.'},
   {id:'observatory',name:'The Observatory',emoji:'🔭',x:88,y:23,buildingId:'observatory',interior:true,micro:'observatorylab',min:10,topic:'Patterns beyond',blurb:'A high-level destination for multi-step reasoning, space, scale, and prediction.'}
@@ -280,7 +280,6 @@ export function TownWorld(props){
 
   const visitDestination=(destination,destinationState)=>{
     if(!destinationState.unlocked){onBack?.();return}
-    if(destination.lessons){onBack?.();return}
     if(destination.interior){setInside(destination.buildingId);return}
     if(destination.entry){onEnter?.(destination.entry);return}
   };
