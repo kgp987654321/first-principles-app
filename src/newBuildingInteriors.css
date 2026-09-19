@@ -731,3 +731,224 @@
   .pieceSummary{display:grid}
   .guidedActions{grid-template-columns:1fr}
 }
+
+
+/* Mission-specific Geometry Woodshop tools */
+.woodshopToolMiniHead small{
+  display:block;
+  color:#956238;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.11em
+}
+.woodshopToolMiniHead h3{
+  margin:2px 0 4px;
+  font-size:20px;
+  color:#4f392b
+}
+.woodshopToolMiniHead p{
+  margin:0;
+  font-size:11px;
+  color:#735d4d
+}
+.symmetryTrimBench,.frameScaleBench{
+  margin:20px 0;
+  padding:17px;
+  border:3px solid #c79a70;
+  border-radius:19px;
+  background:linear-gradient(#fffdf7,#f7edde);
+  box-shadow:0 8px 0 #9f704a,0 14px 22px rgba(73,49,32,.12)
+}
+.symmetryFrame{
+  position:relative;
+  height:190px;
+  margin-top:14px;
+  overflow:hidden;
+  border-radius:15px;
+  border:3px solid #d7c3aa;
+  background:
+    linear-gradient(rgba(82,98,109,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(82,98,109,.055) 1px,transparent 1px),
+    #faf7f0;
+  background-size:22px 22px
+}
+.frameCenterLine{
+  position:absolute;
+  left:50%;top:16px;bottom:16px;
+  width:0;
+  border-left:4px dashed #7b6656;
+  transform:translateX(-50%)
+}
+.frameCenterLine span{
+  position:absolute;
+  top:-8px;left:50%;
+  transform:translate(-50%,-100%);
+  font-size:7px;
+  font-weight:950;
+  color:#6d5a4c
+}
+.fixedTrim{
+  position:absolute;
+  top:64px;
+  width:24px;height:72px;
+  border-radius:5px;
+  background:#bf7845;
+  border:3px solid #86502e;
+  box-shadow:0 5px 0 #704123
+}
+.fixedTrim.left{left:23%}
+.fixedTrim b{
+  position:absolute;
+  top:-24px;left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font-size:9px;
+  color:#6d4a31
+}
+.symmetryFrame button{
+  position:absolute;
+  top:60px;
+  width:54px;height:83px;
+  padding:0;
+  border:2px dashed #bca98f;
+  border-radius:8px;
+  background:#fffdf9;
+  transform:translateX(-50%)
+}
+.symmetryFrame button i{
+  display:block;
+  width:20px;height:60px;
+  margin:6px auto 2px;
+  border-radius:5px;
+  background:#d9a174;
+  border:2px solid #9d704c
+}
+.symmetryFrame button span{
+  font-size:8px;
+  font-weight:900
+}
+.symmetryFrame button.correct{
+  border-style:solid;
+  border-color:#78a675;
+  background:#eff8ee
+}
+.symmetryFrame button.wrong{
+  border-style:solid;
+  border-color:#d98b84;
+  background:#fff1ef
+}
+.toolMiniNote{
+  margin:11px 0 0;
+  padding:10px 12px;
+  border-radius:11px;
+  background:#fffaf2;
+  border:1px solid #e2cfb6;
+  font-size:10px;
+  font-weight:800;
+  color:#6d5848
+}
+.toolMiniNote.success{
+  background:#eff8ed;
+  border-color:#a8d09f;
+  color:#426642
+}
+.scaleFactorButtons{
+  display:flex;
+  gap:7px;
+  margin:13px 0
+}
+.scaleFactorButtons button{
+  flex:1;
+  min-height:40px;
+  padding:7px 10px;
+  border:2px solid #dfccb5;
+  border-radius:12px;
+  background:#fffdfa;
+  font-weight:900
+}
+.scaleFactorButtons button.active{
+  border-color:#b77943;
+  background:#fff0db;
+  color:#814f2d
+}
+.frameScaleVisual{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:16px;
+  align-items:center;
+  padding:16px;
+  border-radius:15px;
+  background:#faf7f0;
+  border:3px solid #d7c3aa
+}
+.scaleModelCard{
+  display:grid;
+  justify-items:center;
+  gap:6px
+}
+.scaleModelCard small{
+  font-size:7px;
+  font-weight:950;
+  letter-spacing:.1em;
+  color:#806954
+}
+.scaleModelCard b{
+  font-size:18px;
+  color:#503a2b
+}
+.scaleModelCard span{
+  font-size:9px;
+  color:#7c6858
+}
+.frameGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(3,1fr);
+  width:96px;
+  height:72px;
+  border:4px solid #8a5a34;
+  border-radius:5px;
+  background:
+    linear-gradient(rgba(128,88,54,.18) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(128,88,54,.18) 1px,transparent 1px),
+    #e2b17b;
+  background-size:25% 33.333%;
+  box-shadow:0 5px 0 #6f4326
+}
+.frameGrid.scaled{
+  transition:width .25s ease,height .25s ease;
+  background-size:25% 33.333%
+}
+.scaleArrow{
+  font-size:18px;
+  font-weight:950;
+  color:#9a6537
+}
+.scaleRelationshipRow{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px
+}
+.scaleRelationshipRow span{
+  padding:10px;
+  border-radius:12px;
+  background:#fff8eb;
+  border:2px solid #e0c7a7;
+  text-align:center
+}
+.scaleRelationshipRow small{
+  display:block;
+  font-size:7px;
+  font-weight:950;
+  color:#8d6b50
+}
+.scaleRelationshipRow b{
+  font-size:16px;
+  color:#513a2b
+}
+@media(max-width:700px){
+  .frameScaleVisual{grid-template-columns:1fr}
+  .scaleArrow{transform:rotate(90deg)}
+  .scaleRelationshipRow{grid-template-columns:1fr}
+}
