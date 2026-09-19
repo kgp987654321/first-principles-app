@@ -3,6 +3,7 @@ import React,{useState}from'react';
 import'./sportsPark.css';
 import{SportLab,SportControl,ChoiceButtons,AngleOverlay}from'./sports/SportLab';
 import{BasketballScene,SoccerScene,FootballScene,GolfScene,HockeyScene,TrackScene}from'./sports/SportScenes';
+import{SPORTS_CHALLENGES,challengeText}from'./sports/sportsChallenges';
 
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 const rad=d=>d*Math.PI/180;
@@ -253,11 +254,13 @@ const sports=[
 ];
 
 export function AthleticsPark({activity={},onProgress,onExit}){
-  const[active,setActive]=useState('baseball'),records=activity.records||{};
+  const[active,setActive]=useState('baseball'),records=activity.records||{},completedChallenges=activity.completedChallenges||[],discoveries=activity.discoveries||[];
   const save=(sport,score)=>onProgress&&onProgress({records:{...records,[sport]:Math.max(records[sport]||0,score)}});
-  const props={record:records[active]||0,onRecord:save};
+  const saveChallenge=id=>{if(!completedChallenges.includes(id))onProgress&&onProgress({completedChallenges:[...completedChallenges,id]})};
+  const saveDiscovery=id=>{if(!discoveries.includes(id))onProgress&&onProgress({discoveries:[...discoveries,id]})};
+  const props={record:records[active]||0,onRecord:save,onChallenge:saveChallenge,onDiscover:saveDiscovery};
   return <main className="sportsParkApp">
-    <header className="sportsHero"><div><small>ATHLETICS PARK</small><h1>Play the physics.</h1><p>Angles, force, rates, geometry, vectors, probability, and data—hidden inside sports.</p></div><button onClick={onExit}>← Back to My World</button></header>
+    <header className="sportsHero"><div><small>ATHLETICS PARK · TIER {Math.min(4,1+Math.floor(completedChallenges.length/3))}</small><h1>Play the physics.</h1><p>Angles, force, rates, geometry, vectors, probability, and data—hidden inside sports.</p><span className="parkProgress">{discoveries.length} discoveries · {completedChallenges.length} challenges complete</span></div><button onClick={onExit}>← Back to My World</button></header>
     <section className="sportsNav">{sports.map(([id,emoji,name])=><button key={id} onClick={()=>setActive(id)} className={(active===id?'active ':'')+'nav-'+id}><span>{emoji}</span><b>{name}</b><small>{records[id]?'PR '+records[id]:'Explore'}</small></button>)}</section>
     <section className="sportsPlayArea">
       {active==='baseball'&&<Baseball {...props}/>}
