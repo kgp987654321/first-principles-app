@@ -10,52 +10,5 @@ export const adventure4=[
 {id:'logic-switches',title:'Power the logic light',concept:'Boolean logic',reasoningSkill:'Conditional reasoning',cogatSkill:'Logical reasoning',difficulty:4,mechanic:'logic-switch',intro:'Some systems turn on only when certain combinations of switches are true.',promptByTheme:themes('Use the switches to turn on an AND light: both switches must be on.'),rule:'AND',target:true,rewards:reward,explanation:'An AND system turns on only when A and B are both on.',transferChallenge:{mechanic:'logic-switch',title:'Switch to OR',prompt:'Turn on an OR light: at least one switch must be on.',rule:'OR',target:true,explanation:'An OR system turns on when either switch, or both switches, are on.'}},
 {id:'constraint-builder',title:'Build under three rules',concept:'Constraint solving',reasoningSkill:'Multi-rule reasoning',cogatSkill:'Figure Classification',difficulty:4,mechanic:'constraint',intro:'Real design problems often require several rules to be true at the same time.',promptByTheme:themes('Build an object that is blue, has corners, and is large.'),target:{color:'blue',shape:'corners',size:'large'},rewards:reward,explanation:'You satisfied all three constraints at once instead of solving them separately.',transferChallenge:{mechanic:'constraint',title:'New design brief',prompt:'Build an object that is red, round, and small.',target:{color:'red',shape:'round',size:'small'},explanation:'A different object can satisfy a different set of simultaneous constraints.'}},
 {id:'prediction-trials',title:'Prediction vs. results',concept:'Expected vs observed probability',reasoningSkill:'Evidence and uncertainty',cogatSkill:'Quantitative reasoning',difficulty:4,mechanic:'trials',intro:'Short experiments can wobble around the long-run expectation.',promptByTheme:themes('A fair coin was flipped 10 times and got 6 heads. Set the long-run expected percent of heads.'),observed:60,target:50,rewards:reward,explanation:'A fair coin expects about 50% heads in the long run even though a short run can be 60%.',transferChallenge:{mechanic:'trials',title:'A new short run',prompt:'A fair coin got 4 heads in 10 flips. Set the long-run expected percent.',observed:40,target:50,explanation:'The short-run result changed, but the fair long-run expectation stayed 50%.'}},
-{id:'carnival-mission',title:'Carnival logic mission',concept:'Chance, combinations, and logic',reasoningSkill:'Multi-step synthesis',cogatSkill:'Quantitative and Nonverbal batteries',difficulty:5,mechanic:'mission',intro:'Bring several kinds of reasoning together to open the carnival district.',promptByTheme:themes('Solve three mixed carnival controls.'),stageCount:3,stagePool:[
-{label:'Chance',variants:[
-{question:'1 winning section out of 4 = what percent?',target:25,step:5,max:100,suffix:'%'},
-{question:'2 winning sections out of 5 = what percent?',target:40,step:5,max:100,suffix:'%'},
-{question:'3 winning sections out of 5 = what percent?',target:60,step:5,max:100,suffix:'%'},
-{question:'3 winning sections out of 4 = what percent?',target:75,step:5,max:100,suffix:'%'},
-{question:'2 winning sections out of 8 = what percent?',target:25,step:5,max:100,suffix:'%'},
-{question:'6 winning sections out of 8 = what percent?',target:75,step:5,max:100,suffix:'%'}
-]},
-{label:'Combos',variants:[
-{question:'3 hats × 2 shirts = how many outfits?',target:6,max:20},
-{question:'4 paths × 2 vehicles = how many combinations?',target:8,max:20},
-{question:'3 flavors × 4 toppings = how many choices?',target:12,max:24},
-{question:'5 flags × 2 poles = how many displays?',target:10,max:20},
-{question:'4 games × 3 prize colors = how many combinations?',target:12,max:24}
-]},
-{label:'Pattern',variants:[
-{question:'Pattern: 2, 5, 8, 11, ?  Set the next number.',target:14,max:30},
-{question:'Pattern: 3, 6, 12, 24, ?  Set the next number.',target:48,max:60,step:2},
-{question:'Pattern: 4, 8, 12, 16, ?  Set the next number.',target:20,max:40},
-{question:'Pattern: 1, 3, 6, 10, ?  Set the next number.',target:15,max:30},
-{question:'Pattern: 20, 17, 14, 11, ?  Set the next number.',target:8,max:30}
-]},
-{label:'Logic',variants:[
-{question:'Two ON switches in an AND gate gives what output? 0 or 1?',target:1,max:1},
-{question:'One ON switch in an OR gate gives what output? 0 or 1?',target:1,max:1},
-{question:'One ON and one OFF switch in an AND gate gives what output? 0 or 1?',target:0,max:1},
-{question:'Both switches OFF in an OR gate gives what output? 0 or 1?',target:0,max:1}
-]}
-],rewards:{discover:180,transfer:120},explanation:'You coordinated probability, combinations, patterns, and logic in one mission.',transferChallenge:{mechanic:'mission',title:'Night carnival mission',prompt:'Solve a fresh randomized set of carnival controls.',stageCount:3,stagePool:[
-{label:'Chance',variants:[
-{question:'1 winning section out of 5 = what percent?',target:20,step:5,max:100,suffix:'%'},
-{question:'4 winning sections out of 5 = what percent?',target:80,step:5,max:100,suffix:'%'},
-{question:'5 winning sections out of 10 = what percent?',target:50,step:5,max:100,suffix:'%'}
-]},
-{label:'Combos',variants:[
-{question:'2 routes × 5 vehicles = how many combinations?',target:10,max:20},
-{question:'4 hats × 4 shirts = how many outfits?',target:16,max:24}
-]},
-{label:'Pattern',variants:[
-{question:'Pattern: 5, 10, 15, 20, ?  Set the next number.',target:25,max:40},
-{question:'Pattern: 2, 4, 8, 16, ?  Set the next number.',target:32,max:40}
-]},
-{label:'Logic',variants:[
-{question:'Two ON switches in an OR gate gives what output? 0 or 1?',target:1,max:1},
-{question:'One ON and one OFF switch in an AND gate gives what output? 0 or 1?',target:0,max:1}
-]}
-],explanation:'You transferred the same reasoning tools to new numbers and more complex relationships.'}}
+{id:'carnival-mission',title:'Carnival logic mission',concept:'Chance, combinations, and logic',reasoningSkill:'Multi-step synthesis',cogatSkill:'Quantitative and Nonverbal batteries',difficulty:5,mechanic:'mission',intro:'Bring several kinds of reasoning together to open the carnival district.',promptByTheme:themes('Solve the three carnival controls.'),stages:[{label:'Chance',question:'2 winning sections out of 5 = what percent?',target:40},{label:'Combos',question:'3 hats × 2 shirts',target:6},{label:'Logic',question:'Two ON switches in an AND gate gives 1 for ON',target:1}],rewards:{discover:180,transfer:120},explanation:'You coordinated probability, combinations, and logic in one mission.',transferChallenge:{mechanic:'mission',title:'Night carnival mission',prompt:'Solve a fresh set of carnival controls.',stages:[{label:'Chance',question:'3 winning sections out of 5 = what percent?',target:60},{label:'Combos',question:'4 paths × 2 vehicles',target:8},{label:'Logic',question:'One ON switch in an OR gate gives 1 for ON',target:1}],explanation:'You transferred the same reasoning tools to new numbers and relationships.'}}
 ];
