@@ -78,3 +78,11 @@
 .trRunner circle{fill:#2d5ec9}.trRunner line{stroke:#1f3f7f;stroke-width:10;stroke-linecap:round}.trGraph rect{fill:#fff;stroke:#d9e1ea;stroke-width:2}.trGraph line{stroke:#66788f;stroke-width:4}.trGraph line:last-of-type{stroke:#5267d8;stroke-width:7}.trGraph text{fill:#64748a;font-size:15px;font-weight:900}
 
 @media(max-width:720px){.sportSceneSvg{min-height:340px}}
+
+
+.sportModeBar{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:stretch;padding:10px;border-radius:18px;background:#f6f8fb;border:1px solid #e1e6ee}
+.sportModeButtons{display:flex;gap:6px}.sportModeButtons button{min-width:88px;border:1px solid #d7dde8;border-radius:12px;background:#fff;padding:9px 11px;font-size:9px;font-weight:950;text-transform:uppercase;color:#657185}.sportModeButtons button.active{background:#5263d8;color:#fff;border-color:#5263d8}
+.sportModePrompt{display:grid;gap:2px;padding:5px 8px}.sportModePrompt b{font-size:11px;color:#263c62}.sportModePrompt span{font-size:10px;color:#657289;line-height:1.35}
+.tryAnotherSport{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 14px;border-radius:15px;background:linear-gradient(135deg,#f1edff,#edf8f1);border:1px solid #d7d0f5}.tryAnotherSport small{display:block;font-size:8px;font-weight:950;color:#6356b8;letter-spacing:.1em}.tryAnotherSport b{display:block;font-size:12px;color:#30415d;margin-top:2px}.tryAnotherSport span{display:block;font-size:9px;color:#687588;margin-top:2px}.tryAnotherSport button{border:0;border-radius:12px;background:#5b65d7;color:#fff;padding:10px 13px;font-weight:900}
+.sportConnectionCue{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-radius:13px;background:#eff5ff;border:1px solid #d9e6ff;color:#405574}.sportConnectionCue b{font-size:10px}.sportConnectionCue span{font-size:9px}
+@media(max-width:720px){.sportModeBar{grid-template-columns:1fr}.sportModeButtons{display:grid;grid-template-columns:repeat(3,1fr)}.sportModeButtons button{min-width:0}.tryAnotherSport{display:grid}}
