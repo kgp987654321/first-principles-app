@@ -69,20 +69,148 @@ const LAB=[
 {id:'half',customer:'Dr. Nova',avatar:'🥼',title:'Half-full sample',prompt:'Fill the sample tube to 1/2.',target:2,total:4,type:'measure',level:1},
 {id:'threequarters',customer:'Dr. Nova',avatar:'🥼',title:'Three-quarter sample',prompt:'Fill the sample tube to 3/4.',target:3,total:4,type:'measure',level:1},
 {id:'double',customer:'Rex',avatar:'🤖',title:'Double the recipe',prompt:'A test needs 2 scoops. Make a double batch.',target:4,total:6,type:'measure',level:1},
+{id:'ramp-motion',customer:'Rex',avatar:'🤖',title:'Ramp speed test',prompt:'Change ramp height and friction, then compare how far the cart travels.',type:'ramp',level:1},
 {id:'lab-scale-reading',unlockAfter:'map-scale',customer:'Dr. Nova',avatar:'🥼',title:'Calibrate the scale scanner',prompt:'The scanner turns model units into real units. Calibrate it, then predict two readings.',type:'mission',level:2,controls:[{label:'Find scale',icon:'🔎',art:'3 model → 12 real',prompt:'How many real units does each 1 model unit represent?',target:4,max:8,unit:'× scale',hint:'Split 12 real units into 3 equal model units.'},{label:'Read 5',icon:'📡',art:'5 model → ?',prompt:'Use the scale factor on a model reading of 5.',target:20,max:25,unit:'real units',hint:'Five groups of 4.'},{label:'Verify 7',icon:'✅',art:'7 model → ?',prompt:'Verify the calibration with a model reading of 7.',target:28,max:32,unit:'real units',hint:'Seven groups of the same scale factor.'}],success:'Scanner calibrated — the ×4 relationship held for every reading.'},
 {id:'lab-machine-rule',unlockAfter:'mystery-machine',customer:'Rex',avatar:'🤖',title:'Repair Rex’s number machine',prompt:'Rex’s machine must follow one rule every time. Diagnose the rule and run two test inputs.',type:'mission',level:3,controls:[{label:'Find offset',icon:'⚙️',art:'1→3   2→5   3→7',prompt:'The machine doubles each input, then adds how many?',target:1,max:5,unit:'added',hint:'Double 1 is 2. What turns 2 into 3?'},{label:'Test 6',icon:'🧪',art:'6 → ?',prompt:'Run input 6 through double, then +1.',target:13,max:18,unit:'output',hint:'Double 6 first.'},{label:'Stress test',icon:'🤖',art:'10 → ?',prompt:'One last test: what should input 10 produce?',target:21,max:25,unit:'output',hint:'Use exactly the same rule — no guessing.'}],success:'Rex is repaired! The same rule survived every test.'},
 {id:'lab-gravity-probe',unlockAfter:'gravity-worlds',customer:'Dr. Nova',avatar:'🥼',title:'Calibrate the gravity probe',prompt:'A probe travels differently on different worlds. Use the relationship between gravity and flight distance.',type:'mission',level:4,controls:[{label:'Earth test',icon:'🌍',art:'🚀 ───── 🎯',prompt:'The reference flight lands 6 spaces away. Set the recorded distance.',target:6,max:12,unit:'spaces',hint:'Use the observed landing point.'},{label:'Weaker gravity',icon:'🌙',art:'🚀 ───────── 🎯',prompt:'Weaker gravity lets the same launch travel farther. Set a new distance of 9.',target:9,max:14,unit:'spaces',hint:'Weaker pull means a longer flight.'},{label:'Stronger gravity',icon:'🪐',art:'🚀 ─── 🎯',prompt:'Stronger gravity shortens the same launch to 4 spaces. Record it.',target:4,max:12,unit:'spaces',hint:'Stronger pull brings the probe down sooner.'}],success:'Gravity probe calibrated — you connected stronger pull with shorter flight and weaker pull with longer flight.'},
 {id:'lab-change-chart',unlockAfter:'change-graph',customer:'Rex',avatar:'🤖',title:'Tune the growth chart',prompt:'Rex needs a chart that changes at a constant rate. Build three readings from the same rule.',type:'mission',level:4,controls:[{label:'Rate',icon:'📈',art:'0, 3, 6, 9...',prompt:'How much does the value increase each step?',target:3,max:8,unit:'per step',hint:'Compare neighboring values.'},{label:'Step 4',icon:'4️⃣',art:'3 × 4',prompt:'At a rate of 3 per step, what value appears after 4 steps?',target:12,max:18,unit:'value',hint:'Four groups of 3.'},{label:'Step 6',icon:'6️⃣',art:'3 × 6',prompt:'Keep the same rate. What value appears after 6 steps?',target:18,max:24,unit:'value',hint:'The rule does not change as the graph extends.'}],success:'Chart tuned — one constant rate generated every point.'},
 {id:'lab-area-scan',unlockAfter:'area-slices',customer:'Dr. Nova',avatar:'🥼',title:'Approximate the curved sample',prompt:'The scanner estimates a curved region by adding thin slices. Refine the scan in stages.',type:'mission',level:5,controls:[{label:'Coarse scan',icon:'▥',art:'▮ ▮ ▮ ▮',prompt:'Start with 4 broad slices. Set the slice count.',target:4,max:16,unit:'slices',hint:'This first scan is intentionally rough.'},{label:'Better scan',icon:'▦',art:'▯▯▯▯▯▯▯▯',prompt:'Double the slice count for a closer fit.',target:8,max:16,unit:'slices',hint:'More slices means each slice is thinner.'},{label:'Fine scan',icon:'📊',art:'||||||||||||||||',prompt:'Double once more for the finest scan.',target:16,max:16,unit:'slices',hint:'As the slices get thinner, the total fits the curved edge more closely.'}],success:'Curved sample scanned — you experienced the core intuition of area by accumulation.'}
 ];
-function ScienceRampBench(){
- const[height,setHeight]=useState(5),[mass,setMass]=useState(2),[friction,setFriction]=useState(2);
- const speed=Math.max(1,Number((height*1.35-friction*.55).toFixed(1))),distance=Math.max(1,Number((speed*3/(1+mass*.08)).toFixed(1)));
- return <section className="scienceRampBench"><div className="scienceBenchHead"><div><small>LIVE EXPERIMENT</small><h3>Ramp & Motion Lab</h3><p>Change one variable at a time and watch the cart’s motion respond.</p></div><button onClick={()=>{setHeight(5);setMass(2);setFriction(2)}}>↻ Reset</button></div><div className="scienceRampControls"><label>Ramp height <input type="range" min="1" max="10" value={height} onChange={e=>setHeight(+e.target.value)}/><b>{height}</b></label><label>Cart mass <input type="range" min="1" max="6" value={mass} onChange={e=>setMass(+e.target.value)}/><b>{mass}</b></label><label>Friction <input type="range" min="0" max="6" value={friction} onChange={e=>setFriction(+e.target.value)}/><b>{friction}</b></label></div><div className="scienceRampScene"><div className="rampShape" style={{height:(55+height*10)+'px'}}/><span className="scienceCart" style={{left:Math.min(86,12+distance*4)+'%'}}>🛒</span><div className="scienceTrack"/></div><div className="scienceReadouts"><span><small>SPEED</small><b>{speed}</b></span><span><small>DISTANCE</small><b>{distance}</b></span><span><small>RELATIONSHIP</small><b>{height>=5?'more height → more speed':'lower height → less speed'}</b></span></div></section>
+
+function ScienceTubeExperiment({order,onDone}){
+  const[n,setN]=useState(0),[message,setMessage]=useState('Set the liquid level, then run the test.');
+  const ratio=n+'/'+order.total,targetLabel=order.target+'/'+order.total,percent=n/order.total*100;
+  const levels=Array.from({length:order.total+1},(_,i)=>i);
+  const check=()=>n===order.target?(setMessage('✓ Sample confirmed at '+targetLabel+'.'),onDone(order.id)):setMessage('The sample is '+ratio+'. Adjust it to '+targetLabel+'.');
+  return <div className="scienceExperiment">
+    <div className="scienceExperimentTop"><div><small>ACTIVE APPARATUS</small><h3>Graduated Sample Station</h3><p>Use the marked levels instead of guessing by eye.</p></div><div className="scienceGoal"><small>TARGET</small><b>{targetLabel}</b></div></div>
+    <div className="scienceApparatusGrid">
+      <div className="scienceTubeStage">
+        <div className="sciencePipette">🧪</div>
+        <div className="scienceCylinder">
+          <div className="scienceLiquid" style={{height:percent+'%'}}/>
+          {levels.slice(1,-1).map(i=><i key={i} style={{bottom:(i/order.total*100)+'%'}}><span>{i}/{order.total}</span></i>)}
+        </div>
+        <div className="scienceLiveBadge"><small>LIVE READING</small><strong>{ratio}</strong><span>{Math.round(percent)}% full</span></div>
+      </div>
+      <div className="scienceControlPanel">
+        <small>SET THE LEVEL</small>
+        <div className="scienceLevelButtons">{levels.map(i=><button key={i} className={n===i?'active':''} onClick={()=>setN(i)}>{i===0?'Empty':i+'/'+order.total}</button>)}</div>
+        <div className="scienceStepper"><button onClick={()=>setN(v=>Math.max(0,v-1))}>−</button><b>{ratio}</b><button onClick={()=>setN(v=>Math.min(order.total,v+1))}>+</button></div>
+        <button className="primary scienceRun" onClick={check}>Run sample test</button>
+        <p className="scienceObservation">{message}</p>
+      </div>
+    </div>
+  </div>
 }
 
-function LabTask({order,onDone}){const[n,setN]=useState(0),[msg,setMsg]=useState('Adjust the sample.');if(order.type==='mission')return <Mission order={order} onDone={onDone}/>;const check=()=>n===order.target?(setMsg('Measurement confirmed!'),onDone(order.id)):setMsg(`The sample is at ${n} parts. Adjust it to ${order.target}.`);return <><div className="labTube"><div style={{height:`${n/order.total*100}%`}}/><b>{n}/{order.total}</b></div><div className="stepper"><button onClick={()=>setN(v=>Math.max(0,v-1))}>−</button><button onClick={()=>setN(v=>Math.min(order.total,v+1))}>+</button></div><button className="primary" onClick={check}>Run experiment</button><p className="feedback">{msg}</p></>}
-export function MeasurementLab(props){return <HubShell {...props} kind="lab" title="Science Studio" subtitle="Experiment with measurement, motion, forces, and change." emoji="🧪" orders={LAB}>{(o,f)=><><ScienceRampBench/><LabTask key={o.id} order={o} onDone={f}/></>}</HubShell>}
+function ScienceBatchExperiment({order,onDone}){
+  const[n,setN]=useState(0),[message,setMessage]=useState('The base test uses 2 scoops. Build a double batch.');
+  const check=()=>n===order.target?(setMessage('✓ Double batch confirmed: 2 + 2 = 4 scoops.'),onDone(order.id)):setMessage('A double batch needs two copies of 2 scoops.');
+  return <div className="scienceExperiment">
+    <div className="scienceExperimentTop"><div><small>ACTIVE APPARATUS</small><h3>Batch Mixing Bench</h3><p>Build the amount physically, then connect it to multiplication.</p></div><div className="scienceGoal"><small>BASE RECIPE</small><b>2 scoops</b></div></div>
+    <div className="scienceApparatusGrid">
+      <div className="scienceMixerStage">
+        <div className="scienceBeaker"><span>{Array.from({length:n},(_,i)=><i key={i}>●</i>)}</span><b>{n} scoops</b></div>
+        <div className="scienceRecipeEquation"><span>2 scoops</span><b>× 2</b><strong>= {n}</strong></div>
+      </div>
+      <div className="scienceControlPanel"><small>ADD OR REMOVE SCOOPS</small><div className="scienceStepper"><button onClick={()=>setN(v=>Math.max(0,v-1))}>−</button><b>{n}</b><button onClick={()=>setN(v=>Math.min(order.total,v+1))}>+</button></div><button className="primary scienceRun" onClick={check}>Test the batch</button><p className="scienceObservation">{message}</p></div>
+    </div>
+  </div>
+}
+
+function ScienceRampExperiment({order,onDone}){
+  const[height,setHeight]=useState(3),[friction,setFriction]=useState(4),[stage,setStage]=useState(0),[runs,setRuns]=useState([]),[message,setMessage]=useState('Run the low-ramp test first.');
+  const speed=Math.max(1,Number((height*1.35-friction*.55).toFixed(1))),distance=Math.max(1,Number((speed*3).toFixed(1)));
+  const expected=stage===0?{height:3,friction:4}:{height:8,friction:1};
+  const run=()=>{
+    const ok=height===expected.height&&friction===expected.friction;
+    if(!ok){setMessage(stage===0?'Set height 3 and friction 4 for the baseline run.':'Now set height 8 and friction 1 for the comparison run.');return}
+    const next=[...runs,{height,friction,speed,distance}];setRuns(next);
+    if(stage===0){setStage(1);setHeight(8);setFriction(1);setMessage('Baseline recorded. Now make the ramp higher and the track smoother.')}
+    else{setStage(2);setMessage('✓ Higher ramp + lower friction produced more speed and distance.');onDone(order.id)}
+  };
+  return <div className="scienceExperiment">
+    <div className="scienceExperimentTop"><div><small>LIVE EXPERIMENT · {Math.min(stage+1,2)}/2</small><h3>Ramp & Motion Lab</h3><p>{stage===0?'Record a low-energy baseline.':'Compare it with a higher, smoother ramp.'}</p></div><div className="scienceGoal"><small>CURRENT GOAL</small><b>H {expected.height} · F {expected.friction}</b></div></div>
+    <div className="scienceRampSceneV2">
+      <div className="scienceSky"/>
+      <div className="scienceRampV2" style={{height:(58+height*12)+'px'}}/>
+      <div className="scienceTrackV2"/>
+      <span className="scienceCartV2" style={{left:Math.min(88,18+distance*3.3)+'%'}}>🛒</span>
+      <div className="scienceDistanceFlag" style={{left:Math.min(90,18+distance*3.3)+'%'}}><i/><span>{distance} m</span></div>
+    </div>
+    <div className="scienceRampDashboard">
+      <div className="scienceControlPanel scienceRampControlsV2"><label>Ramp height <input type="range" min="1" max="10" value={height} onChange={e=>setHeight(+e.target.value)}/><b>{height}</b></label><label>Friction <input type="range" min="0" max="6" value={friction} onChange={e=>setFriction(+e.target.value)}/><b>{friction}</b></label><button onClick={()=>{setHeight(expected.height);setFriction(expected.friction)}}>Set requested conditions</button><button className="primary" onClick={run} disabled={stage>=2}>▶ Run cart</button></div>
+      <div className="scienceReadoutStack"><span><small>SPEED</small><b>{speed}</b><em>m/s</em></span><span><small>DISTANCE</small><b>{distance}</b><em>m</em></span><span><small>OBSERVATION</small><b>{height>5?'More starting height':'Lower starting height'}</b><em>{friction<=2?'low friction':'more friction'}</em></span></div>
+    </div>
+    {runs.length>0&&<div className="scienceRunTable"><b>LAB NOTEBOOK</b>{runs.map((r,i)=><span key={i}>Run {i+1}: height {r.height} · friction {r.friction} → speed {r.speed}, distance {r.distance}</span>)}</div>}
+    <p className="scienceObservation">{message}</p>
+  </div>
+}
+
+function ScienceMissionApparatus({order,stage,value}){
+  const control=order.controls[stage];
+  if(order.id==='lab-scale-reading')return <div className="scienceMachine scienceScaleMachine"><small>SCALE SCANNER</small><div className="scienceScaleRows"><span>MODEL</span><b>{stage===0?3:stage===1?5:7}</b><i>×</i><strong>{stage===0?'?':4}</strong><i>=</i><em>{value||'?'}</em></div><div className="scienceScannerBeam"/></div>;
+  if(order.id==='lab-machine-rule')return <div className="scienceMachine scienceNumberMachine"><small>NUMBER MACHINE</small><div className="scienceMachineFlow"><span>{stage===0?'1, 2, 3':stage===1?6:10}</span><i>×2 + {stage===0?value:1}</i><strong>{stage===0?'3, 5, 7':value||'?'}</strong></div><div className="scienceGears">⚙️ ⚙️</div></div>;
+  if(order.id==='lab-gravity-probe'){const planet=stage===0?'🌍':stage===1?'🌙':'🪐';return <div className="scienceMachine scienceGravityMachine"><small>GRAVITY PROBE</small><span className="sciencePlanet">{planet}</span><div className="scienceProbeArc" style={{width:(28+value*5)+'%'}}/><span className="scienceRocket">🚀</span><strong>{value} spaces</strong></div>}
+  if(order.id==='lab-change-chart')return <div className="scienceMachine scienceGraphMachine"><small>GROWTH CHART</small><svg viewBox="0 0 300 180"><line x1="30" y1="150" x2="280" y2="150"/><line x1="30" y1="150" x2="30" y2="20"/><polyline points={'30,150 95,'+(150-Math.min(110,value*4))+' 165,'+(150-Math.min(110,value*6))+' 250,'+(150-Math.min(110,value*8))}/></svg><strong>{control.label}: {value}</strong></div>;
+  if(order.id==='lab-area-scan'){const slices=Math.max(1,value);return <div className="scienceMachine scienceAreaMachine"><small>CURVED SAMPLE SCANNER</small><div className="scienceScanCurve">{Array.from({length:Math.min(16,slices)},(_,i)=><i key={i} style={{height:(25+Math.sin((i+1)/(Math.min(16,slices)+1)*Math.PI)*90)+'px'}}/>)}</div><strong>{value} slices</strong></div>}
+  return <div className="scienceMachine"><small>ACTIVE INSTRUMENT</small><strong>{control.art}</strong></div>
+}
+
+function ScienceAdvancedMission({order,onDone}){
+  const[stage,setStage]=useState(0),[value,setValue]=useState(0),[message,setMessage]=useState('Set the instrument, then record the result.'),[help,setHelp]=useState(false);
+  const control=order.controls[stage];
+  const check=()=>{
+    if(value!==control.target){setMessage(control.hint||'That reading does not match the evidence.');return}
+    if(stage===order.controls.length-1){setMessage('✓ '+order.success);onDone(order.id);return}
+    setStage(s=>s+1);setValue(0);setHelp(false);setMessage('Reading recorded. The next instrument setting is ready.');
+  };
+  return <div className="scienceExperiment scienceAdvancedExperiment">
+    <div className="scienceExperimentTop"><div><small>EXPERIMENT {stage+1} OF {order.controls.length}</small><h3>{control.icon} {control.label}</h3><p>{control.prompt}</p></div><div className="scienceGoal"><small>UNIT</small><b>{control.unit}</b></div></div>
+    <div className="scienceMissionProgress">{order.controls.map((x,i)=><span key={x.label} className={i<stage?'done':i===stage?'active':''}>{i<stage?'✓':i+1}<small>{x.label}</small></span>)}</div>
+    <div className="scienceApparatusGrid">
+      <ScienceMissionApparatus order={order} stage={stage} value={value}/>
+      <div className="scienceControlPanel">
+        <small>INSTRUMENT CONTROL</small>
+        <div className="scienceDial"><button onClick={()=>setValue(v=>Math.max(0,v-1))}>−</button><div><b>{value}</b><span>{control.unit}</span></div><button onClick={()=>setValue(v=>Math.min(control.max||40,v+1))}>+</button></div>
+        <input className="scienceRange" type="range" min="0" max={control.max||40} value={value} onChange={e=>setValue(+e.target.value)}/>
+        <div className="scienceMissionButtons"><button onClick={()=>setHelp(v=>!v)}>💡 Hint</button><button className="primary" onClick={check}>{stage===order.controls.length-1?'Complete experiment':'Record reading'}</button></div>
+        {help&&<div className="scienceHint">{control.hint}</div>}
+        <p className="scienceObservation">{message}</p>
+      </div>
+    </div>
+  </div>
+}
+
+function ScienceExperiment({order,onDone}){
+  if(order.type==='ramp')return <ScienceRampExperiment order={order} onDone={onDone}/>;
+  if(order.type==='mission')return <ScienceAdvancedMission order={order} onDone={onDone}/>;
+  if(order.id==='double')return <ScienceBatchExperiment order={order} onDone={onDone}/>;
+  return <ScienceTubeExperiment order={order} onDone={onDone}/>;
+}
+
+export function MeasurementLab({activity,onProgress,onExit,completedLessons={}}){
+  const available=LAB.filter(o=>unlocked(o,completedLessons)),completed=activity?.completedOrders||{},waiting=available.filter(o=>!completed[o.id]),done=available.length-waiting.length;
+  const[selectedId,setSelectedId]=useState(waiting[0]?.id||available[0]?.id),order=available.find(o=>o.id===selectedId)||waiting[0]||available[0];
+  const finish=id=>{if(!completed[id])onProgress({completedOrders:{...completed,[id]:true}})};
+  return <main className="app hubApp labHubApp scienceStudioApp">
+    <header className="hero hubHero labHero scienceHero"><div><small>SCIENCE STUDIO</small><h1>🧪 Run the experiment.</h1><p>Change variables, read instruments, record evidence, and discover relationships by testing them.</p></div><button className="secondary" onClick={onExit}>← Back to My World</button></header>
+    <section className="scienceStatus panel"><div><span>🔬</span><b>{waiting.length} experiments waiting</b><small>{done} complete</small></div><div className="scienceStatusRule"><span>1</span> Change one thing <i>→</i><span>2</span> Observe <i>→</i><span>3</span> Explain</div></section>
+    <section className="scienceStudioLayout">
+      <aside className="scienceNotebook panel">
+        <div className="scienceNotebookHead"><small>LAB NOTEBOOK</small><h2>Experiment Queue</h2><p>Choose a card to bring that apparatus to the main bench.</p></div>
+        <div className="scienceExperimentQueue">{available.map(o=><button key={o.id} className={(order?.id===o.id?'active ':'')+(completed[o.id]?'complete':'')} onClick={()=>setSelectedId(o.id)}><span>{completed[o.id]?'✓':o.type==='ramp'?'🛒':o.type==='mission'?'⚙️':'🧪'}</span><div><small>{o.level?'LEVEL '+o.level:'EXPERIMENT'}</small><b>{o.title}</b><em>{completed[o.id]?'Recorded':unlocked(o,completedLessons)?'Ready':'Locked'}</em></div></button>)}</div>
+        <div className="scienceNotebookShelf"><span>🧪</span><span>⚗️</span><span>🔬</span><span>📏</span><span>🧫</span></div>
+        <div className="scienceNotebookTally">✅ {done} / {available.length} recorded</div>
+      </aside>
+      <section className="scienceMainBench panel">
+        <div className="scienceRoomDecor" aria-hidden="true"><div className="scienceWindow"><i/><i/></div><div className="scienceWallShelf"><span>🧪</span><span>🧫</span><span>⚗️</span><span>🔬</span></div><div className="scienceSafety">🥽 SAFETY FIRST</div><div className="scienceClock">◷</div></div>
+        {order?<><div className="scienceBrief"><span>{order.avatar}</span><div><small>{order.customer}'S LAB REQUEST · LEVEL {order.level||1}</small><h2>{order.title}</h2><p>{order.prompt}</p></div>{completed[order.id]&&<b className="scienceRecorded">✓ RECORDED</b>}</div><ScienceExperiment key={order.id} order={order} onDone={finish}/>{completed[order.id]&&<div className="successNote">Experiment recorded. Choose another card from the lab notebook.</div>}</>:<div className="emptyBakery"><span>🔬</span><h2>Everything is recorded.</h2><p>New experiments will unlock as more ideas are mastered.</p></div>}
+      </section>
+    </section>
+  </main>
+}
 
 const GARDEN=[
  {id:'garden-half-bed',customer:'Mira',avatar:'👩‍🌾',title:'Plant half the bed',prompt:'Eight planting spots are ready. Plant exactly half.',type:'bed',target:4,total:8,level:1},
