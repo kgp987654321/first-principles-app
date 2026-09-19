@@ -474,7 +474,7 @@
   function renderProblem(){
     clearInputs();state.problem=makeProblem(state.mode);state.strategy=0;state.strategyStep=0;
     const p=state.problem;
-    $$$(".gameCard").forEach(b=>b.classList.toggle("active",b.dataset.mode===state.mode));
+    $(".gameCard").forEach(b=>b.classList.toggle("active",b.dataset.mode===state.mode));
     const isFact=state.mode==="multiply"||state.mode==="divide",isTrail=state.mode==="subtract";
     $("#columnPractice").classList.toggle("hidden",isFact||isTrail);
     $("#mazePractice").classList.toggle("hidden",!isTrail);
