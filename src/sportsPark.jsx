@@ -113,36 +113,36 @@ function BaseballStations(){
 
 function Basketball({record,onRecord,onChallenge,onDiscover}){
   const shotPresets={
-    short:{angle:55,power:47},
+    short:{angle:58,power:45},
     free:{angle:52,power:63},
     three:{angle:47,power:82}
   };
   const[angle,setAngle]=useState(shotPresets.free.angle),[power,setPower]=useState(shotPresets.free.power),[spot,setSpot]=useState('free'),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
-  const targets={short:45,free:68,three:86},feet={short:8,free:15,three:23};
+  const targets={short:44,free:64,three:86},feet={short:8,free:15,three:23};
   const applyShotPreset=nextSpot=>{
-    const preset=shotPresets[nextSpot];
-    setSpot(nextSpot);
-    setAngle(preset.angle);
-    setPower(preset.power);
-    setResult(null);
+    const preset=shotPresets[nextSpot];if(!preset)return;
+    setSpot(nextSpot);setAngle(preset.angle);setPower(preset.power);setResult(null);setAttempt(v=>v+1);
   };
-  const target=targets[spot],range=clamp(Math.sin(2*rad(angle))*(power/100)*105,0,110),miss=Math.abs(range-target);
-  const apex=Math.round(5+Math.sin(rad(angle))*power*.16),basicHit=miss<6,masteryHit=basicHit&&spot==='free'&&power<=65;
+  const target=targets[spot];
+  const range=clamp(Math.sin(2*rad(angle))*(power/100)*105,0,110);
+  const miss=Math.abs(range-target);
+  const apex=Math.round(4+Math.sin(rad(angle))*(power/100)*24);
+  const vectorLength=Math.round(34+power*.9);
+  const basicHit=miss<6,masteryHit=basicHit&&spot==='free'&&power<=65;
   const success=mode==='explore'?true:mode==='challenge'?basicHit:masteryHit;
   const shoot=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('angle');if(success&&mode!=='explore')onChallenge('basketball:'+mode);if(basicHit)onRecord('basketball',Math.max(record||0,Math.round(100-miss)))};
   const resetTry=()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?5:-4),30,70));setPower(p=>clamp(p+(attempt%2?-6:5),30,90))};
-  return <SportLab icon="🏀" title="Hoop Shot Math" subtitle="Explore how angle and push force change the path of a basketball." promptTitle="Take a shot!" promptText="Adjust angle and force, then see whether the arc reaches the hoop." scene={<BasketballScene key={attempt} played={result!==null} angle={angle} power={power} range={range} shotType={spot}/>}
+  return <SportLab icon="🏀" title="Hoop Shot Math" subtitle="Explore how angle and push force change the path of a basketball." promptTitle="Take a shot!" promptText="Choose a court spot or adjust the sliders. More force lengthens the launch vector and carries the ball farther." scene={<BasketballScene key={attempt+'-'+spot} played={result!==null} angle={angle} power={power} range={range} shotType={spot} vectorLength={vectorLength}/>}
     stats={[{icon:'📐',label:'Release Angle',value:angle+'°'},{icon:'🔥',label:'Shot Force',value:power+'%'},{icon:'📍',label:'Distance',value:feet[spot]+' FT'},{icon:'⬆',label:'Apex',value:apex+' FT'}]}
     controls={<><SportControl label="Shot angle" value={angle} min={30} max={70} onChange={v=>{setAngle(v);setResult(null)}} suffix="°"/><SportControl label="Shot force" value={power} min={30} max={90} onChange={v=>{setPower(v);setResult(null)}} suffix="%"/></>}
     choices={<ChoiceButtons options={[
-      {id:'short',label:'short range · 55° / 47%'},
+      {id:'short',label:'short range · 58° / 45%'},
       {id:'free',label:'free throw · 52° / 63%'},
       {id:'three',label:'three-point · 47° / 82%'}
     ]} value={spot} onChange={applyShotPreset}/>}
-    actionLabel="🏀 Shoot!" onAction={shoot} feedback={result===null?null:(result?(mode==='explore'?'Watch the arc: changing angle and force changes both height and range.':'Swish! Mission complete.'):(mode==='mastery'?'Make a free throw with 65% force or less.':'Missed the target. Change one variable and compare.'))} success={result===true}
+    actionLabel="🏀 Shoot!" onAction={shoot} feedback={result===null?null:(result?(mode==='explore'?'Watch the force arrow and arc together: stronger pushes make a longer vector and more range.':'Swish! Mission complete.'):(mode==='mastery'?'Make a free throw with 65% force or less.':'Missed the hoop. Compare your range with the selected court spot.'))} success={result===true}
     mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('basketball',mode)} connectionText={SPORTS_CHALLENGES.basketball.connection} onTryAnother={resetTry}/>;
 }
-
 function Soccer({record,onRecord,onChallenge,onDiscover}){
   const[angle,setAngle]=useState(32),[power,setPower]=useState(74),[contact,setContact]=useState('center'),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
   const contactShift=contact==='curve'?-6:contact==='chip'?6:0;
@@ -159,20 +159,31 @@ function Soccer({record,onRecord,onChallenge,onDiscover}){
 }
 
 function Football({record,onRecord,onChallenge,onDiscover}){
-  const[angle,setAngle]=useState(38),[power,setPower]=useState(68),[passType,setPassType]=useState('spiral'),[receiver,setReceiver]=useState(8),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
-  const typeFactor=passType==='short'?.88:passType==='lob'?.83:1;
-  const throwDist=Math.sin(2*rad(angle))*power*.75*typeFactor,receiverDist=receiver*4,miss=Math.abs(throwDist-receiverDist),height=Math.round(6+Math.sin(rad(angle))*power*.18),basicHit=miss<5,masteryHit=basicHit&&receiver>=10;
+  const passPresets={
+    short:{angle:25,power:54,receiver:5},
+    spiral:{angle:38,power:68,receiver:8},
+    lob:{angle:52,power:78,receiver:6}
+  };
+  const[angle,setAngle]=useState(passPresets.spiral.angle),[power,setPower]=useState(passPresets.spiral.power),[passType,setPassType]=useState('spiral'),[receiver,setReceiver]=useState(passPresets.spiral.receiver),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
+  const config=passType==='short'?{speed:.88,hang:.82,start:10,route:.64}:passType==='lob'?{speed:.92,hang:1.18,start:12,route:.58}:{speed:1,hang:1,start:18,route:.70};
+  const velocity=(6+power*.18)*config.speed;
+  const flightTime=Math.max(.45,(2*velocity*Math.sin(rad(angle))/10.72)*config.hang);
+  const throwDist=clamp(velocity*Math.cos(rad(angle))*flightTime,6,48);
+  const receiverDist=clamp(config.start+receiver*flightTime*config.route,7,48);
+  const miss=Math.abs(throwDist-receiverDist),height=Math.round(4+(velocity*velocity*Math.sin(rad(angle))**2/(2*10.72))*3);
+  const basicHit=miss<=3.5,masteryHit=basicHit&&receiver>=10;
   const success=mode==='explore'?true:mode==='challenge'?basicHit:masteryHit;
-  const pass=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('prediction');onDiscover('rate');if(success&&mode!=='explore')onChallenge('football:'+mode);if(basicHit)onRecord('football',Math.max(record||0,100-Math.round(miss*3)))};
-  const resetTry=()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?5:-4),20,60));setPower(p=>clamp(p+(attempt%2?-7:6),35,100))};
-  return <SportLab icon="🏈" title="Pass Arc Math" subtitle="Explore how angle, force, and receiver speed change a football pass." promptTitle="Make the pass!" promptText="Throw where the receiver will be, not where the receiver started." scene={<FootballScene key={attempt} played={result!==null} angle={angle} power={power} receiverDist={receiverDist} throwDist={throwDist}/>}
-    stats={[{icon:'📐',label:'Throw Angle',value:angle+'°'},{icon:'🔥',label:'Throw Force',value:power+'%'},{icon:'📍',label:'Distance',value:Math.round(throwDist)+' YD'},{icon:'⬆',label:'Max Height',value:height+' FT'}]}
+  const applyPassPreset=type=>{const p=passPresets[type];if(!p)return;setPassType(type);setAngle(p.angle);setPower(p.power);setReceiver(p.receiver);setResult(null);setAttempt(v=>v+1)};
+  const pass=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('prediction');onDiscover('rate');if(success&&mode!=='explore')onChallenge('football:'+mode);if(basicHit)onRecord('football',Math.max(record||0,100-Math.round(miss*8)))};
+  const resetTry=()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?4:-3),20,60));setPower(p=>clamp(p+(attempt%2?-6:5),35,100))};
+  const feedback=result===null?null:(result?(mode==='explore'?'The catch ring is the exact lead point used by the scoring model. Change receiver speed and watch it move.':'Caught! You led the receiver successfully.'):(throwDist<receiverDist?'Too short — add force, lower the hang time, or lead less.':'Too far — reduce force, increase the arc, or lead more.'));
+  return <SportLab icon="🏈" title="Pass Arc Math" subtitle="Explore how angle, force, and receiver speed change a football pass." promptTitle="Lead the receiver!" promptText="The catch ring shows where the receiver will be when the ball arrives. Match the ball range to that moving target." scene={<FootballScene key={attempt+'-'+passType} played={result!==null} angle={angle} power={power} receiverDist={receiverDist} throwDist={throwDist} flightTime={flightTime}/>}
+    stats={[{icon:'📐',label:'Throw Angle',value:angle+'°'},{icon:'🔥',label:'Throw Force',value:power+'%'},{icon:'⏱',label:'Flight Time',value:flightTime.toFixed(1)+' s'},{icon:'🎯',label:'Catch Lead',value:receiverDist.toFixed(1)+' YD'}]}
     controls={<><SportControl label="Throw angle" value={angle} min={20} max={60} onChange={v=>{setAngle(v);setResult(null)}} suffix="°"/><SportControl label="Throw force" value={power} min={35} max={100} onChange={v=>{setPower(v);setResult(null)}} suffix="%"/><SportControl label="Receiver speed" value={receiver} min={4} max={14} onChange={v=>{setReceiver(v);setResult(null)}} suffix=" yd/s"/></>}
-    choices={<ChoiceButtons options={[{id:'short',label:'short pass'},{id:'spiral',label:'spiral'},{id:'lob',label:'lob'}]} value={passType} onChange={v=>{setPassType(v);setResult(null)}}/>}
-    actionLabel="🏈 Pass!" onAction={pass} feedback={result===null?null:(result?(mode==='explore'?'The receiver moves while the ball is in flight, so the target is a prediction.':'Complete! Mission accomplished.'):(mode==='mastery'?'Lead a receiver moving at least 10 yd/s.':'Incomplete. Compare throw distance with receiver target distance.'))} success={result===true}
+    choices={<ChoiceButtons options={[{id:'short',label:'short pass · 25° / 54%'},{id:'spiral',label:'spiral · 38° / 68%'},{id:'lob',label:'lob · 52° / 78%'}]} value={passType} onChange={applyPassPreset}/>}
+    actionLabel="🏈 Pass!" onAction={pass} feedback={feedback} success={result===true}
     mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('football',mode)} connectionText={SPORTS_CHALLENGES.football.connection} onTryAnother={resetTry}/>;
 }
-
 function Golf({record,onRecord,onChallenge,onDiscover}){
   const[angle,setAngle]=useState(42),[power,setPower]=useState(72),[wind,setWind]=useState(0),[club,setClub]=useState('iron'),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0),target=76;
   const clubFactor=club==='wedge'?.78:club==='driver'?1.12:1;
