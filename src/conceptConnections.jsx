@@ -155,7 +155,15 @@ const sportTransferByMechanic={
   coordinate:{icon:'⚽🏈',title:'Targets on a field',text:'Soccer and football use location plus direction to predict where a ball should go.'},
   scale:{icon:'⚾',title:'Scale on the baseball diamond',text:'The diamond keeps the same shape while dimensions change, just like any scaled model.'},
   'scale-map':{icon:'🏟️',title:'Field maps use scale',text:'A sports field diagram is a scaled representation of real distances.'},
-  balance:{icon:'⛳',title:'Balancing effects',text:'Golf combines angle, force, and wind. One change can be balanced by another to reach the same target.'}
+  balance:{icon:'⛳',title:'Balancing effects',text:'Golf combines angle, force, and wind. One change can be balanced by another to reach the same target.'},
+  vector:{icon:'⚽🏈',title:'Vectors in Athletics Park',text:'Soccer and football combine direction with magnitude to predict where the ball will go.'},
+  momentum:{icon:'⚾🏈',title:'Motion in sports',text:'Mass and speed work together in collisions and throws; changing either changes the motion effect.'},
+  torque:{icon:'🏒',title:'Force applied at a distance',text:'Hockey sticks and other sports equipment turn around pivots, just like the lever relationship here.'},
+  energy:{icon:'⚾⛳',title:'Stored and moving energy',text:'A swing transfers energy into a ball; more useful input can create more motion.'},
+  gravity:{icon:'🏀⚾',title:'Gravity bends every flight',text:'Basketballs and baseballs keep moving forward while gravity pulls them downward.'},
+  orbit:{icon:'🏈',title:'Curved paths from competing effects',text:'Sports trajectories are not orbits, but both show how motion and a continuous pull combine into curved paths.'},
+  'graph-change':{icon:'🏃',title:'See rate on the track',text:'A runner’s constant speed becomes the slope of a distance-time graph in Athletics Park.'},
+  'area-slices':{icon:'🏟️',title:'Approximate curved sports regions',text:'Curved field and track regions can also be estimated by combining many thin pieces.'}
 };
 function SportsTransfer({mechanic}){
   const item=sportTransferByMechanic[mechanic];
