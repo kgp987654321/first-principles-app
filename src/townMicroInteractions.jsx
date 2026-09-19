@@ -107,91 +107,68 @@ function ShoreCurrent({onClose,onGoTo}){
 }
 
 function CliffsLaunch({onClose,onGoTo}){
-  const [angle,setAngle]=useState(35);
   const svgRef=useRef(null);
-  const [dragging,setDragging]=useState(false);
-  const [targetIndex,setTargetIndex]=useState(0);
-  const [launched,setLaunched]=useState(false);
-  const [attempts,setAttempts]=useState(0);
-  const [best,setBest]=useState(null);
-  const targets=[225,275,325];
-  const targetX=targets[targetIndex];
-  const radians=angle*Math.PI/180;
-  const range=Math.sin(2*radians);
-  const height=Math.sin(radians)**2;
-  const startX=55,groundY=155,endX=80+range*250,peakY=150-height*105;
-  const path=`M ${startX} ${groundY} Q ${(startX+endX)/2} ${peakY} ${endX} ${groundY}`;
-  const error=Math.abs(endX-targetX);
-  const hit=launched&&error<=10;
-  const close=launched&&error>10&&error<=24;
-  const discovered=best!==null&&best<=10;
-  const angleRayLen=48;
-  const rayX=startX+Math.cos(radians)*angleRayLen;
-  const rayY=groundY-Math.sin(radians)*angleRayLen;
-  const wedgeR=25;
-  const wedgeX=startX+Math.cos(radians)*wedgeR;
-  const wedgeY=groundY-Math.sin(radians)*wedgeR;
-  const wedgePath=`M ${startX+wedgeR} ${groundY} A ${wedgeR} ${wedgeR} 0 0 0 ${wedgeX} ${wedgeY}`;
-  const launch=()=>{setLaunched(true);setAttempts(v=>v+1);setBest(v=>v===null?error:Math.min(v,error))};
-  const changeAngle=v=>{setAngle(v);setLaunched(false)};
-  const angleFromPointer=e=>{const svg=svgRef.current;if(!svg)return;const rect=svg.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width*380,y=(e.clientY-rect.top)/rect.height*190,deg=Math.atan2(groundY-y,x-startX)*180/Math.PI;changeAngle(Math.round(clamp(deg,15,75)))};
-  const startAngleDrag=e=>{setDragging(true);e.currentTarget.setPointerCapture?.(e.pointerId);angleFromPointer(e)};
-  const moveAngleDrag=e=>{if(dragging)angleFromPointer(e)};
-  const endAngleDrag=e=>{setDragging(false);e.currentTarget.releasePointerCapture?.(e.pointerId)};
-  const nextTarget=()=>{setTargetIndex(i=>(i+1)%targets.length);setAngle(35);setLaunched(false);setBest(null);setAttempts(0)};
-  const feedback=!launched?'Tune the angle, then launch.':hit?'Bullseye! You matched the target distance.':close?'Very close — make a small angle adjustment.':endX<targetX?'Too short — try an angle closer to the middle.':'Too far — change the angle away from the middle.';
-  return <Frame icon="⛰️" title="Cliff Launch Lab" kicker="AIM WITH ANGLES" takeaway={hit?'You used the launch angle to control horizontal range. The angle is measured from the ground up to the launch direction.':'Changing the launch angle changes both height and forward distance.'} discovered={discovered} onClose={onClose} onGoTo={onGoTo} goLabel="Visit Think Tank">
-    <div className="microPrompt">Land the launch ball as close to the flag as you can. Adjust the angle, then press Launch.</div>
-    <div className="launchScene targetLaunchScene">
-      <div className="targetLaunchStage">
-        <svg ref={svgRef} viewBox="0 0 380 190" aria-label={"Launch angle "+angle+" degrees aimed at a target"} onPointerDown={startAngleDrag} onPointerMove={moveAngleDrag} onPointerUp={endAngleDrag} onPointerCancel={()=>setDragging(false)}>
-          <path className="launchGround" d="M20 157 H360"/>
-          <path className="launchCliff" d="M25 157 L55 105 L80 157 Z"/>
-          
-          <path className="protractorArc" d="M 90 155 A 35 35 0 0 0 55 120"/>
-          {[15,30,45,60,75].map(a=>{const r=a*Math.PI/180,x1=startX+Math.cos(r)*31,y1=groundY-Math.sin(r)*31,x2=startX+Math.cos(r)*37,y2=groundY-Math.sin(r)*37;return <g key={a}><line className="protractorTick" x1={x1} y1={y1} x2={x2} y2={y2}/>{a===45&&<text className="protractorText" x={startX+Math.cos(r)*45} y={groundY-Math.sin(r)*45}>45°</text>}</g>})}
-          <line className="angleBaseRay" x1={startX} y1={groundY} x2={startX+55} y2={groundY}/>
-          <line className="angleLaunchRay" x1={startX} y1={groundY} x2={rayX} y2={rayY}/>
-          <path className="angleWedgeArc" d={wedgePath}/>
-          <text className="angleWedgeLabel" x={startX+Math.cos(radians/2)*34} y={groundY-Math.sin(radians/2)*34}>{angle}°</text>
-          <circle className="angleVertex" cx={startX} cy={groundY} r="4"/>
-          <circle className={dragging?"angleDragHandle dragging":"angleDragHandle"} cx={rayX} cy={rayY} r="9"/>
-          <text className="angleDragHint" x={rayX+12} y={rayY-8}>DRAG</text>
-          
-          <g className="launchTarget" transform={`translate(${targetX} 0)`}>
-            <line x1="0" y1="118" x2="0" y2="157"/>
-            <path d="M0 119 L25 127 L0 135 Z"/>
-            <circle cx="0" cy="157" r="13"/>
-            <circle cx="0" cy="157" r="7"/>
-            <circle cx="0" cy="157" r="2.5"/>
+  const levels=[
+    {name:'Flag Toss',goal:'Land on the flag target.',solution:{angle:45,power:70},crates:1},
+    {name:'Crate Knockdown',goal:'Knock over the crate stack.',solution:{angle:35,power:82},crates:3},
+    {name:'High Arc Hit',goal:'Use a higher arc to smash the tower.',solution:{angle:55,power:76},crates:4},
+    {name:'Long Shot',goal:'Reach the far stack without maxing both controls.',solution:{angle:28,power:90},crates:5}
+  ];
+  const[levelIndex,setLevelIndex]=useState(0),[angle,setAngle]=useState(40),[power,setPower]=useState(60),[dragging,setDragging]=useState(false),[launched,setLaunched]=useState(false),[attempts,setAttempts]=useState(0),[best,setBest]=useState(null),[guide,setGuide]=useState(true),[hint,setHint]=useState(false);
+  const level=levels[levelIndex],anchorX=72,groundY=158,maxPull=62;
+  const physics=(a,p)=>{const r=a*Math.PI/180,energy=(p/100)*(p/100),rangePx=Math.sin(2*r)*energy*380,heightPx=Math.sin(r)*Math.sin(r)*energy*190,endX=anchorX+rangePx,peakY=groundY-heightPx,path='M '+anchorX+' '+groundY+' Q '+((anchorX+endX)/2)+' '+peakY+' '+endX+' '+groundY;return{rangePx,heightPx,endX,peakY,path}};
+  const shot=physics(angle,power),solution=physics(level.solution.angle,level.solution.power),targetX=solution.endX,error=Math.abs(shot.endX-targetX),hit=launched&&error<=14,close=launched&&error>14&&error<=30,discovered=best!==null&&best<=14;
+  const pullRadius=maxPull*(power/100),radians=angle*Math.PI/180,pullX=anchorX-Math.cos(radians)*pullRadius,pullY=groundY+Math.sin(radians)*pullRadius;
+  const updatePull=e=>{const svg=svgRef.current;if(!svg)return null;const rect=svg.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width*420,y=(e.clientY-rect.top)/rect.height*210,dx=Math.max(8,anchorX-x),dy=Math.max(4,y-groundY),dist=Math.min(maxPull,Math.hypot(dx,dy)),nextAngle=Math.round(clamp(Math.atan2(dy,dx)*180/Math.PI,15,70)),nextPower=Math.round(clamp(dist/maxPull*100,35,100));setAngle(nextAngle);setPower(nextPower);setLaunched(false);return{angle:nextAngle,power:nextPower}};
+  const startPull=e=>{e.preventDefault();setDragging(true);setHint(false);e.currentTarget.setPointerCapture?.(e.pointerId);updatePull(e)};
+  const movePull=e=>{if(dragging)updatePull(e)};
+  const endPull=e=>{if(!dragging)return;updatePull(e);setDragging(false);e.currentTarget.releasePointerCapture?.(e.pointerId);setLaunched(true);setAttempts(v=>v+1);setBest(v=>v===null?error:Math.min(v,error))};
+  const resetShot=()=>{setAngle(40);setPower(60);setLaunched(false);setDragging(false);setHint(false)};
+  const nextLevel=()=>{setLevelIndex(i=>(i+1)%levels.length);setAngle(40);setPower(60);setLaunched(false);setDragging(false);setAttempts(0);setBest(null);setHint(false)};
+  const feedback=!launched?'Grab the ball, pull backward, then let go. Pull farther for more force.':hit?'SMASH! You hit the target.':close?'Almost! Make a small change and try again.':shot.endX<targetX?'Too short — pull farther back or try a more efficient angle.':'Too far — use less pull or change the angle.';
+  const stars=hit?(attempts<=2?3:attempts<=4?2:1):0;
+  return <Frame icon="⛰️" title="Cliff Launch Lab" kicker="PULL · AIM · RELEASE" takeaway={hit?'Angle sets the direction; pull-back distance sets the force. Both change where the projectile lands.':'Use the dotted preview to connect angle, force, height, and range.'} discovered={discovered} onClose={onClose} onGoTo={onGoTo} goLabel="Visit Think Tank">
+    <div className="microPrompt"><b>{level.name}:</b> {level.goal} Grab the blue ball, pull it back like a slingshot, and release.</div>
+    <div className="angryLaunchGame">
+      <div className="angryLaunchStage">
+        <svg ref={svgRef} viewBox="0 0 420 210" aria-label={'Slingshot launch at '+angle+' degrees and '+power+' percent force}>
+          <defs><linearGradient id="cliffSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#b9e8ff"/><stop offset="1" stopColor="#eefbd6"/></linearGradient></defs>
+          <rect width="420" height="210" fill="url(#cliffSky)"/>
+          <circle cx="350" cy="35" r="20" className="angrySun"/>
+          <path className="angryHill back" d="M0 145 Q60 105 120 145 T240 140 T420 135 V210 H0Z"/>
+          <path className="angryGround" d="M0 158 H420 V210 H0Z"/>
+          <g className="slingshotFrame"><line x1="68" y1="158" x2="62" y2="112"/><line x1="76" y1="158" x2="82" y2="112"/><line x1="62" y1="112" x2={pullX} y2={pullY}/><line x1="82" y1="112" x2={pullX} y2={pullY}/></g>
+          {guide&&<path className="angryPreviewArc" d={shot.path}/>} 
+          {guide&&Array.from({length:8},(_,i)=>{const t=(i+1)/9,x=(1-t)*(1-t)*anchorX+2*(1-t)*t*((anchorX+shot.endX)/2)+t*t*shot.endX,y=(1-t)*(1-t)*groundY+2*(1-t)*t*shot.peakY+t*t*groundY;return <circle key={i} cx={x} cy={y} r="2.8" className="angryGuideDot"/>})}
+          <g className={'angryTarget '+(hit?'knocked':'')} transform={'translate('+targetX+' 0)'}>
+            <line className="targetFlagPole" x1="0" y1="116" x2="0" y2="158"/><path className="targetFlag" d="M0 116 L28 126 L0 136 Z"/>
+            {Array.from({length:level.crates},(_,i)=>{const row=i<3?0:1,col=i<3?i:i-3,x=(col-1)*20,y=151-row*20;return <g key={i} className="targetCrate" transform={'translate('+x+' '+y+')'}><rect x="-9" y="-18" width="18" height="18" rx="2"/><path d="M-6 -15 L6 -3 M6 -15 L-6 -3"/></g>})}
+            <circle className="targetBull" cx="0" cy="158" r="14"/><circle className="targetBull inner" cx="0" cy="158" r="7"/>
           </g>
-          
-          <path className="launchArc previewArc" d={path}/>
-          {launched&&<circle className={hit?'launchBall bullseyeBall':'launchBall'} cx={endX} cy="155" r="7"/>}
-          {!launched&&<circle className="launchAimGhost" cx={endX} cy="155" r="5"/>}
+          <g className="launchAngleGuide"><line x1={anchorX} y1={groundY} x2={anchorX+48} y2={groundY}/><line x1={anchorX} y1={groundY} x2={anchorX+Math.cos(radians)*48} y2={groundY-Math.sin(radians)*48}/><text x={anchorX+35} y={groundY-10}>{angle}°</text></g>
+          {!launched&&<g className="pullProjectile" onPointerDown={startPull} onPointerMove={movePull} onPointerUp={endPull} onPointerCancel={()=>setDragging(false)} style={{touchAction:'none',cursor:dragging?'grabbing':'grab'}}><circle cx={pullX} cy={pullY} r="13"/><circle cx={pullX-4} cy={pullY-4} r="3"/><path d={'M '+(pullX-5)+' '+(pullY+5)+' Q '+pullX+' '+(pullY+9)+' '+(pullX+6)+' '+(pullY+4)}/></g>}
+          {launched&&<g className="flyingProjectile"><circle r="11"><animateMotion dur=".72s" path={shot.path} fill="freeze"/></circle></g>}
+          {launched&&<circle className={hit?'landingBurst hit':'landingBurst'} cx={shot.endX} cy={groundY} r={hit?18:9}/>} 
         </svg>
-        <div className="angleMeasureCaption"><span>GROUND</span><b>↗ {angle}°</b><span>LAUNCH DIRECTION</span></div>
+        <div className="angryLevelBadge"><small>CHALLENGE {levelIndex+1}/{levels.length}</small><b>{level.name}</b></div>
+        <div className="angryStars">{hit?'★'.repeat(stars)+'☆'.repeat(3-stars):'☆☆☆'}</div>
       </div>
-      <div className="launchReadout">
-        <span><small>ANGLE</small><b>{angle}°</b></span>
-        <span><small>RELATIVE RANGE</small><b>{Math.round(range*100)}%</b></span>
-        <span><small>HEIGHT</small><b>{Math.round(height*100)}%</b></span>
-        <span className={hit?'targetScore hitScore':''}><small>{launched?'RESULT':'TARGET'}</small><b>{launched?(hit?'BULLSEYE':close?'CLOSE':'ADJUST'):'🎯'}</b></span>
-      </div>
+      <aside className="angryReadouts">
+        <div><small>ANGLE</small><b>{angle}°</b><span>direction</span></div>
+        <div><small>FORCE</small><b>{power}%</b><span>pull-back</span></div>
+        <div><small>RANGE</small><b>{Math.round(shot.rangePx)}</b><span>game units</span></div>
+        <div className={hit?'hitReadout':''}><small>ATTEMPTS</small><b>{attempts}</b><span>{hit?'target hit':'keep testing'}</span></div>
+      </aside>
     </div>
-    
-    <div className="launchAngleControl dragAngleControl">
-      <div className="angleSliderHeader"><span>Drag the blue handle on the launcher</span><b>{angle}°</b><span>15°–75°</span></div>
-      <input aria-label="Fine tune launch angle" type="range" min="15" max="75" step="1" value={angle} onChange={e=>changeAngle(Number(e.target.value))}/>
-      <small className="fineTuneLabel">You can also use this slider for fine adjustment.</small>
+    <div className="angryControlBar">
+      <button type="button" onClick={resetShot}>↻ Reset shot</button>
+      <button type="button" className={guide?'active':''} onClick={()=>setGuide(v=>!v)}>{guide?'👁 Hide guide':'👁 Show guide'}</button>
+      <button type="button" onClick={()=>setHint(v=>!v)}>💡 Hint</button>
+      <button type="button" className="nextAngryLevel" onClick={nextLevel}>{hit?'Next challenge →':'New challenge →'}</button>
     </div>
-    
-    <div className="targetLaunchActions">
-      <button className="launchNowButton" onClick={launch}>🚀 Launch!</button>
-      <button className="newTargetButton" onClick={nextTarget}>🎯 New target</button>
-    </div>
-    <div className={'microFeedback '+(hit?'good':launched?'try':'')}>{feedback}{attempts>0&&<small> Attempts: {attempts}{best!==null?' · Best miss: '+Math.round(best)+' units':''}</small>}</div>
-    {hit&&<div className="angleDiscovery"><b>✨ Angle discovery</b><span>The angle lives at the launcher — between the flat ground and the launch direction. Try the next target and see whether a different angle can hit it.</span></div>}
+    {hint&&<div className="angryHint">Try an angle near <b>{level.solution.angle}°</b> and a pull around <b>{level.solution.power}%</b>. You can still find other nearby solutions.</div>}
+    <div className={'microFeedback '+(hit?'good':launched?'try':'')}>{feedback}{best!==null&&<small> Best miss: {Math.round(best)} game units.</small>}</div>
+    {hit&&<div className="angleDiscovery"><b>✨ Physics discovery</b><span>Pull direction sets the launch angle. Pull distance controls force. A stronger pull changes both the height and the horizontal range.</span></div>}
   </Frame>;
 }
 
