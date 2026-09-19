@@ -74,7 +74,7 @@ function TrajectoryField({angle=45,power=70,target=72,label='TARGET',wind=0,them
 function Control({label,value,min,max,step=1,onChange,suffix=''}){return <label className="sportControl"><span>{label}</span><input type="range" min={min} max={max} step={step} value={value} onChange={e=>onChange(+e.target.value)}/><b>{value}{suffix}</b></label>}
 
 
-function BaseballHeroScene({angle,power,contact,range,result,onAngle,onPower,onContact,onSwing}){
+function BaseballHeroScene({angle,power,contact,range,result,onAngle,onPower,onContact,onSwing,mode,onModeChange,challengeCopy,connectionText,onTryAnother,playKey}){
   const launchAngle=clamp(angle+(contact==='low'?8:contact==='high'?-7:0),8,55);
   const distance=Math.round(95+range*1.15);
   const maxHeight=Math.round(18+Math.sin(rad(launchAngle))*power*.72);
@@ -93,10 +93,11 @@ function BaseballHeroScene({angle,power,contact,range,result,onAngle,onPower,onC
       <div className="homeRunBrand"><span>⚾</span><div><h2>Home Run Math</h2><p>Explore how angle and swing force change the path of a baseball.</p></div></div>
       <div className="homeRunBadge">⭐ Hit farther. Learn bigger!</div>
     </div>
+    <div className="sportModeBar"><div className="sportModeButtons">{['explore','challenge','mastery'].map(m=><button key={m} className={mode===m?'active':''} onClick={()=>onModeChange(m)}>{m}</button>)}</div><div className="sportModePrompt"><b>{mode==='explore'?'Explore freely':mode==='challenge'?'Target challenge':'Mastery mission'}</b><span>{challengeCopy}</span></div></div>
     <div className="homeRunGrid">
       <div className="homeRunFieldCard">
         <div className="homeRunHint"><b>Take a swing!</b><span>Adjust the angle and force, then see how far you can hit it.</span></div>
-        <svg viewBox="0 0 1200 620" className="homeRunField" aria-label={'Baseball hit at '+launchAngle+' degrees'}>
+        <svg key={playKey} viewBox="0 0 1200 620" className={'homeRunField '+(playKey?'play':'')} aria-label={'Baseball hit at '+launchAngle+' degrees'}>
           <rect x="0" y="0" width="1200" height="235" className="hrSky"/>
           <g className="hrClouds"><ellipse cx="190" cy="90" rx="54" ry="22"/><ellipse cx="245" cy="94" rx="40" ry="17"/><ellipse cx="226" cy="72" rx="37" ry="20"/><ellipse cx="962" cy="77" rx="54" ry="22"/><ellipse cx="1010" cy="82" rx="38" ry="16"/><ellipse cx="985" cy="59" rx="34" ry="18"/></g>
           <g className="hrTreeBand">{Array.from({length:18},(_,i)=><g key={i} transform={'translate('+(28+i*69)+' 183)'}><circle cx="0" cy="0" r="23"/><circle cx="18" cy="-8" r="20"/><circle cx="-17" cy="-7" r="19"/><rect x="-4" y="13" width="8" height="25"/></g>)}</g>
@@ -139,22 +140,27 @@ function BaseballHeroScene({angle,power,contact,range,result,onAngle,onPower,onC
       <div className="hrContact">{['low','center','high'].map(x=><button key={x} className={contact===x?'active':''} onClick={()=>onContact(x)}>{x} contact</button>)}</div>
       <button className="hrSwing" onClick={onSwing}>⚾ Swing!</button>
     </div>
-    {result&&<div className={result.hit?'homeRunFeedback success':'homeRunFeedback'}><b>{result.hit?'🎯 Target hit!':result.type}</b><span>{result.hit?'You balanced angle and force.':result.range<72?'Try more range: increase force or move toward a middle launch angle.':'Too far: reduce force or move away from the middle launch angle.'}</span></div>}
+    {result&&<div className={result.hit?'homeRunFeedback success':'homeRunFeedback'}><b>{result.hit?'🎯 Mission hit!':result.type}</b><span>{result.hit?(mode==='explore'?'Notice how angle, force, and contact combine to shape the hit.':'You satisfied the mission constraints.'):result.range<72?'Try more range: increase force or move toward a middle launch angle.':'Too far: reduce force or move away from the middle launch angle.'}</span></div>}
+    {result?.hit&&<div className="tryAnotherSport"><div><small>FLEXIBLE THINKING</small><b>Can you reach the same target another way?</b><span>Change angle and force together, then compare.</span></div><button onClick={onTryAnother}>Try another way →</button></div>}
+    <div className="sportConnectionCue"><b>🔗 Same idea, new surface</b><span>{connectionText}</span></div>
   </div>
 }
 
-function Baseball({record,onRecord}){
-  const[angle,setAngle]=useState(30),[power,setPower]=useState(70),[contact,setContact]=useState('center'),[result,setResult]=useState(null),target=72;
+function Baseball({record,onRecord,onChallenge,onDiscover}){
+  const[angle,setAngle]=useState(30),[power,setPower]=useState(70),[contact,setContact]=useState('center'),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[playKey,setPlayKey]=useState(0),[attempt,setAttempt]=useState(0),target=72;
   const launchAngle=clamp(angle+(contact==='low'?8:contact==='high'?-7:0),8,55);
-  const range=clamp(Math.sin(2*rad(launchAngle))*(power/100)*100,0,100),miss=Math.abs(range-target);
-  const swing=()=>{const hit=miss<=7,type=launchAngle<15?'grounder':launchAngle<28?'line drive':launchAngle<42?'fly ball':'high fly';setResult({hit,miss,type,range});if(hit)onRecord('baseball',Math.max(record||0,Math.round(100-miss)))};
+  const range=clamp(Math.sin(2*rad(launchAngle))*(power/100)*100,0,100),miss=Math.abs(range-target),basicHit=miss<=7,masteryHit=basicHit&&power<75&&launchAngle<35;
+  const success=mode==='explore'?true:mode==='challenge'?basicHit:masteryHit;
+  const swing=()=>{setAttempt(v=>v+1);setPlayKey(v=>v+1);const type=launchAngle<15?'grounder':launchAngle<28?'line drive':launchAngle<42?'fly ball':'high fly';setResult({hit:success,miss,type,range});onDiscover('angle');onDiscover('trajectory');if(success&&mode!=='explore')onChallenge('baseball:'+mode);if(basicHit)onRecord('baseball',Math.max(record||0,Math.round(100-miss)))};
+  const tryAnother=()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?5:-4),5,50));setPower(p=>clamp(p+(attempt%2?-8:6),20,100))};
   return <div className="sportStation baseballStation">
-    <BaseballHeroScene angle={angle} power={power} contact={contact} range={range} result={result} onAngle={v=>{setAngle(v);setResult(null)}} onPower={v=>{setPower(v);setResult(null)}} onContact={v=>{setContact(v);setResult(null)}} onSwing={swing}/>
+    <BaseballHeroScene angle={angle} power={power} contact={contact} range={range} result={result}
+      onAngle={v=>{setAngle(v);setResult(null)}} onPower={v=>{setPower(v);setResult(null)}} onContact={v=>{setContact(v);setResult(null)}} onSwing={swing}
+      mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeCopy={challengeText('baseball',mode)} connectionText={SPORTS_CHALLENGES.baseball.connection} onTryAnother={tryAnother} playKey={playKey}/>
     <div className="baseballMoreLabs"><div><small>KEEP EXPLORING</small><h2>More baseball math</h2><p>Use the same field for pitching, rates, geometry, and statistics.</p></div></div>
     <BaseballStations/>
   </div>
 }
-
 
 function BaseballStations(){
   const[pitchAngle,setPitchAngle]=useState(7),[pitchSpeed,setPitchSpeed]=useState(65),[runSpeed,setRunSpeed]=useState(15),[hits,setHits]=useState(3),atBats=10;
