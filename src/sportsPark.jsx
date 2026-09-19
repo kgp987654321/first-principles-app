@@ -271,13 +271,21 @@ const sports=[
 
 export function AthleticsPark({activity={},onProgress,onExit}){
   const[active,setActive]=useState('baseball'),records=activity.records||{},completedChallenges=activity.completedChallenges||[],discoveries=activity.discoveries||[];
+  const parkTier=Math.min(4,1+Math.floor(completedChallenges.length/3));
   const save=(sport,score)=>onProgress&&onProgress({records:{...records,[sport]:Math.max(records[sport]||0,score)}});
   const saveChallenge=id=>{if(!completedChallenges.includes(id))onProgress&&onProgress({completedChallenges:[...completedChallenges,id]})};
   const saveDiscovery=id=>{if(!discoveries.includes(id))onProgress&&onProgress({discoveries:[...discoveries,id]})};
   const props={record:records[active]||0,onRecord:save,onChallenge:saveChallenge,onDiscover:saveDiscovery};
-  return <main className="sportsParkApp">
-    <header className="sportsHero"><div><small>ATHLETICS PARK · TIER {Math.min(4,1+Math.floor(completedChallenges.length/3))}</small><h1>Play the physics.</h1><p>Angles, force, rates, geometry, vectors, probability, and data—hidden inside sports.</p><span className="parkProgress">{discoveries.length} discoveries · {completedChallenges.length} challenges complete</span></div><button onClick={onExit}>← Back to My World</button></header>
+  return <main className={'sportsParkApp parkTier'+parkTier}>
+    <header className="sportsHero"><div><small>ATHLETICS PARK · TIER {parkTier}</small><h1>Play the physics.</h1><p>Angles, force, rates, geometry, vectors, probability, and data—hidden inside sports.</p><span className="parkProgress">{discoveries.length} discoveries · {completedChallenges.length} challenges complete</span></div><button onClick={onExit}>← Back to My World</button></header>
     <section className="sportsNav">{sports.map(([id,emoji,name])=><button key={id} onClick={()=>setActive(id)} className={(active===id?'active ':'')+'nav-'+id}><span>{emoji}</span><b>{name}</b><small>{records[id]?'PR '+records[id]:'Explore'}</small></button>)}</section>
+    <section className="parkGrowth" aria-label={'Athletics Park tier '+parkTier}>
+      <span className="growthField">🏟️ Fields open</span>
+      <span className={parkTier>=2?'earned':''}>💡 Stadium lights</span>
+      <span className={parkTier>=3?'earned':''}>🎏 Team banners</span>
+      <span className={parkTier>=3?'earned':''}>👏 Bigger crowd</span>
+      <span className={parkTier>=4?'earned':''}>🏆 Mastery trophy</span>
+    </section>
     <section className="sportsPlayArea">
       {active==='baseball'&&<Baseball {...props}/>}
       {active==='basketball'&&<Basketball {...props}/>}
