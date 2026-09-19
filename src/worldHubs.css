@@ -1,1 +1,461 @@
 .hubVenue{align-self:start;overflow:hidden;padding:0!important}.venueSign{padding:17px 14px;text-align:center;font-size:20px;font-weight:950;letter-spacing:.04em;border-bottom:5px solid rgba(60,45,30,.22)}.clinicVenue .venueSign{background:repeating-linear-gradient(90deg,#9edfae 0 44px,#e8fff0 44px 88px);color:#275d36}.studioVenue .venueSign{background:repeating-linear-gradient(90deg,#ef9fd8 0 44px,#fff0fb 44px 88px);color:#70305d}.labVenue .venueSign{background:repeating-linear-gradient(90deg,#8ed8f6 0 44px,#e8f8ff 44px 88px);color:#22586f}.venueScene{margin:14px;border:7px solid #765039;border-radius:18px;min-height:410px;display:flex;flex-direction:column;overflow:hidden;position:relative}.clinicVenue .venueScene{background:linear-gradient(#e8f8ed 0 69%,#c7dfc5 69%)}.studioVenue .venueScene{background:linear-gradient(#ffe8f8 0 69%,#e6c9e7 69%)}.labVenue .venueScene{background:linear-gradient(#dff6ff 0 69%,#b7dce8 69%)}.venueWindowTop{flex:1;padding:16px;display:flex;flex-direction:column;gap:12px;justify-content:center}.venueWaiting{display:grid;gap:10px}.venueCustomer{width:100%;display:grid;grid-template-columns:42px 1fr;gap:8px;text-align:left;align-items:center;border:2px solid rgba(71,54,43,.18);background:rgba(255,255,255,.86);box-shadow:0 4px 0 rgba(75,55,40,.12)}.venueCustomer>span{font-size:30px}.venueCustomer div{min-width:0}.venueCustomer b,.venueCustomer small{display:block}.venueCustomer small{margin-top:3px;text-transform:none;letter-spacing:0;color:#62687a}.venueCustomer em{display:inline-block;margin-top:5px;padding:2px 7px;border-radius:999px;background:#eeeaff;color:#5e4df2;font-size:9px;font-style:normal;font-weight:900;text-transform:uppercase}.venueCustomer.active{border:3px solid #6d5dfc;background:#fff}.clinicVenue .venueWindowTop{justify-content:flex-start;padding:14px}.clinicVenue .venueWindowTop:before{content:'PATIENT INTAKE';display:block;margin:0 0 10px;padding:7px 10px;border-radius:10px;background:#2f6f45;color:white;font-size:10px;font-weight:950;letter-spacing:.1em;text-align:center}.clinicVenue .venueWaiting{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.clinicVenue .venueCustomer{position:relative;display:flex;min-height:132px;flex-direction:column;justify-content:flex-end;text-align:center;padding:44px 8px 12px;border:3px solid #91c8a0;border-radius:18px;background:linear-gradient(#f8fffa,#e6f7ea);box-shadow:inset 0 -28px 0 rgba(117,177,130,.11),0 4px 0 rgba(68,110,77,.12)}.clinicVenue .venueCustomer:before{content:'EXAM BAY';position:absolute;left:10px;top:8px;padding:3px 7px;border-radius:999px;background:#dff3e4;color:#396d49;font-size:8px;font-weight:900;letter-spacing:.07em}.clinicVenue .venueCustomer:after{content:'Tap to examine';display:block;margin-top:7px;color:#5c7b65;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.clinicVenue .venueCustomer>span{position:absolute;left:50%;top:28px;transform:translateX(-50%);font-size:46px;filter:drop-shadow(0 3px 2px rgba(0,0,0,.12))}.clinicVenue .venueCustomer b{font-size:14px;color:#203e29}.clinicVenue .venueCustomer small{font-size:10px;line-height:1.25;color:#556b5b}.clinicVenue .venueCustomer em{background:#edf7ef;color:#36704a}.clinicVenue .venueCustomer.active{border-color:#6d5dfc;background:linear-gradient(#fff,#f1efff);box-shadow:0 0 0 3px rgba(109,93,252,.12),0 5px 0 rgba(109,93,252,.12)}.clinicVenue .venueCustomer.active:before{content:'IN EXAM';background:#6d5dfc;color:#fff}.clinicVenue .venueCustomer.active:after{content:'Selected patient';color:#5e4df2}.clinicVenue .venueCounter{position:relative;min-height:105px;background:linear-gradient(#d9b889,#bd9160);border-top:8px solid #8e6039}.clinicVenue .venueCounter:after{content:'FRONT DESK';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);padding:3px 8px;border-radius:999px;background:#fff6e9;color:#765032;font-size:8px;font-weight:950;letter-spacing:.08em}.clinicDecor:before{content:'🩺   📋   💊   🧴'}.venueEmpty{text-align:center;padding:24px 12px;color:#5f5d67}.venueEmpty span{display:block;font-size:52px;margin-bottom:10px}.venueEmpty b{display:block;font-size:19px}.venueEmpty small{display:block;margin-top:8px;text-transform:none;letter-spacing:0;line-height:1.4;color:#737787}.venueCounter{min-height:92px;border-top:7px solid #765039;display:flex;align-items:center;justify-content:center;gap:14px;font-size:34px;padding:12px;background:rgba(255,255,255,.18)}.venueTally{margin:0 14px 14px;padding:12px;border:2px solid rgba(93,75,54,.18);border-radius:14px;text-align:center;font-weight:900;background:#fff}.hubStatusIcon{font-size:30px}.studioDecor:before{content:'🖌️  🎨  🧵  ✂️'}.labDecor:before{content:'🧪  ⚗️  🔬  🧫'}.hubWorkArea{min-height:520px}.hubWorkArea .customerBubble{border:2px solid #eee}.worldMission{margin-top:18px}.missionProgress{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}.missionNode{min-width:0;padding:10px 6px;border:2px solid #e1e4ed;border-radius:15px;background:#f7f8fb;text-align:center;opacity:.62}.missionNode span{display:block;font-size:24px}.missionNode b,.missionNode small{display:block}.missionNode b{font-size:12px}.missionNode small{font-size:9px;margin-top:3px;text-transform:uppercase}.missionNode.active{opacity:1;border-color:#6d5dfc;background:#f1efff;box-shadow:0 4px 0 rgba(109,93,252,.12)}.missionNode.done{opacity:1;border-color:#9bd4aa;background:#effaf1}.missionScene{position:relative;overflow:hidden;border:3px solid #dfe3ee;border-radius:22px;padding:18px;background:linear-gradient(145deg,#f7fbff,#fff 45%,#fff8e9);min-height:270px}.missionScene:after{content:'';position:absolute;left:0;right:0;bottom:0;height:50px;background:linear-gradient(90deg,#d6e8c5,#e9d6a8,#d6e8c5);opacity:.5}.missionSceneArt{position:absolute;right:20px;top:20px;max-width:42%;font-size:38px;white-space:pre-line;text-align:center;line-height:1.1;opacity:.92}.missionBrief{position:relative;z-index:1;max-width:58%}.missionBrief>small{font-weight:950;color:#6d5dfc;letter-spacing:.08em}.missionBrief h3{margin:5px 0 8px;font-size:24px}.missionBrief p{line-height:1.4}.missionDial{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:16px;margin:24px auto 10px}.missionDial button{width:54px;height:54px;border-radius:50%;font-size:25px;background:white;border:2px solid #d6dbea}.missionDial>div{min-width:105px;text-align:center;padding:9px 14px;border-radius:18px;background:#20263a;color:white;box-shadow:0 5px 0 rgba(0,0,0,.13)}.missionDial strong{display:block;font-size:32px;line-height:1}.missionDial small{display:block;margin-top:4px;color:#dfe5ff}.missionMeter{position:relative;z-index:2;height:12px;border-radius:999px;background:#e4e7ef;overflow:hidden;margin:0 7% 10px}.missionMeter i{display:block;height:100%;background:linear-gradient(90deg,#6d5dfc,#50c8e8);border-radius:inherit;transition:width .2s ease}.missionActions{display:grid;grid-template-columns:minmax(210px,.7fr) 1.3fr;gap:10px;margin-top:12px}.missionActions .missionLock{margin:0}.stuckButton{border:2px solid #d9d4ff;background:#faf9ff;color:#4e42b8;font-weight:900;border-radius:14px;padding:12px 14px}.stuckButton:hover{background:#f0edff}.walkthroughCard{display:grid;grid-template-columns:58px 1fr;gap:12px;margin-top:14px;padding:16px;border:3px solid #ffd568;border-radius:20px;background:linear-gradient(135deg,#fff9dc,#fff 58%,#f4f0ff);box-shadow:0 5px 0 rgba(205,164,58,.13)}.walkthroughCoach{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#fff0a9;font-size:28px}.walkthroughBody>small{font-size:10px;font-weight:950;letter-spacing:.08em;color:#8b6a10}.walkthroughBody h4{font-size:19px;margin:4px 0 5px}.walkthroughBody p{margin:0 0 12px;line-height:1.45}.walkthroughActions{display:flex;gap:8px;flex-wrap:wrap}.walkthroughActions button{min-height:40px}.walkthroughNext{border:0;border-radius:12px;padding:9px 13px;background:#6d5dfc;color:#fff;font-weight:900}@media(max-width:700px){.venueScene{min-height:330px}.venueCustomer{grid-template-columns:36px 1fr}.venueCustomer>span{font-size:26px}.venueCounter{font-size:28px}.clinicVenue .venueWaiting{grid-template-columns:1fr}.clinicVenue .venueCustomer{min-height:112px;padding-top:40px}.clinicVenue .venueCustomer>span{font-size:40px}.missionSceneArt{position:static;max-width:none;margin-bottom:8px}.missionBrief{max-width:none}.missionBrief h3{font-size:21px}.missionProgress{gap:4px}.missionNode{padding:8px 3px}.missionNode b{font-size:10px}.missionDial{gap:10px}.missionDial>div{min-width:90px}.missionActions{grid-template-columns:1fr}.walkthroughCard{grid-template-columns:44px 1fr;padding:12px}.walkthroughCoach{width:40px;height:40px;font-size:22px}}
+
+
+/* Pattern Studio — interior store / designer workshop */
+.studioHubApp{max-width:1180px}
+.studioHubApp .studioHero{
+  background:
+    radial-gradient(circle at 82% 18%,rgba(255,226,106,.35),transparent 18%),
+    linear-gradient(135deg,#fff9fd,#f8e9ff 50%,#eef4ff);
+  border-color:#ead5ee;
+  box-shadow:0 10px 28px rgba(104,67,103,.08)
+}
+.studioHubApp .bakeryStatus{
+  background:linear-gradient(90deg,#fffdfa,#fff6fc);
+  border-color:#eadde9
+}
+.studioLayout{
+  position:relative;
+  grid-template-columns:minmax(285px,.78fr) minmax(0,1.7fr);
+  gap:18px;
+  padding:18px;
+  border-radius:30px;
+  overflow:hidden;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.18) 0 68%,rgba(96,59,44,.05) 68%),
+    repeating-linear-gradient(90deg,#e8c99f 0 72px,#ddb98a 72px 74px) bottom/100% 25% no-repeat,
+    linear-gradient(#f4e4dd,#f8efe6 68%,#dfbf94 68%);
+  border:1px solid #dec8bd;
+  box-shadow:
+    inset 0 18px 34px rgba(255,255,255,.45),
+    inset 0 -24px 30px rgba(100,67,47,.08),
+    0 18px 42px rgba(74,52,48,.1)
+}
+.studioLayout:before{
+  content:'';
+  position:absolute;left:0;right:0;top:0;height:18px;
+  background:repeating-linear-gradient(90deg,#cf75bb 0 34px,#f8d6ef 34px 68px);
+  opacity:.7
+}
+.studioLayout:after{
+  content:'';
+  position:absolute;left:0;right:0;bottom:24%;height:6px;
+  background:#bd8d63;
+  box-shadow:0 4px rgba(92,58,38,.13)
+}
+
+/* Left wall: commissions pinned inside the studio */
+.studioVenue{
+  position:relative;
+  z-index:2;
+  border:0!important;
+  border-radius:24px!important;
+  background:linear-gradient(#f8e7f4,#eed6e9)!important;
+  box-shadow:
+    inset 0 0 0 4px rgba(255,255,255,.58),
+    0 14px 30px rgba(87,55,78,.13)
+}
+.studioVenue .venueSign{
+  position:relative;
+  background:
+    repeating-linear-gradient(90deg,#d66dba 0 42px,#ffe0f5 42px 84px)!important;
+  color:#643255!important;
+  border-bottom:5px solid #9d5a86!important;
+  text-shadow:0 1px rgba(255,255,255,.7)
+}
+.studioVenue .venueSign:after{
+  content:'CUSTOM DESIGN DESK';
+  display:block;
+  margin-top:5px;
+  color:#875675;
+  font-size:8px;
+  letter-spacing:.14em
+}
+.studioVenue .venueScene{
+  min-height:480px;
+  margin:14px;
+  border:6px solid #8a5f4a;
+  border-radius:18px;
+  background:
+    linear-gradient(rgba(255,255,255,.1),rgba(255,255,255,.1)),
+    radial-gradient(circle at 20px 20px,#dcb594 0 2px,transparent 2.5px) 0 0/40px 40px,
+    linear-gradient(#cfa87f,#bd8e66)!important;
+  box-shadow:inset 0 0 28px rgba(80,49,32,.12)
+}
+.studioVenue .venueWindowTop{
+  position:relative;
+  justify-content:flex-start;
+  padding:22px 14px 14px
+}
+.studioVenue .venueWindowTop:before{
+  content:'CUSTOMER COMMISSIONS';
+  display:block;
+  width:max-content;
+  margin:0 auto 13px;
+  padding:6px 11px;
+  border-radius:999px;
+  background:#6c3f64;
+  color:white;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.12em;
+  box-shadow:0 3px 0 rgba(61,39,54,.2)
+}
+.studioVenue .venueWaiting{gap:13px}
+.studioVenue .venueCustomer{
+  position:relative;
+  min-height:94px;
+  padding:14px 12px;
+  border:0;
+  border-radius:5px;
+  background:#fffdf5;
+  box-shadow:
+    0 5px 9px rgba(75,49,37,.22),
+    inset 0 0 0 1px rgba(114,88,66,.1);
+  transform:rotate(-1deg)
+}
+.studioVenue .venueCustomer:nth-child(even){transform:rotate(1.25deg)}
+.studioVenue .venueCustomer:before{
+  content:'';
+  position:absolute;
+  width:42px;height:13px;
+  left:50%;top:-7px;
+  transform:translateX(-50%) rotate(-2deg);
+  background:rgba(249,221,126,.78);
+  box-shadow:0 1px 2px #0001
+}
+.studioVenue .venueCustomer>span{font-size:34px}
+.studioVenue .venueCustomer b{font-size:13px;color:#49364a}
+.studioVenue .venueCustomer small{color:#6c6170}
+.studioVenue .venueCustomer em{
+  background:#f2e7ff;
+  color:#6d4ab9
+}
+.studioVenue .venueCustomer.active{
+  border:3px solid #7556dc;
+  background:#fff;
+  transform:rotate(0) translateY(-2px);
+  box-shadow:0 8px 16px rgba(90,67,137,.2),0 0 0 4px rgba(117,86,220,.08)
+}
+.studioVenue .venueCounter{
+  min-height:105px;
+  background:linear-gradient(#8d654a,#6f4b36)!important;
+  border-top:7px solid #583d2f!important;
+  box-shadow:inset 0 12px 0 rgba(255,255,255,.06)
+}
+.studioDecor:before{
+  content:'🖌️   🎨   📐   ✂️   🧵';
+  filter:drop-shadow(0 3px 2px #0003)
+}
+.studioVenue .venueTally{
+  background:#fff9ed;
+  border-color:#dbbd9a
+}
+
+/* Right room: actual designer workspace */
+.studioWorkArea{
+  position:relative;
+  z-index:2;
+  overflow:hidden;
+  min-height:650px!important;
+  padding-top:160px!important;
+  background:
+    linear-gradient(180deg,rgba(255,251,245,.96) 0 70%,rgba(216,174,128,.92) 70%)!important;
+  border-color:#dcc8bb!important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.7),
+    0 14px 30px rgba(81,58,48,.12)
+}
+.studioWorkArea>*:not(.studioRoomDecor){position:relative;z-index:3}
+.studioRoomDecor{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none
+}
+.studioWindow{
+  position:absolute;
+  right:24px;
+  top:22px;
+  width:145px;
+  height:100px;
+  border:8px solid #fff7eb;
+  border-bottom-width:12px;
+  border-radius:12px 12px 4px 4px;
+  background:linear-gradient(#bce4fa,#dff4ff 55%,#9dc58c 55%);
+  box-shadow:
+    0 7px 0 #ae8060,
+    0 10px 15px rgba(89,58,43,.13),
+    inset 0 0 0 3px #8cb7c7
+}
+.studioWindow:before,.studioWindow:after{
+  content:'';
+  position:absolute;
+  background:#fff7eb;
+  z-index:2
+}
+.studioWindow:before{left:50%;top:0;bottom:0;width:5px;transform:translateX(-50%)}
+.studioWindow:after{left:0;right:0;top:50%;height:5px;transform:translateY(-50%)}
+.studioWindow i{
+  position:absolute;
+  bottom:7px;
+  width:24px;height:27px;
+  background:#6fa267;
+  clip-path:polygon(50% 0,100% 100%,0 100%)
+}
+.studioWindow i:nth-child(1){left:7px}
+.studioWindow i:nth-child(2){left:42px;height:38px}
+.studioWindow i:nth-child(3){right:8px;height:31px}
+.studioShelf{
+  position:absolute;
+  left:28px;
+  top:36px;
+  width:250px;
+  height:68px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-around;
+  padding:0 12px 13px;
+  font-size:27px;
+  border-bottom:9px solid #8e654b;
+  filter:drop-shadow(0 5px 3px rgba(69,43,32,.16))
+}
+.studioShelf:before,.studioShelf:after{
+  content:'';
+  position:absolute;
+  bottom:-28px;
+  width:8px;height:28px;
+  background:#76533d
+}
+.studioShelf:before{left:28px}.studioShelf:after{right:28px}
+.studioSwatches{
+  position:absolute;
+  left:320px;
+  top:35px;
+  display:flex;
+  gap:5px;
+  transform:rotate(-2deg)
+}
+.studioSwatches:before{
+  content:'COLOR WALL';
+  position:absolute;
+  top:-16px;
+  left:2px;
+  font-size:7px;
+  font-weight:950;
+  letter-spacing:.12em;
+  color:#8b6f76
+}
+.studioSwatches i{width:28px;height:48px;border-radius:4px 4px 10px 10px;box-shadow:0 4px 5px #0002}
+.studioSwatches i:nth-child(1){background:#f06b7c}
+.studioSwatches i:nth-child(2){background:#f2c85c}
+.studioSwatches i:nth-child(3){background:#63b8d4}
+.studioSwatches i:nth-child(4){background:#7d64bf}
+.studioSwatches i:nth-child(5){background:#62a96e}
+.studioPinboard{
+  position:absolute;
+  right:190px;
+  top:27px;
+  width:115px;
+  height:85px;
+  border:6px solid #9c704f;
+  background:#d9b182;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  padding:11px 8px;
+  transform:rotate(1deg);
+  box-shadow:0 5px 8px #0002
+}
+.studioPinboard>*{
+  display:grid;
+  place-items:center;
+  min-height:25px;
+  background:#fffbed;
+  font-size:8px;
+  font-style:normal;
+  font-weight:950;
+  color:#66505d;
+  transform:rotate(-2deg)
+}
+.studioPinboard>*:nth-child(2){background:#e9e0ff;transform:rotate(2deg)}
+.studioPinboard>*:nth-child(3){background:#ffe6ef;grid-column:1/-1}
+.studioLamp{
+  position:absolute;
+  left:295px;
+  top:95px;
+  font-size:32px;
+  filter:drop-shadow(0 0 11px rgba(255,225,107,.65))
+}
+.studioFloorShadow{
+  position:absolute;
+  left:5%;right:5%;bottom:11%;
+  height:70px;
+  border-radius:50%;
+  background:rgba(91,59,40,.08);
+  filter:blur(10px)
+}
+
+/* Customer brief now feels pinned to the work wall */
+.studioBrief{
+  position:relative;
+  margin-bottom:20px;
+  padding:17px 18px 16px 72px!important;
+  border:0!important;
+  border-radius:5px!important;
+  background:#fffdf4!important;
+  box-shadow:0 6px 14px rgba(76,52,43,.14),inset 0 0 0 1px rgba(101,76,57,.1);
+  transform:rotate(-.35deg)
+}
+.studioBrief:before{
+  content:'';
+  position:absolute;
+  left:50%;top:-7px;
+  width:50px;height:14px;
+  transform:translateX(-50%) rotate(2deg);
+  background:rgba(245,211,104,.72)
+}
+.studioBrief>span{
+  position:absolute;
+  left:17px;top:18px;
+  font-size:40px!important
+}
+.studioBrief small{color:#805373!important}
+.studioBrief h2{color:#3f3545}
+
+/* Big design table / canvas */
+.studioWorkArea .studioSequence{
+  position:relative;
+  min-height:148px;
+  margin:22px 0 18px;
+  padding:28px 24px;
+  border:8px solid #9d704f;
+  border-radius:12px;
+  background:
+    linear-gradient(rgba(99,111,144,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(99,111,144,.06) 1px,transparent 1px),
+    #fffefa;
+  background-size:24px 24px;
+  box-shadow:
+    0 11px 0 #744d35,
+    0 17px 20px rgba(76,48,33,.16),
+    inset 0 0 0 3px #f1e5d2
+}
+.studioWorkArea .studioSequence:before{
+  content:'DESIGN CANVAS';
+  position:absolute;
+  left:17px;top:-18px;
+  padding:5px 10px;
+  border-radius:8px;
+  background:#6d5dfc;
+  color:white;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.1em;
+  box-shadow:0 3px 0 #4e42b8
+}
+.studioWorkArea .studioSequence span{
+  min-width:72px;
+  min-height:72px;
+  border:3px solid #ddd8e8;
+  border-radius:16px;
+  background:linear-gradient(145deg,#fff,#f7f5ff);
+  box-shadow:0 5px 0 rgba(83,70,104,.12);
+  transition:transform .16s ease,box-shadow .16s ease
+}
+.studioWorkArea .studioSequence span:nth-child(odd){transform:rotate(-1deg)}
+.studioWorkArea .studioSequence span:nth-child(even){transform:rotate(1deg)}
+.studioWorkArea .hubTiles{
+  position:relative;
+  margin:20px 0 16px;
+  padding:16px;
+  border-radius:18px;
+  background:#f0e2d2;
+  border:3px solid #c9a582;
+  box-shadow:inset 0 5px 9px rgba(91,61,41,.08)
+}
+.studioWorkArea .hubTiles:before{
+  content:'MATERIAL TRAY';
+  position:absolute;
+  left:14px;top:-12px;
+  padding:3px 8px;
+  border-radius:999px;
+  background:#805c46;
+  color:#fff5e9;
+  font-size:7px;
+  font-weight:950;
+  letter-spacing:.1em
+}
+.studioWorkArea .hubTiles button{
+  min-height:76px;
+  border:3px solid #fff;
+  background:linear-gradient(#fff,#fbf6ed);
+  box-shadow:0 5px 0 rgba(99,73,55,.12);
+  transition:transform .14s ease,box-shadow .14s ease
+}
+.studioWorkArea .hubTiles button:hover{
+  transform:translateY(-3px) rotate(-1deg);
+  box-shadow:0 8px 0 rgba(99,73,55,.12)
+}
+.studioWorkArea>.primary{
+  box-shadow:0 5px 0 #4f42bd;
+  border-radius:15px
+}
+.studioWorkArea .feedback{
+  margin:14px 0 0;
+  padding:12px 14px;
+  border-radius:13px;
+  background:rgba(255,255,255,.74);
+  border:1px solid #eadde2
+}
+
+@media(max-width:900px){
+  .studioLayout{grid-template-columns:280px 1fr}
+  .studioSwatches{left:270px}
+  .studioPinboard{display:none}
+}
+@media(max-width:700px){
+  .studioLayout{grid-template-columns:1fr;padding:10px}
+  .studioVenue .venueScene{min-height:330px}
+  .studioWorkArea{padding-top:125px!important;min-height:560px!important}
+  .studioWindow{right:14px;top:15px;width:120px;height:82px}
+  .studioShelf{left:14px;top:25px;width:195px;font-size:22px}
+  .studioSwatches{display:none}
+  .studioLamp{left:210px;top:80px}
+  .studioWorkArea .studioSequence{padding:22px 12px}
+  .studioWorkArea .studioSequence span{min-width:58px;min-height:58px}
+}
+
+
+/* Pattern Studio staged starter commissions */
+.patternMissionProgress{display:flex;justify-content:center;gap:8px;margin:4px 0 10px}
+.patternMissionProgress span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#eeeaf2;color:#7a6f80;font-weight:950;border:2px solid #ded6e2}
+.patternMissionProgress span.active{background:#6d5dfc;color:#fff;border-color:#6d5dfc;box-shadow:0 0 0 4px rgba(109,93,252,.1)}
+.patternMissionProgress span.done{background:#e7f7eb;color:#347044;border-color:#99d0a8}
+.patternMissionComplete{padding:28px;text-align:center;border-radius:20px;background:linear-gradient(135deg,#f1efff,#f2fbf3);border:2px solid #cfc8f6}
+.patternMissionComplete>span{font-size:44px}.patternMissionComplete h3{margin:5px 0}.patternMissionComplete p{margin:0;color:#657080}
+
+/* Science Studio — hands-on ramp lab */
+.labHubApp .labHero{background:linear-gradient(135deg,#effbff,#eef4ff 55%,#f7fbf1);border-color:#cde4ef}
+.labVenue .venueSign{background:repeating-linear-gradient(90deg,#73c9ea 0 44px,#e5f8ff 44px 88px)!important;color:#19526c!important}
+.scienceRampBench{position:relative;margin:0 0 20px;padding:18px;border:3px solid #9dcddd;border-radius:20px;background:linear-gradient(145deg,#f7fcff,#edf8fb 58%,#f7f5e8);box-shadow:0 7px 0 #b2d6df,0 13px 23px rgba(52,95,110,.09)}
+.scienceRampBench:before{content:'SCIENCE BENCH';position:absolute;left:16px;top:-13px;padding:4px 9px;border-radius:8px;background:#326d82;color:white;font-size:8px;font-weight:950;letter-spacing:.09em}
+.scienceBenchHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.scienceBenchHead small{font-size:8px;font-weight:950;color:#317590;letter-spacing:.1em}.scienceBenchHead h3{margin:3px 0;font-size:21px;color:#234555}.scienceBenchHead p{margin:0;font-size:11px;color:#61747c}.scienceBenchHead button{border:1px solid #c9dce2;background:#fff;border-radius:11px;padding:8px 11px;font-weight:900}
+.scienceRampControls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.scienceRampControls label{display:grid;grid-template-columns:auto 1fr auto;gap:7px;align-items:center;padding:9px 10px;border-radius:12px;background:#fff;border:1px solid #d3e2e7;font-size:9px;font-weight:850}.scienceRampControls input{accent-color:#3985a3;min-width:0}
+.scienceRampScene{position:relative;height:165px;border-radius:16px;overflow:hidden;background:linear-gradient(#c9ecfb 0 62%,#a8cf8e 62%);border:2px solid #c4dae0}.rampShape{position:absolute;left:30px;bottom:28px;width:250px;clip-path:polygon(0 100%,100% 100%,0 0);background:#c29466;border-bottom:9px solid #7f603f;transition:height .2s}.scienceTrack{position:absolute;left:28px;right:28px;bottom:27px;height:7px;border-radius:999px;background:#6e7d70}.scienceCart{position:absolute;bottom:34px;transform:translateX(-50%);font-size:30px;transition:left .2s}
+.scienceReadouts{display:grid;grid-template-columns:130px 130px 1fr;gap:8px;margin-top:10px}.scienceReadouts span{padding:9px 11px;border-radius:12px;background:#fff;border:1px solid #d4e3e7}.scienceReadouts small{display:block;font-size:7px;color:#6d7e86;font-weight:950}.scienceReadouts b{font-size:15px;color:#234c5d}
+
+/* Learning Greenhouse */
+.gardenHubApp{max-width:1180px}
+.gardenHubApp .gardenHero{background:linear-gradient(135deg,#f7fff0,#edf9e9 55%,#fff8dc);border-color:#cfe2bc}
+.gardenVenue .venueSign{background:repeating-linear-gradient(90deg,#93c978 0 44px,#eff9e7 44px 88px)!important;color:#315f2b!important}
+.gardenVenue .venueScene{background:linear-gradient(#dff4ff 0 32%,#c8e3ad 32% 70%,#aa8156 70%)!important;border-color:#6e573d}
+.gardenVenue .venueWindowTop:before{content:'GREENHOUSE JOBS';display:block;margin:0 auto 12px;width:max-content;padding:6px 10px;border-radius:999px;background:#4d7e43;color:white;font-size:8px;font-weight:950;letter-spacing:.1em}
+.gardenVenue .venueCustomer{background:linear-gradient(#fffffa,#f0f8e9);border-color:#a9cf91}.gardenVenue .venueCustomer.active{border-color:#5f8f4d;background:#f8fff3}
+.gardenVenue .venueCounter{background:linear-gradient(#9c744d,#765438)!important;border-top-color:#5f432d!important}.gardenDecor:before{content:'🌱   🪴   🌼   🧤   💧'}
+.gardenWorkArea{background:linear-gradient(#fffef9,#f6f9ee)!important}
+.gardenBedTool{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;padding:18px;border-radius:20px;background:repeating-linear-gradient(90deg,#8f6847 0 22%,#7a593c 22% 25%);border:5px solid #67492f;box-shadow:inset 0 5px 10px rgba(0,0,0,.12);margin:18px 0}
+.gardenBedTool button{min-height:78px;border-radius:12px;border:3px dashed #d4ba8c;background:#a87d51;color:#f4dfb6;font-size:33px}.gardenBedTool button.planted{background:#7ea66b;border-style:solid;border-color:#dfeccc}
+.gardenRatioTool{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}.gardenRatioTool>div{padding:16px;border-radius:18px;background:#f2f9e9;border:2px solid #b8d49e;text-align:center}.gardenRatioTool span{display:block;min-height:40px;font-size:26px}.gardenRatioTool b{display:block;margin:5px 0}
+.gardenPatternPath{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:18px 0;padding:18px;border-radius:18px;background:#e4d2a8;border:4px solid #a6885b}.gardenPatternPath span{min-height:68px;display:grid;place-items:center;border-radius:12px;background:#f8f0d8;border:2px solid #c8ad79;font-size:30px}
+@media(max-width:700px){.scienceRampControls,.scienceReadouts{grid-template-columns:1fr}.gardenBedTool{grid-template-columns:repeat(2,1fr)}.gardenRatioTool{grid-template-columns:1fr}.gardenPatternPath{grid-template-columns:repeat(3,1fr)}}
