@@ -279,3 +279,15 @@
 @media(prefers-reduced-motion:reduce){
   .homeRunField.play .hrTrajectory,.homeRunField.play .hrBallLanding,.homeRunField.play .hrBatter{animation:none!important}
 }
+
+
+/* Live vector / calibrated target improvements */
+.sharedChoiceButtons button,.sharedSportAction,.sportModeButtons button{pointer-events:auto;position:relative;z-index:3}
+.sharedChoiceButtons button[aria-pressed="true"]{box-shadow:0 0 0 3px rgba(91,100,221,.13),0 4px 0 rgba(80,87,180,.18)}
+.bbForceVector line{stroke:#ff8a37;stroke-width:10;stroke-linecap:round;opacity:.9}
+.bbForceVector circle{fill:#ffb052;stroke:#fff;stroke-width:3}
+.bbForceVector text{fill:#9b4c18;font-size:11px;font-weight:950;paint-order:stroke;stroke:#fff;stroke-width:4px}
+.fbCatchZone rect{fill:rgba(255,245,160,.25);stroke:#ffdf5b;stroke-width:3;stroke-dasharray:8 6}
+.fbCatchZone circle{fill:#fff;stroke:#ef6256;stroke-width:7}
+.fbCatchZone text{font-size:11px;font-weight:950;text-anchor:middle;fill:#2f4652}.fbCatchZone text:last-child{font-size:9px;fill:#5d6670}
+.fbMissGuide{stroke:#f7d35b;stroke-width:3;stroke-dasharray:5 5}.fbMissText{fill:#6d5a1d;font-size:9px;font-weight:950;text-anchor:middle;paint-order:stroke;stroke:#fff;stroke-width:4px}
