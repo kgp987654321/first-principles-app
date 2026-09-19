@@ -1,6 +1,7 @@
 
 import React,{useState}from'react';
 import'./sportsPark.css';
+import{SportLab,SportControl,ChoiceButtons,AngleOverlay}from'./sports/SportLab';
 
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 const rad=d=>d*Math.PI/180;
@@ -75,8 +76,8 @@ function BaseballHeroScene({angle,power,contact,range,result,onAngle,onPower,onC
   const launchAngle=clamp(angle+(contact==='low'?8:contact==='high'?-7:0),8,55);
   const distance=Math.round(95+range*1.15);
   const maxHeight=Math.round(18+Math.sin(rad(launchAngle))*power*.72);
-  const startX=215,startY=515;
-  const endX=clamp(250+range*7.1,410,1005);
+  const startX=575,startY=488;
+  const endX=clamp(650+(range-50)*7.3,700,1080);
   const endY=270;
   const apexX=startX+(endX-startX)*.5;
   const apexY=clamp(startY-(105+maxHeight*2.5),85,330);
@@ -103,17 +104,17 @@ function BaseballHeroScene({angle,power,contact,range,result,onAngle,onPower,onC
           <path d="M 25 239 Q 600 152 1175 239" className="hrFence"/>
           <text x="570" y="188" className="hr400">400</text>
           {Array.from({length:9},(_,i)=><path key={i} d={'M '+(70+i*130)+' 240 Q '+(95+i*130)+' 390 '+(60+i*130)+' 520'} className={i%2?'hrStripe dark':'hrStripe'}/>)}
-          <line x1="215" y1="515" x2="30" y2="242" className="hrFoul"/>
-          <line x1="215" y1="515" x2="1170" y2="242" className="hrFoul"/>
-          <path d="M215 515 Q345 395 600 335 Q855 395 985 515 L835 515 Q600 442 365 515 Z" className="hrDirt"/>
-          <polygon points="600,365 748,435 600,505 452,435" className="hrDiamond"/>
-          <ellipse cx="600" cy="438" rx="55" ry="25" className="hrMound"/>
-          <path d="M600 532 L621 514 L611 497 L589 497 L579 514 Z" className="hrHomePlate"/>
-          <rect x="734" y="421" width="28" height="28" transform="rotate(45 748 435)" className="hrBase"/>
-          <rect x="586" y="351" width="28" height="28" transform="rotate(45 600 365)" className="hrBase"/>
-          <rect x="438" y="421" width="28" height="28" transform="rotate(45 452 435)" className="hrBase"/>
-          <g className="hrBaseLabel"><g transform="translate(716 395)"><rect width="92" height="34" rx="10"/><text x="46" y="22">First Base</text></g><g transform="translate(548 314)"><rect width="104" height="34" rx="10"/><text x="52" y="22">Second Base</text></g><g transform="translate(165 392)"><rect width="100" height="34" rx="10"/><text x="50" y="22">Third Base</text></g></g>
-          <g className="hrBatter" transform="translate(165 447)"><ellipse cx="30" cy="119" rx="40" ry="14"/><rect x="49" y="4" width="17" height="105" rx="7" transform="rotate(44 58 55)"/><circle cx="35" cy="27" r="24"/><rect x="18" y="45" width="34" height="60" rx="13"/><rect x="22" y="100" width="10" height="48" rx="4"/><rect x="40" y="100" width="10" height="48" rx="4"/></g>
+          <line x1="600" y1="520" x2="30" y2="242" className="hrFoul"/>
+          <line x1="600" y1="520" x2="1170" y2="242" className="hrFoul"/>
+          <polygon points="600,535 830,430 600,325 370,430" className="hrDirt"/>
+          <polygon points="600,520 790,430 600,340 410,430" className="hrDiamond"/>
+          <ellipse cx="600" cy="435" rx="55" ry="25" className="hrMound"/>
+          <path d="M600 534 L621 518 L611 501 L589 501 L579 518 Z" className="hrHomePlate"/>
+          <rect x="776" y="416" width="28" height="28" transform="rotate(45 790 430)" className="hrBase"/>
+          <rect x="586" y="326" width="28" height="28" transform="rotate(45 600 340)" className="hrBase"/>
+          <rect x="396" y="416" width="28" height="28" transform="rotate(45 410 430)" className="hrBase"/>
+          <g className="hrBaseLabel"><g transform="translate(765 382)"><rect width="92" height="34" rx="10"/><text x="46" y="22">First Base</text></g><g transform="translate(548 289)"><rect width="104" height="34" rx="10"/><text x="52" y="22">Second Base</text></g><g transform="translate(342 382)"><rect width="100" height="34" rx="10"/><text x="50" y="22">Third Base</text></g></g>
+          <g className="hrBatter" transform="translate(510 440)"><ellipse cx="30" cy="119" rx="40" ry="14"/><rect x="49" y="4" width="17" height="105" rx="7" transform="rotate(44 58 55)"/><circle cx="35" cy="27" r="24"/><rect x="18" y="45" width="34" height="60" rx="13"/><rect x="22" y="100" width="10" height="48" rx="4"/><rect x="40" y="100" width="10" height="48" rx="4"/></g>
           <line x1={startX} y1={startY} x2={startX+150} y2={startY} className="hrAngleBaseline"/>
           <path d={wedgePath} className="hrAngleArc"/>
           <line x1={startX} y1={startY} x2={startX+Math.cos(rad(launchAngle))*112} y2={startY-Math.sin(rad(launchAngle))*112} className="hrAngleRay"/>
