@@ -96,6 +96,7 @@
     .trailScenery span{position:absolute;filter:drop-shadow(0 3px 2px rgba(54,77,48,.12));opacity:.95}
     .trailPathSvg{position:absolute;inset:4%;width:92%;height:92%;z-index:2;overflow:visible;pointer-events:none}
     .trailPathBase{fill:none;stroke:#d7b77b;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+    .trailPathBranch{fill:none;stroke:#d7b77b;stroke-width:7;stroke-linecap:round;opacity:.88}
     .trailPathDone{fill:none;stroke:#57a977;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:4 3}
     .trailMaze{position:absolute;inset:4%;z-index:3;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);gap:8px}
     .mazeCell{position:relative;min-width:0;border:0;background:transparent;border-radius:16px;display:grid;place-items:center;padding:3px}
@@ -263,7 +264,7 @@
             <div class="trailClueIcon">🧭</div>
             <small>SOLVE TO CHOOSE YOUR PATH</small>
             <b id="trailProblem">653 − 278 = ?</b>
-            <span>Find the difference, then tap the wooden sign with that answer.</span>
+            <span>Every path could be right — solve the subtraction, then choose the matching sign.</span>
           </div>
           <div class="trailProgress"><div class="trailProgressFill" id="trailProgressFill"></div></div>
           <div class="trailScene">
@@ -658,13 +659,17 @@
     const r=Math.floor(idx/5),col=idx%5;
     return {x:10+col*20,y:10+r*20};
   }
-  function renderTrailPath(){
+  function renderTrailPath(choices=[]){
     const svg=$("#trailPathSvg");if(!svg)return;
-    const all=trailState.route.map(trailPoint);
     const done=trailState.route.slice(0,trailState.step+1).map(trailPoint);
+    const current=trailPoint(trailState.route[trailState.step]);
     const points=arr=>arr.map(p=>p.x+","+p.y).join(" ");
-    svg.innerHTML='<polyline class="trailPathBase" points="'+points(all)+'"></polyline>'+
-      (done.length>1?'<polyline class="trailPathDone" points="'+points(done)+'"></polyline>':'');
+    const completed=done.length>1?'<polyline class="trailPathDone" points="'+points(done)+'"></polyline>':'';
+    const branches=choices.map(cell=>{
+      const p=trailPoint(cell);
+      return '<line class="trailPathBranch" x1="'+current.x+'" y1="'+current.y+'" x2="'+p.x+'" y2="'+p.y+'"></line>';
+    }).join("");
+    svg.innerHTML=completed+branches;
   }
   function startTrail(){
     Object.assign(trailState,{step:0,misses:0,wrongCell:null});
@@ -704,15 +709,36 @@
     $("#trailScore").textContent="Checkpoint "+trailState.step+" / "+(trailState.route.length-1);
     $("#trailMisses").textContent=trailState.misses;
     $("#trailProgressFill").style.width=Math.round(trailState.step/(trailState.route.length-1)*100)+"%";
-    renderTrailPath();
     board.innerHTML="";
     let choices=next===undefined?[]:trailNeighbors(current).filter(n=>n!==prev);
     if(next!==undefined&&!choices.includes(next))choices.unshift(next);
     choices=[next,...choices.filter(n=>n!==next)].filter(n=>n!==undefined).slice(0,3);
-    const offsets=[10,-10,20,-20,1,-1],wrongAnswers=[];let oi=0;
+
+    // Draw every available direction as an equally plausible tan branch.
+    // The hidden route is revealed only after the learner solves correctly.
+    renderTrailPath(choices);
+
+    const digitWiseWrong=()=>{
+      const a=String(p.a).padStart(3,"0").split("").map(Number);
+      const b=String(p.b).padStart(3,"0").split("").map(Number);
+      return Number(a.map((d,i)=>Math.abs(d-b[i])).join(""));
+    };
+    const candidates=[
+      digitWiseWrong(),
+      p.answer+1,p.answer-1,
+      p.answer+10,p.answer-10,
+      p.answer+100,p.answer-100,
+      p.answer+9,p.answer-9,
+      p.answer+11,p.answer-11
+    ];
+    const wrongAnswers=[];
+    for(const v of candidates){
+      if(v>0&&v!==p.answer&&!wrongAnswers.includes(v))wrongAnswers.push(v);
+      if(wrongAnswers.length>=Math.max(0,choices.length-1))break;
+    }
     while(wrongAnswers.length<Math.max(0,choices.length-1)){
-      const v=p.answer+offsets[oi++%offsets.length];
-      if(v>0&&!wrongAnswers.includes(v)&&v!==p.answer)wrongAnswers.push(v);
+      const v=Math.max(1,p.answer+(rand(0,1)?1:-1)*rand(2,25));
+      if(v!==p.answer&&!wrongAnswers.includes(v))wrongAnswers.push(v);
     }
     const answerByCell={};let wi=0;choices.forEach(n=>answerByCell[n]=n===next?p.answer:wrongAnswers[wi++]);
     const routeSet=new Set(trailState.route),visited=new Set(trailState.route.slice(0,trailState.step+1));
@@ -731,7 +757,7 @@
         const ex=document.createElement("span");ex.className="trailExplorer";ex.textContent="🧭";el.appendChild(ex);
         if(trailState.step===0){const st=document.createElement("span");st.className="trailStart";st.textContent="START";el.appendChild(st)}
       }
-      if(i===trailState.route[trailState.route.length-1]){
+      if(i===trailState.route[trailState.route.length-1] && trailState.step>=8){
         const camp=document.createElement("span");camp.className="trailFinish";camp.textContent="🏕️";el.appendChild(camp);
       }
       board.appendChild(el);
