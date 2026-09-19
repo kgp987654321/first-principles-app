@@ -418,3 +418,68 @@
     margin:8px 0 0 10px
   }
 }
+
+
+/* Forest Pattern Maze */
+.forestMazeMap{
+  position:relative;
+  min-height:390px;
+  overflow:hidden;
+  border-radius:22px;
+  border:4px solid #78956a;
+  background:
+    radial-gradient(circle at 16% 18%,#d5e8c8 0 9%,transparent 10%),
+    radial-gradient(circle at 84% 78%,#bed9ac 0 11%,transparent 12%),
+    linear-gradient(#dff0d6,#a9cf91);
+  box-shadow:inset 0 0 40px rgba(63,94,53,.14)
+}
+.forestMazeMap>svg{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.forestMainTrail,.forestBranchTrail,.forestSolvedTrail{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.forestMainTrail{stroke:#d9c59a;stroke-width:18}
+.forestBranchTrail{stroke:#d9c59a;stroke-width:14}
+.forestSolvedTrail{stroke:#7c9e66;stroke-width:8}
+.forestTrees{position:absolute;inset:0;z-index:2;pointer-events:none}
+.forestTrees i{position:absolute;width:22px;height:30px;background:#4e8b4f;clip-path:polygon(50% 0,100% 100%,0 100%);filter:drop-shadow(0 3px 2px #315a3455)}
+.forestTrees i:after{content:'';position:absolute;left:9px;bottom:-7px;width:4px;height:10px;background:#755437}
+.forestTrees i:nth-child(1){left:5%;top:9%}.forestTrees i:nth-child(2){left:18%;top:30%}.forestTrees i:nth-child(3){left:31%;top:18%}.forestTrees i:nth-child(4){left:45%;top:35%}.forestTrees i:nth-child(5){left:62%;top:11%}.forestTrees i:nth-child(6){left:78%;top:27%}.forestTrees i:nth-child(7){left:88%;top:50%}.forestTrees i:nth-child(8){left:8%;top:60%}.forestTrees i:nth-child(9){left:53%;top:79%}.forestTrees i:nth-child(10){left:72%;top:72%}
+.forestLookout{position:absolute;right:4%;top:5%;z-index:3;display:grid;justify-items:center;font-size:34px}
+.forestLookout span{padding:3px 6px;border-radius:7px;background:#fff8dc;color:#5d624a;font-size:7px;font-weight:950}
+.forestExplorer{position:absolute;z-index:7;transform:translate(-50%,-50%);font-size:30px;transition:left .35s ease,top .35s ease;filter:drop-shadow(0 4px 3px #0003)}
+.forestClueSign{position:absolute;left:3%;top:3%;z-index:8;padding:9px 11px;border-radius:13px;background:#6c4b32;color:#fff8df;border:4px solid #4e3524;box-shadow:0 5px 0 #3b281b}
+.forestClueSign small{display:block;margin-bottom:5px;font-size:7px;letter-spacing:.08em;font-weight:950}
+.forestClueSign div{display:flex;gap:5px}.forestClueSign span{width:28px;height:28px;border-radius:7px;background:#fff7dc;color:#586050;display:grid;place-items:center;font-size:18px}
+.forestTrailChoice{
+  position:absolute;z-index:6;transform:translate(-50%,-50%);
+  min-width:72px;min-height:66px;padding:7px;border:3px solid #fff4d7;border-radius:14px;
+  background:#74533c;color:#fff7dc;box-shadow:0 5px 0 #4f3728
+}
+.forestTrailChoice span,.forestTrailChoice small{display:block}.forestTrailChoice span{font-size:24px}.forestTrailChoice small{margin-top:2px;font-size:6px;text-transform:uppercase;letter-spacing:.06em}
+.forestTrailChoice:hover{transform:translate(-50%,-54%);background:#805c42}
+.forestTrailChoice.wrong{background:#a55049;border-color:#ffd5cf;animation:forestWrong .28s ease}
+.forestMazeWin{position:absolute;right:6%;top:13%;z-index:8;display:grid;justify-items:center;padding:11px 14px;border-radius:14px;background:#f2fff1;border:3px solid #8ebc82;color:#3f7041;box-shadow:0 5px 0 #76a16e}
+.forestMazeWin span{font-size:28px}.forestMazeWin small{font-size:7px}
+@keyframes forestWrong{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-44%,-50%)}}
+
+/* Cliffs drag-to-angle control */
+.targetLaunchStage svg{touch-action:none;cursor:crosshair}
+.angleDragHandle{
+  fill:#6872dd;
+  stroke:#fff;
+  stroke-width:3;
+  filter:drop-shadow(0 2px 4px rgba(65,72,154,.45));
+  cursor:grab
+}
+.angleDragHandle.dragging{fill:#4b55bd;cursor:grabbing}
+.angleDragHint{font-size:7px;font-weight:950;fill:#4350a3;pointer-events:none}
+.dragAngleControl{background:linear-gradient(135deg,#f2f1ff,#f8fbff)}
+.dragAngleControl .angleSliderHeader span:first-child{color:#4d58b0}
+.fineTuneLabel{display:block;margin-top:6px;text-align:center;font-size:7px;color:#788297}
+@media(max-width:700px){
+  .forestMazeMap{min-height:470px}
+  .forestTrailChoice{min-width:62px}
+  .forestClueSign{max-width:175px}
+}
+@media(prefers-reduced-motion:reduce){
+  .forestExplorer{transition:none}
+  .forestTrailChoice.wrong{animation:none}
+}
