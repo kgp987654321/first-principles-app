@@ -112,8 +112,20 @@ function BaseballStations(){
 }
 
 function Basketball({record,onRecord,onChallenge,onDiscover}){
-  const[angle,setAngle]=useState(52),[power,setPower]=useState(66),[spot,setSpot]=useState('free'),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
+  const shotPresets={
+    short:{angle:55,power:47},
+    free:{angle:52,power:63},
+    three:{angle:47,power:82}
+  };
+  const[angle,setAngle]=useState(shotPresets.free.angle),[power,setPower]=useState(shotPresets.free.power),[spot,setSpot]=useState('free'),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
   const targets={short:45,free:68,three:86},feet={short:8,free:15,three:23};
+  const applyShotPreset=nextSpot=>{
+    const preset=shotPresets[nextSpot];
+    setSpot(nextSpot);
+    setAngle(preset.angle);
+    setPower(preset.power);
+    setResult(null);
+  };
   const target=targets[spot],range=clamp(Math.sin(2*rad(angle))*(power/100)*105,0,110),miss=Math.abs(range-target);
   const apex=Math.round(5+Math.sin(rad(angle))*power*.16),basicHit=miss<6,masteryHit=basicHit&&spot==='free'&&power<=65;
   const success=mode==='explore'?true:mode==='challenge'?basicHit:masteryHit;
@@ -122,7 +134,11 @@ function Basketball({record,onRecord,onChallenge,onDiscover}){
   return <SportLab icon="🏀" title="Hoop Shot Math" subtitle="Explore how angle and push force change the path of a basketball." promptTitle="Take a shot!" promptText="Adjust angle and force, then see whether the arc reaches the hoop." scene={<BasketballScene key={attempt} played={attempt>0} angle={angle} power={power} range={range} shotType={spot}/>}
     stats={[{icon:'📐',label:'Release Angle',value:angle+'°'},{icon:'🔥',label:'Shot Force',value:power+'%'},{icon:'📍',label:'Distance',value:feet[spot]+' FT'},{icon:'⬆',label:'Apex',value:apex+' FT'}]}
     controls={<><SportControl label="Shot angle" value={angle} min={30} max={70} onChange={v=>{setAngle(v);setResult(null)}} suffix="°"/><SportControl label="Shot force" value={power} min={30} max={90} onChange={v=>{setPower(v);setResult(null)}} suffix="%"/></>}
-    choices={<ChoiceButtons options={[{id:'short',label:'short range'},{id:'free',label:'free throw'},{id:'three',label:'three-point'}]} value={spot} onChange={v=>{setSpot(v);setResult(null)}}/>}
+    choices={<ChoiceButtons options={[
+      {id:'short',label:'short range · 55° / 47%'},
+      {id:'free',label:'free throw · 52° / 63%'},
+      {id:'three',label:'three-point · 47° / 82%'}
+    ]} value={spot} onChange={applyShotPreset}/>}
     actionLabel="🏀 Shoot!" onAction={shoot} feedback={result===null?null:(result?(mode==='explore'?'Watch the arc: changing angle and force changes both height and range.':'Swish! Mission complete.'):(mode==='mastery'?'Make a free throw with 65% force or less.':'Missed the target. Change one variable and compare.'))} success={result===true}
     mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('basketball',mode)} connectionText={SPORTS_CHALLENGES.basketball.connection} onTryAnother={resetTry}/>;
 }
