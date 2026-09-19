@@ -165,7 +165,7 @@ function Football({record,onRecord,onChallenge,onDiscover}){
     lob:{angle:52,power:78,receiver:6}
   };
   const[angle,setAngle]=useState(passPresets.spiral.angle),[power,setPower]=useState(passPresets.spiral.power),[passType,setPassType]=useState('spiral'),[receiver,setReceiver]=useState(passPresets.spiral.receiver),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
-  const config=passType==='short'?{speed:.88,hang:.82,start:10,route:.64}:passType==='lob'?{speed:.92,hang:1.18,start:12,route:.58}:{speed:1,hang:1,start:18,route:.70};
+  const config=passType==='short'?{speed:.88,hang:.82,start:10,route:.64}:passType==='lob'?{speed:.92,hang:1.18,start:25,route:.55}:{speed:1,hang:1,start:18,route:.70};
   const velocity=(6+power*.18)*config.speed;
   const flightTime=Math.max(.45,(2*velocity*Math.sin(rad(angle))/10.72)*config.hang);
   const throwDist=clamp(velocity*Math.cos(rad(angle))*flightTime,6,48);
