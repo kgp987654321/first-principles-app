@@ -1168,3 +1168,5 @@
 .previewSpoon.tbsp:before{width:35px;height:27px}
 .previewSpoon.tsp:before{width:25px;height:19px;top:8px}
 .previewSpoon.tsp:after{left:23px;top:16px;width:47px}
+
+.bakeryTestKitchenApp .numbersLabBoard .windowShelf{max-height:525px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#a6b8c5 transparent}
