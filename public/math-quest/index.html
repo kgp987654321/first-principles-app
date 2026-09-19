@@ -51,7 +51,7 @@
     .strategyCard{background:linear-gradient(180deg,#f7f5ff,#fff);border:1px solid var(--line);border-radius:18px;padding:15px}.strategyCard h4{margin:0 0 5px}.strategyCard p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.4}
     .strategySteps{margin-top:12px;display:grid;gap:9px}.strategyStep{display:flex;gap:9px;align-items:flex-start;background:white;border:1px solid var(--line);border-radius:12px;padding:10px}
     .bubble{flex:0 0 28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#f0ecff;color:#5c47ce;font-weight:900}
-    .strategyStep div:last-child{font-size:.92rem;line-height:1.4}.switchRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .strategyStep div:last-child{font-size:.92rem;line-height:1.4}.strategyStep{cursor:pointer;transition:.15s}.strategyStep.active{border-color:var(--purple);background:#f7f4ff;box-shadow:0 0 0 2px #ede8ff}.strategyStep.done{border-color:#a8dcc8;background:#f1fbf7}.strategyDemo{margin-top:12px;min-height:145px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(#fff,#fafbff);padding:12px;overflow:hidden}.strategyDemoTitle{font-size:.7rem;font-weight:950;color:#6a5bd1;letter-spacing:.06em;text-transform:uppercase}.strategyEquation{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0;font-weight:950}.strategyEquation span{padding:8px 10px;border-radius:10px;background:#f2efff;border:1px solid #ddd6ff}.strategyEquation span.hot{background:#fff0cf;border-color:#f0c467}.placeDemo{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}.placeDemo span{padding:9px;border-radius:10px;background:#f6f8fb;text-align:center;border:1px solid var(--line)}.placeDemo span.hot{background:#fff0cf;border-color:#f0c467}.miniArray{display:grid;gap:3px;justify-content:center;margin:10px auto}.miniArray i{width:10px;height:10px;border-radius:50%;background:var(--blue)}.jumpDemo{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin:10px 0}.jumpDemo span{padding:6px 8px;border-radius:9px;background:#f6f7fb;border:1px solid var(--line);font-weight:900}.strategyCaption{text-align:center;color:var(--muted);font-size:.78rem;font-weight:800}.switchRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
     .strategyDot{width:11px;height:11px;border-radius:50%;background:#d9ddea}.strategyDot.on{background:var(--purple)}
     .factVisual{padding:18px;text-align:center}.factQuestion{font-size:2.3rem;font-weight:950;margin:10px 0}.factInput{width:min(220px,100%);height:56px;border:2px solid var(--line);border-radius:14px;text-align:center;font-size:1.5rem;font-weight:900;outline:none}
     .factInput:focus{border-color:var(--purple)}.array{display:grid;gap:4px;justify-content:center;margin:14px auto}.dot{width:15px;height:15px;border-radius:50%;background:var(--blue)}
@@ -189,18 +189,14 @@
           <h4 id="strategyName">Standard algorithm</h4>
           <p id="strategyIntro">Stack the numbers, line up place values, and regroup when needed.</p>
           <div class="strategySteps" id="strategySteps"></div>
+          <div class="strategyDemo" id="strategyDemo" aria-live="polite"></div>
           <div class="switchRow">
             <button class="btn alt" id="switchStrategy">🔄 Show another way</button>
             <div style="display:flex;align-items:center;gap:5px" id="strategyDots"></div>
           </div>
         </div>
         <div class="sectionTitle" style="margin-top:16px"><h3 style="font-size:1rem">The neat-work habit</h3></div>
-        <div class="habitList">
-          <div class="habit"><span>📐 Line up place values</span><span>1</span></div>
-          <div class="habit"><span>✏️ Write regrouping</span><span>2</span></div>
-          <div class="habit"><span>➡️ Work in order</span><span>3</span></div>
-          <div class="habit"><span>🔍 Check reasonableness</span><span>4</span></div>
-        </div>
+        <div class="habitList" id="habitList"></div>
       </aside>
     </section>
 
@@ -280,7 +276,7 @@
 <script>
 (function(){
   const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-  const state={mode:"add",problem:null,strategy:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:8,locked:false};
+  const state={mode:"add",problem:null,strategy:0,strategyStep:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:8,locked:false};
   let lifetime=Number(localStorage.getItem("mathQuestStars")||0);
   $("#totalStars").textContent=lifetime;
   const breakState={active:"match",total:0,matchScore:0,matchMoves:12,selected:null,board:[],blockScore:0,blockRunning:false,blockTimer:null,blockGrid:[],piece:null,launchScore:0,launching:false,targets:[true,true,true]};
@@ -350,7 +346,7 @@
     $("#factAnswer").value="";$("#factAnswer").classList.remove("good","bad");$("#feedback").textContent="";state.locked=false;
   }
   function renderProblem(){
-    clearInputs();state.problem=makeProblem(state.mode);state.strategy=0;
+    clearInputs();state.problem=makeProblem(state.mode);state.strategy=0;state.strategyStep=0;
     const p=state.problem;
     $$(".gameCard").forEach(b=>b.classList.toggle("active",b.dataset.mode===state.mode));
     const isFact=state.mode==="multiply"||state.mode==="divide",isTrail=state.mode==="subtract";
@@ -378,8 +374,69 @@
   function renderStrategy(){
     const list=strategies[state.mode],s=list[state.strategy];
     $("#strategyName").textContent=s.name;$("#strategyIntro").textContent=s.intro;
-    $("#strategySteps").innerHTML=s.steps.map((x,i)=>'<div class="strategyStep"><span class="bubble">'+(i+1)+'</span><div>'+x+'</div></div>').join("");
+    $("#strategySteps").innerHTML=s.steps.map((x,i)=>'<div class="strategyStep '+(i===state.strategyStep?'active ':i<state.strategyStep?'done ':'')+'" data-step="'+i+'"><span class="bubble">'+(i+1)+'</span><div>'+x+'</div></div>').join("");
+    $("#strategySteps").querySelectorAll(".strategyStep").forEach(el=>el.addEventListener("click",()=>{state.strategyStep=+el.dataset.step;renderStrategy()}));
     $("#strategyDots").innerHTML=list.map((x,i)=>'<span class="strategyDot '+(i===state.strategy?'on':'')+'"></span>').join("");
+    renderStrategyDemo();renderHabits();
+  }
+
+  function friendlyDelta(n){const r=n%10;return r===0?0:10-r}
+  function renderStrategyDemo(){
+    const h=$("#strategyDemo"),p=state.problem,step=state.strategyStep,s=state.strategy;h.innerHTML="";
+    const title=document.createElement("div");title.className="strategyDemoTitle";title.textContent="Watch step "+(step+1);h.appendChild(title);
+    const box=document.createElement("div");box.className="strategyEquation";
+    if(state.mode==="add"){
+      if(s===0){
+        const A=digits(p.a),B=digits(p.b),labels=["HUNDREDS","TENS","ONES"];const row=document.createElement("div");row.className="placeDemo";
+        labels.forEach((lab,i)=>{const x=document.createElement("span");x.className=i===2-step?"hot":"";x.innerHTML="<small>"+lab+"</small><br><b>"+A[i]+" + "+B[i]+"</b>";row.appendChild(x)});h.appendChild(row);
+        const cap=document.createElement("div");cap.className="strategyCaption";cap.textContent=step===0?"Start at the ones.":step===1?"Carry any regrouped ten into the tens column.":"Finish with the hundreds.";h.appendChild(cap);return;
+      }
+      if(s===1){
+        const parts=n=>[Math.floor(n/100)*100,Math.floor(n/10)%10*10,n%10],a=parts(p.a),b=parts(p.b),sum=a.map((v,i)=>v+b[i]);
+        box.innerHTML=step===0?'<span class="hot">'+a.join(" + ")+'</span><span>+</span><span>'+b.join(" + ")+'</span>':step===1?'<span>'+a[0]+'+'+b[0]+'</span><span>'+a[1]+'+'+b[1]+'</span><span>'+a[2]+'+'+b[2]+'</span>':'<span class="hot">'+sum.join(" + ")+'</span><span>=</span><span>'+p.answer+'</span>';
+      }else{
+        const da=friendlyDelta(p.a),db=friendlyDelta(p.b),useA=da>0&&(db===0||da<=db),delta=useA?da:db,n=useA?p.a:p.b,other=useA?p.b:p.a,friendly=n+delta,easy=friendly+other;
+        box.innerHTML=step===0?'<span class="hot">'+n+' + '+delta+' → '+friendly+'</span>':step===1?'<span>'+friendly+' + '+other+' = '+easy+'</span>':'<span>'+easy+' − '+delta+' = <b>'+p.answer+'</b></span>';
+      }
+    }else if(state.mode==="subtract"){
+      if(s===0){
+        box.innerHTML='<span>'+p.a+'</span><span>−</span><span>'+p.b+'</span><span>=</span><span class="hot">'+(step===2?p.answer:'?')+'</span>';
+        const cap=document.createElement("div");cap.className="strategyCaption";cap.textContent=step===0?"Check the ones first. Borrow only if needed.":step===1?"Record the regrouped place values before subtracting.":"Work left through the remaining columns.";h.appendChild(box);h.appendChild(cap);return;
+      }
+      if(s===1){
+        const jumps=[],start=p.b,next10=Math.ceil(start/10)*10;let cur=start;if(next10>cur){jumps.push(next10-cur);cur=next10}while(cur+100<=p.a){jumps.push(100);cur+=100}while(cur+10<=p.a){jumps.push(10);cur+=10}if(cur<p.a)jumps.push(p.a-cur);
+        const d=document.createElement("div");d.className="jumpDemo";let n=p.b;d.innerHTML='<span>'+n+'</span>';jumps.forEach((j,i)=>{n+=j;d.innerHTML+='<b>+'+j+'</b><span class="'+(i===Math.min(step,jumps.length-1)?"hot":"")+'">'+n+'</span>'});h.appendChild(d);const cap=document.createElement("div");cap.className="strategyCaption";cap.textContent="Add the jumps: "+jumps.reduce((a,b)=>a+b,0)+" = "+p.answer;h.appendChild(cap);return;
+      }
+      const delta=friendlyDelta(p.b),friendly=p.b+delta,easy=p.a-friendly;
+      box.innerHTML=step===0?'<span class="hot">'+p.b+' + '+delta+' → '+friendly+'</span>':step===1?'<span>'+p.a+' − '+friendly+' = '+easy+'</span>':'<span>'+easy+' + '+delta+' = <b>'+p.answer+'</b></span>';
+    }else if(state.mode==="multiply"){
+      if(s===0){
+        const grid=document.createElement("div");grid.className="miniArray";grid.style.gridTemplateColumns="repeat("+p.b+",10px)";for(let i=0;i<p.answer;i++){const dot=document.createElement("i");grid.appendChild(dot)}h.appendChild(grid);const cap=document.createElement("div");cap.className="strategyCaption";cap.textContent=step===0?p.a+" equal rows":step===1?p.b+" in every row":"Count all "+p.answer+" dots";h.appendChild(cap);return;
+      }
+      if(s===1){
+        const base=p.b>=5?5:Math.max(1,p.b-1),rest=p.b-base;
+        box.innerHTML=step===0?'<span class="hot">'+p.a+' × '+base+'</span><span>+</span><span>'+p.a+' × '+rest+'</span>':step===1?'<span>'+p.a*base+'</span><span>+</span><span>'+p.a*rest+'</span>':'<span class="hot">'+p.a*base+' + '+p.a*rest+' = '+p.answer+'</span>';
+      }else{
+        const even=p.a%2===0?p.a:p.b,other=even===p.a?p.b:p.a,half=Math.floor(even/2),easy=half*other;
+        box.innerHTML=step===0?'<span class="hot">half of '+even+' = '+half+'</span>':step===1?'<span>'+half+' × '+other+' = '+easy+'</span>':'<span class="hot">'+easy+' × 2 = '+p.answer+'</span>';
+      }
+    }else{
+      if(s===0)box.innerHTML=step===0?'<span class="hot">'+p.b+' equal groups</span>':step===1?'<span>'+p.a+' shared equally</span>':'<span class="hot">'+p.answer+' in each group</span>';
+      else if(s===1)box.innerHTML='<span>'+p.b+' rows</span><span>×</span><span class="'+(step===2?"hot":"")+'">'+p.answer+' each</span><span>= '+p.a+'</span>';
+      else if(s===2)box.innerHTML=step===0?'<span class="hot">'+p.b+' × ? = '+p.a+'</span>':step===1?'<span>'+p.b+' × '+p.answer+' = '+p.a+'</span>':'<span class="hot">'+p.a+' ÷ '+p.b+' = '+p.answer+'</span>';
+      else box.innerHTML='<span class="hot">'+p.a+'</span><span>− '+p.b+' repeatedly</span><span>= 0 after '+p.answer+' jumps</span>';
+    }
+    h.appendChild(box);
+  }
+
+  const habitSets={
+    add:[["📐","Line up hundreds, tens, ones"],["✏️","Record regrouping above the next column"],["➡️","Work ones → tens → hundreds"],["🔍","Estimate the sum first"]],
+    subtract:[["📐","Line up place values"],["✏️","Show every borrowed/regrouped digit"],["➡️","Work ones → tens → hundreds"],["🔍","Check by adding the difference back"]],
+    multiply:[["▦","Show equal groups, rows, or partial products"],["🧩","Break harder facts into known facts"],["✖️","Keep factors and products labeled"],["🔍","Check with a nearby known fact"]],
+    divide:[["📦","Show equal groups or rows"],["↔️","Keep every group the same size"],["✖️","Connect division to multiplication"],["🔍","Check: quotient × divisor = total"]]
+  };
+  function renderHabits(){
+    $("#habitList").innerHTML=(habitSets[state.mode]||habitSets.add).map((h,i)=>'<div class="habit"><span>'+h[0]+' '+h[1]+'</span><span>'+(i+1)+'</span></div>').join("");
   }
 
 
@@ -540,7 +597,7 @@
   }
 
   function restart(){
-    Object.assign(state,{mode:"add",problem:null,strategy:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:8,locked:false});
+    Object.assign(state,{mode:"add",problem:null,strategy:0,strategyStep:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:8,locked:false});
     $("#summaryCard").classList.remove("show");$("#missionMessage").textContent="Complete 8 mixed problems with neat work.";updateHUD();renderProblem();window.scrollTo({top:0,behavior:"smooth"});
   }
 
@@ -696,7 +753,7 @@
   $("input.digit").forEach(el=>el.addEventListener("input",()=>{el.value=el.value.replace(/[^0-9]/g,"").slice(0,1)}));
   $("#factAnswer").addEventListener("input",e=>e.target.value=e.target.value.replace(/[^0-9]/g,"").slice(0,3));
   $(".gameCard").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;if(state.mode==="subtract")startTrail();else renderProblem()}));
-  $("#switchStrategy").addEventListener("click",()=>{state.strategy=(state.strategy+1)%strategies[state.mode].length;renderStrategy();renderFactVisual()});
+  $("#switchStrategy").addEventListener("click",()=>{state.strategy=(state.strategy+1)%strategies[state.mode].length;state.strategyStep=0;renderStrategy();renderFactVisual()});
   $("#checkBtn").addEventListener("click",check);
   $("#clearBtn").addEventListener("click",clearInputs);
   $("#newBtn").addEventListener("click",renderProblem);
