@@ -6,11 +6,12 @@ const BUILDINGS={
   {id:'route',title:'Rescue route',story:'A passenger is waiting 4 stops left of Town Square.',steps:[{label:'Direction',prompt:'Which direction is left of zero?',choices:[['Negative',1],['Positive',0]],explain:'Left of zero is the negative direction.',hints:['Picture a number line with 0 in the middle.','Numbers get smaller as you move left.','So the direction left of zero is negative.']},{label:'Stop',prompt:'Choose the destination.',choices:[['−4',1],['+4',0],['−2',0]],explain:'Four stops left of zero is −4.',hints:['Start at 0.','Move one stop left four times: −1, −2, −3, −4.','The destination is −4.']},{label:'Return',prompt:'From −4, how many stops return to zero?',choices:[['4',1],['−4',0],['8',0]],explain:'Moving 4 stops right returns from −4 to 0.',hints:['Count the gaps from −4 back to 0.','−4→−3→−2→−1→0 is four moves.','The return trip is 4 stops.']}]},
   {id:'delivery',title:'Express delivery',story:'Plan a trip that crosses zero.',steps:[{label:'Start',prompt:'The train begins at −3 and moves 5 stops right. Where does it land?',choices:[['2',1],['−8',0],['8',0]],explain:'−3 + 5 = 2.',hints:['Begin three spaces left of zero.','Moving 3 right gets you to 0; there are 2 moves left.','So the train lands at +2.']},{label:'Next leg',prompt:'From 2, move 4 stops left.',choices:[['−2',1],['6',0],['−6',0]],explain:'2 − 4 = −2.',hints:['Use 2 as the new starting point.','Two left reaches 0, then two more left.','That finishes at −2.']},{label:'Distance',prompt:'How many total stops were traveled?',choices:[['9',1],['2',0],['7',0]],explain:'5 stops plus 4 stops makes 9 traveled.',hints:['Distance traveled counts movement, not the final location.','The first leg used 5 stops and the second used 4.','5 + 4 = 9 total stops.']}]}
  ]},
- architect:{emoji:'🏛️',name:'Architecture Studio',tagline:'Design spaces with symmetry, folds, scale, and structure.',scene:'📐  🏠  📏',missions:[
-  {id:'facade',title:'Design a balanced facade',story:'The new community hall needs a symmetrical front.',steps:[{label:'Mirror',prompt:'A window is 2 spaces left of center. Where should its matching window go?',choices:[['2 right',1],['4 right',0],['At center',0]],explain:'A mirror image keeps the same distance on the opposite side.',hints:['Imagine folding the building along its center line.','The matching window must land exactly on top of the first one.','That means the same distance — 2 spaces — on the right.']},{label:'Repeat',prompt:'If one side has 3 windows, how many windows does the mirrored facade have?',choices:[['6',1],['3',0],['9',0]],explain:'Three on each side makes six.',hints:['Symmetry gives each side a matching partner.','Three windows on the left means three matching windows on the right.','3 + 3 = 6 windows.']},{label:'Centerpiece',prompt:'What can sit on the line of symmetry without needing a pair?',choices:[['Main door',1],['Side window',0],['Corner tower',0]],explain:'An object on the symmetry line mirrors onto itself.',hints:['Think about what happens exactly on the fold line.','A centered object lands on itself when mirrored.','A main door at the center does not need a second copy.']}]},
-  {id:'courtyard',title:'Scale the courtyard',story:'A 3 × 4 courtyard model is being built at double scale.',steps:[{label:'Width',prompt:'Double a width of 3.',choices:[['6',1],['5',0],['9',0]],explain:'3 × 2 = 6.',hints:['Double means two equal copies.','Two groups of 3 are 3 + 3.','So the new width is 6.']},{label:'Length',prompt:'Double a length of 4.',choices:[['8',1],['6',0],['16',0]],explain:'4 × 2 = 8.',hints:['Use the same scale factor as the width.','Two groups of 4 are 4 + 4.','The new length is 8.']},{label:'Area',prompt:'What is the new 6 × 8 courtyard area?',choices:[['48',1],['24',0],['28',0]],explain:'6 × 8 = 48 square units.',hints:['Area counts all the square units inside.','There are 6 rows of 8, or 8 rows of 6.','6 × 8 = 48 square units.']}]}
+ architect:{emoji:'🪚',name:'Geometry Workshop: Woodshop',tagline:'Measure, cut, and build with rulers, fractions, symmetry, and scale.',scene:'🪚  📏  🪵  📐',missions:[
+  {id:'cuts',title:'Measure & cut shelf supports',story:'Use the ruler bench to divide wood into equal fractional lengths.',steps:[{label:'Halves',prompt:'A 1-inch strip is cut into 2 equal pieces. How long is each piece?',choices:[['1/2 inch',1],['1/4 inch',0],['2 inches',0]],explain:'One whole inch split into 2 equal pieces makes two 1/2-inch pieces.',hints:['Start with 1 whole inch.','Two equal pieces means divide by 2.','Each piece is 1/2 inch.']},{label:'Quarters',prompt:'A 1-inch strip is cut into 4 equal pieces. How long is each piece?',choices:[['1/4 inch',1],['1/2 inch',0],['4 inches',0]],explain:'One whole inch split into 4 equal pieces makes four 1/4-inch pieces.',hints:['Four equal pieces means divide the whole into fourths.','Each fourth is one quarter of an inch.','Each piece is 1/4 inch.']},{label:'Combine',prompt:'Two 1/4-inch pieces placed end to end make what length?',choices:[['1/2 inch',1],['1/4 inch',0],['1 inch',0]],explain:'1/4 + 1/4 = 2/4 = 1/2.',hints:['Put two quarter-inch pieces together.','That makes 2 quarters.','2/4 is the same length as 1/2.']}]},
+  {id:'facade',title:'Cut matching trim',story:'Build a symmetrical window frame from matching wood pieces.',steps:[{label:'Mirror mark',prompt:'A decorative cut is 2 inches left of the center line. Where should the matching cut go?',choices:[['2 inches right',1],['4 inches right',0],['At center',0]],explain:'A mirror image keeps the same distance on the opposite side.',hints:['Imagine folding the frame along its center line.','The matching mark must land exactly on top of the first one.','Use the same distance — 2 inches — on the right.']},{label:'Matching slats',prompt:'One side of the frame has 3 vertical slats. How many slats are needed for both mirrored sides?',choices:[['6',1],['3',0],['9',0]],explain:'Three on each side makes six.',hints:['Symmetry gives every slat a matching partner.','Three slats on the left need three on the right.','3 + 3 = 6 slats.']},{label:'Center brace',prompt:'Which piece can sit exactly on the line of symmetry without needing a matching pair?',choices:[['Center brace',1],['Side trim',0],['Corner block',0]],explain:'A piece on the symmetry line mirrors onto itself.',hints:['Think about what happens exactly on the fold line.','A centered piece lands on itself when mirrored.','The center brace does not need a second copy.']}]},
+  {id:'courtyard',title:'Scale the workbench frame',story:'A 3 × 4 workbench frame is being built at double scale.',steps:[{label:'Width',prompt:'The model is 3 units wide. Double the width for the full build.',choices:[['6',1],['5',0],['9',0]],explain:'3 × 2 = 6.',hints:['Double means two equal copies.','Two groups of 3 are 3 + 3.','So the new width is 6.']},{label:'Length',prompt:'The model is 4 units long. Double the length.',choices:[['8',1],['6',0],['16',0]],explain:'4 × 2 = 8.',hints:['Use the same scale factor as the width.','Two groups of 4 are 4 + 4.','The new length is 8.']},{label:'Top area',prompt:'What is the area of the new 6 × 8 workbench top?',choices:[['48',1],['24',0],['28',0]],explain:'6 × 8 = 48 square units.',hints:['Area counts all the square units inside the tabletop.','There are 6 rows of 8, or 8 rows of 6.','6 × 8 = 48 square units.']}]}
  ]},
- observatory:{emoji:'🔭',name:'Sky Observatory',tagline:'Use patterns, coordinates, and relationships to explore the sky.',scene:'🌙  ✨  🔭',missions:[
+  observatory:{emoji:'🔭',name:'Sky Observatory',tagline:'Use patterns, coordinates, and relationships to explore the sky.',scene:'🌙  ✨  🔭',missions:[
   {id:'constellation',title:'Map a constellation',story:'Three stars reveal a movement pattern across the sky.',steps:[{label:'Pattern',prompt:'Stars appear at (1,1), (2,2), (3,3). What comes next?',choices:[['(4,4)',1],['(4,3)',0],['(3,4)',0]],explain:'Both coordinates increase by 1 each time.',hints:['Compare the first number in each pair.','Now compare the second number: both grow by 1 each step.','After (3,3), both coordinates become 4.']},{label:'Rule',prompt:'Which rule describes these points?',choices:[['x = y',1],['x + y = 1',0],['x is always 1',0]],explain:'Every point has matching x and y values.',hints:['Look inside each coordinate pair.','1 matches 1, 2 matches 2, and 3 matches 3.','The rule is x = y.']},{label:'Predict',prompt:'If x = 7, what is y?',choices:[['7',1],['6',0],['14',0]],explain:'If x = y, then y must also be 7.',hints:['Use the rule you just identified.','x and y must have the same value.','If x is 7, y is also 7.']}]},
   {id:'signal',title:'Decode the satellite signal',story:'A satellite sends 2→5, 4→9, 6→13.',steps:[{label:'Find rule',prompt:'What happens to each input?',choices:[['Double, then +1',1],['Add 3',0],['Double, then −1',0]],explain:'2×2+1=5, 4×2+1=9, 6×2+1=13.',hints:['Try the same operation on all three examples.','Doubling gives 4, 8, 12 — each output is one more.','The rule is double, then add 1.']},{label:'Predict',prompt:'What should input 8 produce?',choices:[['17',1],['16',0],['19',0]],explain:'8×2+1 = 17.',hints:['Use exactly the rule from the first control.','Double 8 to get 16.','Then add 1: 17.']},{label:'Reverse',prompt:'Which input produces 21?',choices:[['10',1],['11',0],['9',0]],explain:'10×2+1 = 21.',hints:['Undo the rule in reverse order.','First subtract 1 from 21 to get 20.','Then halve 20 to get input 10.']}]}
  ]},
@@ -47,4 +48,156 @@ const BUILDINGS={
 };
 const key=id=>`first-principles-building-${id}`;
 const load=id=>{try{return JSON.parse(localStorage.getItem(key(id))||'{}')}catch{return {}}};
-export function NewBuildingInterior({buildingId,onExit}){const building=BUILDINGS[buildingId],[missionIndex,setMissionIndex]=useState(0),[step,setStep]=useState(0),[message,setMessage]=useState('Choose an answer to start the mission.'),[completed,setCompleted]=useState(()=>load(buildingId)),[hintStep,setHintStep]=useState(0);const mission=building?.missions[missionIndex],current=mission?.steps[step],doneCount=Object.keys(completed).length;const progress=useMemo(()=>mission?Math.round(((step+(completed[mission.id]?1:0))/mission.steps.length)*100):0,[mission,step,completed]);useEffect(()=>{try{localStorage.setItem(key(buildingId),JSON.stringify(completed))}catch{}},[buildingId,completed]);if(!building)return null;const choose=(ok,explain)=>{setHintStep(0);if(!ok){setMessage('Not quite. Look at the relationship and try again.');return}if(step===mission.steps.length-1){setCompleted(v=>({...v,[mission.id]:true}));setMessage(`Mission complete! ${explain}`)}else{setMessage(explain);setTimeout(()=>{setStep(s=>s+1);setMessage('Nice. Use that idea on the next control.')},350)}};const selectMission=i=>{setMissionIndex(i);setStep(0);setHintStep(0);setMessage(completed[building.missions[i].id]?'You solved this mission already. Try it again or choose another.':'Choose an answer to start the mission.')};const help=()=>{const hints=current?.hints||[];const next=Math.min(hintStep,hints.length-1);if(hints.length){setMessage(`🛟 ${hints[next]}`);setHintStep(v=>Math.min(v+1,hints.length))}};return <div className={`newInterior ${buildingId}Interior`}><header className="interiorHeader"><div><small>MY WORLD · INTERIOR</small><h1>{building.emoji} {building.name}</h1><p>{building.tagline}</p></div><button onClick={onExit}>← Back outside</button></header><div className="interiorScene"><div className="interiorBackdrop">{building.scene}</div><div className="interiorCounter"><b>{doneCount}/{building.missions.length} missions complete</b><span>Your completed missions are saved when you leave.</span></div></div><div className="interiorLayout"><aside className="missionShelf"><small>CHOOSE A MISSION</small>{building.missions.map((m,i)=><button key={m.id} className={i===missionIndex?'active':''} onClick={()=>selectMission(i)}><span>{completed[m.id]?'✅':i+1}</span><div><b>{m.title}</b><small>{completed[m.id]?'Complete':'Ready'}</small></div></button>)}</aside><section className="missionWorkbench"><div className="workbenchTop"><div><small>MISSION {missionIndex+1}</small><h2>{mission.title}</h2><p>{mission.story}</p></div><div className="missionGauge"><strong>{progress}%</strong><span>complete</span></div></div><div className="controlTrack">{mission.steps.map((s,i)=><div key={s.label} className={`${i<step||completed[mission.id]?'done':''} ${i===step&&!completed[mission.id]?'active':''}`}><span>{i<step||completed[mission.id]?'✓':i+1}</span><b>{s.label}</b></div>)}</div>{completed[mission.id]?<div className="missionComplete"><span>🌟</span><h3>Mission accomplished!</h3><p>You used the idea across several connected steps.</p><button onClick={()=>{setStep(0);setCompleted(v=>{const n={...v};delete n[mission.id];return n});setMessage('Try the mission again from the start.')}}>Replay mission</button></div>:<><div className="challengeCard"><small>CONTROL {step+1} OF {mission.steps.length}</small><h3>{current.label}</h3><p>{current.prompt}</p><div className="answerDeck">{current.choices.map(([label,ok])=><button key={label} onClick={()=>choose(ok,current.explain)}>{label}</button>)}</div><button className="interiorHelp" onClick={help}>🛟 I’m stuck — walk me through it</button></div><p className="interiorFeedback">{message}</p></>}</section></div></div>}
+
+
+const rulerJobs=[
+  {id:'half',label:'Make 2 equal pieces',length:1,pieces:2,cuts:[.5],prompt:'You have a 1-inch board. Tap the board where you would cut it into 2 equal pieces.',result:'Two equal pieces means each piece is 1/2 inch.'},
+  {id:'quarters',label:'Make 4 equal pieces',length:1,pieces:4,cuts:[.25,.5,.75],prompt:'You have a 1-inch board. Tap the board at the 3 places that make 4 equal pieces.',result:'Four equal pieces means each piece is 1/4 inch. Two quarters make 1/2 inch.'},
+  {id:'two-inch',label:'4 pieces from 2 inches',length:2,pieces:4,cuts:[.5,1,1.5],prompt:'You have a 2-inch board. Tap the board at the 3 places that make 4 equal pieces.',result:'A 2-inch board split into 4 equal pieces makes four 1/2-inch pieces.'}
+];
+const sameCuts=(a,b)=>a.length===b.length&&b.every(x=>a.some(y=>Math.abs(x-y)<.001));
+function CarpentryRulerBench(){
+  const[jobIndex,setJobIndex]=useState(0),[cuts,setCuts]=useState([]),[note,setNote]=useState('Start by tapping a cut point directly on the board.'),[showHint,setShowHint]=useState(false);
+  const job=rulerJobs[jobIndex];
+  const step=.25;
+  const ticks=Array.from({length:Math.round(job.length/step)+1},(_,i)=>i*step);
+  const possibleCuts=ticks.filter(v=>v>0&&v<job.length);
+  const toggle=value=>{
+    setCuts(v=>v.some(x=>Math.abs(x-value)<.001)?v.filter(x=>Math.abs(x-value)>=.001):[...v,value].sort((a,b)=>a-b));
+    setShowHint(false);
+    setNote('Good — now look at the piece sizes. Are they equal?');
+  };
+  const correct=sameCuts(cuts,job.cuts);
+  const chooseJob=i=>{setJobIndex(i);setCuts([]);setShowHint(false);setNote('Start by tapping a cut point directly on the board.')};
+  const check=()=>setNote(correct?'Nice work! '+job.result:'Not quite equal yet. Compare the piece lengths and move your cut marks.');
+  const fractionLabel=v=>{
+    const rounded=Math.round(v*4)/4;
+    if(rounded===.25)return '1/4"';
+    if(rounded===.5)return '1/2"';
+    if(rounded===.75)return '3/4"';
+    if(rounded===1)return '1"';
+    if(rounded===1.25)return '1 1/4"';
+    if(rounded===1.5)return '1 1/2"';
+    if(rounded===1.75)return '1 3/4"';
+    if(rounded===2)return '2"';
+    return rounded+'"';
+  };
+  const boundaries=[0,...cuts,job.length];
+  const segments=boundaries.slice(0,-1).map((start,i)=>({start,end:boundaries[i+1],size:boundaries[i+1]-start}));
+  return <section className="carpentryRulerBench intuitiveBench">
+    <div className="carpentryToolHead">
+      <div><small>WOODSHOP TOOL</small><h3>Cut the Board</h3><p>{job.prompt}</p></div>
+      <div className="cutGoal"><small>GOAL</small><strong>{job.pieces} equal pieces</strong><span>from {job.length}"</span></div>
+    </div>
+
+    <div className="woodshopSteps" aria-label="How to use the ruler bench">
+      <span className="done"><b>1</b> Choose a job</span>
+      <span className={cuts.length?'done':'active'}><b>2</b> Tap cut points</span>
+      <span className={correct?'done':cuts.length?'active':''}><b>3</b> Check the pieces</span>
+    </div>
+
+    <div className="rulerJobTabs">{rulerJobs.map((x,i)=><button key={x.id} className={i===jobIndex?'active':''} onClick={()=>chooseJob(i)}>{x.label}</button>)}</div>
+
+    <div className="rulerBenchSurface simpleRulerSurface">
+      <div className="boardInstruction">👇 Tap a dashed line to make a cut</div>
+
+      <div className="boardAndRuler">
+        <div className="woodBoard interactiveBoard">
+          <span className="grain g1"/><span className="grain g2"/><span className="grain g3"/>
+          {possibleCuts.map(v=>{
+            const selected=cuts.some(x=>Math.abs(x-v)<.001);
+            const target=job.cuts.some(x=>Math.abs(x-v)<.001);
+            return <button
+              key={v}
+              className={'boardCutTarget '+(selected?'selected ':'')+(showHint&&target?'hint ':'')}
+              style={{left:(v/job.length*100)+'%'}}
+              onClick={()=>toggle(v)}
+              aria-label={'Cut at '+fractionLabel(v)}
+            >
+              <i/><span>{fractionLabel(v)}</span>
+            </button>;
+          })}
+        </div>
+
+        <div className="alignedRuler">
+          {ticks.map(v=><span key={v} className={Number.isInteger(v)?'whole':Math.abs((v*2)%1)<.01?'half':'quarter'} style={{left:(v/job.length*100)+'%'}}><i/><b>{fractionLabel(v)}</b></span>)}
+        </div>
+      </div>
+
+      <div className="pieceResultArea">
+        <small>YOUR PIECES</small>
+        <div className="pieceSegments">
+          {segments.map((seg,i)=><span key={i} style={{flex:seg.size}}>
+            <b>{fractionLabel(seg.size)}</b>
+          </span>)}
+        </div>
+        <div className="pieceSummary">
+          <strong>{segments.length} piece{segments.length===1?'':'s'}</strong>
+          <span>{correct?'All equal ✓':'Try to make every piece the same length.'}</span>
+        </div>
+      </div>
+    </div>
+
+    <div className={'fractionDiscovery '+(correct?'revealed':'')}>
+      {correct?<><div className="fractionDiscoveryTitle">✨ What did you discover?</div>
+        {job.id==='half'&&<div className="fractionBlocks"><span><i/><i/></span><b>2 halves = 1 whole</b></div>}
+        {job.id==='quarters'&&<><div className="fractionBlocks quarters"><span><i/><i/><i/><i/></span><b>4 quarters = 1 whole</b></div><div className="fractionBlocks halves"><span><i/><i/></span><b>2 quarters = 1/2 inch</b></div></>}
+        {job.id==='two-inch'&&<div className="fractionBlocks quarters"><span><i/><i/><i/><i/></span><b>4 × 1/2" = 2"</b></div>}
+      </>:<><div className="fractionDiscoveryTitle">What will the cuts make?</div><p>Once the pieces are equal, we’ll connect them to halves, quarters, and whole inches.</p></>}
+    </div>
+
+    <div className="carpentryActions guidedActions">
+      <button onClick={()=>{setCuts([]);setShowHint(false);setNote('Board reset. Tap the board where you want to cut.')}} disabled={!cuts.length}>↶ Reset</button>
+      <button className="showCutHint" onClick={()=>{setShowHint(true);setNote('Hint: the glowing dashed lines show equal cut positions.')}}>💡 Show me</button>
+      <button className="carpentryCheck" onClick={check}>Check my cuts</button>
+    </div>
+    <p className={'carpentryNote '+(correct?'success':'')}>{correct?'✓ ':''}{note}</p>
+  </section>;
+}
+
+
+function SymmetryTrimBench(){
+  const[pos,setPos]=useState(null);
+  const correct=pos===2;
+  return <section className="symmetryTrimBench">
+    <div className="woodshopToolMiniHead"><small>WOODSHOP TOOL</small><h3>Mirror the Trim</h3><p>A cut sits 2 inches left of center. Tap where its matching cut belongs.</p></div>
+    <div className="symmetryFrame">
+      <div className="frameCenterLine"><span>CENTER</span></div>
+      <div className="fixedTrim left"><b>-2"</b></div>
+      {[1,2,3].map(v=><button key={v} className={pos===v?(v===2?'correct':'wrong'):''} style={{left:(50+v*13)+'%'}} onClick={()=>setPos(v)}><i/><span>+{v}"</span></button>)}
+    </div>
+    <p className={'toolMiniNote '+(correct?'success':'')}>{pos===null?'The matching piece should be the same distance from the center.':correct?'✓ Exactly — 2 inches left mirrors to 2 inches right.':'That distance does not mirror the left-side cut. Try the same distance on the right.'}</p>
+  </section>;
+}
+
+function FrameScaleBench(){
+  const[factor,setFactor]=useState(2);
+  const width=3*factor,length=4*factor,area=width*length;
+  return <section className="frameScaleBench">
+    <div className="woodshopToolMiniHead"><small>WOODSHOP TOOL</small><h3>Scale the Frame</h3><p>Change the scale factor and watch every dimension change together.</p></div>
+    <div className="scaleFactorButtons">{[1,2,3].map(v=><button key={v} className={factor===v?'active':''} onClick={()=>setFactor(v)}>{v}× scale</button>)}</div>
+    <div className="frameScaleVisual">
+      <div className="scaleModelCard">
+        <small>MODEL</small>
+        <div className="frameGrid original"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div>
+        <b>3 × 4</b>
+        <span>area = 12</span>
+      </div>
+      <div className="scaleArrow">× {factor} →</div>
+      <div className="scaleModelCard result">
+        <small>BUILD</small>
+        <div className="frameGrid scaled" style={{width:(96+factor*22)+'px',height:(72+factor*18)+'px'}}/>
+        <b>{width} × {length}</b>
+        <span>area = {area}</span>
+      </div>
+    </div>
+    <div className="scaleRelationshipRow">
+      <span><small>WIDTH</small><b>3 → {width}</b></span>
+      <span><small>LENGTH</small><b>4 → {length}</b></span>
+      <span><small>AREA</small><b>12 → {area}</b></span>
+    </div>
+    <p className="toolMiniNote">{factor===2?'At 2× scale, every length doubles: 3 × 4 becomes 6 × 8. The area becomes 4× as large.':'Change the scale factor and watch all three relationships update together.'}</p>
+  </section>;
+}
+
+export function NewBuildingInterior({buildingId,onExit}){const building=BUILDINGS[buildingId],[missionIndex,setMissionIndex]=useState(0),[step,setStep]=useState(0),[message,setMessage]=useState('Choose an answer to start the mission.'),[completed,setCompleted]=useState(()=>load(buildingId)),[hintStep,setHintStep]=useState(0);const mission=building?.missions[missionIndex],current=mission?.steps[step],doneCount=Object.keys(completed).length;const progress=useMemo(()=>mission?Math.round(((step+(completed[mission.id]?1:0))/mission.steps.length)*100):0,[mission,step,completed]);useEffect(()=>{try{localStorage.setItem(key(buildingId),JSON.stringify(completed))}catch{}},[buildingId,completed]);if(!building)return null;const choose=(ok,explain)=>{setHintStep(0);if(!ok){setMessage('Not quite. Look at the relationship and try again.');return}if(step===mission.steps.length-1){setCompleted(v=>({...v,[mission.id]:true}));setMessage(`Mission complete! ${explain}`)}else{setMessage(explain);setTimeout(()=>{setStep(s=>s+1);setMessage('Nice. Use that idea on the next control.')},350)}};const selectMission=i=>{setMissionIndex(i);setStep(0);setHintStep(0);setMessage(completed[building.missions[i].id]?'You solved this mission already. Try it again or choose another.':'Choose an answer to start the mission.')};const help=()=>{const hints=current?.hints||[];const next=Math.min(hintStep,hints.length-1);if(hints.length){setMessage(`🛟 ${hints[next]}`);setHintStep(v=>Math.min(v+1,hints.length))}};return <div className={`newInterior ${buildingId}Interior`}><header className="interiorHeader"><div><small>MY WORLD · INTERIOR</small><h1>{building.emoji} {building.name}</h1><p>{building.tagline}</p></div><button onClick={onExit}>← Back outside</button></header><div className="interiorScene"><div className="interiorBackdrop">{building.scene}</div><div className="interiorCounter"><b>{doneCount}/{building.missions.length} missions complete</b><span>Your completed missions are saved when you leave.</span></div></div><div className="interiorLayout"><aside className="missionShelf"><small>CHOOSE A MISSION</small>{building.missions.map((m,i)=><button key={m.id} className={i===missionIndex?'active':''} onClick={()=>selectMission(i)}><span>{completed[m.id]?'✅':i+1}</span><div><b>{m.title}</b><small>{completed[m.id]?'Complete':'Ready'}</small></div></button>)}</aside><section className="missionWorkbench"><div className="workbenchTop"><div><small>MISSION {missionIndex+1}</small><h2>{mission.title}</h2><p>{mission.story}</p></div><div className="missionGauge"><strong>{progress}%</strong><span>complete</span></div></div><div className="controlTrack">{mission.steps.map((s,i)=><div key={s.label} className={`${i<step||completed[mission.id]?'done':''} ${i===step&&!completed[mission.id]?'active':''}`}><span>{i<step||completed[mission.id]?'✓':i+1}</span><b>{s.label}</b></div>)}</div>{buildingId==='architect'&&mission.id==='cuts'&&<CarpentryRulerBench/>}{buildingId==='architect'&&mission.id==='facade'&&<SymmetryTrimBench/>}{buildingId==='architect'&&mission.id==='courtyard'&&<FrameScaleBench/>}{completed[mission.id]?<div className="missionComplete"><span>🌟</span><h3>Mission accomplished!</h3><p>You used the idea across several connected steps.</p><button onClick={()=>{setStep(0);setCompleted(v=>{const n={...v};delete n[mission.id];return n});setMessage('Try the mission again from the start.')}}>Replay mission</button></div>:<><div className="challengeCard"><small>CONTROL {step+1} OF {mission.steps.length}</small><h3>{current.label}</h3><p>{current.prompt}</p><div className="answerDeck">{current.choices.map(([label,ok])=><button key={label} onClick={()=>choose(ok,current.explain)}>{label}</button>)}</div><button className="interiorHelp" onClick={help}>🛟 I’m stuck — walk me through it</button></div><p className="interiorFeedback">{message}</p></>}</section></div></div>}
