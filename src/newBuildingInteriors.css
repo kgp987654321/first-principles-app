@@ -1,1 +1,1116 @@
 .newInterior{min-height:100vh;padding:24px;background:linear-gradient(#eaf7ff,#f7fbef);color:#17213a}.interiorHeader{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 22px;border-radius:24px;background:white;box-shadow:0 8px 25px rgba(44,60,85,.08)}.interiorHeader small,.missionShelf>small,.workbenchTop small,.challengeCard>small{font-weight:950;letter-spacing:.09em;color:#6d5dfc}.interiorHeader h1{margin:3px 0;font-size:32px}.interiorHeader p{margin:0;color:#667085}.interiorHeader button{border:2px solid #e1e5ee;border-radius:14px;background:white;padding:11px 16px;font-weight:900}.interiorScene{max-width:1180px;height:210px;margin:18px auto;position:relative;overflow:hidden;border-radius:28px;background:linear-gradient(#9edbf4 0 45%,#d9caa2 45%);border:5px solid white;box-shadow:0 9px 25px rgba(44,60,85,.1)}.architectInterior .interiorScene{background:linear-gradient(#c9e7ff 0 42%,#d9c3a4 42%)}.observatoryInterior .interiorScene{background:linear-gradient(#1d2852 0 65%,#51496e 65%)}.interiorBackdrop{height:100%;display:grid;place-items:center;font-size:72px;letter-spacing:24px;filter:drop-shadow(0 8px 5px rgba(0,0,0,.18))}.interiorCounter{position:absolute;left:18px;bottom:15px;padding:10px 14px;border-radius:15px;background:rgba(255,255,255,.94);display:flex;flex-direction:column}.interiorCounter b{font-size:12px}.interiorCounter span{font-size:9px;color:#6d7280}.interiorLayout{max-width:1180px;margin:auto;display:grid;grid-template-columns:280px 1fr;gap:18px}.missionShelf,.missionWorkbench{background:white;border-radius:24px;padding:18px;box-shadow:0 8px 25px rgba(44,60,85,.08)}.missionShelf{align-self:start}.missionShelf>button{width:100%;display:grid;grid-template-columns:38px 1fr;gap:9px;align-items:center;text-align:left;margin-top:10px;padding:12px;border:2px solid #e6e9f0;border-radius:16px;background:#fafbfe}.missionShelf>button.active{border-color:#6d5dfc;background:#f1efff}.missionShelf>button>span{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;background:white;font-weight:950}.missionShelf b,.missionShelf small{display:block}.missionShelf small{font-size:8px;color:#788091}.workbenchTop{display:flex;justify-content:space-between;gap:20px}.workbenchTop h2{margin:3px 0;font-size:27px}.workbenchTop p{margin:4px 0;color:#626b7c}.missionGauge{width:82px;height:82px;border-radius:50%;display:grid;place-content:center;text-align:center;background:#f1efff;border:7px solid #d7d1ff}.missionGauge strong{font-size:19px}.missionGauge span{font-size:8px}.controlTrack{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}.controlTrack>div{display:flex;align-items:center;gap:8px;padding:10px;border:2px solid #e4e7ee;border-radius:14px;color:#7a8190}.controlTrack span{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:#edf0f5;font-weight:950}.controlTrack .active{border-color:#6d5dfc;background:#f3f1ff;color:#382e87}.controlTrack .done{border-color:#8ed09d;background:#f0faf2;color:#2e6b3c}.challengeCard{padding:22px;border-radius:22px;background:linear-gradient(145deg,#f7faff,#fff9ec);border:3px solid #e4e7ef}.challengeCard h3{font-size:24px;margin:4px 0}.challengeCard p{font-size:17px;line-height:1.45}.answerDeck{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.answerDeck button{min-height:68px;border:2px solid #dce1eb;border-radius:17px;background:white;font-size:18px;font-weight:950;box-shadow:0 4px 0 #e2e5eb}.answerDeck button:hover{transform:translateY(-2px);border-color:#6d5dfc}.interiorFeedback{font-weight:800;color:#4f586b}.missionComplete{text-align:center;padding:30px;border-radius:22px;background:#f0faf2;border:3px solid #a5d9af}.missionComplete>span{font-size:55px}.missionComplete h3{font-size:26px;margin:4px}.missionComplete button{padding:10px 16px;border:0;border-radius:13px;background:#6d5dfc;color:white;font-weight:900}@media(max-width:760px){.newInterior{padding:10px}.interiorHeader{align-items:flex-start}.interiorHeader h1{font-size:23px}.interiorScene{height:160px}.interiorBackdrop{font-size:48px}.interiorLayout{grid-template-columns:1fr}.missionShelf{display:grid;grid-template-columns:1fr 1fr;gap:8px}.missionShelf>small{grid-column:1/-1}.missionShelf>button{margin:0}.answerDeck{grid-template-columns:1fr}.workbenchTop h2{font-size:22px}}
+
+
+/* Geometry Workshop: immersive carpentry woodshop */
+.architectInterior{
+  background:
+    radial-gradient(circle at 86% 8%,rgba(255,232,161,.28),transparent 24%),
+    linear-gradient(#f5f0e6,#edf3ea)
+}
+.architectInterior .interiorHeader{
+  background:linear-gradient(135deg,#fffaf0,#f2eadb 55%,#e8f1e8);
+  border-color:#dfccb0;
+  box-shadow:0 9px 24px rgba(82,59,40,.10)
+}
+.architectInterior .interiorHeader small{color:#87633f}
+.architectInterior .interiorScene{
+  position:relative;
+  height:250px;
+  overflow:hidden;
+  background:
+    linear-gradient(rgba(255,255,255,.06),rgba(255,255,255,.06)),
+    linear-gradient(#dfceb6 0 68%,#b9875c 68%);
+  border:6px solid #8b6548;
+  box-shadow:inset 0 0 0 3px #f6e9d6,0 12px 25px rgba(68,47,31,.16)
+}
+.architectInterior .interiorScene:before{
+  content:'';
+  position:absolute;
+  left:28px;top:24px;
+  width:380px;height:115px;
+  border:7px solid #8a664c;
+  border-radius:10px;
+  background:
+    radial-gradient(circle,#8c684d 0 2px,transparent 2.4px) 0 0/24px 24px,
+    #d7b78e;
+  box-shadow:0 7px 10px #0002
+}
+.architectInterior .interiorScene:after{
+  content:'HAMMER   SQUARE   RULER   CLAMP';
+  position:absolute;
+  left:52px;top:51px;
+  width:330px;
+  height:68px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  color:#684c39;
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.25em;
+  border-bottom:9px solid #6d4b34;
+  background:
+    linear-gradient(90deg,transparent 0 12%,#7f8790 12% 16%,transparent 16% 33%,#e7b84f 33% 39%,transparent 39% 55%,#d9b046 55% 62%,transparent 62% 78%,#a15f49 78% 84%,transparent 84%);
+  opacity:.95
+}
+.architectInterior .interiorBackdrop{
+  position:absolute;
+  right:36px;
+  top:34px;
+  width:330px;
+  height:140px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:
+    linear-gradient(rgba(69,95,117,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(69,95,117,.08) 1px,transparent 1px),
+    #f8f4e9;
+  background-size:18px 18px;
+  border:7px solid #8d6a4f;
+  box-shadow:0 7px 10px #0002;
+  font-size:48px
+}
+.architectInterior .interiorBackdrop:before{
+  content:'SHOP PLAN';
+  position:absolute;
+  left:12px;top:8px;
+  font-size:8px;
+  letter-spacing:.12em;
+  font-weight:950;
+  color:#7d6859
+}
+.architectInterior .interiorCounter{
+  z-index:3;
+  background:#fff8ea;
+  border-color:#d7bd98
+}
+.architectInterior .interiorLayout{
+  grid-template-columns:285px 1fr;
+  gap:18px
+}
+.architectInterior .missionShelf{
+  background:linear-gradient(#f5ead8,#ead7bb);
+  border-color:#d4b48b;
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.45),0 10px 24px rgba(77,53,35,.10)
+}
+.architectInterior .missionShelf>small{color:#87633f}
+.architectInterior .missionShelf>button{
+  background:#fffaf0;
+  border-color:#dbc5a7
+}
+.architectInterior .missionShelf>button.active{
+  border-color:#b77943;
+  background:#fff1dd;
+  box-shadow:0 4px 0 rgba(155,99,55,.13)
+}
+.architectInterior .missionWorkbench{
+  background:linear-gradient(#fffdf8,#f8f2e8);
+  border-color:#e0cfb9
+}
+.architectInterior .workbenchTop small{color:#9a6538}
+.architectInterior .controlTrack>div.active{
+  border-color:#b77943;
+  background:#fff1df
+}
+
+/* Interactive ruler bench */
+.carpentryRulerBench{
+  position:relative;
+  margin:22px 0 20px;
+  padding:18px;
+  border:3px solid #c49362;
+  border-radius:20px;
+  background:
+    linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)),
+    repeating-linear-gradient(90deg,#e4c093 0 56px,#d8ad79 56px 58px);
+  box-shadow:0 9px 0 #94643f,0 15px 24px rgba(78,51,31,.14)
+}
+.carpentryRulerBench:before{
+  content:'RULER BENCH';
+  position:absolute;
+  left:18px;top:-14px;
+  padding:5px 10px;
+  border-radius:8px;
+  background:#6e4b34;
+  color:#fff6e9;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.11em;
+  box-shadow:0 3px 0 #4e3526
+}
+.carpentryToolHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:14px
+}
+.carpentryToolHead h3{margin:2px 0 4px;font-size:21px;color:#50392a}
+.carpentryToolHead p{margin:0;color:#715b4b;font-size:12px}
+.cutGoal{
+  min-width:110px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:#fff7e8;
+  border:2px solid #d9b98f;
+  text-align:center
+}
+.cutGoal small{display:block;font-size:7px;color:#8c6647}
+.cutGoal strong{font-size:22px;color:#563b2a}
+.rulerJobTabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin:14px 0
+}
+.rulerJobTabs button{
+  min-height:42px;
+  padding:7px 8px;
+  border:2px solid #dfccb5;
+  background:#fffdf8;
+  font-size:9px;
+  font-weight:850
+}
+.rulerJobTabs button.active{
+  background:#fff0d9;
+  border-color:#b77943;
+  color:#865128;
+  box-shadow:0 3px 0 #dab58e
+}
+.rulerBenchSurface{
+  position:relative;
+  min-height:235px;
+  padding:36px 24px 22px;
+  overflow:hidden;
+  border-radius:17px;
+  background:
+    linear-gradient(rgba(76,86,93,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(76,86,93,.055) 1px,transparent 1px),
+    #f8f5ee;
+  background-size:22px 22px;
+  border:3px solid #d5c4ad;
+  box-shadow:inset 0 6px 14px rgba(82,57,37,.05)
+}
+.woodshopRuler{
+  position:relative;
+  height:58px;
+  margin:0 2% 18px;
+  border:3px solid #c19033;
+  border-radius:7px;
+  background:
+    repeating-linear-gradient(90deg,#f2c85a 0 12.2%,#e7b742 12.2% 12.5%);
+  box-shadow:0 5px 0 #a87928
+}
+.woodshopRuler:before{
+  content:'INCHES';
+  position:absolute;
+  right:8px;bottom:4px;
+  font-size:6px;
+  font-weight:950;
+  letter-spacing:.1em;
+  color:#79591d
+}
+.woodshopRuler button{
+  position:absolute;
+  top:0;
+  width:28px;
+  height:73px;
+  min-height:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  transform:translateX(-50%);
+  cursor:pointer;
+  overflow:visible
+}
+.woodshopRuler button:disabled{opacity:.18}
+.woodshopRuler button i{
+  display:block;
+  width:2px;
+  height:25px;
+  margin:0 auto;
+  background:#6d521f
+}
+.woodshopRuler button.half i{height:34px}
+.woodshopRuler button.whole i{height:45px;width:3px}
+.woodshopRuler button.quarter i{height:22px}
+.woodshopRuler button span{
+  position:absolute;
+  top:42px;
+  left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font-size:7px;
+  font-weight:950;
+  color:#5c441c
+}
+.woodshopRuler button.cut i{
+  background:#d54f45;
+  width:4px;
+  box-shadow:0 0 0 3px rgba(213,79,69,.14)
+}
+.woodBoard{
+  position:relative;
+  min-width:50%;
+  height:72px;
+  border:3px solid #8d5c31;
+  border-radius:7px;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.14),transparent 28%,rgba(98,58,27,.07)),
+    #c98a4e;
+  box-shadow:0 7px 0 #80502c,0 11px 13px rgba(73,44,25,.15);
+  transition:width .25s ease
+}
+.woodBoard .grain{
+  position:absolute;
+  height:3px;
+  border-radius:50%;
+  background:rgba(105,61,29,.26)
+}
+.woodBoard .g1{left:8%;right:10%;top:18px}
+.woodBoard .g2{left:20%;right:5%;top:37px}
+.woodBoard .g3{left:5%;right:30%;top:53px}
+.sawCut{
+  position:absolute;
+  top:-12px;
+  bottom:-12px;
+  width:3px;
+  border-left:3px dashed #f8e8d3;
+  transform:translateX(-50%)
+}
+.sawCut b{
+  position:absolute;
+  top:-21px;left:-11px;
+  font-size:14px;
+  transform:rotate(-30deg)
+}
+.pieceReadout{
+  display:flex;
+  margin-top:9px;
+  min-height:28px;
+  gap:5px;
+  align-items:center
+}
+.pieceReadout span{
+  min-width:52px;
+  padding:5px 7px;
+  border-radius:999px;
+  background:#fff3dd;
+  border:1px solid #deb98c;
+  text-align:center;
+  font-size:8px;
+  font-weight:950;
+  color:#714b2e
+}
+.fractionRelationship{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto;
+  gap:8px;
+  align-items:center;
+  margin-top:13px;
+  padding:11px;
+  border-radius:14px;
+  background:#fff9ed;
+  border:2px solid #e0c9a7
+}
+.fractionRelationship>span{
+  position:relative;
+  display:flex;
+  height:34px;
+  border-radius:7px;
+  overflow:hidden;
+  background:#d99b58
+}
+.fractionRelationship>span b{
+  position:absolute;
+  z-index:2;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:#5e3e26;
+  font-size:8px
+}
+.fractionRelationship>span i{
+  flex:1;
+  border-right:2px solid #fff3df
+}
+.fractionRelationship>span i:last-child{border-right:0}
+.fractionRelationship>strong{
+  font-size:9px;
+  text-align:center;
+  color:#71543c
+}
+.carpentryActions{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:8px;
+  margin-top:12px
+}
+.carpentryCheck{
+  background:#a96838;
+  border-color:#a96838;
+  color:white;
+  font-weight:900;
+  box-shadow:0 4px 0 #774821
+}
+.carpentryNote{
+  min-height:40px;
+  margin:10px 0 0;
+  padding:10px 12px;
+  border-radius:12px;
+  background:#fffaf1;
+  border:1px solid #e1ceb4;
+  color:#6b5544;
+  font-size:10px;
+  font-weight:800
+}
+.carpentryNote.success{
+  background:#eff8ed;
+  border-color:#a8d09f;
+  color:#426642
+}
+
+@media(max-width:850px){
+  .architectInterior .interiorLayout{grid-template-columns:1fr}
+  .fractionRelationship{grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+  .architectInterior .interiorScene{height:205px}
+  .architectInterior .interiorScene:before{left:15px;width:240px;height:95px}
+  .architectInterior .interiorScene:after{left:28px;width:210px;font-size:7px}
+  .architectInterior .interiorBackdrop{right:15px;width:210px;height:115px;font-size:34px}
+  .carpentryToolHead{display:grid}
+  .rulerJobTabs{grid-template-columns:1fr}
+  .fractionRelationship{grid-template-columns:1fr}
+  .carpentryActions{grid-template-columns:1fr}
+}
+
+
+/* Intuitive woodshop ruler bench — board-first interaction */
+.intuitiveBench{
+  padding:20px;
+  background:
+    linear-gradient(rgba(255,255,255,.76),rgba(255,255,255,.76)),
+    repeating-linear-gradient(90deg,#e3bf91 0 60px,#d7aa76 60px 62px)
+}
+.intuitiveBench .carpentryToolHead{margin-bottom:12px}
+.intuitiveBench .cutGoal{
+  min-width:145px;
+  background:#fff8e9
+}
+.intuitiveBench .cutGoal strong{
+  display:block;
+  font-size:17px;
+  line-height:1.1
+}
+.intuitiveBench .cutGoal span{
+  display:block;
+  margin-top:3px;
+  font-size:9px;
+  color:#8b6a50
+}
+.woodshopSteps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin:12px 0
+}
+.woodshopSteps>span{
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border:2px solid #e2d4c2;
+  border-radius:12px;
+  background:#fffdfa;
+  color:#8a796b;
+  font-size:9px;
+  font-weight:900
+}
+.woodshopSteps>span b{
+  width:22px;height:22px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#ece6df;
+  color:#75685c
+}
+.woodshopSteps>span.active{
+  border-color:#c1814c;
+  background:#fff1df;
+  color:#754b2d
+}
+.woodshopSteps>span.active b{
+  background:#b96f39;
+  color:#fff
+}
+.woodshopSteps>span.done{
+  border-color:#a9cda8;
+  background:#f2f8ef;
+  color:#4f704d
+}
+.woodshopSteps>span.done b{
+  background:#78a774;
+  color:#fff
+}
+
+.intuitiveBench .rulerJobTabs{
+  margin:10px 0 14px
+}
+.intuitiveBench .rulerJobTabs button{
+  min-height:46px;
+  border-radius:13px;
+  font-size:9px
+}
+
+.simpleRulerSurface{
+  padding:22px 24px 18px;
+  min-height:0
+}
+.boardInstruction{
+  margin:0 auto 14px;
+  width:max-content;
+  max-width:100%;
+  padding:8px 13px;
+  border-radius:999px;
+  background:#fff0d9;
+  border:2px solid #d6a975;
+  color:#744a2e;
+  font-size:10px;
+  font-weight:950;
+  box-shadow:0 3px 0 #e4c49d
+}
+.boardAndRuler{
+  width:min(760px,94%);
+  margin:0 auto
+}
+.interactiveBoard{
+  width:100%!important;
+  min-width:0;
+  height:92px;
+  overflow:visible;
+  border-radius:9px;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.13),transparent 25%,rgba(88,50,24,.05)),
+    #c9894d;
+  box-shadow:0 8px 0 #7b4d2b,0 13px 17px rgba(75,44,24,.16)
+}
+.boardCutTarget{
+  position:absolute;
+  top:-13px;
+  bottom:-13px;
+  width:48px;
+  min-height:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  transform:translateX(-50%);
+  cursor:pointer;
+  overflow:visible;
+  z-index:5
+}
+.boardCutTarget i{
+  position:absolute;
+  left:50%;
+  top:0;
+  bottom:0;
+  width:0;
+  border-left:4px dashed rgba(255,248,231,.82);
+  transform:translateX(-50%);
+  transition:border-color .15s,filter .15s
+}
+.boardCutTarget span{
+  position:absolute;
+  top:-29px;
+  left:50%;
+  transform:translateX(-50%);
+  min-width:48px;
+  padding:4px 5px;
+  border-radius:8px;
+  background:#fffaf1;
+  border:2px solid #dec3a2;
+  color:#67482f;
+  font-size:8px;
+  font-weight:950;
+  box-shadow:0 2px 4px #0001
+}
+.boardCutTarget:hover i{
+  border-left-color:#f7d267
+}
+.boardCutTarget:hover span{
+  border-color:#d1985d;
+  background:#fff1d9
+}
+.boardCutTarget.selected i{
+  border-left-style:solid;
+  border-left-color:#e95049;
+  box-shadow:0 0 0 4px rgba(233,80,73,.12)
+}
+.boardCutTarget.selected span{
+  color:#9b3d37;
+  border-color:#e58b83;
+  background:#fff0ee
+}
+.boardCutTarget.selected:after{
+  content:'✂';
+  position:absolute;
+  left:50%;
+  bottom:-29px;
+  transform:translateX(-50%) rotate(-24deg);
+  font-size:17px;
+  filter:drop-shadow(0 2px 1px #0002)
+}
+.boardCutTarget.hint i{
+  border-left-color:#ffcf4e;
+  filter:drop-shadow(0 0 7px rgba(255,207,78,.8))
+}
+.boardCutTarget.hint span{
+  background:#fff7c9;
+  border-color:#e4bb3f
+}
+
+.alignedRuler{
+  position:relative;
+  height:66px;
+  margin-top:19px;
+  border:3px solid #bc8b31;
+  border-radius:7px;
+  background:#efc85a;
+  box-shadow:0 5px 0 #966b26
+}
+.alignedRuler:before{
+  content:'RULER';
+  position:absolute;
+  right:8px;
+  bottom:5px;
+  font-size:6px;
+  font-weight:950;
+  letter-spacing:.12em;
+  color:#73551f
+}
+.alignedRuler>span{
+  position:absolute;
+  top:0;
+  width:1px;
+  height:100%;
+  transform:translateX(-50%)
+}
+.alignedRuler>span i{
+  display:block;
+  width:2px;
+  height:24px;
+  margin:0 auto;
+  background:#664b1c
+}
+.alignedRuler>span.half i{height:34px}
+.alignedRuler>span.whole i{height:44px;width:3px}
+.alignedRuler>span b{
+  position:absolute;
+  top:43px;
+  left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font-size:7px;
+  color:#5f461b
+}
+
+.pieceResultArea{
+  margin-top:18px;
+  padding:13px;
+  border-radius:14px;
+  background:#fffdf8;
+  border:2px solid #dfcfbb
+}
+.pieceResultArea>small{
+  display:block;
+  margin-bottom:8px;
+  font-size:7px;
+  letter-spacing:.12em;
+  color:#8c715c;
+  font-weight:950
+}
+.pieceSegments{
+  display:flex;
+  height:54px;
+  gap:4px
+}
+.pieceSegments>span{
+  min-width:26px;
+  display:grid;
+  place-items:center;
+  border:2px solid #8b5a32;
+  border-radius:6px;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.12),transparent),
+    #ce8d50;
+  box-shadow:0 4px 0 #7d4d2a
+}
+.pieceSegments>span b{
+  font-size:9px;
+  color:#533823
+}
+.pieceSummary{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:9px;
+  align-items:center
+}
+.pieceSummary strong{font-size:10px;color:#584233}
+.pieceSummary span{font-size:9px;color:#806b5c}
+
+.fractionDiscovery{
+  margin-top:13px;
+  min-height:78px;
+  padding:13px;
+  border-radius:14px;
+  border:2px dashed #d7c8b5;
+  background:#fffdf9;
+  color:#7b6c60
+}
+.fractionDiscovery.revealed{
+  border-style:solid;
+  border-color:#a8cda5;
+  background:#f1f8ef;
+  color:#456247
+}
+.fractionDiscoveryTitle{
+  margin-bottom:8px;
+  font-size:10px;
+  font-weight:950
+}
+.fractionDiscovery p{
+  margin:0;
+  font-size:9px
+}
+.fractionBlocks{
+  display:grid;
+  grid-template-columns:1.2fr auto;
+  gap:10px;
+  align-items:center
+}
+.fractionBlocks+ .fractionBlocks{margin-top:8px}
+.fractionBlocks>span{
+  display:flex;
+  height:38px;
+  overflow:hidden;
+  border-radius:7px;
+  border:2px solid #966139;
+  background:#d59758
+}
+.fractionBlocks>span i{
+  flex:1;
+  border-right:3px solid #fff5e7
+}
+.fractionBlocks>span i:last-child{border-right:0}
+.fractionBlocks>b{
+  font-size:10px;
+  color:#49674b
+}
+
+.guidedActions{
+  grid-template-columns:auto auto 1fr
+}
+.showCutHint{
+  background:#fff6cf;
+  border-color:#e0bb4d;
+  color:#75581d;
+  font-weight:900
+}
+.guidedActions button:disabled{
+  opacity:.45;
+  cursor:not-allowed
+}
+
+@media(max-width:700px){
+  .woodshopSteps{grid-template-columns:1fr}
+  .boardAndRuler{width:100%}
+  .interactiveBoard{height:78px}
+  .boardCutTarget span{font-size:7px;min-width:43px}
+  .pieceSummary{display:grid}
+  .guidedActions{grid-template-columns:1fr}
+}
+
+
+/* Mission-specific Geometry Woodshop tools */
+.woodshopToolMiniHead small{
+  display:block;
+  color:#956238;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.11em
+}
+.woodshopToolMiniHead h3{
+  margin:2px 0 4px;
+  font-size:20px;
+  color:#4f392b
+}
+.woodshopToolMiniHead p{
+  margin:0;
+  font-size:11px;
+  color:#735d4d
+}
+.symmetryTrimBench,.frameScaleBench{
+  margin:20px 0;
+  padding:17px;
+  border:3px solid #c79a70;
+  border-radius:19px;
+  background:linear-gradient(#fffdf7,#f7edde);
+  box-shadow:0 8px 0 #9f704a,0 14px 22px rgba(73,49,32,.12)
+}
+.symmetryFrame{
+  position:relative;
+  height:190px;
+  margin-top:14px;
+  overflow:hidden;
+  border-radius:15px;
+  border:3px solid #d7c3aa;
+  background:
+    linear-gradient(rgba(82,98,109,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(82,98,109,.055) 1px,transparent 1px),
+    #faf7f0;
+  background-size:22px 22px
+}
+.frameCenterLine{
+  position:absolute;
+  left:50%;top:16px;bottom:16px;
+  width:0;
+  border-left:4px dashed #7b6656;
+  transform:translateX(-50%)
+}
+.frameCenterLine span{
+  position:absolute;
+  top:-8px;left:50%;
+  transform:translate(-50%,-100%);
+  font-size:7px;
+  font-weight:950;
+  color:#6d5a4c
+}
+.fixedTrim{
+  position:absolute;
+  top:64px;
+  width:24px;height:72px;
+  border-radius:5px;
+  background:#bf7845;
+  border:3px solid #86502e;
+  box-shadow:0 5px 0 #704123
+}
+.fixedTrim.left{left:23%}
+.fixedTrim b{
+  position:absolute;
+  top:-24px;left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font-size:9px;
+  color:#6d4a31
+}
+.symmetryFrame button{
+  position:absolute;
+  top:60px;
+  width:54px;height:83px;
+  padding:0;
+  border:2px dashed #bca98f;
+  border-radius:8px;
+  background:#fffdf9;
+  transform:translateX(-50%)
+}
+.symmetryFrame button i{
+  display:block;
+  width:20px;height:60px;
+  margin:6px auto 2px;
+  border-radius:5px;
+  background:#d9a174;
+  border:2px solid #9d704c
+}
+.symmetryFrame button span{
+  font-size:8px;
+  font-weight:900
+}
+.symmetryFrame button.correct{
+  border-style:solid;
+  border-color:#78a675;
+  background:#eff8ee
+}
+.symmetryFrame button.wrong{
+  border-style:solid;
+  border-color:#d98b84;
+  background:#fff1ef
+}
+.toolMiniNote{
+  margin:11px 0 0;
+  padding:10px 12px;
+  border-radius:11px;
+  background:#fffaf2;
+  border:1px solid #e2cfb6;
+  font-size:10px;
+  font-weight:800;
+  color:#6d5848
+}
+.toolMiniNote.success{
+  background:#eff8ed;
+  border-color:#a8d09f;
+  color:#426642
+}
+.scaleFactorButtons{
+  display:flex;
+  gap:7px;
+  margin:13px 0
+}
+.scaleFactorButtons button{
+  flex:1;
+  min-height:40px;
+  padding:7px 10px;
+  border:2px solid #dfccb5;
+  border-radius:12px;
+  background:#fffdfa;
+  font-weight:900
+}
+.scaleFactorButtons button.active{
+  border-color:#b77943;
+  background:#fff0db;
+  color:#814f2d
+}
+.frameScaleVisual{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:16px;
+  align-items:center;
+  padding:16px;
+  border-radius:15px;
+  background:#faf7f0;
+  border:3px solid #d7c3aa
+}
+.scaleModelCard{
+  display:grid;
+  justify-items:center;
+  gap:6px
+}
+.scaleModelCard small{
+  font-size:7px;
+  font-weight:950;
+  letter-spacing:.1em;
+  color:#806954
+}
+.scaleModelCard b{
+  font-size:18px;
+  color:#503a2b
+}
+.scaleModelCard span{
+  font-size:9px;
+  color:#7c6858
+}
+.frameGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(3,1fr);
+  width:96px;
+  height:72px;
+  border:4px solid #8a5a34;
+  border-radius:5px;
+  background:
+    linear-gradient(rgba(128,88,54,.18) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(128,88,54,.18) 1px,transparent 1px),
+    #e2b17b;
+  background-size:25% 33.333%;
+  box-shadow:0 5px 0 #6f4326
+}
+.frameGrid.scaled{
+  transition:width .25s ease,height .25s ease;
+  background-size:25% 33.333%
+}
+.scaleArrow{
+  font-size:18px;
+  font-weight:950;
+  color:#9a6537
+}
+.scaleRelationshipRow{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px
+}
+.scaleRelationshipRow span{
+  padding:10px;
+  border-radius:12px;
+  background:#fff8eb;
+  border:2px solid #e0c7a7;
+  text-align:center
+}
+.scaleRelationshipRow small{
+  display:block;
+  font-size:7px;
+  font-weight:950;
+  color:#8d6b50
+}
+.scaleRelationshipRow b{
+  font-size:16px;
+  color:#513a2b
+}
+@media(max-width:700px){
+  .frameScaleVisual{grid-template-columns:1fr}
+  .scaleArrow{transform:rotate(90deg)}
+  .scaleRelationshipRow{grid-template-columns:1fr}
+}
+
+
+/* Think Tank — cozy reasoning lounge */
+.thinkInterior{
+  background:
+    radial-gradient(circle at 85% 8%,rgba(255,215,133,.18),transparent 24%),
+    linear-gradient(#f2eef8,#eef2f7)
+}
+.thinkInterior .interiorHeader{
+  background:linear-gradient(135deg,#fffaf4,#f4ecfb 52%,#edf1fb);
+  border-color:#d9cbea;
+  box-shadow:0 9px 24px rgba(74,55,95,.10)
+}
+.thinkInterior .interiorHeader small{color:#8061a4}
+.thinkInterior .interiorScene{
+  position:relative;
+  height:245px;
+  overflow:hidden;
+  background:linear-gradient(#d9c7e8 0 68%,#9a7457 68%);
+  border:6px solid #76543f;
+  box-shadow:inset 0 0 0 3px #f5e9dc,0 12px 25px rgba(61,42,73,.16)
+}
+.thinkInterior .interiorScene:before{
+  content:'';
+  position:absolute;
+  left:26px;top:28px;
+  width:320px;height:128px;
+  border:7px solid #76543f;
+  border-radius:12px;
+  background:
+    linear-gradient(90deg,transparent 32%,rgba(255,255,255,.12) 32% 34%,transparent 34% 66%,rgba(255,255,255,.12) 66% 68%,transparent 68%),
+    linear-gradient(#57445f,#4b394f);
+  box-shadow:0 7px 12px rgba(0,0,0,.18)
+}
+.thinkInterior .interiorScene:after{
+  content:'ANALOGIES   LOGIC   PATTERNS   CLUES';
+  position:absolute;
+  left:53px;top:58px;
+  width:267px;
+  min-height:68px;
+  display:grid;
+  place-items:center;
+  padding:10px;
+  color:#f9e8a8;
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-align:center;
+  background:
+    radial-gradient(circle at 18% 28%,#efb54f 0 3px,transparent 4px),
+    radial-gradient(circle at 75% 70%,#82c7d9 0 3px,transparent 4px),
+    radial-gradient(circle at 50% 45%,#d57cb6 0 3px,transparent 4px)
+}
+.thinkInterior .interiorBackdrop{
+  position:absolute;
+  right:36px;
+  top:34px;
+  width:300px;
+  height:135px;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  background:linear-gradient(#f8efe6,#ead7ca);
+  border:7px solid #795843;
+  box-shadow:0 7px 10px rgba(0,0,0,.16);
+  font-size:44px
+}
+.thinkInterior .interiorBackdrop:before{
+  content:'PUZZLE TABLE';
+  position:absolute;
+  left:50%;
+  bottom:10px;
+  transform:translateX(-50%);
+  font-size:8px;
+  letter-spacing:.12em;
+  font-weight:950;
+  color:#765d50
+}
+.thinkInterior .missionShelf{
+  background:linear-gradient(#f5ecfa,#eadcf1);
+  border-color:#d2bde0
+}
+.thinkInterior .missionShelf>button{
+  background:#fffafc;
+  border-color:#dbcbe4
+}
+.thinkInterior .missionShelf>button.active{
+  border-color:#8d6ac2;
+  background:#f5efff;
+  box-shadow:0 4px 0 rgba(98,74,133,.13)
+}
+.thinkInterior .workbenchTop small{color:#805faf}
+.thinkInterior .controlTrack>div.active{
+  border-color:#8d6ac2;
+  background:#f4effc
+}
+.thinkInterior .missionGauge{
+  border-color:#bca8d8
+}
+.thinkInterior .missionGauge strong{color:#6d50a0}
+.thinkInterior .answerDeck button:hover{
+  border-color:#9676c6;
+  background:#f7f2ff
+}
+.thinkInterior .interiorHelp{
+  border-color:#d4c8e3;
+  background:#fbf8ff
+}
+
+@media(max-width:700px){
+  .thinkInterior .interiorScene{height:205px}
+  .thinkInterior .interiorScene:before{left:14px;width:220px;height:95px}
+  .thinkInterior .interiorScene:after{left:32px;top:51px;width:180px;font-size:7px}
+  .thinkInterior .interiorBackdrop{right:14px;width:190px;height:110px;font-size:30px}
+}
+
+
+/* Tool-driven mission system */
+.toolMission{position:relative;margin:18px 0;padding:18px;border-radius:20px}
+.toolMissionAction{width:100%;min-height:48px;margin-top:13px;border:0;border-radius:14px;background:#5e62d8;color:#fff;font-size:13px;font-weight:950;box-shadow:0 5px 0 #4347a9}
+.toolMissionAction:disabled{opacity:.45;box-shadow:none}
+.toolRoomHead small{display:block;font-size:8px;font-weight:950;letter-spacing:.1em;color:#6572a8}.toolRoomHead h3{margin:3px 0 4px;font-size:22px}.toolRoomHead p{margin:0;color:#657185;font-size:11px}
+.toolSliderGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:13px 0}.toolSliderGrid label,.numberDial{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;padding:10px 12px;border:1px solid #d9dfe8;border-radius:13px;background:#fff;font-size:9px;font-weight:900}.toolSliderGrid input,.numberDial input{accent-color:#6068d8}
+.toolEquation{padding:11px;border-radius:13px;background:#f5f6fb;border:1px solid #dfe3eb;text-align:center;font-weight:900;color:#47556b}
+.scaleRelationshipRow span.correct{background:#eef8ef;border-color:#9dcca5}.rulerJobTabs button.done{border-color:#98caa0!important;background:#eef8ef!important;color:#3e6946!important}
+
+/* Woodshop symmetry mission */
+.slatMirrorTool{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;min-height:180px;margin-top:13px;padding:17px;border:3px solid #d7c3aa;border-radius:15px;background:#faf7f0}
+.slatMirrorTool>div{display:flex;justify-content:center;gap:9px}.slatMirrorTool i{width:18px;height:92px;border-radius:4px;background:#c8824a;border:3px solid #875331;box-shadow:0 4px 0 #6b4228}.mirrorAxis{height:120px;display:grid;place-items:center;padding:0 7px;border-left:4px dashed #776354;border-right:4px dashed transparent;color:#746153;font-size:7px;font-weight:950;writing-mode:vertical-rl}.slatMirrorTool label{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font-size:9px;font-weight:900}.slatMirrorTool input{accent-color:#af6c3c}
+.braceChoice{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:15px 0}.braceChoice button{min-height:90px;border:3px solid #dfcfbc;border-radius:14px;background:#fffaf1;font-weight:900;color:#654a37}.braceChoice button.chosen{border-color:#c47c4d;background:#fff0df}.braceChoice button.correct{border-color:#7fae79;background:#eef8ed}
+
+/* Builders' Yard structural bench */
+.bridgeInterior{background:linear-gradient(#eef5f5,#f5f1e8)}
+.bridgeInterior .interiorHeader{background:linear-gradient(135deg,#f7fbfb,#eaf2ef 55%,#fff6e9);border-color:#cddbd7}
+.bridgeInterior .interiorScene{background:linear-gradient(#b9dbea 0 60%,#7faa73 60%);border-color:#6c6657}
+.bridgeInterior .interiorBackdrop{filter:drop-shadow(0 5px 3px #0002)}
+.bridgeLoadBench{border:3px solid #b7afa1;background:linear-gradient(#fbfaf6,#f1eee7);box-shadow:0 7px 0 #929083}
+.bridgeBeamVisual{position:relative;height:18px;margin:80px 35px 72px;background:#8c6a49;border-radius:5px;transform-origin:center;transition:transform .2s;box-shadow:0 5px 0 #674a33}.bridgeBeamVisual>i{position:absolute;left:50%;top:15px;transform:translateX(-50%);border-left:28px solid transparent;border-right:28px solid transparent;border-bottom:58px solid #65717c}.bridgeBeamVisual .load{position:absolute;top:-58px;min-width:70px;padding:12px;border-radius:9px;background:#d8a95d;border:3px solid #986f32;text-align:center;font-weight:950}.bridgeBeamVisual .load.left{left:11%}.bridgeBeamVisual .load.right{right:11%}
+.torqueCompare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}.torqueCompare button{min-height:130px;border:3px solid #d8dce3;border-radius:18px;background:#fff;display:grid;place-items:center;font-size:14px}.torqueCompare button b{font-size:24px}.torqueCompare button.chosen{border-color:#5e66d5;background:#f0f1ff}
+.pivotTool{padding:18px;border-radius:16px;background:#f5f4ef;border:2px solid #d6d3c8}.pivotDeck{position:relative;height:24px;margin:45px 15px;background:#97704d;border-radius:5px}.pivotDeck i{position:absolute;top:20px;width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-bottom:42px solid #66727c;transform:translateX(-50%);transition:left .2s}.pivotTool label{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;font-size:9px;font-weight:900}.pivotTool input{accent-color:#5e66d5}
+
+/* Think Tank live puzzle wall */
+.thinkBoard{border:3px solid #cdbbe2;background:linear-gradient(145deg,#fffaf5,#f5effb);box-shadow:0 7px 0 #aa91c2,0 12px 22px rgba(69,51,89,.11)}
+.reasoningCards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:16px 0}.reasoningCards button{min-height:100px;padding:14px;border:3px solid #dfd5e7;border-radius:16px;background:#fffdfb;font-weight:900;color:#4c4056;box-shadow:0 4px 0 #ded3e4}.reasoningCards button.chosen{border-color:#8063b2;background:#f2ecff;transform:translateY(-2px)}
+.constraintLights{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0}.constraintLights span{padding:8px 10px;border-radius:999px;background:#eceef1;color:#87909a;font-size:10px;font-weight:950;border:1px solid #dde1e6}.constraintLights span.on{background:#eaf7ed;color:#397046;border-color:#a9d0b1}
+.thinkBoard .numberDial{margin:14px 0}
+
+/* Observatory live instruments */
+.observatoryInterior{background:radial-gradient(circle at 85% 5%,#465579,#1c263f 42%,#eef0f6 42%)}
+.observatoryInterior .interiorHeader{background:linear-gradient(135deg,#f5f6ff,#e8edfb);border-color:#cbd4ec}
+.observatoryInterior .interiorScene{background:radial-gradient(circle at 75% 28%,#8897d3 0 2px,transparent 3px),radial-gradient(circle at 24% 38%,#fff 0 2px,transparent 3px),radial-gradient(circle at 52% 20%,#fff 0 2px,transparent 3px),linear-gradient(#202d50 0 72%,#756b66 72%);border-color:#52617d}
+.observatoryBench{border:3px solid #9ba8cf;background:linear-gradient(#f5f7ff,#e9eefb);box-shadow:0 7px 0 #7582ab}
+.starGrid{position:relative;height:280px;margin:15px 0;border-radius:18px;background:radial-gradient(circle at 15% 18%,#fff 0 2px,transparent 3px),radial-gradient(circle at 70% 20%,#fff 0 2px,transparent 3px),radial-gradient(circle at 85% 70%,#fff 0 2px,transparent 3px),linear-gradient(#1d2948,#303d68);border:5px solid #65759d;overflow:hidden}
+.starGrid:before,.starGrid:after{content:'';position:absolute;background:rgba(255,255,255,.12)}.starGrid:before{left:0;right:0;top:50%;height:1px}.starGrid:after{top:0;bottom:0;left:50%;width:1px}.starGrid span{position:absolute;color:#fff1a7;font-size:25px;transform:translate(-50%,50%);filter:drop-shadow(0 0 6px #fff6ac)}.starGrid span.target{color:#6ea7ff}.starGrid span.target.ok{color:#82e392;filter:drop-shadow(0 0 8px #7de18b)}
+.signalMachine{display:grid;grid-template-columns:100px 1fr 100px;gap:12px;align-items:center;margin:18px 0;padding:20px;border-radius:18px;background:#1f2b48;color:white}.signalMachine span,.signalMachine strong{min-height:76px;display:grid;place-items:center;border-radius:14px;background:#34456f;font-size:28px}.signalMachine i{text-align:center;font-style:normal;font-size:17px;font-weight:950;color:#f4da78}
+.observatoryBench .numberDial{margin:16px 0}
+
+@media(max-width:700px){
+ .toolSliderGrid,.torqueCompare{grid-template-columns:1fr}.slatMirrorTool{grid-template-columns:1fr}.mirrorAxis{display:none}.braceChoice{grid-template-columns:1fr}.signalMachine{grid-template-columns:1fr}.starGrid{height:220px}
+}
+
+.toolResetButton{width:100%;min-height:42px;margin-top:9px;border:2px solid #d9dfe8;border-radius:12px;background:#fff;color:#58657a;font-weight:900}.toolResetButton:hover{border-color:#8b92d8;background:#f7f6ff}

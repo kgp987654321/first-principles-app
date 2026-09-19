@@ -84,33 +84,85 @@ function ShoreCurrent({onClose,onGoTo}){
 }
 
 function CliffsLaunch({onClose,onGoTo}){
-  const [angle,setAngle]=useState(45);
-  const [tries,setTries]=useState(new Set([45]));
+  const [angle,setAngle]=useState(35);
+  const [targetIndex,setTargetIndex]=useState(0);
+  const [launched,setLaunched]=useState(false);
+  const [attempts,setAttempts]=useState(0);
+  const [best,setBest]=useState(null);
+  const targets=[225,275,325];
+  const targetX=targets[targetIndex];
   const radians=angle*Math.PI/180;
   const range=Math.sin(2*radians);
   const height=Math.sin(radians)**2;
-  const endX=80+range*250;
-  const peakY=150-height*105;
-  const path=`M 55 155 Q ${(55+endX)/2} ${peakY} ${endX} 155`;
-  const discovered=tries.size>=2;
-  const choose=a=>{setAngle(a);setTries(prev=>new Set([...prev,a]))};
-  return <Frame icon="⛰️" title="Cliff Launch Lab" kicker="ANGLES + TRAJECTORY" takeaway="With the same launch speed, a middle angle can balance height and forward distance." discovered={discovered} onClose={onClose} onGoTo={onGoTo} goLabel="Visit Think Tank">
-    <div className="microPrompt">Try different launch angles. Which one travels farthest?</div>
-    <div className="launchScene">
-      <svg viewBox="0 0 380 190" aria-label="Launch trajectory">
-        <path className="launchGround" d="M20 157 H360"/>
-        <path className="launchCliff" d="M25 157 L55 105 L80 157 Z"/>
-        <path className="launchArc" d={path}/>
-        <circle className="launchBall" cx={endX} cy="155" r="7"/>
-      </svg>
-      <div className="launchReadout"><span><small>ANGLE</small><b>{angle}°</b></span><span><small>RELATIVE RANGE</small><b>{Math.round(range*100)}%</b></span><span><small>HEIGHT</small><b>{Math.round(height*100)}%</b></span></div>
+  const startX=55,groundY=155,endX=80+range*250,peakY=150-height*105;
+  const path=`M ${startX} ${groundY} Q ${(startX+endX)/2} ${peakY} ${endX} ${groundY}`;
+  const error=Math.abs(endX-targetX);
+  const hit=launched&&error<=10;
+  const close=launched&&error>10&&error<=24;
+  const discovered=best!==null&&best<=10;
+  const angleRayLen=48;
+  const rayX=startX+Math.cos(radians)*angleRayLen;
+  const rayY=groundY-Math.sin(radians)*angleRayLen;
+  const wedgeR=25;
+  const wedgeX=startX+Math.cos(radians)*wedgeR;
+  const wedgeY=groundY-Math.sin(radians)*wedgeR;
+  const wedgePath=`M ${startX+wedgeR} ${groundY} A ${wedgeR} ${wedgeR} 0 0 0 ${wedgeX} ${wedgeY}`;
+  const launch=()=>{setLaunched(true);setAttempts(v=>v+1);setBest(v=>v===null?error:Math.min(v,error))};
+  const changeAngle=v=>{setAngle(v);setLaunched(false)};
+  const nextTarget=()=>{setTargetIndex(i=>(i+1)%targets.length);setAngle(35);setLaunched(false);setBest(null);setAttempts(0)};
+  const feedback=!launched?'Tune the angle, then launch.':hit?'Bullseye! You matched the target distance.':close?'Very close — make a small angle adjustment.':endX<targetX?'Too short — try an angle closer to the middle.':'Too far — change the angle away from the middle.';
+  return <Frame icon="⛰️" title="Cliff Launch Lab" kicker="AIM WITH ANGLES" takeaway={hit?'You used the launch angle to control horizontal range. The angle is measured from the ground up to the launch direction.':'Changing the launch angle changes both height and forward distance.'} discovered={discovered} onClose={onClose} onGoTo={onGoTo} goLabel="Visit Think Tank">
+    <div className="microPrompt">Land the launch ball as close to the flag as you can. Adjust the angle, then press Launch.</div>
+    <div className="launchScene targetLaunchScene">
+      <div className="targetLaunchStage">
+        <svg viewBox="0 0 380 190" aria-label={`Launch angle ${angle} degrees aimed at a target`}>
+          <path className="launchGround" d="M20 157 H360"/>
+          <path className="launchCliff" d="M25 157 L55 105 L80 157 Z"/>
+          
+          <path className="protractorArc" d="M 90 155 A 35 35 0 0 0 55 120"/>
+          {[15,30,45,60,75].map(a=>{const r=a*Math.PI/180,x1=startX+Math.cos(r)*31,y1=groundY-Math.sin(r)*31,x2=startX+Math.cos(r)*37,y2=groundY-Math.sin(r)*37;return <g key={a}><line className="protractorTick" x1={x1} y1={y1} x2={x2} y2={y2}/>{a===45&&<text className="protractorText" x={startX+Math.cos(r)*45} y={groundY-Math.sin(r)*45}>45°</text>}</g>})}
+          <line className="angleBaseRay" x1={startX} y1={groundY} x2={startX+55} y2={groundY}/>
+          <line className="angleLaunchRay" x1={startX} y1={groundY} x2={rayX} y2={rayY}/>
+          <path className="angleWedgeArc" d={wedgePath}/>
+          <text className="angleWedgeLabel" x={startX+Math.cos(radians/2)*34} y={groundY-Math.sin(radians/2)*34}>{angle}°</text>
+          <circle className="angleVertex" cx={startX} cy={groundY} r="4"/>
+          
+          <g className="launchTarget" transform={`translate(${targetX} 0)`}>
+            <line x1="0" y1="118" x2="0" y2="157"/>
+            <path d="M0 119 L25 127 L0 135 Z"/>
+            <circle cx="0" cy="157" r="13"/>
+            <circle cx="0" cy="157" r="7"/>
+            <circle cx="0" cy="157" r="2.5"/>
+          </g>
+          
+          <path className="launchArc previewArc" d={path}/>
+          {launched&&<circle className={hit?'launchBall bullseyeBall':'launchBall'} cx={endX} cy="155" r="7"/>}
+          {!launched&&<circle className="launchAimGhost" cx={endX} cy="155" r="5"/>}
+        </svg>
+        <div className="angleMeasureCaption"><span>GROUND</span><b>↗ {angle}°</b><span>LAUNCH DIRECTION</span></div>
+      </div>
+      <div className="launchReadout">
+        <span><small>ANGLE</small><b>{angle}°</b></span>
+        <span><small>RELATIVE RANGE</small><b>{Math.round(range*100)}%</b></span>
+        <span><small>HEIGHT</small><b>{Math.round(height*100)}%</b></span>
+        <span className={hit?'targetScore hitScore':''}><small>{launched?'RESULT':'TARGET'}</small><b>{launched?(hit?'BULLSEYE':close?'CLOSE':'ADJUST'):'🎯'}</b></span>
+      </div>
     </div>
-    <div className="microChoiceRow">
-      {[25,45,65].map(a=><button key={a} className={angle===a?'active':''} onClick={()=>choose(a)}><b>{a}°</b><small>{a===25?'Low':a===45?'Middle':'High'}</small></button>)}
+    
+    <div className="launchAngleControl">
+      <div className="angleSliderHeader"><span>Low angle</span><b>{angle}°</b><span>High angle</span></div>
+      <input type="range" min="15" max="75" step="1" value={angle} onChange={e=>changeAngle(Number(e.target.value))}/>
+      <div className="anglePresetRow">{[25,45,65].map(a=><button key={a} className={angle===a?'active':''} onClick={()=>changeAngle(a)}>{a}°</button>)}</div>
     </div>
+    
+    <div className="targetLaunchActions">
+      <button className="launchNowButton" onClick={launch}>🚀 Launch!</button>
+      <button className="newTargetButton" onClick={nextTarget}>🎯 New target</button>
+    </div>
+    <div className={'microFeedback '+(hit?'good':launched?'try':'')}>{feedback}{attempts>0&&<small> Attempts: {attempts}{best!==null?' · Best miss: '+Math.round(best)+' units':''}</small>}</div>
+    {hit&&<div className="angleDiscovery"><b>✨ Angle discovery</b><span>The angle lives at the launcher — between the flat ground and the launch direction. Try the next target and see whether a different angle can hit it.</span></div>}
   </Frame>;
 }
-
 
 function BuildersBalance({onClose,onGoTo}){
   const [slot,setSlot]=useState(2);
@@ -150,7 +202,7 @@ function GardenRatio({onClose,onGoTo}){
   const correct=6;
   const solved=answer===correct;
   const flowers=n=>Array.from({length:n},(_,i)=><i key={i}>✿</i>);
-  return <Frame icon="🌱" title="Garden Ratio Beds" kicker="SCALE A PATTERN" takeaway={solved?'Doubling 2 sunflowers to 4 means doubling 3 daisies to 6. The 2:3 ratio stays the same.':'When one part of a ratio scales, the other part must scale by the same factor.'} discovered={solved} onClose={onClose} onGoTo={onGoTo} goLabel="Enter The Garden">
+  return <Frame icon="🌱" title="Garden Ratio Beds" kicker="SCALE A PATTERN" takeaway={solved?'Doubling 2 sunflowers to 4 means doubling 3 daisies to 6. The 2:3 ratio stays the same.':'When one part of a ratio scales, the other part must scale by the same factor.'} discovered={solved} onClose={onClose} onGoTo={onGoTo} goLabel="Enter Learning Greenhouse">
     <div className="microPrompt">The first bed has 2 sunflowers for every 3 daisies. The second bed has 4 sunflowers. How many daisies keep the same ratio?</div>
     <div className="gardenRatioScene">
       <div className="ratioBed">
