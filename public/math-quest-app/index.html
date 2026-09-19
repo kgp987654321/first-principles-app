@@ -555,13 +555,16 @@
   }
   function showBreak(name){
     breakState.active=name;
-    $$(".breakCard").forEach(b=>b.classList.toggle("active",b.dataset.break===name));
+    $(".breakCard").forEach(b=>b.classList.toggle("active",b.dataset.break===name));
     $("#matchGame").classList.toggle("hidden",name!=="match");
     $("#blockGame").classList.toggle("hidden",name!=="blocks");
     $("#launchGame").classList.toggle("hidden",name!=="launch");
     $("#breakTitle").textContent=name==="match"?"Sweet Swap":name==="blocks"?"Block Drop":"Target Launch";
     if(name!=="blocks"&&breakState.blockRunning)toggleBlock(false);
     updateBreakHUD();
+    if(name==="launch"){
+      requestAnimationFrame(()=>{placeLaunchLevel();renderTrajectory();});
+    }
   }
 
   function makeMatchBoard(){
@@ -649,10 +652,10 @@
   }
 
   const launchLevels=[
-    {targets:[{x:.61,y:.17},{x:.78,y:.17},{x:.71,y:.43}],startAngle:45,startPower:80},
-    {targets:[{x:.56,y:.17},{x:.70,y:.34},{x:.86,y:.17}],startAngle:39,startPower:78},
-    {targets:[{x:.58,y:.40},{x:.75,y:.17},{x:.88,y:.34}],startAngle:52,startPower:84},
-    {targets:[{x:.52,y:.17},{x:.68,y:.48},{x:.84,y:.23}],startAngle:57,startPower:83}
+    {solutions:[{angle:26,power:75,t:.80},{angle:42,power:82,t:1.10},{angle:40,power:95,t:1.20}]},
+    {solutions:[{angle:31,power:79,t:.86},{angle:50,power:86,t:1.02},{angle:36,power:98,t:1.18}]},
+    {solutions:[{angle:24,power:84,t:.92},{angle:56,power:88,t:.93},{angle:43,power:96,t:1.23}]},
+    {solutions:[{angle:34,power:76,t:.88},{angle:61,power:91,t:.92},{angle:38,power:100,t:1.22}]}
   ];
   function launchPhysics(){
     const field=$("#launchField"),w=field.clientWidth,h=field.clientHeight;
@@ -663,18 +666,22 @@
     return {x:p.x0+v*Math.cos(a)*t,y:p.y0+v*Math.sin(a)*t-.5*p.g*t*t};
   }
   function placeLaunchLevel(){
+    const field=$("#launchField");
+    if(!field || field.clientWidth<100)return;
     const p=launchPhysics(),level=launchLevels[breakState.launchLevel%launchLevels.length];
-    breakState.targetPositions=level.targets.map(t=>({x:t.x*p.w,y:t.y*p.h}));
+    breakState.targetPositions=level.solutions.map(s=>{
+      const pt=trajectoryPoint(s.angle,s.power,s.t);
+      return {x:Math.min(p.w-34,Math.max(170,pt.x)),y:Math.min(p.h-38,Math.max(34,pt.y)),solution:s};
+    });
     ["target1","target2","target3"].forEach((id,i)=>{
       const t=breakState.targetPositions[i],el=$("#"+id),platform=$("#platform"+(i+1));
       el.style.left=t.x+"px";el.style.bottom=t.y+"px";el.classList.toggle("hit",!breakState.targets[i]);
-      const pw=62,ph=14;
-      platform.style.width=pw+"px";platform.style.left=(t.x-pw/2)+"px";platform.style.bottom=Math.max(18,t.y-27)+"px";
+      const pw=68;
+      platform.style.width=pw+"px";platform.style.left=(t.x-pw/2)+"px";platform.style.bottom=Math.max(17,t.y-28)+"px";
     });
     $("#launchLevel").textContent=breakState.launchLevel+1;
     $("#launchShots").textContent=breakState.launchShots;
     $("#launchTargetsLeft").textContent=breakState.targets.filter(Boolean).length;
-    renderTrajectory();
   }
   function renderTrajectory(){
     if(breakState.launching)return;
@@ -691,15 +698,17 @@
     const bird=$("#launchBird");bird.style.left=p.x0+"px";bird.style.bottom=p.y0+"px";
   }
   function hitLaunchTargets(pt){
+    let hitAny=false;
     breakState.targetPositions.forEach((target,i)=>{
       if(!breakState.targets[i])return;
-      if(Math.hypot(pt.x-target.x,pt.y-target.y)<=27){
-        breakState.targets[i]=false;
+      if(Math.hypot(pt.x-target.x,pt.y-target.y)<=31){
+        breakState.targets[i]=false;hitAny=true;
         $("#target"+(i+1)).classList.add("hit");
         breakState.launchScore+=100;breakState.total+=100;
       }
     });
     $("#launchTargetsLeft").textContent=breakState.targets.filter(Boolean).length;
+    return hitAny;
   }
   function completeLaunchLevel(){
     const bonus=Math.max(100,420-breakState.launchShots*45);
@@ -713,12 +722,13 @@
   }
   function resetLaunch(useLevelDefaults=true){
     breakState.targets=[true,true,true];breakState.launching=false;breakState.launchShots=0;
-    const level=launchLevels[breakState.launchLevel%launchLevels.length];
-    if(useLevelDefaults){$("#angleRange").value=level.startAngle;$("#powerRange").value=level.startPower}
+    const level=launchLevels[breakState.launchLevel%launchLevels.length],first=level.solutions[0];
+    if(useLevelDefaults){$("#angleRange").value=first.angle;$("#powerRange").value=first.power}
     $("#angleVal").textContent=$("#angleRange").value+"°";$("#powerVal").textContent=$("#powerRange").value;
     $("#launchMessage").className="breakDone";$("#launchMessage").textContent="";
     $("#nextLaunchLevel").classList.add("hidden");$("#launchBtn").disabled=false;$("#launchBtn").textContent="Launch!";
-    placeLaunchLevel();updateBreakHUD();
+    if($("#launchField").clientWidth>=100){placeLaunchLevel();renderTrajectory()}
+    updateBreakHUD();
   }
   function nextLaunchLevel(){
     breakState.launchLevel=(breakState.launchLevel+1)%launchLevels.length;resetLaunch(true);
@@ -728,15 +738,25 @@
     breakState.launching=true;breakState.launchShots++;$("#launchShots").textContent=breakState.launchShots;
     $("#launchBtn").disabled=true;$("#trajectoryLayer").innerHTML="";$("#launchMessage").textContent="";
     const field=$("#launchField"),bird=$("#launchBird"),angle=Number($("#angleRange").value),power=Number($("#powerRange").value),p=launchPhysics();
-    let t=0,last=performance.now();
+    let t=0,last=performance.now(),hitThisShot=false;
     function frame(now){
       const dt=Math.min(.028,(now-last)/1000);last=now;t+=dt;
       const pt=trajectoryPoint(angle,power,t);
       bird.style.left=pt.x+"px";bird.style.bottom=Math.max(0,pt.y)+"px";
-      hitLaunchTargets(pt);
+      if(hitLaunchTargets(pt))hitThisShot=true;
       if(pt.x>p.w+30||(pt.y<0&&t>.25)||t>4){
         breakState.launching=false;$("#launchBtn").disabled=false;
         if(!breakState.targets.some(Boolean)){completeLaunchLevel();return}
+        if(hitThisShot){
+          const nextIndex=breakState.targets.findIndex(Boolean),next=breakState.targetPositions[nextIndex];
+          if(next&&next.solution){
+            $("#angleRange").value=next.solution.angle;$("#powerRange").value=next.solution.power;
+            $("#angleVal").textContent=next.solution.angle+"°";$("#powerVal").textContent=next.solution.power;
+            $("#launchMessage").textContent="Nice hit! The next preview is lined up with another reachable target.";
+          }
+        }else{
+          $("#launchMessage").textContent="Missed — follow the dotted path and adjust angle or power.";
+        }
         $("#launchBtn").textContent="Launch!";
         renderTrajectory();updateBreakHUD();return;
       }
@@ -757,7 +777,7 @@
   $("#launchBtn").addEventListener("click",launch);
   $("#resetLaunchBtn").addEventListener("click",()=>resetLaunch(true));
   $("#nextLaunchLevel").addEventListener("click",nextLaunchLevel);
-  window.addEventListener("resize",()=>{if(!breakState.launching){placeLaunchLevel()}});
+  window.addEventListener("resize",()=>{if(!breakState.launching&&$("#launchGame")&&!$("#launchGame").classList.contains("hidden")){placeLaunchLevel();renderTrajectory()}});
   makeMatchBoard();resetBlocks();resetLaunch(true);showBreak("match");
 
   $$("input.digit").forEach(el=>el.addEventListener("input",()=>{el.value=el.value.replace(/[^0-9]/g,"").slice(0,1)}));
