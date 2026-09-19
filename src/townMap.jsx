@@ -21,7 +21,7 @@ const destinationConcepts={
   patterns:['pattern-every-other','matrix-portal','number-train','prediction-trials'],
   think:['mystery-machine','build-function-rule','reverse-machine','multi-step-rule','analogy-machine','logic-switches','systems-mission'],
   science:['race-rate','speed-track','vector-spaceship','momentum-crash','roller-energy','gravity-worlds','change-graph'],
-  garden:['match-one-half','match-three-fourths','system-recipe-4-3','deal-hidden-unit','equivalence-five-eighths'],
+  garden:['match-one-half','match-three-fourths','system-recipe-4-3','deal-hidden-unit','equivalence-five-eighths','pattern-every-other','number-train'],
   observatory:['vector-spaceship','gravity-worlds','orbit-puzzle','spaceport-mission'],
   sports:['race-rate','speed-track','vector-spaceship','momentum-crash','slope-mountain','probability-bag','change-graph']
 };
