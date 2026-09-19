@@ -1149,3 +1149,22 @@
   .testKitchenDivider{grid-template-columns:1fr}.testKitchenDivider>span{grid-row:auto}.testKitchenDivider>p{grid-column:auto}
   .measurementRepresentations{grid-template-columns:1fr 1fr}
 }
+
+
+/* Concrete measuring-tool size comparison */
+.measureTools button{min-height:82px;align-content:end}
+.measureCup.cup{width:46px;height:52px}
+.measureCup.half{width:41px;height:47px}
+.measureCup.third{width:37px;height:43px}
+.measureCup.quarter{width:33px;height:39px}
+.measureCup.cup i{background:#b7dff2}
+.measureSpoon.tbsp:before{width:22px;height:17px}
+.measureSpoon.tsp:before{width:15px;height:12px;top:6px}
+.measureSpoon.tsp:after{left:14px;width:33px}
+.previewCup.cup{width:70px;height:86px}
+.previewCup.half{width:62px;height:76px}
+.previewCup.third{width:57px;height:70px}
+.previewCup.quarter{width:51px;height:64px}
+.previewSpoon.tbsp:before{width:35px;height:27px}
+.previewSpoon.tsp:before{width:25px;height:19px;top:8px}
+.previewSpoon.tsp:after{left:23px;top:16px;width:47px}
