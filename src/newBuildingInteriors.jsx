@@ -68,15 +68,20 @@ const load=id=>{try{return JSON.parse(localStorage.getItem(key(id))||'{}')}catch
 
 
 const rulerJobs=[
-  {id:'half',label:'Make 2 equal pieces',length:1,pieces:2,cuts:[.5],prompt:'You have a 1-inch board. Tap the board where you would cut it into 2 equal pieces.',result:'Two equal pieces means each piece is 1/2 inch.'},
-  {id:'quarters',label:'Make 4 equal pieces',length:1,pieces:4,cuts:[.25,.5,.75],prompt:'You have a 1-inch board. Tap the board at the 3 places that make 4 equal pieces.',result:'Four equal pieces means each piece is 1/4 inch. Two quarters make 1/2 inch.'},
-  {id:'two-inch',label:'4 pieces from 2 inches',length:2,pieces:4,cuts:[.5,1,1.5],prompt:'You have a 2-inch board. Tap the board at the 3 places that make 4 equal pieces.',result:'A 2-inch board split into 4 equal pieces makes four 1/2-inch pieces.'}
+  {id:'half',label:'1" → halves',length:1,pieces:2,cuts:[.5],prompt:'Cut a 1-inch strip into 2 equal pieces.',result:'Each piece is 1/2 inch.'},
+  {id:'quarters',label:'1" → quarters',length:1,pieces:4,cuts:[.25,.5,.75],prompt:'Cut a 1-inch strip into 4 equal pieces.',result:'Each piece is 1/4 inch.'},
+  {id:'eighths',label:'1" → eighths',length:1,pieces:8,cuts:[.125,.25,.375,.5,.625,.75,.875],prompt:'Cut a 1-inch strip into 8 equal pieces.',result:'Each piece is 1/8 inch; the cut marks include 1/8, 3/8, 5/8, and 7/8.'},
+  {id:'three-quarter-halves',label:'1 1/2" → two pieces',length:1.5,pieces:2,cuts:[.75],prompt:'Cut a 1 1/2-inch strip into 2 equal pieces.',result:'Each piece is 3/4 inch.'},
+  {id:'seven-eighth-halves',label:'1 3/4" → two pieces',length:1.75,pieces:2,cuts:[.875],prompt:'Cut a 1 3/4-inch strip into 2 equal pieces.',result:'Each piece is 7/8 inch.'},
+  {id:'two-half-halves',label:'2 1/2" → two pieces',length:2.5,pieces:2,cuts:[1.25],prompt:'Cut a 2 1/2-inch board into 2 equal pieces.',result:'Each piece is 1 1/4 inches.'},
+  {id:'two-quarter-thirds',label:'2 1/4" → thirds',length:2.25,pieces:3,cuts:[.75,1.5],prompt:'Cut a 2 1/4-inch board into 3 equal pieces.',result:'Each piece is 3/4 inch.'},
+  {id:'three-inch-quarters',label:'3" → four pieces',length:3,pieces:4,cuts:[.75,1.5,2.25],prompt:'Cut a 3-inch board into 4 equal pieces.',result:'Each piece is 3/4 inch, with cuts at 3/4, 1 1/2, and 2 1/4 inches.'}
 ];
 const sameCuts=(a,b)=>a.length===b.length&&b.every(x=>a.some(y=>Math.abs(x-y)<.001));
 
 function CarpentryRulerBench({onComplete,onStep}){
   const[jobIndex,setJobIndex]=useState(0),[cuts,setCuts]=useState([]),[note,setNote]=useState('Start by tapping a cut point directly on the board.'),[showHint,setShowHint]=useState(false),[solved,setSolved]=useState([]);
-  const job=rulerJobs[jobIndex],step=.25,ticks=Array.from({length:Math.round(job.length/step)+1},(_,i)=>i*step),possibleCuts=ticks.filter(v=>v>0&&v<job.length);
+  const job=rulerJobs[jobIndex],step=.125,ticks=Array.from({length:Math.round(job.length/step)+1},(_,i)=>Number((i*step).toFixed(3))),possibleCuts=ticks.filter(v=>v>0&&v<job.length),requiredJobs=3;
   const toggle=value=>{setCuts(v=>v.some(x=>Math.abs(x-value)<.001)?v.filter(x=>Math.abs(x-value)>=.001):[...v,value].sort((a,b)=>a-b));setShowHint(false);setNote('Good — now compare the piece sizes.')};
   const correct=sameCuts(cuts,job.cuts);
   const chooseJob=i=>{setJobIndex(i);setCuts([]);setShowHint(false);setNote(solved.includes(rulerJobs[i].id)?'This cut is already verified. Try it again or choose another.':'Tap the board where the equal cuts belong.');onStep?.(i)};
@@ -84,15 +89,15 @@ function CarpentryRulerBench({onComplete,onStep}){
     if(!correct){setNote('Not quite equal yet. Compare the piece lengths and move your cut marks.');return}
     const nextSolved=solved.includes(job.id)?solved:[...solved,job.id];setSolved(nextSolved);setNote('✓ '+job.result);
     onStep?.(Math.min(2,nextSolved.length));
-    if(nextSolved.length===rulerJobs.length)onComplete?.('All three cut jobs are correct — halves, quarters, and equivalent lengths are verified.');
+    if(nextSolved.length===requiredJobs)onComplete?.('Three cut jobs are verified. The ruler bench stays open for extra eighth-inch and mixed-number practice.');
     else{const next=rulerJobs.findIndex(x=>!nextSolved.includes(x.id));setTimeout(()=>chooseJob(next),450)}
   };
-  const fractionLabel=v=>{const rounded=Math.round(v*4)/4;if(rounded===.25)return '1/4"';if(rounded===.5)return '1/2"';if(rounded===.75)return '3/4"';if(rounded===1)return '1"';if(rounded===1.25)return '1 1/4"';if(rounded===1.5)return '1 1/2"';if(rounded===1.75)return '1 3/4"';if(rounded===2)return '2"';return rounded+'"'};
+  const fractionLabel=v=>{const eighths=Math.round(v*8),whole=Math.floor(eighths/8),rem=eighths%8;if(!rem)return whole+'"';const g=rem%4===0?4:rem%2===0?2:1,num=rem/g,den=8/g,frac=num+'/'+den;return (whole?whole+' ':'')+frac+'"'};
   const boundaries=[0,...cuts,job.length],segments=boundaries.slice(0,-1).map((start,i)=>({start,end:boundaries[i+1],size:boundaries[i+1]-start}));
   return <section className="carpentryRulerBench intuitiveBench toolMission">
-    <div className="carpentryToolHead"><div><small>MISSION TOOL</small><h3>Cut the Board</h3><p>{job.prompt}</p></div><div className="cutGoal"><small>GOAL</small><strong>{job.pieces} equal pieces</strong><span>{solved.length}/3 jobs verified</span></div></div>
+    <div className="carpentryToolHead"><div><small>MISSION TOOL</small><h3>Cut the Board</h3><p>{job.prompt}</p></div><div className="cutGoal"><small>GOAL</small><strong>{job.pieces} equal pieces</strong><span>{solved.length} solved · 3 needed for mission</span></div></div>
     <div className="rulerJobTabs">{rulerJobs.map((x,i)=><button key={x.id} className={(i===jobIndex?'active ':'')+(solved.includes(x.id)?'done':'')} onClick={()=>chooseJob(i)}>{solved.includes(x.id)?'✓ ':''}{x.label}</button>)}</div>
-    <div className="rulerBenchSurface simpleRulerSurface"><div className="boardInstruction">👇 Tap a dashed line to make a cut</div><div className="boardAndRuler"><div className="woodBoard interactiveBoard"><span className="grain g1"/><span className="grain g2"/><span className="grain g3"/>{possibleCuts.map(v=>{const selected=cuts.some(x=>Math.abs(x-v)<.001),target=job.cuts.some(x=>Math.abs(x-v)<.001);return <button key={v} className={'boardCutTarget '+(selected?'selected ':'')+(showHint&&target?'hint ':'')} style={{left:(v/job.length*100)+'%'}} onClick={()=>toggle(v)}><i/><span>{fractionLabel(v)}</span></button>})}</div><div className="alignedRuler">{ticks.map(v=><span key={v} className={Number.isInteger(v)?'whole':Math.abs((v*2)%1)<.01?'half':'quarter'} style={{left:(v/job.length*100)+'%'}}><i/><b>{fractionLabel(v)}</b></span>)}</div></div><div className="pieceResultArea"><small>YOUR PIECES</small><div className="pieceSegments">{segments.map((seg,i)=><span key={i} style={{flex:seg.size}}><b>{fractionLabel(seg.size)}</b></span>)}</div><div className="pieceSummary"><strong>{segments.length} piece{segments.length===1?'':'s'}</strong><span>{correct?'All equal ✓':'Make every piece the same length.'}</span></div></div></div>
+    <div className="rulerBenchSurface simpleRulerSurface"><div className="boardInstruction">👇 Tap a dashed line to make a cut</div><div className="boardAndRuler"><div className="woodBoard interactiveBoard"><span className="grain g1"/><span className="grain g2"/><span className="grain g3"/>{possibleCuts.map(v=>{const selected=cuts.some(x=>Math.abs(x-v)<.001),target=job.cuts.some(x=>Math.abs(x-v)<.001);return <button key={v} className={'boardCutTarget '+(selected?'selected ':'')+(showHint&&target?'hint ':'')} style={{left:(v/job.length*100)+'%'}} onClick={()=>toggle(v)}><i/><span>{fractionLabel(v)}</span></button>})}</div><div className="alignedRuler">{ticks.map(v=><span key={v} className={Number.isInteger(v)?'whole':Math.abs((v*2)%1)<.01?'half':Math.abs((v*4)%1)<.01?'quarter':'eighth'} style={{left:(v/job.length*100)+'%'}}><i/><b>{fractionLabel(v)}</b></span>)}</div></div><div className="pieceResultArea"><small>YOUR PIECES</small><div className="pieceSegments">{segments.map((seg,i)=><span key={i} style={{flex:seg.size}}><b>{fractionLabel(seg.size)}</b></span>)}</div><div className="pieceSummary"><strong>{segments.length} piece{segments.length===1?'':'s'}</strong><span>{correct?'All equal ✓':'Make every piece the same length.'}</span></div></div></div>
     <div className="carpentryActions guidedActions"><button onClick={()=>{setCuts([]);setShowHint(false);setNote('Board reset.')}} disabled={!cuts.length}>↶ Reset</button><button className="showCutHint" onClick={()=>{setShowHint(true);setNote('The glowing lines mark equal cut positions.')}}>💡 Show me</button><button className="carpentryCheck" onClick={check}>Verify this cut</button></div><p className={'carpentryNote '+(correct?'success':'')}>{note}</p>
   </section>
 }

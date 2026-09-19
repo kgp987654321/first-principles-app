@@ -3,16 +3,23 @@ import{orderUnlocked,nextLockedOrder}from'./data/worldOrders';
 import'./bakery.css';
 
 const ORDERS=[
-{id:'pizza-three-fourths',customer:'Maya',avatar:'🧒',title:'Three-fourths pizza',prompt:'Maya wants cheese on exactly 3 of the 4 slices.',type:'slices',target:3,total:4,success:'Perfect — 3 of 4 slices is 3/4.'},
+{id:'pizza-three-fourths',customer:'Maya',avatar:'🧒',title:'Five-eighths pizza',prompt:'Maya wants cheese on exactly 5 of the 8 slices.',type:'slices',target:5,total:8,success:'Perfect — 5 of 8 slices is 5/8.'},
 {id:'half-cup',customer:'Leo',avatar:'🧑',title:'Half-cup recipe',prompt:'Leo needs exactly 1/2 cup of milk. Each scoop is 1/4 cup.',type:'scoops',target:.5,step:.25,success:'Two quarter-cup scoops make one half cup.'},
-{id:'share-cookies',customer:'Nina',avatar:'👧',title:'Share the cookies',prompt:'Nina has 8 cookies and wants to give 1/2 of them to a friend. Put the right number on the tray.',type:'count',target:4,max:8,success:'Exactly right — half of 8 is 4.'},
+{id:'third-cup-cocoa',unlockAfter:'fraction-three-fourths',customer:'Ava',avatar:'👧',title:'One-third cup cocoa',prompt:'Ava needs exactly 1/3 cup of cocoa for brownie batter. Build the amount with the measuring tools.',type:'scoops',target:1/3,success:'Exactly 1/3 cup — three thirds would make a whole cup.'},
+{id:'two-thirds-sauce',unlockAfter:'match-one-half',customer:'Sam',avatar:'👦',title:'Two-thirds cup sauce',prompt:'Sam needs exactly 2/3 cup of sauce. Find a combination of measures that lands on the line.',type:'scoops',target:2/3,success:'Exactly 2/3 cup — two one-third cups make two thirds.'},
+{id:'five-eighths-glaze',unlockAfter:'equivalence-five-eighths',customer:'Maya',avatar:'🧒',title:'Five-eighths cup glaze',prompt:'Build exactly 5/8 cup of glaze. Use more than one measuring tool if you need to.',type:'scoops',target:5/8,success:'Exactly 5/8 cup — one half plus one eighth makes five eighths.'},
+{id:'seven-eighths-smoothie',unlockAfter:'equivalence-five-eighths',customer:'Leo',avatar:'🧑',title:'Seven-eighths cup smoothie',prompt:'Leo needs exactly 7/8 cup of smoothie base without filling a whole cup.',type:'scoops',target:7/8,success:'Exactly 7/8 cup — only one eighth remains to make a whole.'},
+{id:'one-quarter-dressing',unlockAfter:'fraction-language-wheel',customer:'Nina',avatar:'👧',title:'One-quarter cup dressing',prompt:'Measure exactly 1/4 cup of dressing.',type:'scoops',target:.25,success:'Exactly one quarter cup.'},
+{id:'one-and-quarter-muffins',unlockAfter:'relationship-mission',customer:'Ava',avatar:'👧',title:'One and one-quarter cups flour',prompt:'A muffin batch needs exactly 1 1/4 cups of flour.',type:'scoops',target:1.25,success:'Exactly 1 1/4 cups — one whole cup plus one quarter.'},
+{id:'one-and-half-bread',unlockAfter:'relationship-mission',customer:'Sam',avatar:'👦',title:'One and one-half cups milk',prompt:'The bread dough needs exactly 1 1/2 cups of milk.',type:'scoops',target:1.5,success:'Exactly 1 1/2 cups — one whole and one half.'},
+{id:'share-cookies',customer:'Nina',avatar:'👧',title:'Share three-eighths of the cookies',prompt:'Nina has 8 cookies and wants to give 3/8 of them to a friend. Put the right number on the tray.',type:'count',target:3,max:8,success:'Exactly right — 3/8 of 8 cookies is 3 cookies.'},
 {id:'bakery-equivalence-cake',unlockAfter:'fraction-language-wheel',customer:'Maya',avatar:'🧒',title:'Quarter-cake conversion',prompt:'A customer wants one quarter of the cake decorated. Which label means the same amount?',type:'choice',choices:['25%','50%','0.75'],correct:0,success:'Right — one quarter is the same as 25%.'},
 {id:'bakery-ratio-batch',unlockAfter:'ratio-recipe-3-2',customer:'Sam',avatar:'👦',title:'Party cupcake order',prompt:'Sam needs a full party box. Complete all 3 bakery stations to finish the order.',type:'party',stations:[{label:'Mix',icon:'🥣',prompt:'Make the cupcake mix 3 chocolate to 2 vanilla.',kind:'ratio',a:3,b:2},{label:'Bake',icon:'🔥',prompt:'A tray takes 4 minutes. Set the oven timer.',kind:'number',target:4},{label:'Pack',icon:'🎁',prompt:'Pack 5 cupcakes in the party box.',kind:'number',target:5}],success:'Party order complete — mixed, baked, and packed!'},
 {id:'bakery-oven-rate',unlockAfter:'race-rate',customer:'Leo',avatar:'🧑',title:'Oven timing rush',prompt:'The oven bakes 2 trays every 4 minutes. How many trays will it bake in 8 minutes?',type:'choice',choices:['2 trays','4 trays','8 trays'],correct:1,success:'Exactly — doubling the time doubles the trays: 4 trays in 8 minutes.'},
 {id:'bakery-function-price',unlockAfter:'mystery-machine',customer:'Nina',avatar:'👧',title:'Mystery cake price',prompt:'The price machine doubles the cake number and adds 1 coin. What does cake 4 cost?',type:'choice',choices:['8 coins','9 coins','10 coins'],correct:1,success:'Correct — 4 doubled is 8, plus 1 makes 9.'},
 {id:'bakery-best-deal',unlockAfter:'unit-price',customer:'Ava',avatar:'👧',title:'Buy the best berry deal',prompt:'The bakery needs berries. Which supplier costs less for each basket?',type:'choice',choices:['4 baskets for 8 coins','3 baskets for 9 coins'],correct:0,success:'Right — the first supplier costs 2 coins per basket instead of 3.'},
 {id:'bakery-catering-mission',unlockAfter:'relationship-mission',customer:'Sam',avatar:'👦',title:'Catering party mission',prompt:'A big event order needs three systems completed before it can leave the bakery.',type:'party',stations:[{label:'Scale recipe',icon:'📋',prompt:'2 trays serve 5 guests. How many trays serve 10?',kind:'number',target:4},{label:'Set pace',icon:'⏱️',prompt:'Bake 4 trays in two equal rounds. How many trays per round?',kind:'number',target:2},{label:'Load van',icon:'🚐',prompt:'Load all 4 finished trays into the van.',kind:'number',target:4}],success:'Catering mission complete — the full order is ready to go!'},
-{id:'bakery-chance-box',unlockAfter:'probability-bag',customer:'Ava',avatar:'👧',title:'Build the surprise pastry box',prompt:'Ava wants a box where a chocolate pastry has a 3 out of 4 chance of being picked. Which box works?',type:'choice',choices:['3 chocolate + 1 vanilla','2 chocolate + 2 vanilla','1 chocolate + 3 vanilla'],correct:0,success:'Exactly — 3 of the 4 pastries are chocolate, so the chance is 3/4.'},
+{id:'bakery-chance-box',unlockAfter:'probability-bag',customer:'Ava',avatar:'👧',title:'Build the surprise pastry box',prompt:'Ava wants a box where a chocolate pastry has a 5 out of 6 chance of being picked. Which box works?',type:'choice',choices:['5 chocolate + 1 vanilla','4 chocolate + 2 vanilla','3 chocolate + 3 vanilla'],correct:0,success:'Exactly — 5 of the 6 pastries are chocolate, so the chance is 5/6.'},
 {id:'bakery-combo-menu',unlockAfter:'combination-lab',customer:'Sam',avatar:'👦',title:'Count the party-menu combinations',prompt:'The party menu has 3 cake flavors and 2 toppings. How many different flavor-topping combinations can customers make?',type:'choice',choices:['5 combinations','6 combinations','9 combinations'],correct:1,success:'Right — every one of 3 flavors can pair with 2 toppings, making 6 combinations.'}
 ];
 
@@ -25,32 +32,50 @@ const kitchenMeasures=[
   {id:'tsp',label:'1 tsp',short:'1 tsp',value:1/48,kind:'spoon'}
 ];
 const kitchenTargets=[
+  {label:'1/12 cup',value:1/12},
+  {label:'1/8 cup',value:1/8},
+  {label:'3/16 cup',value:3/16},
+  {label:'1/6 cup',value:1/6},
   {label:'1/4 cup',value:.25},
   {label:'1/3 cup',value:1/3},
+  {label:'3/8 cup',value:3/8},
   {label:'1/2 cup',value:.5},
+  {label:'5/8 cup',value:5/8},
+  {label:'2/3 cup',value:2/3},
   {label:'3/4 cup',value:.75},
-  {label:'1 cup',value:1}
+  {label:'5/6 cup',value:5/6},
+  {label:'7/8 cup',value:7/8},
+  {label:'1 cup',value:1},
+  {label:'1 1/4 cups',value:1.25},
+  {label:'1 1/2 cups',value:1.5}
 ];
 const amountLabel=value=>{
   const v=Math.round(value*48)/48;
-  const known=[[0,'0'],[1/48,'1 tsp'],[1/16,'1 Tbsp'],[.25,'1/4 cup'],[1/3,'1/3 cup'],[.5,'1/2 cup'],[.75,'3/4 cup'],[1,'1 cup'],[1.25,'1 1/4 cups'],[1.5,'1 1/2 cups']];
+  const known=[[0,'0'],[1/48,'1 tsp'],[1/16,'1 Tbsp'],[1/12,'1/12 cup'],[1/8,'1/8 cup'],[3/16,'3/16 cup'],[1/6,'1/6 cup'],[.25,'1/4 cup'],[1/3,'1/3 cup'],[3/8,'3/8 cup'],[.5,'1/2 cup'],[5/8,'5/8 cup'],[2/3,'2/3 cup'],[.75,'3/4 cup'],[5/6,'5/6 cup'],[7/8,'7/8 cup'],[1,'1 cup'],[1.25,'1 1/4 cups'],[1.5,'1 1/2 cups']];
   const hit=known.find(([n])=>Math.abs(v-n)<.012);
   return hit?hit[1]:v.toFixed(2)+' cups';
 };
 const measureTargetForOrder=order=>{
   const map={
-    'pizza-three-fourths':.75,
+    'pizza-three-fourths':5/8,
     'half-cup':.5,
-    'share-cookies':.5,
+    'third-cup-cocoa':1/3,
+    'two-thirds-sauce':2/3,
+    'five-eighths-glaze':5/8,
+    'seven-eighths-smoothie':7/8,
+    'one-quarter-dressing':.25,
+    'one-and-quarter-muffins':1.25,
+    'one-and-half-bread':1.5,
+    'share-cookies':3/8,
     'bakery-equivalence-cake':.25,
-    'bakery-ratio-batch':.75,
-    'bakery-chance-box':.75,
-    'bakery-catering-mission':1
+    'bakery-ratio-batch':2/3,
+    'bakery-chance-box':5/6,
+    'bakery-catering-mission':1.25
   };
   return map[order?.id]??.75;
 };
 const fractionForAmount=value=>{
-  const known=[[.25,'1/4'],[1/3,'1/3'],[.5,'1/2'],[.75,'3/4'],[1,'1']];
+  const known=[[1/12,'1/12'],[1/8,'1/8'],[3/16,'3/16'],[1/6,'1/6'],[.25,'1/4'],[1/3,'1/3'],[3/8,'3/8'],[.5,'1/2'],[5/8,'5/8'],[2/3,'2/3'],[.75,'3/4'],[5/6,'5/6'],[7/8,'7/8'],[1,'1'],[1.25,'1 1/4'],[1.5,'1 1/2']];
   return known.find(([n])=>Math.abs(value-n)<.012)?.[1]||amountLabel(value);
 };
 const percentForAmount=value=>Math.round(value*1000)/10+'%';

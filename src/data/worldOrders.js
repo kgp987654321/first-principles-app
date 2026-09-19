@@ -1,7 +1,14 @@
 export const worldOrderMeta={
   bakery:[
-    {id:'pizza-three-fourths',label:'Three-fourths pizza'},
+    {id:'pizza-three-fourths',label:'Five-eighths pizza'},
     {id:'half-cup',label:'Half-cup recipe'},
+    {id:'third-cup-cocoa',label:'One-third cup cocoa',unlockAfter:'fraction-three-fourths',unlockLabel:'Part-to-whole fractions'},
+    {id:'two-thirds-sauce',label:'Two-thirds cup sauce',unlockAfter:'match-one-half',unlockLabel:'Equivalent fractions'},
+    {id:'one-quarter-dressing',label:'One-quarter cup dressing',unlockAfter:'fraction-language-wheel',unlockLabel:'One amount, many languages'},
+    {id:'five-eighths-glaze',label:'Five-eighths cup glaze',unlockAfter:'equivalence-five-eighths',unlockLabel:'Five eighths across representations'},
+    {id:'seven-eighths-smoothie',label:'Seven-eighths cup smoothie',unlockAfter:'equivalence-five-eighths',unlockLabel:'Five eighths across representations'},
+    {id:'one-and-quarter-muffins',label:'One and one-quarter cups flour',unlockAfter:'relationship-mission',unlockLabel:'Relationship mission'},
+    {id:'one-and-half-bread',label:'One and one-half cups milk',unlockAfter:'relationship-mission',unlockLabel:'Relationship mission'},
     {id:'share-cookies',label:'Share the cookies'},
     {id:'bakery-equivalence-cake',label:'Quarter-cake conversion',unlockAfter:'fraction-language-wheel',unlockLabel:'One amount, many languages'},
     {id:'bakery-ratio-batch',label:'Party cupcake ratio',unlockAfter:'ratio-recipe-3-2',unlockLabel:'Mix a 3 : 2 recipe'},
@@ -9,13 +16,13 @@ export const worldOrderMeta={
     {id:'bakery-function-price',label:'Mystery cake price',unlockAfter:'mystery-machine',unlockLabel:'Crack the mystery machine'},
     {id:'bakery-best-deal',label:'Buy the best berry deal',unlockAfter:'unit-price',unlockLabel:'Which deal wins?'},
     {id:'bakery-catering-mission',label:'Catering mission',unlockAfter:'relationship-mission',unlockLabel:'Relationship mission'},
-    {id:'bakery-chance-box',label:'Build the surprise pastry box',unlockAfter:'probability-bag',unlockLabel:'Build a 3-in-4 chance'},
+    {id:'bakery-chance-box',label:'Build the surprise pastry box',unlockAfter:'probability-bag',unlockLabel:'Build a 5-in-6 chance'},
     {id:'bakery-combo-menu',label:'Count the party-menu combinations',unlockAfter:'combination-lab',unlockLabel:'Count every combination'}
   ],
   clinic:[
     {id:'food-half',label:'Half a bowl'},
     {id:'weight-sort',label:'Choose the light supplies'},
-    {id:'water-three-fourths',label:'Fill the water bowl'},
+    {id:'water-three-fourths',label:'Fill the water bowl to five-sixths'},
     {id:'clinic-scale-blanket',label:'Scale the pet blanket',unlockAfter:'scale-robot',unlockLabel:'Scale the robot'},
     {id:'clinic-walk-rate',label:'Walking pace',unlockAfter:'race-rate',unlockLabel:'Race the pace'},
     {id:'clinic-motion-cart',label:'Tune the recovery cart',unlockAfter:'momentum-crash',unlockLabel:'Match the momentum'}
@@ -32,7 +39,13 @@ export const worldOrderMeta={
   lab:[
     {id:'half',label:'Half-full sample'},
     {id:'threequarters',label:'Three-quarter sample'},
+    {id:'third-sample',label:'One-third sample'},
+    {id:'two-thirds-sample',label:'Two-thirds sample'},
+    {id:'three-fifths-sample',label:'Three-fifths sample',unlockAfter:'fraction-language-wheel',unlockLabel:'One amount, many languages'},
+    {id:'five-sixths-sample',label:'Five-sixths sample',unlockAfter:'equivalence-five-eighths',unlockLabel:'Five eighths across representations'},
+    {id:'seven-eighths-sample',label:'Seven-eighths sample',unlockAfter:'equivalence-five-eighths',unlockLabel:'Five eighths across representations'},
     {id:'double',label:'Double the recipe'},
+    {id:'ramp-motion',label:'Ramp speed test'},
     {id:'lab-scale-reading',label:'Scale a reading',unlockAfter:'map-scale',unlockLabel:'Resize the map'},
     {id:'lab-machine-rule',label:'Machine rule test',unlockAfter:'mystery-machine',unlockLabel:'Crack the mystery machine'},
     {id:'lab-gravity-probe',label:'Calibrate the gravity probe',unlockAfter:'gravity-worlds',unlockLabel:'Test different gravity worlds'},

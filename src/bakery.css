@@ -1170,3 +1170,15 @@
 .previewSpoon.tsp:after{left:23px;top:16px;width:47px}
 
 .bakeryTestKitchenApp .numbersLabBoard .windowShelf{max-height:525px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#a6b8c5 transparent}
+
+/* Quantity variety: compact goal deck for many measurable amounts */
+.measureTargets{display:grid;grid-template-columns:auto repeat(6,minmax(72px,1fr));align-items:center}
+.measureTargets>span{grid-row:1/-1;align-self:start;padding-top:9px}
+.measureTargets button{white-space:nowrap}
+@media(max-width:950px){
+  .measureTargets{grid-template-columns:repeat(4,minmax(72px,1fr))}
+  .measureTargets>span{grid-column:1/-1;grid-row:auto;padding-top:0}
+}
+@media(max-width:620px){
+  .measureTargets{grid-template-columns:repeat(2,1fr)}
+}
