@@ -15,13 +15,15 @@ export function StatRail({stats}) {
 
 export function SportLab({
   icon,title,subtitle,badge='⭐ Play. Learn. Improve.',promptTitle,promptText,
-  scene,stats,controls,choices,actionLabel,onAction,feedback,success=false,children
+  scene,stats,controls,choices,actionLabel,onAction,feedback,success=false,children,
+  mode='explore',onModeChange,challengeText,connectionText,onTryAnother
 }) {
   return <section className="sharedSportLab">
     <header className="sharedSportHeader">
       <div className="sharedSportBrand"><span>{icon}</span><div><h2>{title}</h2><p>{subtitle}</p></div></div>
       <div className="sharedSportBadge">{badge}</div>
     </header>
+    {onModeChange&&<div className="sportModeBar"><div className="sportModeButtons">{['explore','challenge','mastery'].map(m=><button key={m} className={mode===m?'active':''} onClick={()=>onModeChange(m)}>{m}</button>)}</div><div className="sportModePrompt"><b>{mode==='explore'?'Explore freely':mode==='challenge'?'Target challenge':'Mastery mission'}</b><span>{challengeText}</span></div></div>}
     <div className="sharedSportGrid">
       <div className="sharedSceneCard">
         <div className="sharedSportPrompt"><b>{promptTitle}</b><span>{promptText}</span></div>
@@ -35,6 +37,8 @@ export function SportLab({
       <button className="sharedSportAction" onClick={onAction}>{actionLabel}</button>
     </div>
     {feedback&&<div className={success?'sharedSportFeedback success':'sharedSportFeedback'}>{feedback}</div>}
+    {success&&onTryAnother&&<div className="tryAnotherSport"><div><small>FLEXIBLE THINKING</small><b>Can you get the same result another way?</b><span>Change at least two controls and try again.</span></div><button onClick={onTryAnother}>Try another way →</button></div>}
+    {connectionText&&<div className="sportConnectionCue"><b>🔗 Same idea, new surface</b><span>{connectionText}</span></div>}
     {children}
   </section>
 }
