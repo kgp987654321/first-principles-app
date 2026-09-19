@@ -36,15 +36,17 @@ const amountLabel=value=>{
   return hit?hit[1]:v.toFixed(2)+' cups';
 };
 function BakeryMeasuringStation(){
-  const[selected,setSelected]=useState('half'),[ingredient,setIngredient]=useState('milk'),[target,setTarget]=useState(.75),[pours,setPours]=useState([]),[note,setNote]=useState('Choose a measure, then pour it into the bowl.');
+  const[selected,setSelected]=useState('half'),[ingredient,setIngredient]=useState('milk'),[target,setTarget]=useState(.75),[pours,setPours]=useState([]),[note,setNote]=useState('Choose a measure, then pour it into the bowl.'),[solvedWays,setSolvedWays]=useState([]);
+  const[servings,setServings]=useState(4),[broken,setBroken]=useState(false);
   const measure=kitchenMeasures.find(m=>m.id===selected)||kitchenMeasures[0];
   const total=pours.reduce((sum,p)=>sum+p.value,0);
   const matching=Math.abs(total-target)<.012;
   const pour=()=>{const next=total+measure.value;if(next>1.55){setNote('That would overflow the practice bowl. Undo or clear some first.');return}setPours(v=>[...v,{...measure,ingredient}]);setNote('Added '+measure.label+'. Watch how the total changes.')};
   const undo=()=>{setPours(v=>v.slice(0,-1));setNote('Last pour removed.')};
   const clear=()=>{setPours([]);setNote('Bowl cleared. Build the amount a different way!')};
-  const check=()=>setNote(matching?'Perfect! You built '+amountLabel(target)+'. Can you make it another way?':total<target?'You have '+amountLabel(total)+'. Add a little more.':'You have '+amountLabel(total)+'. That is more than the goal.');
+  const check=()=>{if(matching){const key=pours.map(p=>p.short).sort().join('+')||'empty';setSolvedWays(v=>v.includes(key)?v:[...v,key]);setNote('Perfect! You built '+amountLabel(target)+'. '+(solvedWays.includes(key)?'Try a different combination now.':'That is a new way to make it!'))}else setNote(total<target?'You have '+amountLabel(total)+'. Add a little more.':'You have '+amountLabel(total)+'. That is more than the goal.')};
   const fill=Math.min(100,(total/1.5)*100);
+  const scale=servings/4,flour=Number((1*scale).toFixed(2)),milk=Number((.5*scale).toFixed(2)),sugar=Number(((broken?.5:.25)*scale).toFixed(2)),ratioOk=!broken;
   return <section className="kitchenMeasureStation">
     <div className="measureStationHead"><div><small>BAKER'S TOOL</small><h3>Measuring Station</h3><p>Explore cups and spoons, then combine them to build a recipe amount.</p></div><div className="recipeGoal"><small>RECIPE GOAL</small><strong>{amountLabel(target)}</strong></div></div>
     <div className="measureStationBody">
@@ -66,9 +68,22 @@ function BakeryMeasuringStation(){
         <div className="pourHistory">{pours.length?pours.map((p,i)=><span key={i}>{p.short}</span>):<em>No pours yet</em>}</div>
       </div>
     </div>
-    <div className="measureTargets"><span>Try a goal:</span>{kitchenTargets.map(t=><button key={t.label} className={Math.abs(target-t.value)<.01?'active':''} onClick={()=>{setTarget(t.value);setPours([]);setNote('New recipe goal: '+t.label+'.')}}>{t.label}</button>)}</div>
+    <div className="measureTargets"><span>Try a goal:</span>{kitchenTargets.map(t=><button key={t.label} className={Math.abs(target-t.value)<.01?'active':''} onClick={()=>{setTarget(t.value);setPours([]);setSolvedWays([]);setNote('New recipe goal: '+t.label+'.')}}>{t.label}</button>)}</div>
     <div className="measureActions"><button onClick={undo} disabled={!pours.length}>↶ Undo</button><button onClick={clear} disabled={!pours.length}>Clear bowl</button><button className="primary" onClick={check}>Check amount</button></div>
     <p className={'measureNote '+(matching?'success':'')}>{matching?'✨ ':''}{note}</p>
+    {matching&&<div className="anotherWayChallenge"><div><small>FLEXIBLE THINKING</small><b>Can you make {amountLabel(target)} another way?</b><span>{solvedWays.length} different {solvedWays.length===1?'way':'ways'} found</span></div><button onClick={clear}>Try another way →</button></div>}
+
+    <div className="recipeScaleBoard">
+      <div className="recipeScaleHead"><div><small>RECIPE SCALER</small><h4>Feed more customers</h4><p>Change the servings. Every ingredient should scale by the same factor.</p></div><strong>{servings} servings</strong></div>
+      <div className="recipeScaleControls"><button onClick={()=>setServings(2)}>Half batch</button><input type="range" min="2" max="12" step="2" value={servings} onChange={e=>setServings(+e.target.value)}/><button onClick={()=>setServings(8)}>Double batch</button></div>
+      <div className="recipeIngredients">
+        <span><i>🌾</i><b>{flour} cup{flour===1?'':'s'} flour</b><small>base: 1 cup</small></span>
+        <span><i>🥛</i><b>{milk} cup{milk===1?'':'s'} milk</b><small>base: 1/2 cup</small></span>
+        <span className={!ratioOk?'brokenIngredient':''}><i>🍚</i><b>{sugar} cup sugar</b><small>{ratioOk?'base: 1/4 cup':'ratio changed!'}</small></span>
+      </div>
+      <div className="recipeScaleFooter"><span className={ratioOk?'recipeRelationship ok':'recipeRelationship broken'}>{ratioOk?'✓ Same recipe relationship':'! Recipe relationship broken'}</span><button onClick={()=>setBroken(v=>!v)}>{broken?'Repair recipe':'⚡ Break the recipe'}</button></div>
+      <p>{ratioOk?`Every ingredient is scaled by ${scale}×.`:'Sugar changed by a different factor. The recipe may taste different even though the serving count stayed the same.'}</p>
+    </div>
   </section>;
 }
 
