@@ -555,7 +555,7 @@
   }
   function showBreak(name){
     breakState.active=name;
-    $(".breakCard").forEach(b=>b.classList.toggle("active",b.dataset.break===name));
+    $$(".breakCard").forEach(b=>b.classList.toggle("active",b.dataset.break===name));
     $("#matchGame").classList.toggle("hidden",name!=="match");
     $("#blockGame").classList.toggle("hidden",name!=="blocks");
     $("#launchGame").classList.toggle("hidden",name!=="launch");
@@ -765,7 +765,7 @@
     requestAnimationFrame(frame);
   }
 
-  $$(".breakCard").forEach(b=>b.addEventListener("click",()=>showBreak(b.dataset.break)));
+  $$$(".breakCard").forEach(b=>b.addEventListener("click",()=>showBreak(b.dataset.break)));
   $("#newMatch").addEventListener("click",makeMatchBoard);
   $("#blockStart").addEventListener("click",()=>toggleBlock());
   $("#blockLeft").addEventListener("click",()=>moveBlock(-1));
