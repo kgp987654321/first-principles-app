@@ -87,12 +87,25 @@
     .blockWrap{display:flex;gap:14px;align-items:flex-start;justify-content:center;flex-wrap:wrap}.blockBoard{display:grid;grid-template-columns:repeat(10,20px);grid-template-rows:repeat(14,20px);gap:2px;background:#273149;padding:7px;border-radius:12px}
     .blockCell{width:20px;height:20px;border-radius:4px;background:#34415d}.blockCell.on{background:var(--yellow)}.blockCell.live{background:var(--mint)}
     .blockControls{display:grid;grid-template-columns:repeat(3,46px);gap:6px;justify-content:center}.blockControls .btn{padding:7px;min-height:42px}
-    .launchField{position:relative;height:230px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:linear-gradient(#dff4ff 0 68%,#dff5cf 68% 100%);margin-top:10px}
-    .launcher{position:absolute;left:26px;bottom:28px;font-size:34px}.target{position:absolute;font-size:32px;transition:.2s}.bird{position:absolute;font-size:28px;left:55px;bottom:48px;transition:none}
-    .launchControls{display:grid;grid-template-columns:1fr 1fr auto;gap:9px;align-items:end;margin-top:10px}.launchControls label{font-size:.76rem;font-weight:900;color:var(--muted)}.launchControls input{width:100%}
+    .launchField{position:relative;height:300px;border:1px solid #b8d9ed;border-radius:18px;overflow:hidden;background:linear-gradient(#dff5ff 0 66%,#d9f0c8 66% 100%);margin-top:10px;isolation:isolate}
+    .launchField:before{content:"";position:absolute;left:-5%;right:-5%;bottom:23%;height:55px;background:radial-gradient(ellipse at 50% 100%,#b9dda2 0 58%,transparent 60%);opacity:.8;z-index:0}
+    .cloud{position:absolute;color:rgba(255,255,255,.94);font-size:32px;z-index:0;filter:drop-shadow(0 3px 2px rgba(80,130,160,.08))}
+    .sling{position:absolute;left:38px;bottom:35px;width:58px;height:83px;z-index:4}
+    .slingPost{position:absolute;bottom:0;width:12px;height:65px;background:linear-gradient(90deg,#82502d,#b87942,#704126);border-radius:8px;transform-origin:bottom}
+    .slingPost.left{left:9px;transform:rotate(-10deg)}.slingPost.right{right:9px;transform:rotate(10deg)}
+    .slingBand{position:absolute;left:18px;top:13px;width:25px;height:4px;background:#563825;border-radius:999px}
+    .slingBase{position:absolute;left:17px;bottom:0;width:30px;height:13px;background:#805232;border-radius:50% 50% 7px 7px}
+    .projectile{position:absolute;width:28px;height:28px;border-radius:50%;left:72px;bottom:69px;background:radial-gradient(circle at 34% 30%,#9be1ff 0 13%,#5b9dff 15% 44%,#4b5ed9 70%);border:2px solid rgba(39,55,110,.25);box-shadow:0 3px 7px rgba(38,59,110,.24);z-index:6;transform:translate(-50%,50%)}
+    .projectile:after{content:"";position:absolute;right:-7px;top:8px;border-left:8px solid #765ee8;border-top:5px solid transparent;border-bottom:5px solid transparent;opacity:.72}
+    .trajectoryLayer{position:absolute;inset:0;z-index:3;pointer-events:none}.trajectoryDot{position:absolute;width:7px;height:7px;border-radius:50%;background:rgba(77,87,145,.48);transform:translate(-50%,50%);box-shadow:0 1px 2px rgba(255,255,255,.8)}
+    .launchTarget{position:absolute;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#fff 0 18%,#ff5f70 19% 36%,#fff 37% 55%,#ff5f70 56% 75%,#fff 76%);border:2px solid #c74656;box-shadow:0 4px 7px rgba(94,54,60,.2);z-index:5;transform:translate(-50%,50%);transition:transform .22s ease,opacity .22s ease}
+    .launchTarget:after{content:"";width:7px;height:7px;border-radius:50%;background:#573f9f}.launchTarget.hit{opacity:.15;transform:translate(-50%,50%) scale(.45) rotate(24deg)}
+    .woodPlatform{position:absolute;height:14px;background:linear-gradient(#d49b58,#b9783a);border:2px solid #8e592c;border-radius:4px;z-index:2;box-shadow:inset 0 2px rgba(255,255,255,.22)}
+    .woodPlatform:after{content:"";position:absolute;left:20%;top:3px;width:48%;height:2px;background:rgba(102,57,25,.25);border-radius:999px}
+    .launchControls{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-top:11px}.launchControls label{font-size:.76rem;font-weight:900;color:var(--muted);display:flex;justify-content:space-between;gap:8px}.launchControls input{width:100%;accent-color:var(--purple)}
+    .launchButtons{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:9px}.launchStatus{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:7px;font-size:.78rem;font-weight:850;color:var(--muted)}
+    .launchStatus span{background:#f5f3ff;border:1px solid var(--line);padding:5px 8px;border-radius:999px}.breakDone.success{color:#188b6f}
     .breakHint{text-align:center;color:var(--muted);font-size:.82rem;margin-top:8px}.breakDone{font-weight:900;color:#188b6f;text-align:center;margin-top:8px}
-    .trailPractice{padding:4px 0}.trailBrief{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(135deg,#f5fbef,#f5f9ff);margin-bottom:12px}.trailBrief small{display:block;color:#4f7b55;font-weight:950;letter-spacing:.07em}.trailBrief h4{margin:3px 0 0}.trailScore{font-weight:950;color:#5c47ce;white-space:nowrap}.trailClue{padding:13px 14px;border-radius:15px;background:#fff8e7;border:1px solid #ecd89c;text-align:center;margin-bottom:12px}.trailClue small{display:block;font-size:.7rem;font-weight:950;color:#8a6b27;letter-spacing:.06em}.trailClue b{display:block;font-size:1.5rem;margin-top:4px}.trailClue span{display:block;color:var(--muted);font-size:.82rem;margin-top:3px}
-    .trailMaze{display:grid;grid-template-columns:repeat(5,minmax(54px,1fr));gap:7px;max-width:560px;margin:0 auto;padding:14px;border:5px solid #8c6847;border-radius:20px;background:linear-gradient(rgba(255,255,255,.08),rgba(255,255,255,.08)),#84b86f;box-shadow:inset 0 0 0 3px #e8d2a7,0 8px 18px #384a3520}.mazeCell{position:relative;min-height:76px;border:0;border-radius:13px;background:radial-gradient(circle at 25% 25%,#99c783 0 16%,transparent 17%),linear-gradient(#8cbe77,#7caf69);padding:4px;overflow:visible}.mazeCell.route{background:linear-gradient(135deg,#d9bc83,#caa66b)}.mazeCell.visited{background:linear-gradient(135deg,#ead59e,#d8b978);box-shadow:inset 0 0 0 3px #fff4c4}.mazeCell.current{outline:4px solid #6554df;outline-offset:2px;background:#f0dda7}.mazeCell.finish{box-shadow:inset 0 0 0 3px #f6d94d}.mazeCell.wrong{animation:trailShake .25s;background:#e7a08f}.mazeCell .terrain{position:absolute;inset:auto 4px 4px auto;font-size:20px;opacity:.8}.trailExplorer{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:29px;z-index:3}.trailFinish{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:27px}.trailSign{position:absolute;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%);min-width:58px;padding:5px 6px;border:2px solid #6e4d31;border-radius:8px;background:#f5d58d;color:#4e3826;box-shadow:0 3px 0 #8d633c;font-weight:950;font-size:.7rem}.trailSign span{display:block;font-size:1rem;line-height:1}.mazeCell.choice:hover .trailSign{background:#fff0b8;transform:translate(-50%,-54%)}.trailLegend{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:.75rem;color:var(--muted);font-weight:800}.trailLegend span{padding:5px 8px;border-radius:999px;background:#f5f6f8}.trailFeedback{min-height:38px;margin-top:10px;padding:9px 11px;border-radius:11px;background:#f8f9fb;border:1px solid var(--line);font-weight:850;text-align:center}.trailFeedback.good{background:#effaf2;border-color:#b8dbbf;color:#337146}.trailFeedback.bad{background:#fff3f0;border-color:#edc0b9;color:#9b554d}@keyframes trailShake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
     .hidden{display:none!important}.tiny{font-size:.78rem;color:var(--muted)}
     @media(max-width:760px){.gameGrid{grid-template-columns:1fr 1fr}.workspace{grid-template-columns:1fr}.placeGrid{grid-template-columns:56px repeat(3,minmax(48px,1fr))}.summaryGrid{grid-template-columns:1fr 1fr}.breakGrid{grid-template-columns:1fr 1fr}.launchControls{grid-template-columns:1fr 1fr}.launchControls .btn{grid-column:1/3}.matchBoard{grid-template-columns:repeat(6,40px)}.candyCell{width:40px;height:40px}}
     @media(max-width:430px){.app{padding:12px 10px 44px}.hero,.card{padding:15px}.gameGrid{gap:8px}.gameCard{min-height:116px;padding:11px}.placeGrid{grid-template-columns:50px repeat(3,minmax(44px,1fr));gap:5px}.numBox,.digit{height:50px;font-size:1.35rem}.quizChoices{grid-template-columns:1fr}.topbar .pill{display:none}.groupGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.groupBox{min-height:70px;padding:7px}.gemDots{grid-template-columns:repeat(4,7px);gap:3px}.gemDot{width:7px;height:7px}}
@@ -243,19 +256,36 @@
         </div>
 
         <div id="launchGame" class="hidden">
-          <div class="launchField" id="launchField">
-            <div class="launcher">🪃</div>
-            <div class="bird" id="launchBird">🔵</div>
-            <div class="target" id="target1" style="right:56px;bottom:29px">🎯</div>
-            <div class="target" id="target2" style="right:118px;bottom:29px">🎯</div>
-            <div class="target" id="target3" style="right:88px;bottom:77px">🎯</div>
+          <div class="launchField" id="launchField" aria-label="Target Launch play field">
+            <div class="cloud" style="left:18%;top:12%">☁</div>
+            <div class="cloud" style="right:20%;top:20%;font-size:24px">☁</div>
+            <div class="trajectoryLayer" id="trajectoryLayer"></div>
+            <div class="sling" aria-hidden="true">
+              <div class="slingPost left"></div><div class="slingPost right"></div><div class="slingBand"></div><div class="slingBase"></div>
+            </div>
+            <div class="projectile" id="launchBird" aria-label="Launch ball"></div>
+            <div class="woodPlatform" id="platform1"></div>
+            <div class="woodPlatform" id="platform2"></div>
+            <div class="woodPlatform" id="platform3"></div>
+            <div class="launchTarget" id="target1"></div>
+            <div class="launchTarget" id="target2"></div>
+            <div class="launchTarget" id="target3"></div>
           </div>
           <div class="launchControls">
-            <div><label for="angleRange">ANGLE <span id="angleVal">42°</span></label><input id="angleRange" type="range" min="20" max="70" value="42"></div>
-            <div><label for="powerRange">POWER <span id="powerVal">72</span></label><input id="powerRange" type="range" min="35" max="100" value="72"></div>
+            <div><label for="angleRange"><span>ANGLE</span><strong id="angleVal">45°</strong></label><input id="angleRange" type="range" min="20" max="70" value="45" step="1"></div>
+            <div><label for="powerRange"><span>POWER</span><strong id="powerVal">80</strong></label><input id="powerRange" type="range" min="35" max="100" value="80" step="1"></div>
             <button class="btn primary" id="launchBtn">Launch!</button>
           </div>
-          <div class="breakHint">Experiment with angle and power. Knock down all three targets.</div>
+          <div class="launchStatus">
+            <span>🎯 Level <b id="launchLevel">1</b></span>
+            <span>🏹 Shots <b id="launchShots">0</b></span>
+            <span>✨ Targets left <b id="launchTargetsLeft">3</b></span>
+          </div>
+          <div class="launchButtons">
+            <button class="btn" id="resetLaunchBtn">Reset level</button>
+            <button class="btn success hidden" id="nextLaunchLevel">Next level</button>
+          </div>
+          <div class="breakHint">Adjust angle and power. The dotted arc is the exact flight path.</div>
           <div class="breakDone" id="launchMessage"></div>
         </div>
       </div>
@@ -279,7 +309,7 @@
   const state={mode:"add",problem:null,strategy:0,strategyStep:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:8,locked:false};
   let lifetime=Number(localStorage.getItem("mathQuestStars")||0);
   $("#totalStars").textContent=lifetime;
-  const breakState={active:"match",total:0,matchScore:0,matchMoves:12,selected:null,board:[],blockScore:0,blockRunning:false,blockTimer:null,blockGrid:[],piece:null,launchScore:0,launching:false,targets:[true,true,true]};
+  const breakState={active:"match",total:0,matchScore:0,matchMoves:12,selected:null,board:[],blockScore:0,blockRunning:false,blockTimer:null,blockGrid:[],piece:null,launchScore:0,launching:false,launchLevel:0,launchShots:0,targets:[true,true,true],targetPositions:[]};
   const trailState={route:[22,17,18,13,8,7,6,11,16],step:0,misses:0,wrongCell:null};
 
   const strategies={
@@ -618,6 +648,9 @@
     $("#breakTitle").textContent=name==="match"?"Sweet Swap":name==="blocks"?"Block Drop":"Target Launch";
     if(name!=="blocks"&&breakState.blockRunning)toggleBlock(false);
     updateBreakHUD();
+    if(name==="launch"){
+      requestAnimationFrame(()=>{placeLaunchLevel();renderTrajectory();});
+    }
   }
 
   function makeMatchBoard(){
@@ -704,34 +737,114 @@
     if(target)breakState.blockTimer=setInterval(blockStep,650);
   }
 
-  function resetLaunch(){
-    breakState.targets=[true,true,true];breakState.launching=false;
-    ["target1","target2","target3"].forEach((id,i)=>{$("#"+id).style.opacity="1";$("#"+id).style.transform="none"});
-    const bird=$("#launchBird");bird.style.left="55px";bird.style.bottom="48px";$("#launchMessage").textContent="";updateBreakHUD();
+  const launchLevels=[
+    {solutions:[{angle:26,power:75,t:.80},{angle:42,power:82,t:1.10},{angle:40,power:95,t:1.20}]},
+    {solutions:[{angle:31,power:79,t:.86},{angle:50,power:86,t:1.02},{angle:36,power:98,t:1.18}]},
+    {solutions:[{angle:24,power:84,t:.92},{angle:56,power:88,t:.93},{angle:43,power:96,t:1.23}]},
+    {solutions:[{angle:34,power:76,t:.88},{angle:61,power:91,t:.92},{angle:38,power:100,t:1.22}]}
+  ];
+  function launchPhysics(){
+    const field=$("#launchField"),w=field.clientWidth,h=field.clientHeight;
+    return {w,h,x0:72,y0:69,g:760*(w/1000)};
+  }
+  function trajectoryPoint(angleDeg,power,t){
+    const p=launchPhysics(),a=angleDeg*Math.PI/180,v=power*(p.w/1000)*8;
+    return {x:p.x0+v*Math.cos(a)*t,y:p.y0+v*Math.sin(a)*t-.5*p.g*t*t};
+  }
+  function placeLaunchLevel(){
+    const field=$("#launchField");
+    if(!field || field.clientWidth<100)return;
+    const p=launchPhysics(),level=launchLevels[breakState.launchLevel%launchLevels.length];
+    breakState.targetPositions=level.solutions.map(s=>{
+      const pt=trajectoryPoint(s.angle,s.power,s.t);
+      return {x:Math.min(p.w-34,Math.max(170,pt.x)),y:Math.min(p.h-38,Math.max(34,pt.y)),solution:s};
+    });
+    ["target1","target2","target3"].forEach((id,i)=>{
+      const t=breakState.targetPositions[i],el=$("#"+id),platform=$("#platform"+(i+1));
+      el.style.left=t.x+"px";el.style.bottom=t.y+"px";el.classList.toggle("hit",!breakState.targets[i]);
+      const pw=68;
+      platform.style.width=pw+"px";platform.style.left=(t.x-pw/2)+"px";platform.style.bottom=Math.max(17,t.y-28)+"px";
+    });
+    $("#launchLevel").textContent=breakState.launchLevel+1;
+    $("#launchShots").textContent=breakState.launchShots;
+    $("#launchTargetsLeft").textContent=breakState.targets.filter(Boolean).length;
+  }
+  function renderTrajectory(){
+    if(breakState.launching)return;
+    const layer=$("#trajectoryLayer"),field=$("#launchField"),angle=Number($("#angleRange").value),power=Number($("#powerRange").value);
+    layer.innerHTML="";
+    const p=launchPhysics();
+    for(let t=.08,count=0;t<4&&count<26;t+=.085){
+      const pt=trajectoryPoint(angle,power,t);
+      if(pt.x>p.w+10||pt.y<0)break;
+      if(pt.y<=p.h+8&&pt.x>=0){
+        const d=document.createElement("span");d.className="trajectoryDot";d.style.left=pt.x+"px";d.style.bottom=pt.y+"px";layer.appendChild(d);count++;
+      }
+    }
+    const bird=$("#launchBird");bird.style.left=p.x0+"px";bird.style.bottom=p.y0+"px";
+  }
+  function hitLaunchTargets(pt){
+    let hitAny=false;
+    breakState.targetPositions.forEach((target,i)=>{
+      if(!breakState.targets[i])return;
+      if(Math.hypot(pt.x-target.x,pt.y-target.y)<=31){
+        breakState.targets[i]=false;hitAny=true;
+        $("#target"+(i+1)).classList.add("hit");
+        breakState.launchScore+=100;breakState.total+=100;
+      }
+    });
+    $("#launchTargetsLeft").textContent=breakState.targets.filter(Boolean).length;
+    return hitAny;
+  }
+  function completeLaunchLevel(){
+    const bonus=Math.max(100,420-breakState.launchShots*45);
+    breakState.launchScore+=bonus;breakState.total+=bonus;
+    $("#launchMessage").className="breakDone success";
+    $("#launchMessage").textContent="Level cleared! +"+bonus+" efficiency bonus 🎉";
+    $("#nextLaunchLevel").classList.remove("hidden");
+    $("#launchBtn").textContent="Level cleared";
+    $("#launchBtn").disabled=true;
+    updateBreakHUD();
+  }
+  function resetLaunch(useLevelDefaults=true){
+    breakState.targets=[true,true,true];breakState.launching=false;breakState.launchShots=0;
+    const level=launchLevels[breakState.launchLevel%launchLevels.length],first=level.solutions[0];
+    if(useLevelDefaults){$("#angleRange").value=first.angle;$("#powerRange").value=first.power}
+    $("#angleVal").textContent=$("#angleRange").value+"°";$("#powerVal").textContent=$("#powerRange").value;
+    $("#launchMessage").className="breakDone";$("#launchMessage").textContent="";
+    $("#nextLaunchLevel").classList.add("hidden");$("#launchBtn").disabled=false;$("#launchBtn").textContent="Launch!";
+    if($("#launchField").clientWidth>=100){placeLaunchLevel();renderTrajectory()}
+    updateBreakHUD();
+  }
+  function nextLaunchLevel(){
+    breakState.launchLevel=(breakState.launchLevel+1)%launchLevels.length;resetLaunch(true);
   }
   function launch(){
-    if(breakState.launching)return;breakState.launching=true;
-    const field=$("#launchField"),bird=$("#launchBird"),angle=Number($("#angleRange").value)*Math.PI/180,power=Number($("#powerRange").value);
-    const w=field.clientWidth,h=field.clientHeight,startX=55,startY=48,scale=4.25,v=power*scale,g=720;
-    let t=0,last=performance.now();
+    if(breakState.launching||!breakState.targets.some(Boolean))return;
+    breakState.launching=true;breakState.launchShots++;$("#launchShots").textContent=breakState.launchShots;
+    $("#launchBtn").disabled=true;$("#trajectoryLayer").innerHTML="";$("#launchMessage").textContent="";
+    const field=$("#launchField"),bird=$("#launchBird"),angle=Number($("#angleRange").value),power=Number($("#powerRange").value),p=launchPhysics();
+    let t=0,last=performance.now(),hitThisShot=false;
     function frame(now){
-      const dt=Math.min(.03,(now-last)/1000);last=now;t+=dt;
-      const x=startX+v*Math.cos(angle)*t;
-      const y=startY+v*Math.sin(angle)*t-.5*g*t*t;
-      bird.style.left=x+"px";bird.style.bottom=Math.max(0,y)+"px";
-      const br={x:x+14,y:h-(Math.max(0,y)+14)};
-      ["target1","target2","target3"].forEach((id,i)=>{
-        if(!breakState.targets[i])return;
-        const el=$("#"+id),r=el.getBoundingClientRect(),fr=field.getBoundingClientRect(),tx=r.left-fr.left+r.width/2,ty=r.top-fr.top+r.height/2;
-        if(Math.hypot(br.x-tx,br.y-ty)<35){breakState.targets[i]=false;el.style.opacity=".18";el.style.transform="scale(.6) rotate(18deg)";breakState.launchScore+=50;breakState.total+=50}
-      });
-      updateBreakHUD();
-      if(x>w+30||y<0&&t>.35){
-        breakState.launching=false;
-        bird.style.left="55px";bird.style.bottom="48px";
-        if(!breakState.targets.some(Boolean))$("#launchMessage").textContent="All targets down! 🎉 Tap a brain-break card or adjust and play again.";
-        requestAnimationFrame(()=>{});
-        return;
+      const dt=Math.min(.028,(now-last)/1000);last=now;t+=dt;
+      const pt=trajectoryPoint(angle,power,t);
+      bird.style.left=pt.x+"px";bird.style.bottom=Math.max(0,pt.y)+"px";
+      if(hitLaunchTargets(pt))hitThisShot=true;
+      if(pt.x>p.w+30||(pt.y<0&&t>.25)||t>4){
+        breakState.launching=false;$("#launchBtn").disabled=false;
+        if(!breakState.targets.some(Boolean)){completeLaunchLevel();return}
+        if(hitThisShot){
+          const nextIndex=breakState.targets.findIndex(Boolean),next=breakState.targetPositions[nextIndex];
+          if(next&&next.solution){
+            $("#angleRange").value=next.solution.angle;$("#powerRange").value=next.solution.power;
+            $("#angleVal").textContent=next.solution.angle+"°";$("#powerVal").textContent=next.solution.power;
+            $("#launchMessage").textContent="Nice hit! The next preview is lined up with another reachable target.";
+          }
+        }else{
+          $("#launchMessage").textContent="Missed — follow the dotted path and adjust angle or power.";
+        }
+        $("#launchBtn").textContent="Launch!";
+        renderTrajectory();updateBreakHUD();return;
       }
       requestAnimationFrame(frame);
     }
@@ -745,10 +858,13 @@
   $("#blockRight").addEventListener("click",()=>moveBlock(1));
   $("#blockDown").addEventListener("click",blockStep);
   $("#blockRotate").addEventListener("click",turnBlock);
-  $("#angleRange").addEventListener("input",e=>$("#angleVal").textContent=e.target.value+"°");
-  $("#powerRange").addEventListener("input",e=>$("#powerVal").textContent=e.target.value);
-  $("#launchBtn").addEventListener("click",()=>{if(!breakState.targets.some(Boolean))resetLaunch();else launch()});
-  makeMatchBoard();resetBlocks();resetLaunch();showBreak("match");
+  $("#angleRange").addEventListener("input",e=>{$("#angleVal").textContent=e.target.value+"°";renderTrajectory()});
+  $("#powerRange").addEventListener("input",e=>{$("#powerVal").textContent=e.target.value;renderTrajectory()});
+  $("#launchBtn").addEventListener("click",launch);
+  $("#resetLaunchBtn").addEventListener("click",()=>resetLaunch(true));
+  $("#nextLaunchLevel").addEventListener("click",nextLaunchLevel);
+  window.addEventListener("resize",()=>{if(!breakState.launching&&$("#launchGame")&&!$("#launchGame").classList.contains("hidden")){placeLaunchLevel();renderTrajectory()}});
+  makeMatchBoard();resetBlocks();resetLaunch(true);showBreak("match");
 
   $("input.digit").forEach(el=>el.addEventListener("input",()=>{el.value=el.value.replace(/[^0-9]/g,"").slice(0,1)}));
   $("#factAnswer").addEventListener("input",e=>e.target.value=e.target.value.replace(/[^0-9]/g,"").slice(0,3));
