@@ -1112,3 +1112,5 @@
 @media(max-width:700px){
  .toolSliderGrid,.torqueCompare{grid-template-columns:1fr}.slatMirrorTool{grid-template-columns:1fr}.mirrorAxis{display:none}.braceChoice{grid-template-columns:1fr}.signalMachine{grid-template-columns:1fr}.starGrid{height:220px}
 }
+
+.toolResetButton{width:100%;min-height:42px;margin-top:9px;border:2px solid #d9dfe8;border-radius:12px;background:#fff;color:#58657a;font-weight:900}.toolResetButton:hover{border-color:#8b92d8;background:#f7f6ff}
