@@ -1,4 +1,4 @@
-import React,{useMemo,useState}from'react';
+import React,{useMemo,useRef,useState}from'react';
 import'./townMicroInteractions.css';
 
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
@@ -51,16 +51,39 @@ function WindLab({onClose,onGoTo}){
 }
 
 function ForestTrail({onClose,onGoTo}){
-  const [answer,setAnswer]=useState(null);
-  const correct='●';
-  const solved=answer===correct;
-  return <Frame icon="🌲" title="Forest Pattern Trail" kicker="MAKE CONNECTIONS" takeaway={solved?'The pattern alternates triangle, circle, triangle, circle — so the next shape is a circle.':'Look for what repeats, changes, or alternates.'} discovered={solved} onClose={onClose} onGoTo={onGoTo} goLabel="Visit Pattern Pavilion">
-    <div className="microPrompt">A trail marker is missing. Which shape belongs next?</div>
-    <div className="patternTrail"><span>▲</span><i/><span>●</span><i/><span>▲</span><i/><span>●</span><i/><span className="mystery">?</span></div>
-    <div className="microChoiceRow patternChoices">
-      {['■','●','▲'].map(choice=><button key={choice} className={answer===choice?(choice===correct?'correct':'wrong'):''} onClick={()=>setAnswer(choice)}><span className="shapeChoice">{choice}</span></button>)}
+  const steps=[
+    {clue:['▲','●','▲','?'],answer:'●',from:[12,82],options:[{s:'●',x:29,y:70},{s:'■',x:23,y:52},{s:'▲',x:38,y:84}],explain:'Triangle, circle repeats — follow the circle marker.'},
+    {clue:['■','■','●','■','■','?'],answer:'●',from:[29,70],options:[{s:'▲',x:42,y:55},{s:'●',x:47,y:73},{s:'■',x:39,y:88}],explain:'Two squares, then a circle — the next marker is circle.'},
+    {clue:['●','▲','■','●','▲','?'],answer:'■',from:[47,73],options:[{s:'●',x:63,y:80},{s:'■',x:57,y:50},{s:'▲',x:69,y:65}],explain:'Circle, triangle, square repeats — follow the square.'},
+    {clue:['◆','○','○','◆','○','?'],answer:'○',from:[57,50],options:[{s:'■',x:67,y:30},{s:'○',x:73,y:38},{s:'◆',x:76,y:56}],explain:'Diamond, circle, circle repeats — the next marker is circle.'}
+  ];
+  const route=[[12,82],[29,70],[47,73],[57,50],[73,38],[88,18]];
+  const[stage,setStage]=useState(0),[wrong,setWrong]=useState(null),[attempts,setAttempts]=useState(0);
+  const solved=stage>=steps.length,current=steps[Math.min(stage,steps.length-1)],position=solved?route[route.length-1]:route[stage];
+  const choose=option=>{
+    if(solved)return;
+    setAttempts(v=>v+1);
+    if(option.s===current.answer){setWrong(null);setStage(v=>v+1)}
+    else setWrong(option.s);
+  };
+  return <Frame icon="🌲" title="Forest Pattern Maze" kicker="FOLLOW THE TRAIL MARKERS" takeaway={solved?'You navigated the maze by identifying each repeating rule, then following the matching trail marker.':'At each fork, find the pattern rule before choosing a trail.'} discovered={solved} onClose={onClose} onGoTo={onGoTo} goLabel="Visit Pattern Pavilion">
+    <div className="microPrompt">{solved?'You made it to the lookout!':'Fork '+(stage+1)+' of '+steps.length+': which trail marker continues the pattern?'}</div>
+    <div className="forestMazeMap">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path className="forestMainTrail" d="M12 82 L29 70 L47 73 L57 50 L73 38 L88 18"/>
+        <path className="forestBranchTrail" d="M12 82 L23 52 M12 82 L38 84 M29 70 L42 55 M29 70 L39 88 M47 73 L63 80 M47 73 L69 65 M57 50 L67 30 M57 50 L76 56"/>
+        {route.slice(0,solved?route.length:Math.min(stage+1,route.length)).map((p,i)=>i?<line key={i} className="forestSolvedTrail" x1={route[i-1][0]} y1={route[i-1][1]} x2={p[0]} y2={p[1]}/>:null)}
+      </svg>
+      <div className="forestTrees" aria-hidden="true"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div>
+      <div className="forestLookout">🏕️<span>LOOKOUT</span></div>
+      <div className="forestExplorer" style={{left:position[0]+'%',top:position[1]+'%'}}>🧒</div>
+      {!solved&&<>
+        <div className="forestClueSign"><small>TRAIL SIGN</small><div>{current.clue.map((x,i)=><span key={i}>{x}</span>)}</div></div>
+        {current.options.map((o,i)=><button key={o.s+i} className={'forestTrailChoice '+(wrong===o.s?'wrong':'')} style={{left:o.x+'%',top:o.y+'%'}} onClick={()=>choose(o)}><span>{o.s}</span><small>take trail</small></button>)}
+      </>}
+      {solved&&<div className="forestMazeWin"><span>✨</span><b>LOOKOUT REACHED!</b><small>{attempts} trail choices</small></div>}
     </div>
-    {answer&&<div className={`microFeedback ${solved?'good':'try'}`}>{solved?'Exactly — you found the repeating rule!':'Not this one. Trace the pattern from the beginning.'}</div>}
+    {!solved&&<div className={'microFeedback '+(wrong?'try':'')}>{wrong?'That marker breaks the rule. Return to the sign and compare the smallest repeating unit.':current.explain}</div>}
   </Frame>;
 }
 
@@ -85,6 +108,8 @@ function ShoreCurrent({onClose,onGoTo}){
 
 function CliffsLaunch({onClose,onGoTo}){
   const [angle,setAngle]=useState(35);
+  const svgRef=useRef(null);
+  const [dragging,setDragging]=useState(false);
   const [targetIndex,setTargetIndex]=useState(0);
   const [launched,setLaunched]=useState(false);
   const [attempts,setAttempts]=useState(0);
@@ -109,13 +134,17 @@ function CliffsLaunch({onClose,onGoTo}){
   const wedgePath=`M ${startX+wedgeR} ${groundY} A ${wedgeR} ${wedgeR} 0 0 0 ${wedgeX} ${wedgeY}`;
   const launch=()=>{setLaunched(true);setAttempts(v=>v+1);setBest(v=>v===null?error:Math.min(v,error))};
   const changeAngle=v=>{setAngle(v);setLaunched(false)};
+  const angleFromPointer=e=>{const svg=svgRef.current;if(!svg)return;const rect=svg.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width*380,y=(e.clientY-rect.top)/rect.height*190,deg=Math.atan2(groundY-y,x-startX)*180/Math.PI;changeAngle(Math.round(clamp(deg,15,75)))};
+  const startAngleDrag=e=>{setDragging(true);e.currentTarget.setPointerCapture?.(e.pointerId);angleFromPointer(e)};
+  const moveAngleDrag=e=>{if(dragging)angleFromPointer(e)};
+  const endAngleDrag=e=>{setDragging(false);e.currentTarget.releasePointerCapture?.(e.pointerId)};
   const nextTarget=()=>{setTargetIndex(i=>(i+1)%targets.length);setAngle(35);setLaunched(false);setBest(null);setAttempts(0)};
   const feedback=!launched?'Tune the angle, then launch.':hit?'Bullseye! You matched the target distance.':close?'Very close — make a small angle adjustment.':endX<targetX?'Too short — try an angle closer to the middle.':'Too far — change the angle away from the middle.';
   return <Frame icon="⛰️" title="Cliff Launch Lab" kicker="AIM WITH ANGLES" takeaway={hit?'You used the launch angle to control horizontal range. The angle is measured from the ground up to the launch direction.':'Changing the launch angle changes both height and forward distance.'} discovered={discovered} onClose={onClose} onGoTo={onGoTo} goLabel="Visit Think Tank">
     <div className="microPrompt">Land the launch ball as close to the flag as you can. Adjust the angle, then press Launch.</div>
     <div className="launchScene targetLaunchScene">
       <div className="targetLaunchStage">
-        <svg viewBox="0 0 380 190" aria-label={`Launch angle ${angle} degrees aimed at a target`}>
+        <svg ref={svgRef} viewBox="0 0 380 190" aria-label={"Launch angle "+angle+" degrees aimed at a target"} onPointerDown={startAngleDrag} onPointerMove={moveAngleDrag} onPointerUp={endAngleDrag} onPointerCancel={()=>setDragging(false)}>
           <path className="launchGround" d="M20 157 H360"/>
           <path className="launchCliff" d="M25 157 L55 105 L80 157 Z"/>
           
@@ -126,6 +155,8 @@ function CliffsLaunch({onClose,onGoTo}){
           <path className="angleWedgeArc" d={wedgePath}/>
           <text className="angleWedgeLabel" x={startX+Math.cos(radians/2)*34} y={groundY-Math.sin(radians/2)*34}>{angle}°</text>
           <circle className="angleVertex" cx={startX} cy={groundY} r="4"/>
+          <circle className={dragging?"angleDragHandle dragging":"angleDragHandle"} cx={rayX} cy={rayY} r="9"/>
+          <text className="angleDragHint" x={rayX+12} y={rayY-8}>DRAG</text>
           
           <g className="launchTarget" transform={`translate(${targetX} 0)`}>
             <line x1="0" y1="118" x2="0" y2="157"/>
@@ -149,10 +180,10 @@ function CliffsLaunch({onClose,onGoTo}){
       </div>
     </div>
     
-    <div className="launchAngleControl">
-      <div className="angleSliderHeader"><span>Low angle</span><b>{angle}°</b><span>High angle</span></div>
-      <input type="range" min="15" max="75" step="1" value={angle} onChange={e=>changeAngle(Number(e.target.value))}/>
-      <div className="anglePresetRow">{[25,45,65].map(a=><button key={a} className={angle===a?'active':''} onClick={()=>changeAngle(a)}>{a}°</button>)}</div>
+    <div className="launchAngleControl dragAngleControl">
+      <div className="angleSliderHeader"><span>Drag the blue handle on the launcher</span><b>{angle}°</b><span>15°–75°</span></div>
+      <input aria-label="Fine tune launch angle" type="range" min="15" max="75" step="1" value={angle} onChange={e=>changeAngle(Number(e.target.value))}/>
+      <small className="fineTuneLabel">You can also use this slider for fine adjustment.</small>
     </div>
     
     <div className="targetLaunchActions">

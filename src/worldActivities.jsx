@@ -25,6 +25,8 @@ const kitchenMeasures=[
   {id:'tsp',label:'1 tsp',short:'1 tsp',value:1/48,kind:'spoon'}
 ];
 const kitchenTargets=[
+  {label:'1/4 cup',value:.25},
+  {label:'1/3 cup',value:1/3},
   {label:'1/2 cup',value:.5},
   {label:'3/4 cup',value:.75},
   {label:'1 cup',value:1}
@@ -35,8 +37,26 @@ const amountLabel=value=>{
   const hit=known.find(([n])=>Math.abs(v-n)<.012);
   return hit?hit[1]:v.toFixed(2)+' cups';
 };
-function BakeryMeasuringStation({order}){
-  const initialTarget=order?.id==='half-cup' ? .5 : order?.id==='bakery-ratio-batch' ? .75 : order?.id==='bakery-catering-mission' ? 1 : .75;
+const measureTargetForOrder=order=>{
+  const map={
+    'pizza-three-fourths':.75,
+    'half-cup':.5,
+    'share-cookies':.5,
+    'bakery-equivalence-cake':.25,
+    'bakery-ratio-batch':.75,
+    'bakery-chance-box':.75,
+    'bakery-catering-mission':1
+  };
+  return map[order?.id]??.75;
+};
+const fractionForAmount=value=>{
+  const known=[[.25,'1/4'],[1/3,'1/3'],[.5,'1/2'],[.75,'3/4'],[1,'1']];
+  return known.find(([n])=>Math.abs(value-n)<.012)?.[1]||amountLabel(value);
+};
+const percentForAmount=value=>Math.round(value*1000)/10+'%';
+
+function BakeryMeasuringStation({order,onComplete}){
+  const initialTarget=measureTargetForOrder(order);
   const[selected,setSelected]=useState('half'),[ingredient,setIngredient]=useState('milk'),[target,setTarget]=useState(initialTarget),[pours,setPours]=useState([]),[note,setNote]=useState('Choose a measure, then pour it into the bowl.'),[solvedWays,setSolvedWays]=useState([]);
   const[servings,setServings]=useState(4),[broken,setBroken]=useState(false);
   const measure=kitchenMeasures.find(m=>m.id===selected)||kitchenMeasures[0];
@@ -45,7 +65,7 @@ function BakeryMeasuringStation({order}){
   const pour=()=>{const next=total+measure.value;if(next>1.55){setNote('That would overflow the practice bowl. Undo or clear some first.');return}setPours(v=>[...v,{...measure,ingredient}]);setNote('Added '+measure.label+'. Watch how the total changes.')};
   const undo=()=>{setPours(v=>v.slice(0,-1));setNote('Last pour removed.')};
   const clear=()=>{setPours([]);setNote('Bowl cleared. Build the amount a different way!')};
-  const check=()=>{if(matching){const key=pours.map(p=>p.short).sort().join('+')||'empty';setSolvedWays(v=>v.includes(key)?v:[...v,key]);setNote('Perfect! You built '+amountLabel(target)+'. '+(solvedWays.includes(key)?'Try a different combination now.':'That is a new way to make it!'))}else setNote(total<target?'You have '+amountLabel(total)+'. Add a little more.':'You have '+amountLabel(total)+'. That is more than the goal.')};
+  const check=()=>{if(matching){const key=pours.map(p=>p.short).sort().join('+')||'empty';setSolvedWays(v=>v.includes(key)?v:[...v,key]);setNote('Perfect! You built '+amountLabel(target)+'. '+(solvedWays.includes(key)?'Try a different combination now.':'That is a new way to make it!'));if(order?.type==='scoops'&&Math.abs(target-order.target)<.012)onComplete?.(order.id)}else setNote(total<target?'You have '+amountLabel(total)+'. Add a little more.':'You have '+amountLabel(total)+'. That is more than the goal.')};
   const fill=Math.min(100,(total/1.5)*100);
   const scale=servings/4,flour=Number((1*scale).toFixed(2)),milk=Number((.5*scale).toFixed(2)),sugar=Number(((broken?.5:.25)*scale).toFixed(2)),ratioOk=!broken;
   return <section className="kitchenMeasureStation">
@@ -59,7 +79,7 @@ function BakeryMeasuringStation({order}){
       </div>
       <div className="measurePreview">
         <small>SELECTED TOOL</small>
-        <div className="previewMeasure"><span className={measure.kind==='cup'?'previewCup':'previewSpoon'}><i style={measure.kind==='cup'?{height:Math.min(100,measure.value*100)+'%'}:{}}/></span><div><strong>{measure.label}</strong><p>{measure.id==='half'?'2 of these make 1 cup.':measure.id==='quarter'?'2 quarters make 1/2 cup.':measure.id==='third'?'3 thirds make 1 cup.':measure.id==='tbsp'?'16 tablespoons make 1 cup.':measure.id==='tsp'?'3 teaspoons make 1 tablespoon.':'This is one whole cup.'}</p></div></div>
+        <div className="previewMeasure"><span className={measure.kind==='cup'?'previewCup '+measure.id:'previewSpoon '+measure.id}><i style={measure.kind==='cup'?{height:Math.min(100,measure.value*100)+'%'}:{}}/></span><div><strong>{measure.label}</strong><p>{measure.id==='half'?'2 of these make 1 cup.':measure.id==='quarter'?'2 quarters make 1/2 cup.':measure.id==='third'?'3 thirds make 1 cup.':measure.id==='tbsp'?'16 tablespoons make 1 cup.':measure.id==='tsp'?'3 teaspoons make 1 tablespoon.':'This is one whole cup.'}</p></div></div>
         <div className="ingredientTabs">{['milk','flour','sugar'].map(x=><button key={x} className={ingredient===x?'active':''} onClick={()=>setIngredient(x)}>{x==='milk'?'🥛':x==='flour'?'🌾':'🍚'} {x}</button>)}</div>
         <button className="pourButton" onClick={pour}>Pour {measure.label} →</button>
       </div>
@@ -73,6 +93,20 @@ function BakeryMeasuringStation({order}){
     <div className="measureActions"><button onClick={undo} disabled={!pours.length}>↶ Undo</button><button onClick={clear} disabled={!pours.length}>Clear bowl</button><button className="primary" onClick={check}>Check amount</button></div>
     <p className={'measureNote '+(matching?'success':'')}>{matching?'✨ ':''}{note}</p>
     {matching&&<div className="anotherWayChallenge"><div><small>FLEXIBLE THINKING</small><b>Can you make {amountLabel(target)} another way?</b><span>{solvedWays.length} different {solvedWays.length===1?'way':'ways'} found</span></div><button onClick={clear}>Try another way →</button></div>}
+
+
+    <div className="measurementConnections">
+      <div className="measurementConnectionHead"><small>ONE AMOUNT · MANY LANGUAGES</small><b>{amountLabel(target)} can be represented several ways.</b></div>
+      <div className="measurementRepresentations">
+        <span><small>FRACTION</small><strong>{fractionForAmount(target)}</strong></span>
+        <span><small>DECIMAL</small><strong>{Number(target.toFixed(3))}</strong></span>
+        <span><small>PERCENT</small><strong>{percentForAmount(target)}</strong></span>
+        <span><small>OF ONE CUP</small><div className="measureFractionBar"><i style={{width:(target*100)+'%'}}/></div></span>
+      </div>
+      <div className="measureEquivalenceStrip">
+        <span>1 cup</span><b>=</b><span>2 × 1/2</span><b>=</b><span>4 × 1/4</span><b>=</b><span>16 Tbsp</span><b>=</b><span>48 tsp</span>
+      </div>
+    </div>
 
     <div className="recipeScaleBoard">
       <div className="recipeScaleHead"><div><small>RECIPE SCALER</small><h4>Feed more customers</h4><p>Change the servings. Every ingredient should scale by the same factor.</p></div><strong>{servings} servings</strong></div>
@@ -93,4 +127,44 @@ function ScoopOrder({order,onComplete}){const[amount,setAmount]=useState(0),[mes
 function CountOrder({order,onComplete}){const[count,setCount]=useState(0),[message,setMessage]=useState('Move cookies onto the sharing tray.');const check=()=>count===order.target?(setMessage(order.success),onComplete(order.id)):setMessage(`You shared ${count}. Try again.`);return <><div className="cookieCounter"><button onClick={()=>setCount(v=>Math.max(0,v-1))}>−</button><div><span>{'🍪'.repeat(count)||'—'}</span><b>{count} of 8 cookies</b></div><button onClick={()=>setCount(v=>Math.min(order.max,v+1))}>+</button></div><button className="primary" onClick={check}>Give these cookies</button><p className="feedback">{message}</p></>}
 function ChoiceOrder({order,onComplete}){const[m,setM]=useState('Choose the answer that fits the order.');return <><div className="hubTiles">{order.choices.map((x,i)=><button key={x} onClick={()=>i===order.correct?(setM(order.success),onComplete(order.id)):setM('Not quite. Use what you learned and try another choice.')}>{x}</button>)}</div><p className="feedback">{m}</p></>}
 function PartyOrder({order,onComplete}){const[stage,setStage]=useState(0),[v,setV]=useState(0),[a,setA]=useState(0),[b,setB]=useState(0),[m,setM]=useState('Complete station 1 to start building the party order.');const s=order.stations[stage];const correct=s.kind==='ratio'?a===s.a&&b===s.b:v===s.target;const advance=()=>{if(!correct){setM('That station is not ready yet. Check the order and adjust it.');return}if(stage===order.stations.length-1){setM(order.success);onComplete(order.id);return}setStage(x=>x+1);setV(0);setA(0);setB(0);setM(`${s.label} complete! Next station is ready.`)};return <><div className="partyProgress">{order.stations.map((x,i)=><div key={x.label} className={`partyStation ${i<stage?'done':i===stage?'active':''}`}><span>{i<stage?'✅':x.icon}</span><b>{x.label}</b><small>{i<stage?'Complete':i===stage?'Working':'Waiting'}</small></div>)}</div><div className="partyWork"><small>Station {stage+1} of 3</small><h3>{s.icon} {s.label}</h3><p>{s.prompt}</p>{s.kind==='ratio'?<div className="ratioWorkbench"><div><span className="ratioObjects">{'🧁'.repeat(a)||'—'}</span><b>{a} chocolate</b><div className="stepper"><button onClick={()=>setA(x=>Math.max(0,x-1))}>−</button><button onClick={()=>setA(x=>Math.min(8,x+1))}>+</button></div></div><strong>:</strong><div><span className="ratioObjects">{'🍰'.repeat(b)||'—'}</span><b>{b} vanilla</b><div className="stepper"><button onClick={()=>setB(x=>Math.max(0,x-1))}>−</button><button onClick={()=>setB(x=>Math.min(8,x+1))}>+</button></div></div></div>:<div className="partyNumber"><button onClick={()=>setV(x=>Math.max(0,x-1))}>−</button><strong>{v}</strong><button onClick={()=>setV(x=>Math.min(15,x+1))}>+</button></div>}</div><button className="primary" onClick={advance}>{stage===2?'Finish party order':'Complete station'}</button><p className="feedback">{m}</p></>}
-export function FractionBakery({activity,onProgress,onExit,completedLessons={}}){const completed=activity?.completedOrders||{},orders=ORDERS.filter(o=>orderUnlocked(o,completedLessons)),waiting=orders.filter(o=>!completed[o.id]),served=orders.length-waiting.length,nextOrder=nextLockedOrder('bakery',completedLessons),[selectedId,setSelectedId]=useState(waiting[0]?.id||orders[0]?.id),order=orders.find(o=>o.id===selectedId)||waiting[0]||orders[0];const finish=id=>{if(!completed[id])onProgress({completedOrders:{...completed,[id]:true}})};const allCurrentDone=waiting.length===0;return <main className="app numbersLabApp"><header className="hero bakeryHero numbersLabHero"><div><small>Fraction Bakery & Test Kitchen</small><h1>Cook with numbers.</h1><p>Use recipes, portions, measuring cups, ratios, and kitchen orders to solve real cooking challenges.</p></div><button className="secondary" onClick={onExit}>← Back to My World</button></header><section className="bakeryStatus panel numbersStatus"><div><span>🥐</span><b>{waiting.length} orders waiting · {served} served</b></div><div className="bakeryUpgrade"><span>{allCurrentDone?'🏆':'✨'}</span><div><b>{allCurrentDone?'Kitchen is caught up!':'New orders are ready'}</b><small>{allCurrentDone?(nextOrder?`The next recipe unlocks after “${nextOrder.unlockLabel}.”`:'Every bakery challenge in this adventure is complete!'):'Choose an order ticket from the kitchen board.'}</small></div></div></section><section className="bakeryLayout numbersLabLayout"><aside className="panel bakeryWindow numbersLabQueue"><div className="awning numbersLabSign">🥐 FRACTION BAKERY 🍰</div><div className="windowScene numbersLabBoard"><div className="windowShelf">{waiting.length?waiting.map(o=><button key={o.id} className={`windowCustomer numberExperimentCard ${order?.id===o.id?'active':''}`} onClick={()=>setSelectedId(o.id)}><span>{o.avatar}</span><b>{o.customer}</b><small>{o.title}</small><em>Order ready</em></button>):<div className="emptyWindow"><span>🧁</span><b>No orders waiting</b><small>Head back to lessons. New recipes and customers arrive as new ideas are mastered.</small></div>}</div><div className="bakeryCounterDecor numbersToolShelf">🥣 🥄 🧁 🥛</div></div><div className="servedTally">✅ {served} orders served</div>{allCurrentDone&&nextOrder&&<div className="lockedNextOrder"><span>🔒</span><div><b>Next recipe coming later</b><small>Master “{nextOrder.unlockLabel}” to unlock {nextOrder.label}.</small></div></div>}</aside><section className="panel bakeryCounter numbersWorkbench activityFirstWorkbench">{order?<><div className="customerBubble numbersBrief activityFirstBrief"><span>{order.avatar}</span><div><small>{order.customer}'s order</small><h2>{order.title}</h2><p>{order.prompt}</p></div></div>{['half-cup','bakery-ratio-batch','bakery-catering-mission'].includes(order.id)&&<BakeryMeasuringStation key={order.id} order={order}/>}<div className="numbersRoomDecor kitchenRoomDecor compactKitchenDecor" aria-hidden="true"><div className="numbersNumberLine recipeBoard"><span>1/4</span><span>1/2</span><span>3/4</span><span>1</span><span>2×</span><span>3×</span></div><div className="numbersShelf kitchenShelf"><span>🥣</span><span>🥄</span><span>🧁</span><span>🥛</span></div><div className="fractionStripWall recipeCards"><i/><i/><i/><i/></div><div className="counterJars ingredientJars"><span>🍫</span><span>🍓</span><span>🫐</span></div><div className="numbersWindow bakeryOven"><i/><i/></div><div className="numbersLamp">💡</div></div>{order.type==='slices'&&<SliceOrder order={order} onComplete={finish}/>} {order.type==='scoops'&&<ScoopOrder order={order} onComplete={finish}/>} {order.type==='count'&&<CountOrder order={order} onComplete={finish}/>} {order.type==='choice'&&<ChoiceOrder order={order} onComplete={finish}/>} {order.type==='party'&&<PartyOrder order={order} onComplete={finish}/>} {completed[order.id]&&<div className="successNote">Order complete! Choose another ticket from the kitchen board.</div>}</>:<div className="emptyBakery"><span>🥐</span><h2>All orders are served.</h2><p>New recipes and customers will appear as new ideas are mastered.</p></div>}</section></section></main>}
+
+function BakeryOrderActivity({order,onComplete,runKey}){
+  if(order.type==='scoops')return <div className="orderUsesLab"><div className="orderUsesLabCallout"><span>🥛</span><div><small>USE THE MEASURING LAB</small><b>Build {amountLabel(order.target)} with real measuring tools.</b><p>Try one combination, check it, then see if you can make the same amount another way.</p></div></div><BakeryMeasuringStation key={'measure-'+runKey} order={order} onComplete={onComplete}/></div>;
+  return <div className="bakeryOrderActivity" key={runKey}>
+    {order.type==='slices'&&<SliceOrder order={order} onComplete={onComplete}/>}
+    {order.type==='count'&&<CountOrder order={order} onComplete={onComplete}/>}
+    {order.type==='choice'&&<ChoiceOrder order={order} onComplete={onComplete}/>}
+    {order.type==='party'&&<PartyOrder order={order} onComplete={onComplete}/>}
+  </div>
+}
+
+export function FractionBakery({activity,onProgress,onExit,completedLessons={}}){
+  const completed=activity?.completedOrders||{},orders=ORDERS.filter(o=>orderUnlocked(o,completedLessons)),waiting=orders.filter(o=>!completed[o.id]),served=orders.length-waiting.length,nextOrder=nextLockedOrder('bakery',completedLessons);
+  const[selectedId,setSelectedId]=useState(waiting[0]?.id||orders[0]?.id),[runKey,setRunKey]=useState(0);
+  const order=orders.find(o=>o.id===selectedId)||waiting[0]||orders[0],finish=id=>{if(!completed[id])onProgress({completedOrders:{...completed,[id]:true}})},allCurrentDone=waiting.length===0;
+  const chooseOrder=id=>{setSelectedId(id);setRunKey(k=>k+1)};
+  const replay=()=>setRunKey(k=>k+1);
+  return <main className="app numbersLabApp bakeryTestKitchenApp">
+    <header className="hero bakeryHero numbersLabHero"><div><small>Fraction Bakery & Test Kitchen</small><h1>Cook with numbers.</h1><p>Use recipes, portions, measuring cups, ratios, and kitchen orders to solve real cooking challenges.</p></div><button className="secondary" onClick={onExit}>← Back to My World</button></header>
+    <section className="bakeryStatus panel numbersStatus"><div><span>🥐</span><b>{waiting.length} orders waiting · {served} served</b></div><div className="bakeryUpgrade"><span>{allCurrentDone?'🏆':'✨'}</span><div><b>{allCurrentDone?'Kitchen is caught up — keep experimenting!':'New orders are ready'}</b><small>{allCurrentDone?(nextOrder?'The next recipe unlocks after “'+nextOrder.unlockLabel+'.” The Test Kitchen stays open for practice.':'Every bakery challenge is complete, but the Test Kitchen stays open.'):'Choose an order ticket, then use the kitchen tools to solve it.'}</small></div></div></section>
+    <section className="bakeryLayout numbersLabLayout">
+      <aside className="panel bakeryWindow numbersLabQueue">
+        <div className="awning numbersLabSign">🥐 FRACTION BAKERY 🍰</div>
+        <div className="windowScene numbersLabBoard"><div className="windowShelf">
+          {orders.length?orders.map(o=><button key={o.id} className={'windowCustomer numberExperimentCard '+(order?.id===o.id?'active ':'')+(completed[o.id]?'servedTicket':'')} onClick={()=>chooseOrder(o.id)}><span>{o.avatar}</span><b>{o.customer}</b><small>{o.title}</small><em>{completed[o.id]?'✓ Served · tap to replay':'Order ready'}</em></button>):<div className="emptyWindow"><span>🧁</span><b>No recipes unlocked yet</b><small>Head back to lessons to unlock the first kitchen order.</small></div>}
+        </div><div className="bakeryCounterDecor numbersToolShelf">🥣 🥄 🧁 🥛</div></div>
+        <div className="servedTally">✅ {served} orders served</div>
+        {allCurrentDone&&nextOrder&&<div className="lockedNextOrder"><span>🔒</span><div><b>Next recipe coming later</b><small>Master “{nextOrder.unlockLabel}” to unlock {nextOrder.label}.</small></div></div>}
+      </aside>
+      <section className="panel bakeryCounter numbersWorkbench activityFirstWorkbench">
+        {order?<>
+          <div className="numbersRoomDecor kitchenRoomDecor compactKitchenDecor" aria-hidden="true"><div className="numbersNumberLine recipeBoard"><span>1/4</span><span>1/2</span><span>3/4</span><span>1</span><span>2×</span><span>3×</span></div><div className="numbersShelf kitchenShelf"><span>🥣</span><span>🥄</span><span>🧁</span><span>🥛</span></div><div className="fractionStripWall recipeCards"><i/><i/><i/><i/></div><div className="counterJars ingredientJars"><span>🍫</span><span>🍓</span><span>🫐</span></div><div className="numbersWindow bakeryOven"><i/><i/></div><div className="numbersLamp">💡</div></div>
+          <div className="customerBubble numbersBrief activityFirstBrief"><span>{order.avatar}</span><div><small>{order.customer}'s order {completed[order.id]?'· already served':''}</small><h2>{order.title}</h2><p>{order.prompt}</p></div>{completed[order.id]&&<button className="replayOrderButton" onClick={replay}>↻ Replay order</button>}</div>
+          <section className="activeOrderBench"><div className="activeOrderLabel">ACTIVE ORDER</div><BakeryOrderActivity key={order.id+'-'+runKey} order={order} onComplete={finish} runKey={runKey}/></section>
+          {completed[order.id]&&<div className="successNote">Order complete! Replay it, choose another ticket, or keep experimenting in the Test Kitchen below.</div>}
+          {order.type!=='scoops'&&<section className="persistentTestKitchen"><div className="testKitchenDivider"><span>🧪 TEST KITCHEN</span><b>Measure it. Represent it. Scale it.</b><p>The tools stay available for every order so the same number ideas can be explored in a cooking context.</p></div><BakeryMeasuringStation key={'lab-'+order.id} order={order}/></section>}
+        </>:<div className="emptyBakery"><span>🥐</span><h2>The kitchen is ready.</h2><p>Complete lessons to unlock customer orders. The Test Kitchen will grow with you.</p></div>}
+      </section>
+    </section>
+  </main>
+}
