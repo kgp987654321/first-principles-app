@@ -72,7 +72,7 @@ function ForestTrail({onClose,onGoTo}){
       <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         <path className="forestMainTrail" d="M12 82 L29 70 L47 73 L57 50 L73 38 L88 18"/>
         <path className="forestBranchTrail" d="M12 82 L23 52 M12 82 L38 84 M29 70 L42 55 M29 70 L39 88 M47 73 L63 80 M47 73 L69 65 M57 50 L67 30 M57 50 L76 56"/>
-        {route.slice(0,Math.min(stage+1,route.length)).map((p,i)=>i?<line key={i} className="forestSolvedTrail" x1={route[i-1][0]} y1={route[i-1][1]} x2={p[0]} y2={p[1]}/>:null)}
+        {route.slice(0,solved?route.length:Math.min(stage+1,route.length)).map((p,i)=>i?<line key={i} className="forestSolvedTrail" x1={route[i-1][0]} y1={route[i-1][1]} x2={p[0]} y2={p[1]}/>:null)}
       </svg>
       <div className="forestTrees" aria-hidden="true"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div>
       <div className="forestLookout">🏕️<span>LOOKOUT</span></div>
