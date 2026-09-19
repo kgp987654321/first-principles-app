@@ -474,7 +474,7 @@
   function renderProblem(){
     clearInputs();state.problem=makeProblem(state.mode);state.strategy=0;state.strategyStep=0;
     const p=state.problem;
-    $(".gameCard").forEach(b=>b.classList.toggle("active",b.dataset.mode===state.mode));
+    $$(".gameCard").forEach(b=>b.classList.toggle("active",b.dataset.mode===state.mode));
     const isFact=state.mode==="multiply"||state.mode==="divide",isTrail=state.mode==="subtract";
     $("#columnPractice").classList.toggle("hidden",isFact||isTrail);
     $("#mazePractice").classList.toggle("hidden",!isTrail);
@@ -1187,7 +1187,7 @@
 
   $$("input.digit").forEach(el=>el.addEventListener("input",()=>{el.value=el.value.replace(/[^0-9]/g,"").slice(0,1)}));
   $("#factAnswer").addEventListener("input",e=>e.target.value=e.target.value.replace(/[^0-9]/g,"").slice(0,3));
-  $$(".gameCard").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;if(state.mode==="subtract")startTrail();else renderProblem()}));
+  $$$(".gameCard").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;if(state.mode==="subtract")startTrail();else renderProblem()}));
   $("#switchStrategy").addEventListener("click",()=>{state.strategy=(state.strategy+1)%strategies[state.mode].length;state.strategyStep=0;renderStrategy();renderFactVisual()});
   $("#checkBtn").addEventListener("click",check);
   $("#clearBtn").addEventListener("click",clearInputs);
@@ -1195,9 +1195,9 @@
   $("#newTrail").addEventListener("click",startTrail);
   $("#mixBtn").addEventListener("click",()=>{const m=["add","subtract","multiply","divide"];state.mode=m[rand(0,3)];if(state.mode==="subtract")startTrail();else renderProblem()});
   $("#restartMission").addEventListener("click",restart);
-  $(".roleCard").forEach(b=>b.addEventListener("click",()=>{
+  $$(".roleCard").forEach(b=>b.addEventListener("click",()=>{
     restaurantState.role=b.dataset.role;
-    $(".roleCard").forEach(x=>x.classList.toggle("active",x===b));
+    $$(".roleCard").forEach(x=>x.classList.toggle("active",x===b));
     $("#startRestaurantShift").disabled=false;
   }));
   $("#startRestaurantShift").addEventListener("click",startRestaurantShift);
