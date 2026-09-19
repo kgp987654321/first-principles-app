@@ -145,19 +145,25 @@ function Basketball({record,onRecord,onChallenge,onDiscover}){
 }
 function Soccer({record,onRecord,onChallenge,onDiscover}){
   const[angle,setAngle]=useState(32),[power,setPower]=useState(74),[contact,setContact]=useState('center'),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
-  const contactShift=contact==='curve'?-6:contact==='chip'?6:0;
-  const endpoint=(angle-32)*1.15+contactShift,miss=Math.abs(endpoint),height=Math.round(3+Math.sin(rad(angle))*power*.14),distance=Math.round(12+power*.16),basicHit=miss<5,masteryHit=basicHit&&power<=70;
+  const startX=310,startY=520,targetX=944,targetY=244,idealPower=74;
+  const shotX=clamp(startX+(targetX-startX)*(power/idealPower),startX+80,1090);
+  const shotY=clamp(startY-(angle-15)*16.24*(power/idealPower),145,530);
+  const miss=Math.hypot(shotX-targetX,shotY-targetY);
+  const height=Math.round((startY-Math.min(shotY,420))/9+Math.sin(rad(angle))*power*.08),distance=Math.round(8+(shotX-startX)/22);
+  const basicHit=miss<46,masteryHit=basicHit&&power<=70;
   const success=mode==='explore'?true:mode==='challenge'?basicHit:masteryHit;
-  const kick=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('vector');if(success&&mode!=='explore')onChallenge('soccer:'+mode);if(basicHit)onRecord('soccer',Math.max(record||0,100-Math.round(miss*8)))};
-  const resetTry=()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?4:-5),15,50));setPower(p=>clamp(p+(attempt%2?-8:6),30,100))};
-  return <SportLab icon="⚽" title="Goal Kick Math" subtitle="Explore how angle and kick force change the path of a soccer ball." promptTitle="Take the kick!" promptText="Aim through the target zone. Change angle, force, and contact style." scene={<SoccerScene key={attempt} played={result!==null} angle={angle} power={power} end={endpoint} contact={contact}/>}
-    stats={[{icon:'📐',label:'Kick Angle',value:angle+'°'},{icon:'🔥',label:'Kick Force',value:power+'%'},{icon:'📍',label:'Distance',value:distance+' FT'},{icon:'⬆',label:'Max Height',value:height+' FT'}]}
+  const contactPresets={curve:{angle:30,power:74},center:{angle:32,power:74},chip:{angle:36,power:70}};
+  const applyContact=type=>{const p=contactPresets[type];setContact(type);setAngle(p.angle);setPower(p.power);setResult(null);setAttempt(v=>v+1)};
+  const kick=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('vector');if(success&&mode!=='explore')onChallenge('soccer:'+mode);if(basicHit)onRecord('soccer',Math.max(record||0,100-Math.round(miss)))};
+  const resetTry=()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?3:-3),15,50));setPower(p=>clamp(p+(attempt%2?-5:5),30,100))};
+  const feedback=result===null?null:(result?(mode==='explore'?'The red target ring is the exact scoring target. Force changes reach; angle changes height.':'Goal! Mission complete.'):(shotX<targetX-35?'The ball fell short — add kick force.':shotX>targetX+35?'Too much force — the shot carried past the goal plane.':shotY<targetY?'The shot is too high — lower the kick angle or force.':'The shot is too low — raise the angle.'));
+  return <SportLab icon="⚽" title="Goal Kick Math" subtitle="Explore how angle and kick force change the path of a soccer ball." promptTitle="Take the kick!" promptText="Put the ball through the red target ring. The ring is the exact target used to score the kick." scene={<SoccerScene key={attempt+'-'+contact} played={result!==null} angle={angle} power={power} shotX={shotX} shotY={shotY} contact={contact}/>}
+    stats={[{icon:'📐',label:'Kick Angle',value:angle+'°'},{icon:'🔥',label:'Kick Force',value:power+'%'},{icon:'📍',label:'Reach',value:distance+' FT'},{icon:'⬆',label:'Max Height',value:height+' FT'}]}
     controls={<><SportControl label="Kick angle" value={angle} min={15} max={50} onChange={v=>{setAngle(v);setResult(null)}} suffix="°"/><SportControl label="Kick force" value={power} min={30} max={100} onChange={v=>{setPower(v);setResult(null)}} suffix="%"/></>}
-    choices={<ChoiceButtons options={[{id:'curve',label:'low curve'},{id:'center',label:'center strike'},{id:'chip',label:'high chip'}]} value={contact} onChange={v=>{setContact(v);setResult(null)}}/>}
-    actionLabel="⚽ Kick!" onAction={kick} feedback={result===null?null:(result?(mode==='explore'?'Notice: angle and contact change direction while force changes how far the ball travels.':'Goal! Mission complete.'):(mode==='mastery'?'Hit the target using 70% force or less.':'Off target. Change direction or contact and try again.'))} success={result===true}
+    choices={<ChoiceButtons options={[{id:'curve',label:'low curve · 30° / 74%'},{id:'center',label:'center strike · 32° / 74%'},{id:'chip',label:'high chip · 36° / 70%'}]} value={contact} onChange={applyContact}/>}
+    actionLabel="⚽ Kick!" onAction={kick} feedback={feedback} success={result===true}
     mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('soccer',mode)} connectionText={SPORTS_CHALLENGES.soccer.connection} onTryAnother={resetTry}/>;
 }
-
 function Football({record,onRecord,onChallenge,onDiscover}){
   const passPresets={
     short:{angle:25,power:54,receiver:5},
@@ -200,18 +206,19 @@ function Golf({record,onRecord,onChallenge,onDiscover}){
 }
 
 function Hockey({record,onRecord,onChallenge,onDiscover}){
-  const[angle,setAngle]=useState(35),[force,setForce]=useState(65),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0),target=68;
-  const reflected=angle,miss=Math.abs(reflected-target),basicHit=miss<4;
-  const success=mode==='explore'?true:basicHit;
-  const shoot=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('reflection');if(success&&mode!=='explore')onChallenge('hockey:'+mode);if(basicHit)onRecord('hockey',Math.max(record||0,100-Math.round(miss*5)))};
-  return <SportLab icon="🏒" title="Bank Shot Math" subtitle="Explore reflection: the angle into the boards matches the angle out." promptTitle="Bank it in!" promptText="Aim at the boards so the reflected puck path reaches the goal." scene={<HockeyScene key={attempt} played={result!==null} angle={angle} reflected={reflected}/>}
-    stats={[{icon:'↘',label:'Incoming Angle',value:angle+'°'},{icon:'↗',label:'Reflected Angle',value:reflected+'°'},{icon:'🔥',label:'Shot Force',value:force+'%'},{icon:'🎯',label:'Target',value:target+'°'}]}
+  const[angle,setAngle]=useState(68),[force,setForce]=useState(69),[guide,setGuide]=useState('rays'),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0);
+  const reflected=angle,ray=180+force*4.7,hitX=600,hitY=150,endX=hitX+Math.sin(rad(reflected))*ray,endY=hitY+Math.cos(rad(reflected))*ray,goalX=1067,goalY=340;
+  const miss=Math.hypot(endX-goalX,endY-goalY),basicHit=miss<46,masteryHit=basicHit&&force<=72;
+  const success=mode==='explore'?true:mode==='challenge'?basicHit:masteryHit;
+  const shoot=()=>{setAttempt(v=>v+1);setResult(success);onDiscover('reflection');if(success&&mode!=='explore')onChallenge('hockey:'+mode);if(basicHit)onRecord('hockey',Math.max(record||0,100-Math.round(miss/2)))};
+  const feedback=result===null?null:(result?(mode==='explore'?'Angle controls direction and force controls vector length. The same model draws and scores the puck.':'Bank shot! Mission complete.'):(miss<85?'Very close — make a small angle or force adjustment.':force<60?'The angle may be close, but the puck needs more force to reach the goal.':endX>goalX+40?'The puck carried too far — reduce force or change the bank angle.':'Adjust the bank angle so the reflected vector points through the goal.'));
+  return <SportLab icon="🏒" title="Bank Shot Math" subtitle="Explore reflection and vector magnitude: angle chooses direction; force changes how far the puck travels." promptTitle="Bank it in!" promptText="Use the guide buttons, then tune both bank angle and shot force until the reflected vector reaches the goal." scene={<HockeyScene key={attempt+'-'+guide} played={result!==null} angle={angle} reflected={reflected} force={force} guide={guide}/>}
+    stats={[{icon:'↘',label:'Incoming Angle',value:angle+'°'},{icon:'↗',label:'Reflected Angle',value:reflected+'°'},{icon:'🔥',label:'Shot Force',value:force+'%'},{icon:'🎯',label:'Goal Miss',value:Math.round(miss)+' px'}]}
     controls={<><SportControl label="Bank angle" value={angle} min={15} max={75} onChange={v=>{setAngle(v);setResult(null)}} suffix="°"/><SportControl label="Shot force" value={force} min={30} max={100} onChange={v=>{setForce(v);setResult(null)}} suffix="%"/></>}
-    choices={<ChoiceButtons options={[{id:'normal',label:'normal line'},{id:'rays',label:'angle rays'},{id:'target',label:'target path'}]} value="rays" onChange={()=>{}}/>}
-    actionLabel="🏒 Shoot!" onAction={shoot} feedback={result===null?null:(result?(mode==='explore'?'Angle in equals angle out when both are measured from the normal.':'Bank shot! Mission complete.'):'The reflection rule is right, but this angle misses the target.')} success={result===true}
-    mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('hockey',mode)} connectionText={SPORTS_CHALLENGES.hockey.connection} onTryAnother={()=>{setResult(null);setAngle(a=>clamp(70-a,15,75))}}/>;
+    choices={<ChoiceButtons options={[{id:'normal',label:'normal line'},{id:'rays',label:'angle rays'},{id:'target',label:'target path'}]} value={guide} onChange={v=>{setGuide(v);setResult(null)}}/>}
+    actionLabel="🏒 Shoot!" onAction={shoot} feedback={feedback} success={result===true}
+    mode={mode} onModeChange={m=>{setMode(m);setResult(null)}} challengeText={challengeText('hockey',mode)} connectionText={SPORTS_CHALLENGES.hockey.connection} onTryAnother={()=>{setResult(null);setAngle(a=>clamp(a+(attempt%2?2:-2),15,75));setForce(f=>clamp(f+(attempt%2?-4:4),30,100))}}/>;
 }
-
 function Track({record,onRecord,onChallenge,onDiscover}){
   const[speed,setSpeed]=useState(12),[laps,setLaps]=useState(2),[result,setResult]=useState(null),[mode,setMode]=useState('explore'),[attempt,setAttempt]=useState(0),lap=400,distance=laps*lap,time=distance/speed,pace=(400/speed).toFixed(1);
   const success=mode==='explore'?true:mode==='challenge'?laps>=1:(laps>=2&&speed>=12);
