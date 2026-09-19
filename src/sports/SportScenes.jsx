@@ -3,11 +3,14 @@ import{AngleOverlay}from'./SportLab';
 import{clamp,rad,quadraticPath}from'./sportsPhysics';
 
 export function BasketballScene({angle,power,range=65,shotType='free',played=false}) {
-  const startX=280,startY=505,hoopX=890,hoopY=255;
+  const shotStart={short:820,free:735,three:500};
+  const targetRange={short:45,free:68,three:86};
+  const startX=shotStart[shotType]||735,startY=505,hoopX=989,hoopY=260;
   const apexY=clamp(465-Math.sin(rad(angle))*power*4.7,115,330);
-  const resultX=clamp(hoopX+(range-68)*6,760,1040);
+  const resultX=clamp(hoopX+(range-targetRange[shotType])*6,820,1080);
   const path=quadraticPath({startX,startY,endX:resultX,endY:hoopY,apexY});
   const ballX=played?resultX:startX,ballY=played?hoopY:startY;
+  const playerX=startX-50;
   return <svg viewBox="0 0 1200 620" className={'sportSceneSvg basketballScene '+(played?'played':'')}  aria-label={'Basketball shot at '+angle+' degrees'}>
     <rect width="1200" height="620" className="bbSky"/>
     <rect y="280" width="1200" height="340" className="bbCourt"/>
@@ -17,12 +20,12 @@ export function BasketballScene({angle,power,range=65,shotType='free',played=fal
     <circle cx="862" cy="425" r="68" className="bbFreeCircle"/>
     <line x1="862" y1="330" x2="862" y2="580" className="bbLane"/>
     <g className="bbHoop"><rect x="925" y="180" width="120" height="85" rx="4"/><rect x="970" y="215" width="38" height="28"/><ellipse cx="989" cy="260" rx="28" ry="8"/><path d="M964 263 L974 312 M1014 263 L1004 312 M974 312 Q989 325 1004 312"/></g>
-    <g className="bbPlayer" transform="translate(230 400)"><circle cx="35" cy="30" r="25"/><rect x="18" y="52" width="35" height="78" rx="12"/><rect x="15" y="126" width="12" height="54" rx="6"/><rect x="43" y="126" width="12" height="54" rx="6"/><line x1="32" y1="65" x2="68" y2="22"/><line x1="46" y1="66" x2="72" y2="24"/></g>
+    <g className="bbPlayer" transform={'translate('+playerX+' 400)'}><circle cx="35" cy="30" r="25"/><rect x="18" y="52" width="35" height="78" rx="12"/><rect x="15" y="126" width="12" height="54" rx="6"/><rect x="43" y="126" width="12" height="54" rx="6"/><line x1="32" y1="65" x2="68" y2="22"/><line x1="46" y1="66" x2="72" y2="24"/></g>
     <AngleOverlay x={startX} y={startY} angle={angle} radius={62}/>
     <path d={path} className="sportFlightPath"/>
     <circle cx={ballX} cy={ballY} r="16" className="bbBall"/>
     <text x="1000" y="355" className="sceneMarker">HOOP</text>
-    <text x="812" y="574" className="sceneMarker">{shotType==='three'?'3-POINT':'FREE THROW'}</text>
+    <text x={startX} y="574" textAnchor="middle" className="sceneMarker">{shotType==='three'?'3-POINT':shotType==='short'?'SHORT RANGE':'FREE THROW'}</text>
   </svg>;
 }
 
