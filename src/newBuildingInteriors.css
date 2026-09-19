@@ -1114,3 +1114,13 @@
 }
 
 .toolResetButton{width:100%;min-height:42px;margin-top:9px;border:2px solid #d9dfe8;border-radius:12px;background:#fff;color:#58657a;font-weight:900}.toolResetButton:hover{border-color:#8b92d8;background:#f7f6ff}
+
+/* Quantity variety: eighth-inch ruler and expanded cut jobs */
+.rulerJobTabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.rulerJobTabs button{flex:0 0 auto;min-width:130px}
+.alignedRuler>span.eighth i{height:16px;width:1px}
+.alignedRuler>span.quarter i{height:25px}
+@media(max-width:700px){
+  .rulerJobTabs button{min-width:118px}
+  .alignedRuler>span b{font-size:6px}
+}
