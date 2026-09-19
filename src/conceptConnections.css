@@ -303,3 +303,21 @@
   .labInsight{grid-template-columns:1fr}
   .labInsight>span{grid-column:auto}
 }
+
+
+.sportsTransferCard{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:12px;
+  align-items:center;
+  margin-top:14px;
+  padding:12px 14px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#eef5ff,#f2faef);
+  border:1px solid #d8e4e0
+}
+.sportsTransferCard>span{font-size:30px}
+.sportsTransferCard small{display:block;font-size:8px;font-weight:950;letter-spacing:.1em;color:#5571b8}
+.sportsTransferCard b{display:block;margin-top:2px;color:#31425f}
+.sportsTransferCard p{margin:3px 0;font-size:10px;line-height:1.4;color:#657185}
+.sportsTransferCard em{font-size:9px;font-style:normal;font-weight:900;color:#4d6a58}
