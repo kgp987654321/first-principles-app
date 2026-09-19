@@ -45,6 +45,7 @@ export const worldOrderMeta={
     {id:'five-sixths-sample',label:'Five-sixths sample',unlockAfter:'equivalence-five-eighths',unlockLabel:'Five eighths across representations'},
     {id:'seven-eighths-sample',label:'Seven-eighths sample',unlockAfter:'equivalence-five-eighths',unlockLabel:'Five eighths across representations'},
     {id:'double',label:'Double the recipe'},
+    {id:'ramp-motion',label:'Ramp speed test'},
     {id:'lab-scale-reading',label:'Scale a reading',unlockAfter:'map-scale',unlockLabel:'Resize the map'},
     {id:'lab-machine-rule',label:'Machine rule test',unlockAfter:'mystery-machine',unlockLabel:'Crack the mystery machine'},
     {id:'lab-gravity-probe',label:'Calibrate the gravity probe',unlockAfter:'gravity-worlds',unlockLabel:'Test different gravity worlds'},
