@@ -106,6 +106,34 @@
     .launchButtons{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:9px}.launchStatus{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:7px;font-size:.78rem;font-weight:850;color:var(--muted)}
     .launchStatus span{background:#f5f3ff;border:1px solid var(--line);padding:5px 8px;border-radius:999px}.breakDone.success{color:#188b6f}
     .breakHint{text-align:center;color:var(--muted);font-size:.82rem;margin-top:8px}.breakDone{font-weight:900;color:#188b6f;text-align:center;margin-top:8px}
+
+    /* Restaurant Rush bonus level */
+    .restaurantOverlay{position:fixed;inset:0;z-index:1000;background:rgba(31,38,58,.76);padding:18px;overflow:auto;display:grid;place-items:start center}
+    .restaurantOverlay.hidden{display:none!important}
+    .restaurantShell{width:min(980px,100%);margin:18px auto;background:#fffaf3;border:1px solid #eadfcf;border-radius:28px;box-shadow:0 24px 70px rgba(20,28,48,.28);overflow:hidden}
+    .restaurantTop{padding:18px 20px;background:linear-gradient(135deg,#fff0cf,#ffe6dc 55%,#eee8ff);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid #eadfcf}
+    .restaurantBrand{display:flex;gap:12px;align-items:center}.restaurantLogo{width:58px;height:58px;border-radius:18px;background:#fff;display:grid;place-items:center;font-size:34px;box-shadow:0 8px 20px rgba(120,80,40,.12)}
+    .restaurantBrand h3{margin:0;font-size:1.35rem}.restaurantBrand p{margin:3px 0 0;color:#786b5d;font-size:.86rem;font-weight:700}
+    .restaurantStats{display:flex;gap:7px;flex-wrap:wrap}.restaurantStat{background:rgba(255,255,255,.82);border:1px solid #eadfcf;border-radius:999px;padding:8px 10px;font-size:.78rem;font-weight:900}
+    .restaurantBody{padding:18px}.roleIntro{text-align:center;padding:5px 0 14px}.roleIntro h4{font-size:1.2rem;margin:0 0 4px}.roleIntro p{margin:0;color:var(--muted)}
+    .roleGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.roleCard{border:1px solid #e6dfd4;background:white;border-radius:18px;padding:14px 10px;text-align:center;min-height:132px;transition:.15s}
+    .roleCard:hover{transform:translateY(-2px);border-color:#d2b06f}.roleCard.active{border:2px solid #d1913c;background:#fff7e8}.roleEmoji{font-size:32px}.roleCard b{display:block;margin-top:6px}.roleCard small{display:block;color:var(--muted);line-height:1.25;margin-top:4px}
+    .restaurantGame{display:grid;grid-template-columns:minmax(210px,.7fr) minmax(0,1.3fr);gap:14px;margin-top:14px}
+    .diningRoom,.station{border:1px solid #e6dfd4;border-radius:20px;background:white;padding:14px}
+    .diningRoom{background:linear-gradient(#fff,#fff9ef)}.roomTitle,.stationTitle{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:950;margin-bottom:10px}
+    .customerQueue{display:grid;gap:8px}.customer{display:grid;grid-template-columns:38px 1fr;gap:8px;align-items:center;border:1px solid #eee6db;border-radius:13px;padding:8px;background:#fff}
+    .customerAvatar{font-size:28px}.customer b{font-size:.82rem}.customer small{display:block;color:var(--muted);margin-top:2px}.patience{height:6px;background:#edf0f4;border-radius:999px;overflow:hidden;margin-top:5px}.patienceFill{height:100%;background:linear-gradient(90deg,#38c9a3,#ffd166,#ff7a7a);transform-origin:left}
+    .orderTicket{border:2px dashed #d6c7b1;background:#fffaf1;border-radius:16px;padding:13px;text-align:center}.orderTicket .ticketEmoji{font-size:46px}.orderTicket h4{margin:4px 0}.orderTicket p{margin:0;color:var(--muted);font-size:.85rem}
+    .stationPrompt{margin:12px 0 8px;text-align:center;font-weight:900}.stationChoices{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.foodChoice,.ingredientChoice,.payChoice{border:1px solid #e1d8cb;background:white;border-radius:13px;padding:11px 9px;font-weight:900;min-height:48px}
+    .foodChoice:hover,.ingredientChoice:hover,.payChoice:hover{border-color:#d1913c}.ingredientTray{min-height:62px;border:1px solid #e1d8cb;border-radius:14px;background:#fbfaf8;padding:10px;display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:10px 0}
+    .ingredientChip{background:#fff;border:1px solid #ddd4c8;border-radius:999px;padding:6px 9px;font-size:.82rem;font-weight:850}.ingredientChip.good{border-color:#79cfb5;background:#effbf7}.ingredientChip.bad{border-color:#ffaaa5;background:#fff2f1}
+    .rushMeter{height:10px;background:#eee7dc;border-radius:999px;overflow:hidden}.rushFill{height:100%;background:linear-gradient(90deg,#38c9a3,#ffd166,#ff7a7a);width:15%;transition:.25s}
+    .restaurantMessage{min-height:25px;margin-top:9px;text-align:center;font-weight:900}.restaurantMessage.good{color:#188b6f}.restaurantMessage.bad{color:#c95757}
+    .restaurantActions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}.restaurantComplete{text-align:center;padding:12px}.restaurantComplete .big{font-size:64px}.restaurantComplete h3{margin:3px 0}.restaurantComplete p{color:var(--muted);margin:5px auto 12px;max-width:550px}
+    .bonusPulse{animation:bonusPulse .8s ease 2}@keyframes bonusPulse{50%{transform:scale(1.06);box-shadow:0 0 0 9px rgba(255,209,102,.22)}}
+    @media(max-width:760px){.roleGrid{grid-template-columns:1fr 1fr}.restaurantGame{grid-template-columns:1fr}.restaurantOverlay{padding:8px}.restaurantShell{margin:6px auto}.restaurantBody{padding:12px}.stationChoices{grid-template-columns:1fr 1fr}}
+    @media(max-width:430px){.roleGrid{grid-template-columns:1fr 1fr}.roleCard{min-height:116px;padding:10px 7px}.restaurantTop{padding:12px}.restaurantLogo{width:48px;height:48px;font-size:28px}.restaurantBody{padding:9px}.diningRoom,.station{padding:10px}}
+
     .hidden{display:none!important}.tiny{font-size:.78rem;color:var(--muted)}
     @media(max-width:760px){.gameGrid{grid-template-columns:1fr 1fr}.workspace{grid-template-columns:1fr}.placeGrid{grid-template-columns:56px repeat(3,minmax(48px,1fr))}.summaryGrid{grid-template-columns:1fr 1fr}.breakGrid{grid-template-columns:1fr 1fr}.launchControls{grid-template-columns:1fr 1fr}.launchControls .btn{grid-column:1/3}.matchBoard{grid-template-columns:repeat(6,40px)}.candyCell{width:40px;height:40px}}
     @media(max-width:430px){.app{padding:12px 10px 44px}.hero,.card{padding:15px}.gameGrid{gap:8px}.gameCard{min-height:116px;padding:11px}.placeGrid{grid-template-columns:50px repeat(3,minmax(44px,1fr));gap:5px}.numBox,.digit{height:50px;font-size:1.35rem}.quizChoices{grid-template-columns:1fr}.topbar .pill{display:none}.groupGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.groupBox{min-height:70px;padding:7px}.gemDots{grid-template-columns:repeat(4,7px);gap:3px}.gemDot{width:7px;height:7px}}
@@ -126,9 +154,10 @@
         <div class="stat">🎯 Accuracy <span id="accuracy">—</span></div>
         <div class="stat">🔥 Streak <span id="streak">0</span></div>
         <div class="stat">✏️ Work shown <span id="workShown">0</span></div>
+        <div class="stat" id="restaurantTracker">🍽️ Restaurant in <span id="bonusCountdown">10</span></div>
       </div>
       <div class="progressWrap">
-        <div class="progressMeta"><span>Mission progress</span><span id="progressText">0 / 8 problems</span></div>
+        <div class="progressMeta"><span>Mission progress</span><span id="progressText">0 / 10 problems</span></div>
         <div class="bar"><div class="fill" id="progressFill"></div></div>
       </div>
     </section>
@@ -214,7 +243,7 @@
     </section>
 
     <section class="missionFooter">
-      <div><small>MISSION GOAL</small><b id="missionMessage">Complete 8 mixed problems with neat work.</b></div>
+      <div><small>MISSION GOAL</small><b id="missionMessage">Complete 10 mixed problems with neat work.</b></div>
       <button class="btn success" id="mixBtn">🎲 Mix it up</button>
     </section>
 
@@ -291,6 +320,60 @@
       </div>
     </section>
 
+    <section class="restaurantOverlay hidden" id="restaurantOverlay" aria-modal="true" role="dialog" aria-labelledby="restaurantTitle">
+      <div class="restaurantShell">
+        <div class="restaurantTop">
+          <div class="restaurantBrand">
+            <div class="restaurantLogo">🍽️</div>
+            <div><h3 id="restaurantTitle">Math Quest Café — Bonus Shift!</h3><p>Run the restaurant, beat the rush, and earn bonus stars.</p></div>
+          </div>
+          <div class="restaurantStats">
+            <span class="restaurantStat">👥 Served <b id="restaurantServed">0</b>/6</span>
+            <span class="restaurantStat">💰 Tips <b id="restaurantTips">0</b></span>
+            <span class="restaurantStat">🔥 Rush <b id="restaurantRush">1</b></span>
+          </div>
+        </div>
+        <div class="restaurantBody">
+          <div id="rolePicker">
+            <div class="roleIntro"><h4>Pick your restaurant job</h4><p>You can switch jobs during the shift. Each role plays differently.</p></div>
+            <div class="roleGrid">
+              <button class="roleCard" data-role="orders"><span class="roleEmoji">📝</span><b>Order Taker</b><small>Listen to customers and enter the right meal.</small></button>
+              <button class="roleCard" data-role="chef"><span class="roleEmoji">👩‍🍳</span><b>Chef</b><small>Build dishes by adding ingredients in the right order.</small></button>
+              <button class="roleCard" data-role="server"><span class="roleEmoji">🍽️</span><b>Server</b><small>Match finished meals to the right tables fast.</small></button>
+              <button class="roleCard" data-role="cashier"><span class="roleEmoji">💵</span><b>Cashier</b><small>Take payment and keep the line moving.</small></button>
+            </div>
+            <div class="restaurantActions"><button class="btn primary" id="startRestaurantShift" disabled>Start my shift</button><button class="btn" id="exitRestaurantEarly">Back to math</button></div>
+          </div>
+
+          <div id="restaurantPlay" class="hidden">
+            <div class="restaurantGame">
+              <section class="diningRoom">
+                <div class="roomTitle"><span>Dining Room</span><span class="tiny">Customers are getting hungry!</span></div>
+                <div class="customerQueue" id="customerQueue"></div>
+                <div style="margin-top:12px"><div class="roomTitle"><span>Rush meter</span><span id="rushLabel">Warm-up</span></div><div class="rushMeter"><div class="rushFill" id="rushFill"></div></div></div>
+              </section>
+              <section class="station">
+                <div class="stationTitle"><span id="roleStationTitle">Order Station</span><button class="btn alt" id="switchRestaurantRole">Switch job</button></div>
+                <div class="orderTicket" id="orderTicket"></div>
+                <div class="stationPrompt" id="stationPrompt"></div>
+                <div class="ingredientTray hidden" id="ingredientTray"></div>
+                <div class="stationChoices" id="stationChoices"></div>
+                <div class="restaurantMessage" id="restaurantMessage" aria-live="polite"></div>
+              </section>
+            </div>
+            <div class="restaurantActions"><button class="btn" id="restaurantSkip">Next customer</button><button class="btn" id="restaurantExit">Pause & go back to math</button></div>
+          </div>
+
+          <div id="restaurantComplete" class="restaurantComplete hidden">
+            <div class="big">🎉🍔⭐</div>
+            <h3>Restaurant rush complete!</h3>
+            <p id="restaurantCompleteText">You kept the café moving and earned bonus stars.</p>
+            <button class="btn success" id="restaurantReturn">Back to Math Quest</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="card summary" id="summaryCard" style="margin-top:16px">
       <div class="eyebrow">MISSION COMPLETE</div>
       <h3 style="margin:5px 0">Nice work! Here’s what you practiced.</h3>
@@ -306,11 +389,24 @@
 <script>
 (function(){
   const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-  const state={mode:"add",problem:null,strategy:0,strategyStep:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:8,locked:false};
+  const state={mode:"add",problem:null,strategy:0,strategyStep:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:10,locked:false};
   let lifetime=Number(localStorage.getItem("mathQuestStars")||0);
+  let completedQuestions=Number(localStorage.getItem("mathQuestCompletedQuestions")||0);
+  let restaurantLastAt=Number(localStorage.getItem("mathQuestRestaurantLastAt")||0);
+  let restaurantUnlockPending=localStorage.getItem("mathQuestRestaurantPending")==="1";
   $("#totalStars").textContent=lifetime;
   const breakState={active:"match",total:0,matchScore:0,matchMoves:12,selected:null,board:[],blockScore:0,blockRunning:false,blockTimer:null,blockGrid:[],piece:null,launchScore:0,launching:false,launchLevel:0,launchShots:0,targets:[true,true,true],targetPositions:[]};
-  const trailState={route:[22,17,18,13,8,7,6,11,16],step:0,misses:0,wrongCell:null};
+  const trailState={route:[22,17,18,13,8,7,6,11,16,21,20],step:0,misses:0,wrongCell:null};
+  const restaurantState={role:null,served:0,tips:0,rush:1,order:null,patience:100,timer:null,ingredientStep:0,active:false,shiftGoal:6,customers:[]};
+  const restaurantMenu=[
+    {name:"Classic Burger",icon:"🍔",price:6,ingredients:["🥯 bun","🥩 patty","🧀 cheese","🥬 lettuce"]},
+    {name:"Cheese Pizza",icon:"🍕",price:5,ingredients:["🍞 dough","🍅 sauce","🧀 cheese","🌿 basil"]},
+    {name:"Taco Plate",icon:"🌮",price:7,ingredients:["🌮 shell","🥩 filling","🧀 cheese","🥬 lettuce"]},
+    {name:"Pasta Bowl",icon:"🍝",price:8,ingredients:["🍜 pasta","🍅 sauce","🧀 cheese","🌿 herbs"]},
+    {name:"Breakfast Stack",icon:"🥞",price:4,ingredients:["🥞 pancakes","🧈 butter","🍓 berries","🍯 syrup"]},
+    {name:"Veggie Wrap",icon:"🌯",price:6,ingredients:["🫓 wrap","🥬 greens","🍅 tomato","🧀 cheese"]}
+  ];
+  const customerFaces=["🙂","😎","🤠","🤓","🥳","😊","🧒","👧","👦"];
 
   const strategies={
     add:[
@@ -378,7 +474,7 @@
   function renderProblem(){
     clearInputs();state.problem=makeProblem(state.mode);state.strategy=0;state.strategyStep=0;
     const p=state.problem;
-    $$$(".gameCard").forEach(b=>b.classList.toggle("active",b.dataset.mode===state.mode));
+    $(".gameCard").forEach(b=>b.classList.toggle("active",b.dataset.mode===state.mode));
     const isFact=state.mode==="multiply"||state.mode==="divide",isTrail=state.mode==="subtract";
     $("#columnPractice").classList.toggle("hidden",isFact||isTrail);
     $("#mazePractice").classList.toggle("hidden",!isTrail);
@@ -495,6 +591,7 @@
     }
     trailState.wrongCell=null;trailState.step++;
     state.attempted++;state.correct++;state.streak++;state.sessionStars+=2;lifetime+=2;
+    recordQuestionComplete();
     localStorage.setItem("mathQuestStars",String(lifetime));updateHUD();
     if(trailState.step>=trailState.route.length-1){
       $("#trailFeedback").className="trailFeedback good";
@@ -600,6 +697,7 @@
     if(shown)state.workShown++;
     if(given===p.answer){
       state.correct++;state.streak++;state.sessionStars+=shown?3:2;lifetime+=shown?3:2;
+      recordQuestionComplete();
       $("#feedback").textContent=shown?"✅ Correct — and your thinking is visible. +3 stars":"✅ Correct! +2 stars. Try showing a note or another strategy next time for a bonus star.";
       if(isFact)$("#factAnswer").classList.add("good");else ["ansH","ansT","ansO"].forEach(id=>$("#"+id).classList.add("good"));
       state.locked=true;
@@ -611,11 +709,34 @@
     if(state.attempted>=state.goal)finishMission();
   }
 
+  function nextRestaurantThreshold(){
+    return restaurantLastAt===0?10:restaurantLastAt+20;
+  }
+  function updateBonusTracker(){
+    const next=nextRestaurantThreshold();
+    const left=Math.max(0,next-completedQuestions);
+    $("#bonusCountdown").textContent=restaurantUnlockPending?"READY!":left;
+    $("#restaurantTracker").classList.toggle("bonusPulse",restaurantUnlockPending);
+  }
+  function recordQuestionComplete(){
+    completedQuestions++;
+    localStorage.setItem("mathQuestCompletedQuestions",String(completedQuestions));
+    const threshold=nextRestaurantThreshold();
+    if(completedQuestions>=threshold&&!restaurantUnlockPending){
+      restaurantLastAt=threshold;
+      restaurantUnlockPending=true;
+      localStorage.setItem("mathQuestRestaurantLastAt",String(restaurantLastAt));
+      localStorage.setItem("mathQuestRestaurantPending","1");
+      updateBonusTracker();
+      setTimeout(()=>openRestaurantBonus(),500);
+    }else updateBonusTracker();
+  }
   function updateHUD(){
     $("#totalStars").textContent=lifetime;$("#streak").textContent=state.streak;$("#workShown").textContent=state.workShown;
     $("#accuracy").textContent=state.attempted?Math.round(state.correct/state.attempted*100)+"%":"—";
     $("#progressText").textContent=Math.min(state.attempted,state.goal)+" / "+state.goal+" problems";
     $("#progressFill").style.width=Math.min(100,state.attempted/state.goal*100)+"%";
+    updateBonusTracker();
   }
 
   function finishMission(){
@@ -627,8 +748,159 @@
   }
 
   function restart(){
-    Object.assign(state,{mode:"add",problem:null,strategy:0,strategyStep:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:8,locked:false});
-    $("#summaryCard").classList.remove("show");$("#missionMessage").textContent="Complete 8 mixed problems with neat work.";updateHUD();renderProblem();window.scrollTo({top:0,behavior:"smooth"});
+    Object.assign(state,{mode:"add",problem:null,strategy:0,strategyStep:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:10,locked:false});
+    $("#summaryCard").classList.remove("show");$("#missionMessage").textContent="Complete 10 mixed problems with neat work.";updateHUD();renderProblem();window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  // Restaurant Rush bonus level
+  function restaurantRoleName(role){
+    return role==="orders"?"Order Taker":role==="chef"?"Chef":role==="server"?"Server":"Cashier";
+  }
+  function makeRestaurantCustomers(){
+    restaurantState.customers=Array.from({length:4},(_,i)=>({
+      face:customerFaces[rand(0,customerFaces.length-1)],
+      name:["Ava","Max","Mia","Leo","Zoe","Sam","Nora","Ben","Lily"][rand(0,8)],
+      wait:Math.max(35,100-i*14)
+    }));
+  }
+  function renderRestaurantCustomers(){
+    const q=$("#customerQueue");q.innerHTML="";
+    restaurantState.customers.forEach((cust,i)=>{
+      const d=document.createElement("div");d.className="customer";
+      d.innerHTML='<span class="customerAvatar">'+cust.face+'</span><div><b>'+(i===0?"Ordering now":"Waiting: "+cust.name)+'</b><small>'+(i===0&&restaurantState.order?restaurantState.order.icon+" "+restaurantState.order.name:"Table "+(i+1))+'</small><div class="patience"><div class="patienceFill" style="width:'+Math.max(0,cust.wait)+'%"></div></div></div>';
+      q.appendChild(d);
+    });
+  }
+  function setRestaurantMessage(text,type){
+    const m=$("#restaurantMessage");m.textContent=text||"";m.className="restaurantMessage"+(type?" "+type:"");
+  }
+  function updateRestaurantHUD(){
+    $("#restaurantServed").textContent=restaurantState.served;
+    $("#restaurantTips").textContent=restaurantState.tips;
+    $("#restaurantRush").textContent=restaurantState.rush;
+    $("#rushFill").style.width=Math.min(100,15+restaurantState.rush*17)+"%";
+    $("#rushLabel").textContent=restaurantState.rush>=4?"DINNER RUSH!":restaurantState.rush===3?"Busy":restaurantState.rush===2?"Picking up":"Warm-up";
+    renderRestaurantCustomers();
+  }
+  function randomRestaurantOrder(){
+    const item=restaurantMenu[rand(0,restaurantMenu.length-1)];
+    restaurantState.order=item;restaurantState.ingredientStep=0;restaurantState.patience=100;
+    if(!restaurantState.customers.length)makeRestaurantCustomers();
+    restaurantState.customers[0].wait=100;
+    renderRestaurantStation();
+  }
+  function shuffledOptions(correct,count){
+    const pool=restaurantMenu.filter(x=>x!==correct).sort(()=>Math.random()-.5).slice(0,count-1);
+    return [correct,...pool].sort(()=>Math.random()-.5);
+  }
+  function renderRestaurantStation(){
+    const o=restaurantState.order,role=restaurantState.role;
+    if(!o)return;
+    $("#roleStationTitle").textContent=restaurantRoleName(role)+" Station";
+    $("#orderTicket").innerHTML='<div class="ticketEmoji">'+o.icon+'</div><h4>'+o.name+'</h4><p>Customer '+restaurantState.customers[0].face+' wants this order.</p>';
+    $("#ingredientTray").classList.toggle("hidden",role!=="chef");
+    const choices=$("#stationChoices");choices.innerHTML="";
+    if(role==="orders"){
+      $("#stationPrompt").textContent="Tap the meal the customer just ordered.";
+      shuffledOptions(o,4).forEach(item=>{
+        const b=document.createElement("button");b.className="foodChoice";b.textContent=item.icon+" "+item.name;b.addEventListener("click",()=>restaurantChoice(item===o));choices.appendChild(b);
+      });
+    }else if(role==="chef"){
+      $("#stationPrompt").textContent="Build it in order: "+o.ingredients.join(" → ");
+      const tray=$("#ingredientTray");tray.innerHTML=restaurantState.ingredientStep?o.ingredients.slice(0,restaurantState.ingredientStep).map(x=>'<span class="ingredientChip good">'+x+'</span>').join(""):'<span class="tiny">Your prep tray is empty.</span>';
+      const all=[...new Set(o.ingredients.concat(restaurantMenu[rand(0,restaurantMenu.length-1)].ingredients))].sort(()=>Math.random()-.5).slice(0,6);
+      o.ingredients.forEach(x=>{if(!all.includes(x))all.push(x)});
+      all.slice(0,8).forEach(ing=>{
+        const b=document.createElement("button");b.className="ingredientChoice";b.textContent=ing;b.addEventListener("click",()=>chefIngredient(ing));choices.appendChild(b);
+      });
+    }else if(role==="server"){
+      $("#stationPrompt").textContent="The kitchen bell rang! Which plate goes to this customer?";
+      shuffledOptions(o,4).forEach(item=>{
+        const b=document.createElement("button");b.className="foodChoice";b.textContent=item.icon+" "+item.name;b.addEventListener("click",()=>restaurantChoice(item===o));choices.appendChild(b);
+      });
+    }else{
+      $("#stationPrompt").textContent="The total is $"+o.price+". Take the correct payment.";
+      const amounts=[o.price,o.price+1,Math.max(1,o.price-1),o.price+2].sort(()=>Math.random()-.5);
+      amounts.forEach(amount=>{
+        const b=document.createElement("button");b.className="payChoice";b.textContent="💵 $"+amount;b.addEventListener("click",()=>restaurantChoice(amount===o.price));choices.appendChild(b);
+      });
+    }
+    updateRestaurantHUD();
+  }
+  function chefIngredient(ing){
+    const need=restaurantState.order.ingredients[restaurantState.ingredientStep];
+    if(ing!==need){
+      restaurantState.tips=Math.max(0,restaurantState.tips-1);
+      restaurantState.customers[0].wait=Math.max(0,restaurantState.customers[0].wait-10);
+      setRestaurantMessage("Oops — that ingredient comes later. Check the recipe!", "bad");
+      updateRestaurantHUD();return;
+    }
+    restaurantState.ingredientStep++;
+    setRestaurantMessage("Nice prep! "+ing+" added.", "good");
+    if(restaurantState.ingredientStep>=restaurantState.order.ingredients.length){
+      setTimeout(()=>restaurantChoice(true),300);
+    }else renderRestaurantStation();
+  }
+  function restaurantChoice(correct){
+    if(!restaurantState.active)return;
+    if(!correct){
+      restaurantState.tips=Math.max(0,restaurantState.tips-1);
+      restaurantState.customers[0].wait=Math.max(0,restaurantState.customers[0].wait-14);
+      setRestaurantMessage("Not that one — the customer is still waiting!", "bad");
+      updateRestaurantHUD();return;
+    }
+    const patience=restaurantState.customers[0]?restaurantState.customers[0].wait:100;
+    const tip=patience>70?3:patience>40?2:1;
+    restaurantState.served++;restaurantState.tips+=tip;
+    restaurantState.rush=Math.min(5,1+Math.floor(restaurantState.served/2));
+    setRestaurantMessage("Served! +"+tip+" tip"+(tip===1?"":"s")+" ⭐", "good");
+    if(restaurantState.served>=restaurantState.shiftGoal){completeRestaurantShift();return}
+    restaurantState.customers.shift();
+    restaurantState.customers.push({face:customerFaces[rand(0,customerFaces.length-1)],name:"New guest",wait:100});
+    setTimeout(randomRestaurantOrder,350);
+  }
+  function restaurantTick(){
+    if(!restaurantState.active||!restaurantState.customers.length)return;
+    const drain=1+restaurantState.rush*.6;
+    restaurantState.customers.forEach((c,i)=>c.wait=Math.max(0,c.wait-drain*(i===0?1:.45)));
+    if(restaurantState.customers[0].wait<=0){
+      restaurantState.tips=Math.max(0,restaurantState.tips-2);
+      setRestaurantMessage("That customer got too hungry — next guest!", "bad");
+      restaurantState.customers.shift();
+      restaurantState.customers.push({face:customerFaces[rand(0,customerFaces.length-1)],name:"New guest",wait:100});
+      randomRestaurantOrder();
+    }
+    updateRestaurantHUD();
+  }
+  function startRestaurantShift(){
+    if(!restaurantState.role)return;
+    restaurantState.active=true;restaurantState.served=0;restaurantState.tips=0;restaurantState.rush=1;restaurantState.ingredientStep=0;
+    $("#rolePicker").classList.add("hidden");$("#restaurantComplete").classList.add("hidden");$("#restaurantPlay").classList.remove("hidden");
+    makeRestaurantCustomers();randomRestaurantOrder();setRestaurantMessage("Doors open — first customer!", "good");
+    if(restaurantState.timer)clearInterval(restaurantState.timer);
+    restaurantState.timer=setInterval(restaurantTick,900);
+  }
+  function completeRestaurantShift(){
+    restaurantState.active=false;if(restaurantState.timer){clearInterval(restaurantState.timer);restaurantState.timer=null}
+    const bonus=8+restaurantState.tips;
+    lifetime+=bonus;state.sessionStars+=bonus;localStorage.setItem("mathQuestStars",String(lifetime));
+    restaurantUnlockPending=false;localStorage.setItem("mathQuestRestaurantPending","0");
+    $("#restaurantPlay").classList.add("hidden");$("#restaurantComplete").classList.remove("hidden");
+    $("#restaurantCompleteText").textContent="You served "+restaurantState.served+" customers, earned "+restaurantState.tips+" tips, and won +"+bonus+" Math Quest stars!";
+    updateHUD();
+  }
+  function openRestaurantBonus(){
+    $("#restaurantOverlay").classList.remove("hidden");
+    $("#restaurantComplete").classList.add("hidden");
+    $("#restaurantPlay").classList.add("hidden");
+    $("#rolePicker").classList.remove("hidden");
+    restaurantState.active=false;
+    if(restaurantState.timer){clearInterval(restaurantState.timer);restaurantState.timer=null}
+    setRestaurantMessage("");
+  }
+  function closeRestaurant(){
+    restaurantState.active=false;if(restaurantState.timer){clearInterval(restaurantState.timer);restaurantState.timer=null}
+    $("#restaurantOverlay").classList.add("hidden");updateHUD();
   }
 
   // Brain Break Arcade
@@ -876,8 +1148,29 @@
   $("#newTrail").addEventListener("click",startTrail);
   $("#mixBtn").addEventListener("click",()=>{const m=["add","subtract","multiply","divide"];state.mode=m[rand(0,3)];if(state.mode==="subtract")startTrail();else renderProblem()});
   $("#restartMission").addEventListener("click",restart);
+  $(".roleCard").forEach(b=>b.addEventListener("click",()=>{
+    restaurantState.role=b.dataset.role;
+    $(".roleCard").forEach(x=>x.classList.toggle("active",x===b));
+    $("#startRestaurantShift").disabled=false;
+  }));
+  $("#startRestaurantShift").addEventListener("click",startRestaurantShift);
+  $("#switchRestaurantRole").addEventListener("click",()=>{
+    restaurantState.active=false;if(restaurantState.timer){clearInterval(restaurantState.timer);restaurantState.timer=null}
+    $("#restaurantPlay").classList.add("hidden");$("#rolePicker").classList.remove("hidden");
+    $("#startRestaurantShift").textContent="Continue shift as "+restaurantRoleName(restaurantState.role);
+  });
+  $("#restaurantSkip").addEventListener("click",()=>{
+    if(!restaurantState.active)return;
+    restaurantState.tips=Math.max(0,restaurantState.tips-1);
+    restaurantState.customers.shift();restaurantState.customers.push({face:customerFaces[rand(0,customerFaces.length-1)],name:"New guest",wait:100});randomRestaurantOrder();
+  });
+  $("#restaurantExit").addEventListener("click",closeRestaurant);
+  $("#exitRestaurantEarly").addEventListener("click",closeRestaurant);
+  $("#restaurantReturn").addEventListener("click",()=>{closeRestaurant();renderProblem()});
+  $("#restaurantTracker").addEventListener("click",()=>{if(restaurantUnlockPending)openRestaurantBonus()});
   $("#factAnswer").addEventListener("keydown",e=>{if(e.key==="Enter")check()});
   renderProblem();updateHUD();
+  if(restaurantUnlockPending)setTimeout(openRestaurantBonus,700);
 })();
 </script>
 </body>
