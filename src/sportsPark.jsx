@@ -70,13 +70,88 @@ function TrajectoryField({angle=45,power=70,target=72,label='TARGET',wind=0,them
 
 function Control({label,value,min,max,step=1,onChange,suffix=''}){return <label className="sportControl"><span>{label}</span><input type="range" min={min} max={max} step={step} value={value} onChange={e=>onChange(+e.target.value)}/><b>{value}{suffix}</b></label>}
 
+
+function BaseballHeroScene({angle,power,contact,range,result,onAngle,onPower,onContact,onSwing}){
+  const launchAngle=clamp(angle+(contact==='low'?8:contact==='high'?-7:0),8,55);
+  const distance=Math.round(95+range*1.15);
+  const maxHeight=Math.round(18+Math.sin(rad(launchAngle))*power*.72);
+  const startX=215,startY=515;
+  const endX=clamp(250+range*7.1,410,1005);
+  const endY=270;
+  const apexX=startX+(endX-startX)*.5;
+  const apexY=clamp(startY-(105+maxHeight*2.5),85,330);
+  const path='M '+startX+' '+startY+' Q '+apexX+' '+apexY+' '+endX+' '+endY;
+  const wedgeR=70;
+  const wedgeX=startX+Math.cos(rad(launchAngle))*wedgeR;
+  const wedgeY=startY-Math.sin(rad(launchAngle))*wedgeR;
+  const wedgePath='M '+(startX+wedgeR)+' '+startY+' A '+wedgeR+' '+wedgeR+' 0 0 0 '+wedgeX+' '+wedgeY;
+  return <div className="homeRunMath">
+    <div className="homeRunTop">
+      <div className="homeRunBrand"><span>⚾</span><div><h2>Home Run Math</h2><p>Explore how angle and swing force change the path of a baseball.</p></div></div>
+      <div className="homeRunBadge">⭐ Hit farther. Learn bigger!</div>
+    </div>
+    <div className="homeRunGrid">
+      <div className="homeRunFieldCard">
+        <div className="homeRunHint"><b>Take a swing!</b><span>Adjust the angle and force, then see how far you can hit it.</span></div>
+        <svg viewBox="0 0 1200 620" className="homeRunField" aria-label={'Baseball hit at '+launchAngle+' degrees'}>
+          <rect x="0" y="0" width="1200" height="235" className="hrSky"/>
+          <g className="hrClouds"><ellipse cx="190" cy="90" rx="54" ry="22"/><ellipse cx="245" cy="94" rx="40" ry="17"/><ellipse cx="226" cy="72" rx="37" ry="20"/><ellipse cx="962" cy="77" rx="54" ry="22"/><ellipse cx="1010" cy="82" rx="38" ry="16"/><ellipse cx="985" cy="59" rx="34" ry="18"/></g>
+          <g className="hrTreeBand">{Array.from({length:18},(_,i)=><g key={i} transform={'translate('+(28+i*69)+' 183)'}><circle cx="0" cy="0" r="23"/><circle cx="18" cy="-8" r="20"/><circle cx="-17" cy="-7" r="19"/><rect x="-4" y="13" width="8" height="25"/></g>)}</g>
+          <g className="hrLights"><g transform="translate(165 112)"><rect x="-5" width="10" height="100"/><rect x="-25" y="9" width="50" height="12"/>{[-18,-6,6,18].map(x=><circle key={x} cx={x} cy="15" r="5"/>)}</g><g transform="translate(780 112)"><rect x="-5" width="10" height="100"/><rect x="-25" y="9" width="50" height="12"/>{[-18,-6,6,18].map(x=><circle key={x} cx={x} cy="15" r="5"/>)}</g></g>
+          <g className="hrScoreboard" transform="translate(915 82)"><rect width="188" height="112" rx="8"/><rect x="9" y="9" width="170" height="94" rx="4"/><text x="22" y="43">BIG SWINGS</text><text x="22" y="71">BRIGHT MINDS</text><circle cx="147" cy="49" r="14"/><path d="M139 38 C145 44 145 55 139 61 M155 38 C149 44 149 55 155 61"/></g>
+          <path d="M 25 239 Q 600 137 1175 239 L1175 520 L25 520 Z" className="hrGrassOuter"/>
+          <path d="M 25 239 Q 600 152 1175 239" className="hrFence"/>
+          <text x="570" y="188" className="hr400">400</text>
+          {Array.from({length:9},(_,i)=><path key={i} d={'M '+(70+i*130)+' 240 Q '+(95+i*130)+' 390 '+(60+i*130)+' 520'} className={i%2?'hrStripe dark':'hrStripe'}/>)}
+          <line x1="215" y1="515" x2="30" y2="242" className="hrFoul"/>
+          <line x1="215" y1="515" x2="1170" y2="242" className="hrFoul"/>
+          <path d="M215 515 Q345 395 600 335 Q855 395 985 515 L835 515 Q600 442 365 515 Z" className="hrDirt"/>
+          <polygon points="600,365 748,435 600,505 452,435" className="hrDiamond"/>
+          <ellipse cx="600" cy="438" rx="55" ry="25" className="hrMound"/>
+          <path d="M600 532 L621 514 L611 497 L589 497 L579 514 Z" className="hrHomePlate"/>
+          <rect x="734" y="421" width="28" height="28" transform="rotate(45 748 435)" className="hrBase"/>
+          <rect x="586" y="351" width="28" height="28" transform="rotate(45 600 365)" className="hrBase"/>
+          <rect x="438" y="421" width="28" height="28" transform="rotate(45 452 435)" className="hrBase"/>
+          <g className="hrBaseLabel"><g transform="translate(716 395)"><rect width="92" height="34" rx="10"/><text x="46" y="22">First Base</text></g><g transform="translate(548 314)"><rect width="104" height="34" rx="10"/><text x="52" y="22">Second Base</text></g><g transform="translate(165 392)"><rect width="100" height="34" rx="10"/><text x="50" y="22">Third Base</text></g></g>
+          <g className="hrBatter" transform="translate(165 447)"><ellipse cx="30" cy="119" rx="40" ry="14"/><rect x="49" y="4" width="17" height="105" rx="7" transform="rotate(44 58 55)"/><circle cx="35" cy="27" r="24"/><rect x="18" y="45" width="34" height="60" rx="13"/><rect x="22" y="100" width="10" height="48" rx="4"/><rect x="40" y="100" width="10" height="48" rx="4"/></g>
+          <line x1={startX} y1={startY} x2={startX+150} y2={startY} className="hrAngleBaseline"/>
+          <path d={wedgePath} className="hrAngleArc"/>
+          <line x1={startX} y1={startY} x2={startX+Math.cos(rad(launchAngle))*112} y2={startY-Math.sin(rad(launchAngle))*112} className="hrAngleRay"/>
+          <path d={path} className="hrTrajectory"/>
+          <g className="hrAngleTag" transform={'translate('+(startX+Math.cos(rad(launchAngle/2))*94-25)+' '+(startY-Math.sin(rad(launchAngle/2))*94-21)+')'}><rect width="60" height="40" rx="12"/><text x="30" y="27">{launchAngle}°</text></g>
+          <g className="hrLanding" transform={'translate('+endX+' '+endY+')'}><circle cx="0" cy="0" r="14"/><path d="M-7 -10 C-2 -5,-2 5,-7 10 M7 -10 C2 -5,2 5,7 10"/><line x1="35" y1="-10" x2="35" y2="80"/><path d="M35 -10 L91 13 L35 36 Z"/><ellipse cx="35" cy="83" rx="33" ry="11"/></g>
+          <g className="hrDistanceTag" transform={'translate('+(Math.min(endX+58,1030))+' '+(endY+27)+')'}><rect width="116" height="44" rx="12"/><text x="58" y="29">{distance} FT</text></g>
+        </svg>
+      </div>
+      <aside className="homeRunStats">
+        <div className="hrStat purple"><span>📐</span><div><small>Launch Angle</small><b>{launchAngle}°</b></div></div>
+        <div className="hrStat orange"><span>🔥</span><div><small>Swing Force</small><b>{power}%</b></div></div>
+        <div className="hrStat green"><span>📍</span><div><small>Distance</small><b>{distance} FT</b></div></div>
+        <div className="hrStat blue"><span>⬆</span><div><small>Max Height</small><b>{maxHeight} FT</b></div></div>
+      </aside>
+    </div>
+    <div className="homeRunControls">
+      <label><span>Bat angle</span><input type="range" min="5" max="50" value={angle} onChange={e=>onAngle(+e.target.value)}/><b>{angle}°</b></label>
+      <label><span>Swing force</span><input type="range" min="20" max="100" step="5" value={power} onChange={e=>onPower(+e.target.value)}/><b>{power}%</b></label>
+      <div className="hrContact">{['low','center','high'].map(x=><button key={x} className={contact===x?'active':''} onClick={()=>onContact(x)}>{x} contact</button>)}</div>
+      <button className="hrSwing" onClick={onSwing}>⚾ Swing!</button>
+    </div>
+    {result&&<div className={result.hit?'homeRunFeedback success':'homeRunFeedback'}><b>{result.hit?'🎯 Target hit!':result.type}</b><span>{result.hit?'You balanced angle and force.':result.range<72?'Try more range: increase force or move toward a middle launch angle.':'Too far: reduce force or move away from the middle launch angle.'}</span></div>}
+  </div>
+}
+
 function Baseball({record,onRecord}){
   const[angle,setAngle]=useState(30),[power,setPower]=useState(70),[contact,setContact]=useState('center'),[result,setResult]=useState(null),target=72;
   const launchAngle=clamp(angle+(contact==='low'?8:contact==='high'?-7:0),8,55);
   const range=clamp(Math.sin(2*rad(launchAngle))*(power/100)*100,0,100),miss=Math.abs(range-target);
   const swing=()=>{const hit=miss<=7,type=launchAngle<15?'grounder':launchAngle<28?'line drive':launchAngle<42?'fly ball':'high fly';setResult({hit,miss,type,range});if(hit)onRecord('baseball',Math.max(record||0,Math.round(100-miss)))};
-  return <div className="sportStation"><div className="sportMission"><small>BATTING LAB</small><h2>Land near the 175-ft target</h2><p>Adjust bat angle, swing force, and contact point. The ball’s launch angle controls the trajectory.</p></div><TrajectoryField theme="baseball" angle={launchAngle} power={power} target={target} label="175 FT"/><div className="sportControls"><Control label="Bat angle" value={angle} min={5} max={50} onChange={setAngle} suffix="°"/><Control label="Swing force" value={power} min={20} max={100} step={5} onChange={setPower} suffix="%"/><div className="sportChoiceRow">{['low','center','high'].map(x=><button key={x} className={contact===x?'active':''} onClick={()=>setContact(x)}>{x} contact</button>)}</div></div><button className="sportAction" onClick={swing}>⚾ Swing</button>{result&&<div className={result.hit?'sportFeedback success':'sportFeedback'}><b>{result.hit?'🎯 Target hit!':result.type}</b><span>{result.hit?'You balanced angle and force.':result.range<target?'Try more range: adjust force or move toward a middle launch angle.':'Too far: reduce force or move away from the middle angle.'}</span></div>}<BaseballStations/></div>
+  return <div className="sportStation baseballStation">
+    <BaseballHeroScene angle={angle} power={power} contact={contact} range={range} result={result} onAngle={v=>{setAngle(v);setResult(null)}} onPower={v=>{setPower(v);setResult(null)}} onContact={v=>{setContact(v);setResult(null)}} onSwing={swing}/>
+    <div className="baseballMoreLabs"><div><small>KEEP EXPLORING</small><h2>More baseball math</h2><p>Use the same field for pitching, rates, geometry, and statistics.</p></div></div>
+    <BaseballStations/>
+  </div>
 }
+
 
 function BaseballStations(){
   const[pitchAngle,setPitchAngle]=useState(7),[pitchSpeed,setPitchSpeed]=useState(65),[runSpeed,setRunSpeed]=useState(15),[hits,setHits]=useState(3),atBats=10;
