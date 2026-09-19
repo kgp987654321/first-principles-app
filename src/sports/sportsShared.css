@@ -1,0 +1,103 @@
+
+.sharedSportLab{display:grid;gap:16px}
+.sharedSportHeader{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.sharedSportBrand{display:flex;align-items:center;gap:14px}
+.sharedSportBrand>span{width:54px;height:54px;display:grid;place-items:center;border-radius:50%;background:#fff;border:2px solid #dfe6f1;font-size:30px;box-shadow:0 5px 15px rgba(39,58,89,.08)}
+.sharedSportBrand h2{margin:0;font-size:30px;line-height:1;color:#16345f}
+.sharedSportBrand p{margin:5px 0 0;color:#50698f;font-size:14px}
+.sharedSportBadge{padding:12px 16px;border-radius:18px;background:#e8f1ff;color:#2856d8;font-weight:950;white-space:nowrap}
+.sharedSportGrid{display:grid;grid-template-columns:minmax(0,1fr) 235px;gap:16px;align-items:stretch}
+.sharedSceneCard{position:relative;min-width:0;border-radius:24px;overflow:hidden;background:#d9efff;box-shadow:0 10px 26px rgba(25,48,94,.10)}
+.sharedSportPrompt{position:absolute;left:18px;top:18px;z-index:5;width:260px;padding:15px 17px;border-radius:19px;background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.8);box-shadow:0 8px 18px rgba(0,0,0,.09)}
+.sharedSportPrompt b{display:block;font-size:18px;color:#19375f;margin-bottom:5px}
+.sharedSportPrompt span{display:block;font-size:12px;line-height:1.4;color:#52698d}
+.sharedStatRail{display:grid;grid-template-rows:repeat(4,1fr);gap:12px}
+.sharedStat{display:flex;align-items:center;gap:12px;padding:15px;border-radius:20px;border:1px solid rgba(78,96,132,.07);box-shadow:0 6px 18px rgba(25,48,94,.05)}
+.sharedStat.card0{background:#f0ebff}.sharedStat.card1{background:#fff1df}.sharedStat.card2{background:#e7f7ef}.sharedStat.card3{background:#e8f1ff}
+.sharedStat>span{font-size:31px}.sharedStat small{display:block;font-size:10px;font-weight:900;color:#4f6487;margin-bottom:5px}.sharedStat b{display:block;font-size:28px;color:#16345f;line-height:1}
+.sharedSportControls{display:grid;gap:10px;padding:12px;border-radius:20px;background:#fff;border:1px solid #e1e6ef;box-shadow:0 7px 18px rgba(24,44,77,.05)}
+.sharedControlSliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.sharedControlBottom{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:stretch}
+.sharedChoiceSlot{min-width:0}
+.sharedSportControl{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:#f8f9fb;border:1px solid #e4e7ed}
+.sharedSportControl span{font-size:10px;font-weight:900;color:#233c63}.sharedSportControl input{accent-color:#4b6cff;min-width:0}.sharedSportControl b{min-width:50px;text-align:right;color:#1f3a64}
+.sharedChoiceButtons{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.sharedChoiceButtons button{min-height:46px;border:2px solid #d6ddee;background:#fff;border-radius:13px;font-size:9px;font-weight:900;color:#294871}
+.sharedChoiceButtons button.active{border-color:#4e68ff;background:#eef1ff;color:#2945df;box-shadow:0 0 0 3px rgba(78,104,255,.08)}
+.sharedSportAction{min-width:110px;border:0;border-radius:14px;background:#5364da;color:#fff;font-weight:950;font-size:14px;box-shadow:0 5px 0 #3e4ca9}
+.sharedSportFeedback{display:flex;justify-content:space-between;gap:12px;padding:11px 13px;border-radius:13px;background:#fff7e8;border:1px solid #ead8aa;color:#6a583d}
+.sharedSportFeedback.success{background:#edf8ef;border-color:#b6d9bc;color:#42694b}
+.sharedAngleBase{stroke:#fff;stroke-width:4;stroke-dasharray:10 8;opacity:.95}
+.sharedAngleRay{stroke:#4966ff;stroke-width:5;stroke-linecap:round}
+.sharedAngleArc{fill:none;stroke:#4966ff;stroke-width:6}
+.sharedAngleLabel{fill:#fff;font-size:22px;font-weight:950;paint-order:stroke;stroke:#3155c6;stroke-width:7;stroke-linejoin:round}
+.sharedAngleVertex{fill:#fff;stroke:#4966ff;stroke-width:3}
+@media(max-width:1080px){
+  .sharedSportGrid{grid-template-columns:1fr}
+  .sharedStatRail{grid-template-columns:repeat(4,1fr);grid-template-rows:auto}
+  .sharedControlSliders{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sharedControlBottom{grid-template-columns:1fr auto}
+  .sharedSportAction{min-height:48px}
+}
+@media(max-width:720px){
+  .sharedSportHeader{display:grid}
+  .sharedSportBadge{justify-self:start}
+  .sharedSportBrand h2{font-size:24px}
+  .sharedSportPrompt{position:static;width:auto;margin:12px}
+  .sharedStatRail{grid-template-columns:repeat(2,1fr)}
+  .sharedControlSliders{grid-template-columns:1fr}
+  .sharedControlBottom{grid-template-columns:1fr}
+  .sharedSportAction{min-height:50px}
+}
+
+
+.sportSceneSvg{display:block;width:100%;height:auto;min-height:470px}
+.sportFlightPath{fill:none;stroke:#3565ff;stroke-width:9;stroke-linecap:round;stroke-dasharray:18 14;filter:drop-shadow(0 2px 2px rgba(39,67,170,.14))}
+.sceneMarker{font-size:16px;font-weight:950;fill:#fff;paint-order:stroke;stroke:#31556b;stroke-width:5;stroke-linejoin:round}
+
+/* Basketball */
+.bbSky{fill:#8ed0ff}.bbCourt{fill:#d98759}.bbCourtLines{fill:#d98759;stroke:#fff;stroke-width:5}.bbThree,.bbFreeCircle,.bbLane{fill:none;stroke:#fff;stroke-width:5}.bbPaint{fill:#3e72a8;stroke:#fff;stroke-width:5}
+.bbHoop rect:first-child{fill:#d9edff;stroke:#4d5968;stroke-width:7}.bbHoop rect:nth-child(2){fill:none;stroke:#fff;stroke-width:5}.bbHoop ellipse{fill:none;stroke:#e15f3b;stroke-width:8}.bbHoop path{fill:none;stroke:#fff;stroke-width:3}
+.bbPlayer circle{fill:#5b3a2d}.bbPlayer rect{fill:#2d5fd1}.bbPlayer line{stroke:#c98f72;stroke-width:12;stroke-linecap:round}.bbBall{fill:#e8812e;stroke:#693b1f;stroke-width:3}
+
+/* Soccer */
+.scSky{fill:#8fd1ff}.scField{fill:#65ad55}.scBoundary,.scBox,.scLine{fill:none;stroke:#fff;stroke-width:5}.scGoal rect{fill:none;stroke:#fff;stroke-width:9}.scGoal line{stroke:#fff;stroke-width:2;opacity:.85}
+.scPlayer circle{fill:#5a3728}.scPlayer rect{fill:#2359c9}.scPlayer line{stroke:#f0c2a4;stroke-width:14;stroke-linecap:round}.scBall{fill:#fff;stroke:#111;stroke-width:4}.scTarget{fill:rgba(255,255,255,.18);stroke:#ff5252;stroke-width:7}.scTargetText{fill:#fff;font-size:10px;font-weight:950;text-anchor:middle}
+
+/* Football */
+.fbSky{fill:#8dcfff}.fbField{fill:#4d9145}.fbYard{stroke:#fff;stroke-width:3;opacity:.82}.fbNumber{fill:#fff;font-size:22px;font-weight:950;text-anchor:middle;opacity:.85}.fbEndZone{fill:#275ca9;opacity:.85}
+.fbGoal line{stroke:#f4d24f;stroke-width:9;stroke-linecap:round}.fbQuarterback circle,.fbReceiver circle{fill:#244fab}.fbQuarterback rect,.fbReceiver rect{fill:#245dc7}.fbQuarterback line,.fbReceiver line{stroke:#f0f3f8;stroke-width:13;stroke-linecap:round}
+.fbBall{fill:#8b4d2f;stroke:#fff;stroke-width:3}.fbTarget{fill:#fff;stroke:#ff5148;stroke-width:8}.fbTargetText{fill:#cf3d38;font-size:9px;font-weight:950;text-anchor:middle}
+
+/* Golf */
+.gfSky{fill:#9bd6ff}.gfRough{fill:#69a853}.gfFairway{fill:none;stroke:#91c875;stroke-width:125;stroke-linecap:round}.gfGreen{fill:#aedd88;stroke:#eaf5d9;stroke-width:5}.gfBunker{fill:#e8d69c}
+.gfFlagPole{stroke:#5f6468;stroke-width:5}.gfFlag{fill:#ef5f55}.gfGolfer circle{fill:#ecd1ba}.gfGolfer rect{fill:#4873c8}.gfGolfer line{stroke:#76563b;stroke-width:10;stroke-linecap:round}.gfBall{fill:#fff;stroke:#9da6ad;stroke-width:2}.gfWind{fill:#fff;font-size:18px;font-weight:950;paint-order:stroke;stroke:#4b6f86;stroke-width:5}
+
+/* Hockey */
+.hkIce{fill:#dff4ff}.hkRink{fill:#f8fdff;stroke:#7da2ba;stroke-width:10}.hkRed{stroke:#d8565e;stroke-width:6}.hkBlue{stroke:#4a78c0;stroke-width:7}.hkCircle{fill:none;stroke:#d8565e;stroke-width:4}.hkGoal{fill:none;stroke:#dd5b58;stroke-width:8}
+.hkPlayer circle{fill:#263e6b}.hkPlayer rect{fill:#285ec8}.hkPlayer line{stroke:#29333b;stroke-width:12;stroke-linecap:round}.hkIncoming,.hkOutgoing{stroke:#4d62d8;stroke-width:8;stroke-linecap:round}.hkOutgoing{stroke:#7a47ca}.hkNormal{stroke:#6c7380;stroke-width:4;stroke-dasharray:9 7}.hkPuck{fill:#222}.hkImpact{fill:#fff;stroke:#ff6a54;stroke-width:5}.hkAngleText{fill:#31437c;font-size:18px;font-weight:950}
+
+/* Track */
+.trSky{fill:#9ed8fb}.trGrass{fill:#73ad62}.trOuter{fill:#c7684e}.trInner{fill:#6bab5a}.trLane{fill:none;stroke:rgba(255,255,255,.78);stroke-width:3}.trFinish{stroke:#fff;stroke-width:9;stroke-dasharray:7 5}
+.trRunner circle{fill:#2d5ec9}.trRunner line{stroke:#1f3f7f;stroke-width:10;stroke-linecap:round}.trGraph rect{fill:#fff;stroke:#d9e1ea;stroke-width:2}.trGraph line{stroke:#66788f;stroke-width:4}.trGraph line:last-of-type{stroke:#5267d8;stroke-width:7}.trGraph text{fill:#64748a;font-size:15px;font-weight:900}
+
+@media(max-width:720px){.sportSceneSvg{min-height:340px}}
+
+
+.sportModeBar{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:stretch;padding:10px;border-radius:18px;background:#f6f8fb;border:1px solid #e1e6ee}
+.sportModeButtons{display:flex;gap:6px}.sportModeButtons button{min-width:88px;border:1px solid #d7dde8;border-radius:12px;background:#fff;padding:9px 11px;font-size:9px;font-weight:950;text-transform:uppercase;color:#657185}.sportModeButtons button.active{background:#5263d8;color:#fff;border-color:#5263d8}
+.sportModePrompt{display:grid;gap:2px;padding:5px 8px}.sportModePrompt b{font-size:11px;color:#263c62}.sportModePrompt span{font-size:10px;color:#657289;line-height:1.35}
+.tryAnotherSport{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 14px;border-radius:15px;background:linear-gradient(135deg,#f1edff,#edf8f1);border:1px solid #d7d0f5}.tryAnotherSport small{display:block;font-size:8px;font-weight:950;color:#6356b8;letter-spacing:.1em}.tryAnotherSport b{display:block;font-size:12px;color:#30415d;margin-top:2px}.tryAnotherSport span{display:block;font-size:9px;color:#687588;margin-top:2px}.tryAnotherSport button{border:0;border-radius:12px;background:#5b65d7;color:#fff;padding:10px 13px;font-weight:900}
+.sportConnectionCue{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-radius:13px;background:#eff5ff;border:1px solid #d9e6ff;color:#405574}.sportConnectionCue b{font-size:10px}.sportConnectionCue span{font-size:9px}
+@media(max-width:720px){.sportModeBar{grid-template-columns:1fr}.sportModeButtons{display:grid;grid-template-columns:repeat(3,1fr)}.sportModeButtons button{min-width:0}.tryAnotherSport{display:grid}}
+
+
+/* Play animations */
+.sportFlightPath{stroke-dasharray:18 14;animation:sportTrace .78s ease both}
+.bbBall,.scBall,.fbBall,.gfBall{animation:sportObjectPop .86s ease both}
+.hkIncoming,.hkOutgoing{stroke-dasharray:16 10;animation:sportTrace .78s ease both}
+.trRunner{animation:runnerBurst .72s ease both}
+@keyframes sportTrace{from{stroke-dashoffset:180;opacity:.25}to{stroke-dashoffset:0;opacity:1}}
+@keyframes sportObjectPop{0%,55%{opacity:.2;transform:scale(.55);transform-origin:center}100%{opacity:1;transform:scale(1)}}
+@keyframes runnerBurst{from{opacity:.45;transform:translateX(-22px)}to{opacity:1;transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.sportFlightPath,.bbBall,.scBall,.fbBall,.gfBall,.hkIncoming,.hkOutgoing,.trRunner{animation:none!important}}
