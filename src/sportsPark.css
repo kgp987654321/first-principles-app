@@ -164,3 +164,78 @@
   .soccerCenterCircle{width:56px;height:56px}
   .soccerPenaltyBox{width:120px}
 }
+
+
+/* Home Run Math — full baseball visual */
+.baseballStation{gap:18px}
+.homeRunMath{display:grid;gap:16px}
+.homeRunTop{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:4px 2px}
+.homeRunBrand{display:flex;align-items:center;gap:14px}
+.homeRunBrand>span{width:54px;height:54px;display:grid;place-items:center;border-radius:50%;background:#fff;border:2px solid #dfe6f1;font-size:30px;box-shadow:0 5px 15px rgba(39,58,89,.08)}
+.homeRunBrand h2{margin:0;font-size:30px;line-height:1;color:#16345f}
+.homeRunBrand p{margin:5px 0 0;color:#50698f;font-size:14px}
+.homeRunBadge{padding:12px 16px;border-radius:18px;background:#e8f1ff;color:#2856d8;font-weight:950;white-space:nowrap}
+.homeRunGrid{display:grid;grid-template-columns:minmax(0,1fr) 235px;gap:16px;align-items:stretch}
+.homeRunFieldCard{position:relative;min-width:0;border-radius:24px;overflow:hidden;background:#d9efff;box-shadow:0 10px 26px rgba(25,48,94,.10)}
+.homeRunHint{position:absolute;left:18px;top:18px;z-index:4;width:260px;padding:15px 17px;border-radius:19px;background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.8);box-shadow:0 8px 18px rgba(0,0,0,.09)}
+.homeRunHint b{display:block;font-size:18px;color:#19375f;margin-bottom:5px}
+.homeRunHint span{display:block;font-size:12px;line-height:1.4;color:#52698d}
+.homeRunField{display:block;width:100%;height:auto;min-height:460px}
+.hrSky{fill:#8fd0ff}
+.hrClouds ellipse{fill:rgba(255,255,255,.92)}
+.hrTreeBand circle:nth-of-type(1){fill:#65ba62}.hrTreeBand circle:nth-of-type(2){fill:#4da64e}.hrTreeBand circle:nth-of-type(3){fill:#35873b}.hrTreeBand rect{fill:#7b5535}
+.hrLights rect:first-of-type{fill:#4f5f76}.hrLights rect:nth-of-type(2){fill:#5a6c84}.hrLights circle{fill:#dce8ff}
+.hrScoreboard>rect:first-child{fill:#2b5b4f}.hrScoreboard>rect:nth-of-type(2){fill:#20483f}.hrScoreboard text{fill:#7ed49d;font-size:18px;font-weight:950}.hrScoreboard circle{fill:#fff}.hrScoreboard path{fill:none;stroke:#d75858;stroke-width:1.4}
+.hrGrassOuter{fill:#76b95f}
+.hrStripe{fill:none;stroke:rgba(143,208,104,.28);stroke-width:95}.hrStripe.dark{stroke:rgba(83,163,68,.25)}
+.hrFence{fill:none;stroke:#0f5c62;stroke-width:52;stroke-linecap:round}
+.hrFence:after{content:''}
+.hr400{fill:rgba(255,255,255,.72);font-size:27px;font-weight:950}
+.hrFoul{stroke:#fff;stroke-width:6}
+.hrDirt{fill:#cf9c5d}
+.hrDiamond{fill:none;stroke:#edd9b9;stroke-width:8}
+.hrMound{fill:#bf8d54}
+.hrHomePlate,.hrBase{fill:#fff;stroke:#d9dde5;stroke-width:2}
+.hrBaseLabel rect{fill:rgba(47,79,64,.88)}.hrBaseLabel text{fill:#fff;font-size:14px;font-weight:900;text-anchor:middle}
+.hrBatter ellipse{fill:rgba(0,0,0,.12)}.hrBatter rect:nth-of-type(1){fill:#9b6630}.hrBatter circle{fill:#2957d6}.hrBatter rect:nth-of-type(2){fill:#fff;stroke:#dfe6f2;stroke-width:2}.hrBatter rect:nth-of-type(3),.hrBatter rect:nth-of-type(4){fill:#f2f5fb}
+.hrAngleBaseline{stroke:#fff;stroke-width:4;stroke-dasharray:10 8;opacity:.95}
+.hrAngleArc{fill:none;stroke:#4966ff;stroke-width:7}
+.hrAngleRay{stroke:#4966ff;stroke-width:5;stroke-linecap:round}
+.hrTrajectory{fill:none;stroke:#3e67ff;stroke-width:11;stroke-dasharray:20 15;stroke-linecap:round;filter:drop-shadow(0 2px 2px rgba(32,56,170,.15))}
+.hrAngleTag rect{fill:#2e61af}.hrAngleTag text{fill:#fff;font-size:23px;font-weight:950;text-anchor:middle}
+.hrLanding circle{fill:#fff;stroke:#d9dde6;stroke-width:2}.hrLanding path{fill:none;stroke:#d75555;stroke-width:2.2}.hrLanding line{stroke:#8f5930;stroke-width:7}.hrLanding path:last-of-type{fill:#f15e55;stroke:none}.hrLanding ellipse{fill:#fff;stroke:#ef5d5a;stroke-width:7}
+.hrDistanceTag rect{fill:rgba(31,61,69,.92)}.hrDistanceTag text{fill:#fff;font-size:23px;font-weight:950;text-anchor:middle}
+.homeRunStats{display:grid;grid-template-rows:repeat(4,1fr);gap:12px}
+.hrStat{display:flex;align-items:center;gap:12px;padding:15px;border-radius:20px;border:1px solid rgba(78,96,132,.07);box-shadow:0 6px 18px rgba(25,48,94,.05)}
+.hrStat.purple{background:#f0ebff}.hrStat.orange{background:#fff1df}.hrStat.green{background:#e7f7ef}.hrStat.blue{background:#e8f1ff}
+.hrStat>span{font-size:31px}.hrStat small{display:block;font-size:10px;font-weight:900;color:#4f6487;margin-bottom:5px}.hrStat b{display:block;font-size:28px;color:#16345f;line-height:1}
+.homeRunControls{display:grid;grid-template-columns:1fr 1fr 1.25fr auto;gap:10px;align-items:stretch;padding:12px;border-radius:20px;background:#fff;border:1px solid #e1e6ef;box-shadow:0 7px 18px rgba(24,44,77,.05)}
+.homeRunControls>label{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:#f8f9fb;border:1px solid #e4e7ed}
+.homeRunControls>label span{font-size:10px;font-weight:900;color:#233c63}.homeRunControls>label input{accent-color:#4b6cff;min-width:0}.homeRunControls>label b{min-width:44px;text-align:right;color:#1f3a64}
+.hrContact{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.hrContact button{min-height:46px;border:2px solid #d6ddee;background:#fff;border-radius:13px;font-size:9px;font-weight:900;color:#294871}
+.hrContact button.active{border-color:#4e68ff;background:#eef1ff;color:#2945df;box-shadow:0 0 0 3px rgba(78,104,255,.08)}
+.hrSwing{min-width:110px;border:0;border-radius:14px;background:#5364da;color:#fff;font-weight:950;font-size:14px;box-shadow:0 5px 0 #3e4ca9}
+.homeRunFeedback{display:flex;justify-content:space-between;gap:12px;padding:11px 13px;border-radius:13px;background:#fff7e8;border:1px solid #ead8aa;color:#6a583d}.homeRunFeedback.success{background:#edf8ef;border-color:#b6d9bc;color:#42694b}
+.baseballMoreLabs{margin-top:6px;padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,#f6f9ff,#f2f8ef);border:1px solid #e0e7e3}.baseballMoreLabs small{font-size:8px;font-weight:950;color:#5973c9;letter-spacing:.1em}.baseballMoreLabs h2{margin:3px 0;font-size:20px}.baseballMoreLabs p{margin:0;color:#687587;font-size:11px}
+
+@media(max-width:1080px){
+  .homeRunGrid{grid-template-columns:1fr}
+  .homeRunStats{grid-template-columns:repeat(4,1fr);grid-template-rows:auto}
+  .hrStat{min-height:95px}
+  .homeRunControls{grid-template-columns:1fr 1fr}
+  .hrContact{grid-column:1/-1}
+  .hrSwing{grid-column:1/-1;min-height:48px}
+}
+@media(max-width:720px){
+  .homeRunTop{display:grid}
+  .homeRunBadge{justify-self:start}
+  .homeRunBrand h2{font-size:24px}
+  .homeRunBrand p{font-size:12px}
+  .homeRunHint{position:static;width:auto;margin:12px}
+  .homeRunField{min-height:360px}
+  .homeRunStats{grid-template-columns:repeat(2,1fr)}
+  .homeRunControls{grid-template-columns:1fr}
+  .hrContact{grid-column:auto}
+  .hrSwing{grid-column:auto}
+}
