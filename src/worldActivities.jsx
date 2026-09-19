@@ -25,6 +25,8 @@ const kitchenMeasures=[
   {id:'tsp',label:'1 tsp',short:'1 tsp',value:1/48,kind:'spoon'}
 ];
 const kitchenTargets=[
+  {label:'1/4 cup',value:.25},
+  {label:'1/3 cup',value:1/3},
   {label:'1/2 cup',value:.5},
   {label:'3/4 cup',value:.75},
   {label:'1 cup',value:1}
@@ -77,7 +79,7 @@ function BakeryMeasuringStation({order,onComplete}){
       </div>
       <div className="measurePreview">
         <small>SELECTED TOOL</small>
-        <div className="previewMeasure"><span className={measure.kind==='cup'?'previewCup':'previewSpoon'}><i style={measure.kind==='cup'?{height:Math.min(100,measure.value*100)+'%'}:{}}/></span><div><strong>{measure.label}</strong><p>{measure.id==='half'?'2 of these make 1 cup.':measure.id==='quarter'?'2 quarters make 1/2 cup.':measure.id==='third'?'3 thirds make 1 cup.':measure.id==='tbsp'?'16 tablespoons make 1 cup.':measure.id==='tsp'?'3 teaspoons make 1 tablespoon.':'This is one whole cup.'}</p></div></div>
+        <div className="previewMeasure"><span className={measure.kind==='cup'?'previewCup '+measure.id:'previewSpoon '+measure.id}><i style={measure.kind==='cup'?{height:Math.min(100,measure.value*100)+'%'}:{}}/></span><div><strong>{measure.label}</strong><p>{measure.id==='half'?'2 of these make 1 cup.':measure.id==='quarter'?'2 quarters make 1/2 cup.':measure.id==='third'?'3 thirds make 1 cup.':measure.id==='tbsp'?'16 tablespoons make 1 cup.':measure.id==='tsp'?'3 teaspoons make 1 tablespoon.':'This is one whole cup.'}</p></div></div>
         <div className="ingredientTabs">{['milk','flour','sugar'].map(x=><button key={x} className={ingredient===x?'active':''} onClick={()=>setIngredient(x)}>{x==='milk'?'🥛':x==='flour'?'🌾':'🍚'} {x}</button>)}</div>
         <button className="pourButton" onClick={pour}>Pour {measure.label} →</button>
       </div>
