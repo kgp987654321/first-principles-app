@@ -34,13 +34,14 @@ export function BasketballScene({angle,power,range=65,shotType='free',played=fal
     <text x={startX} y="574" textAnchor="middle" className="sceneMarker">{shotType==='three'?'3-POINT':shotType==='short'?'SHORT RANGE':'FREE THROW'}</text>
   </svg>;
 }
-export function SoccerScene({angle,power,end=0,contact='center',played=false}) {
-  const startX=310,startY=520,goalX=870,goalY=250;
-  const targetX=clamp(goalX+end*4,760,1010),targetY=clamp(goalY-Math.abs(angle)*2.5,150,320);
-  const apexY=clamp(440-Math.abs(angle)*6-power*1.2,150,360);
-  const path=quadraticPath({startX,startY,endX:targetX,endY:targetY,apexY});
-  const ballX=played?targetX:startX,ballY=played?targetY:startY;
-  return <svg viewBox="0 0 1200 620" className={'sportSceneSvg soccerScene '+(played?'played':'')}  aria-label={'Soccer kick at '+angle+' degrees'}>
+export function SoccerScene({angle,power,shotX=944,shotY=244,contact='center',played=false}) {
+  const startX=310,startY=520,targetX=944,targetY=244;
+  const lift=contact==='chip'?95:contact==='curve'?45:70;
+  const controlX=(startX+shotX)/2+(contact==='curve'?-65:contact==='chip'?35:0);
+  const controlY=clamp(Math.min(startY,shotY)-lift-Math.sin(rad(angle))*power*1.2,105,360);
+  const path='M '+startX+' '+startY+' Q '+controlX+' '+controlY+' '+shotX+' '+shotY;
+  const ballX=played?shotX:startX,ballY=played?shotY:startY;
+  return <svg viewBox="0 0 1200 620" className={'sportSceneSvg soccerScene '+(played?'played':'')} aria-label={'Soccer kick at '+angle+' degrees with '+power+' percent force'}>
     <rect width="1200" height="620" className="scSky"/>
     <rect y="250" width="1200" height="370" className="scField"/>
     <rect x="65" y="285" width="1070" height="300" className="scBoundary"/>
@@ -52,13 +53,15 @@ export function SoccerScene({angle,power,end=0,contact='center',played=false}) {
     <g className="scPlayer" transform="translate(235 420)"><circle cx="38" cy="24" r="24"/><rect x="22" y="48" width="35" height="74" rx="12"/><line x1="35" y1="120" x2="5" y2="175"/><line x1="44" y1="120" x2="82" y2="165"/></g>
     <AngleOverlay x={startX} y={startY} angle={Math.max(5,Math.abs(angle))} radius={58}/>
     <path d={path} className="sportFlightPath"/>
+    <line x1={startX} y1={startY} x2={startX+Math.cos(rad(angle))*(55+power*.7)} y2={startY-Math.sin(rad(angle))*(55+power*.7)} className="scForceVector"/>
     <circle cx={ballX} cy={ballY} r="15" className="scBall"/>
-    <circle cx="944" cy="244" r="36" className="scTarget"/>
-    <text x="944" y="249" className="scTargetText">TARGET</text>
+    <circle cx={targetX} cy={targetY} r="42" className="scTarget"/>
+    <circle cx={targetX} cy={targetY} r="18" className="scTargetInner"/>
+    <text x={targetX} y={targetY+5} className="scTargetText">TARGET</text>
     <text x="88" y="330" className="sceneMarker">{contact.toUpperCase()} STRIKE</text>
+    <text x="86" y="360" className="sceneMarker">{power}% FORCE</text>
   </svg>;
 }
-
 export function FootballScene({angle,power,receiverDist=30,throwDist=30,flightTime=1.8,played=false}) {
   const startX=260,startY=520,scale=17;
   const targetX=clamp(startX+receiverDist*scale,445,1065),targetY=360;
@@ -111,13 +114,14 @@ export function GolfScene({angle,power,wind=0,range=70,target=76,played=false}) 
   </svg>;
 }
 
-export function HockeyScene({angle,reflected,played=false}) {
-  const hitX=600,hitY=150,ray=510;
-  const dx=Math.sin(rad(angle))*ray,dy=Math.cos(rad(angle))*ray;
-  const startX=clamp(hitX-dx,95,520),startY=clamp(hitY+dy,230,530);
-  const endX=clamp(hitX+Math.sin(rad(reflected))*ray,680,1100),endY=clamp(hitY+Math.cos(rad(reflected))*ray,230,530);
+export function HockeyScene({angle,reflected,force=69,guide='rays',played=false}) {
+  const hitX=600,hitY=150,incomingLen=360,outgoingLen=180+force*4.7,goalX=1067,goalY=340;
+  const startX=clamp(hitX-Math.sin(rad(angle))*incomingLen,95,520),startY=clamp(hitY+Math.cos(rad(angle))*incomingLen,230,530);
+  const endX=clamp(hitX+Math.sin(rad(reflected))*outgoingLen,650,1130),endY=clamp(hitY+Math.cos(rad(reflected))*outgoingLen,220,535);
   const playerX=clamp(startX-55,70,500),playerY=clamp(startY-105,210,410);
-  return <svg viewBox="0 0 1200 620" className={'sportSceneSvg hockeyScene '+(played?'played':'')} aria-label={'Hockey bank angle '+angle+' degrees'}>
+  const forceLen=55+force*.9,ux=(hitX-startX)/incomingLen,uy=(hitY-startY)/incomingLen;
+  const vectorX=startX+ux*forceLen,vectorY=startY+uy*forceLen;
+  return <svg viewBox="0 0 1200 620" className={'sportSceneSvg hockeyScene guide-'+guide+' '+(played?'played':'')} aria-label={'Hockey bank angle '+angle+' degrees with '+force+' percent force'}>
     <rect width="1200" height="620" className="hkIce"/>
     <rect x="60" y="120" width="1080" height="440" rx="100" className="hkRink"/>
     <line x1="600" y1="120" x2="600" y2="560" className="hkRed"/>
@@ -127,13 +131,16 @@ export function HockeyScene({angle,reflected,played=false}) {
     <g className="hkPlayer" transform={'translate('+playerX+' '+playerY+')'}><circle cx="35" cy="24" r="22"/><rect x="18" y="46" width="36" height="70" rx="11"/><line x1="30" y1="113" x2="8" y2="160"/><line x1="46" y1="113" x2="70" y2="158"/><line x1="48" y1="65" x2="90" y2="115"/></g>
     <line x1={startX} y1={startY} x2={hitX} y2={hitY} className="hkIncoming"/>
     <line x1={hitX} y1={hitY} x2={endX} y2={endY} className="hkOutgoing"/>
-    <line x1={hitX} y1="105" x2={hitX} y2="245" className="hkNormal"/>
+    <line x1={startX} y1={startY} x2={vectorX} y2={vectorY} className="hkForceVector"/>
+    <circle cx={vectorX} cy={vectorY} r="8" className="hkForceTip"/>
+    <text x={vectorX+12} y={vectorY-9} className="hkForceText">{force}% FORCE</text>
+    {guide==='normal'&&<><line x1={hitX} y1="88" x2={hitX} y2="250" className="hkNormal focus"/><text x={hitX+12} y="100" className="hkGuideText">NORMAL</text></>}
+    {guide==='rays'&&<><line x1={hitX} y1="105" x2={hitX} y2="245" className="hkNormal"/><text x={505} y="105" className="hkAngleText">{angle}° in</text><text x={650} y="105" className="hkAngleText">{reflected}° out</text></>}
+    {guide==='target'&&<><line x1={hitX} y1={hitY} x2={goalX} y2={goalY} className="hkTargetGuide"/><circle cx={goalX} cy={goalY} r="38" className="hkGoalTarget"/><text x={goalX} y={goalY+5} className="hkGuideText" textAnchor="middle">TARGET</text></>}
     <circle cx={played?endX:startX} cy={played?endY:startY} r="12" className="hkPuck"/>
     <circle cx={hitX} cy={hitY} r="8" className="hkImpact"/>
-    <text x={505} y="105" className="hkAngleText">{angle}° in</text><text x={650} y="105" className="hkAngleText">{reflected}° out</text>
   </svg>;
 }
-
 export function TrackScene({speed,laps,played=false}) {
   const progress=clamp((speed-6)/14,0,1);
   return <svg viewBox="0 0 1200 620" className={'sportSceneSvg trackScene '+(played?'played':'')}  aria-label={'Track speed '+speed+' meters per second'}>
