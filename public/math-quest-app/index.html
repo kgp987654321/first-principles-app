@@ -506,8 +506,8 @@
        steps:["Round the subtrahend to a nearby friendly 10 or 100.","Subtract that friendlier number.","If you subtracted extra, add the extra amount back to the result."]}
     ],
     multiply:[
-      {name:"Array thinking",intro:"Picture multiplication as equal rows and columns.",
-       steps:["Make one row for each group.","Put the same number in every row.","Count or combine the groups."]},
+      {name:"Known-fact bridge",intro:"Start with an easier multiplication fact you already know, then adjust.",
+       steps:["Find a nearby ×2, ×5, or ×10 fact.","Use that fact as a bridge without counting objects.","Adjust by adding, subtracting, doubling, or halving."]},
       {name:"Break apart",intro:"Split a harder fact into facts you already know.",
        steps:["Use a nearby ×5 or ×10 fact.","Find the leftover group.","Add the partial products."]},
       {name:"Double a known fact",intro:"Use doubling when one factor is twice an easier number.",
@@ -588,6 +588,17 @@
   }
 
   function friendlyDelta(n){const r=n%10;return r===0?0:10-r}
+  function multiplicationBridge(p){
+    const a=p.a,b=p.b;
+    if(b===3)return {expression:a+" × 2 + "+a,note:"Use ×2, then add one more "+a+"."};
+    if(b===4)return {expression:"double "+a+", then double again",note:"Two doubles make ×4."};
+    if(b===5)return {expression:a+" × 10, then halve it",note:"×5 is half of ×10."};
+    if(b===6)return {expression:a+" × 5 + "+a,note:"Use ×5, then add one more "+a+"."};
+    if(b===7)return {expression:a+" × 5 + "+a+" × 2",note:"Use ×5 and ×2, then combine."};
+    if(b===8)return {expression:a+" × 10 − "+a+" × 2",note:"Use ×10, then take away two groups."};
+    if(b===9)return {expression:a+" × 10 − "+a,note:"Use ×10, then take away one group."};
+    return {expression:a+" tens",note:"Multiplying by 10 makes "+a+" tens."};
+  }
   function renderStrategyDemo(){
     const h=$("#strategyDemo"),p=state.problem,step=state.strategyStep,s=state.strategy;h.innerHTML="";
     const title=document.createElement("div");title.className="strategyDemoTitle";title.textContent="Watch step "+(step+1);h.appendChild(title);
@@ -618,9 +629,13 @@
       box.innerHTML=step===0?'<span class="hot">'+p.b+' + '+delta+' → '+friendly+'</span>':step===1?'<span>'+p.a+' − '+friendly+' = '+easy+'</span>':'<span>'+easy+' + '+delta+' = <b>'+p.answer+'</b></span>';
     }else if(state.mode==="multiply"){
       if(s===0){
-        const grid=document.createElement("div");grid.className="miniArray";grid.style.gridTemplateColumns="repeat("+p.b+",10px)";for(let i=0;i<p.answer;i++){const dot=document.createElement("i");grid.appendChild(dot)}h.appendChild(grid);const cap=document.createElement("div");cap.className="strategyCaption";cap.textContent=step===0?p.a+" equal rows":step===1?p.b+" in every row":"Count all "+p.answer+" dots";h.appendChild(cap);return;
-      }
-      if(s===1){
+        const bridge=multiplicationBridge(p);
+        box.innerHTML=step===0
+          ?'<span class="hot">'+p.a+' × '+p.b+'</span><span>→</span><span>'+bridge.expression+'</span>'
+          :step===1
+          ?'<span class="hot">'+bridge.note+'</span>'
+          :'<span>Do the easier fact(s) mentally.</span><span class="hot">Then adjust to solve '+p.a+' × '+p.b+'.</span>';
+      }else if(s===1){
         const base=p.b>=5?5:Math.max(1,p.b-1),rest=p.b-base;
         box.innerHTML=step===0?'<span class="hot">'+p.a+' × '+base+'</span><span>+</span><span>'+p.a+' × '+rest+'</span>':step===1?'<span>'+p.a*base+'</span><span>+</span><span>'+p.a*rest+'</span>':'<span class="hot">'+p.a*base+' + '+p.a*rest+' = '+p.answer+'</span>';
       }else{
@@ -639,7 +654,7 @@
   const habitSets={
     add:[["📐","Line up hundreds, tens, ones"],["✏️","Record regrouping above the next column"],["➡️","Work ones → tens → hundreds"],["🔍","Estimate the sum first"]],
     subtract:[["📐","Line up place values"],["✏️","Show every borrowed/regrouped digit"],["➡️","Work ones → tens → hundreds"],["🔍","Check by adding the difference back"]],
-    multiply:[["▦","Show equal groups, rows, or partial products"],["🧩","Break harder facts into known facts"],["✖️","Keep factors and products labeled"],["🔍","Check with a nearby known fact"]],
+    multiply:[["🧠","Use a known fact as a bridge"],["🧩","Break harder facts into easier facts"],["✖️","Keep factors and products labeled"],["🔍","Check with a nearby known fact"]],
     divide:[["📦","Show equal groups or rows"],["↔️","Keep every group the same size"],["✖️","Connect division to multiplication"],["🔍","Check: quotient × divisor = total"]]
   };
   function renderHabits(){
@@ -767,8 +782,12 @@
   function renderFactVisual(){
     const holder=$("#visualHolder");holder.innerHTML="";
     if(state.mode==="multiply" && state.strategy===0){
-      const p=state.problem,grid=document.createElement("div");grid.className="array";grid.style.gridTemplateColumns="repeat("+p.b+",15px)";
-      for(let i=0;i<p.answer;i++){const d=document.createElement("span");d.className="dot";grid.appendChild(d)}holder.appendChild(grid);
+      const p=state.problem,bridge=multiplicationBridge(p),hint=document.createElement("div");
+      hint.className="divisionBoard";
+      hint.innerHTML='<div class="divisionPrompt">LIGHT HINT — use a fact you already know. No counting needed.</div>'+
+        '<div class="divisionEquation"><div class="eqTile">'+p.a+' × '+p.b+'</div><strong>→</strong><div class="eqTile">'+bridge.expression+'</div></div>'+
+        '<div class="strategyCaption">'+bridge.note+' Work out the pieces yourself.</div>';
+      holder.appendChild(hint);
       return;
     }
     if(state.mode!=="divide")return;
