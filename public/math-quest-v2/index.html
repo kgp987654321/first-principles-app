@@ -184,10 +184,10 @@
       </div>
     </section>
     <section class="gameGrid">
-      <button class="gameCard active" data-mode="add"><span class="gameIcon">🏗️</span><b>Add & Build</b><small>3-digit addition + regrouping</small></button>
-      <button class="gameCard" data-mode="subtract"><span class="gameIcon">🧭</span><b>Subtract & Navigate</b><small>3-digit subtraction + borrowing</small></button>
-      <button class="gameCard" data-mode="multiply"><span class="gameIcon">🤖</span><b>Robot Factory</b><small>Multiplication facts + strategies</small></button>
-      <button class="gameCard" data-mode="divide"><span class="gameIcon">💎</span><b>Gem Sorter</b><small>Division facts + equal groups</small></button>
+      <button id="modeAdd" class="gameCard active" data-mode="add" onclick="window.mathQuestSelectMode&&window.mathQuestSelectMode('add')"><span class="gameIcon">🏗️</span><b>Add & Build</b><small>3-digit addition + regrouping</small></button>
+      <button id="modeSubtract" class="gameCard" data-mode="subtract" onclick="window.mathQuestSelectMode&&window.mathQuestSelectMode('subtract')"><span class="gameIcon">🧭</span><b>Subtract & Navigate</b><small>3-digit subtraction + borrowing</small></button>
+      <button id="modeMultiply" class="gameCard" data-mode="multiply" onclick="window.mathQuestSelectMode&&window.mathQuestSelectMode('multiply')"><span class="gameIcon">🤖</span><b>Robot Factory</b><small>Multiplication facts + strategies</small></button>
+      <button id="modeDivide" class="gameCard" data-mode="divide" onclick="window.mathQuestSelectMode&&window.mathQuestSelectMode('divide')"><span class="gameIcon">💎</span><b>Gem Sorter</b><small>Division facts + equal groups</small></button>
     </section>
 
     <section class="workspace" id="practiceWorkspace">
@@ -438,6 +438,14 @@
     }
     renderStrategy();renderFactVisual();
   }
+
+  window.mathQuestSelectMode=function(mode){
+    if(!["add","subtract","multiply","divide"].includes(mode))return;
+    state.mode=mode;
+    renderProblem();
+    const workspace=$("#practiceWorkspace");
+    if(workspace&&workspace.getBoundingClientRect().top<0)workspace.scrollIntoView({block:"start",behavior:"smooth"});
+  };
 
   function renderStrategy(){
     const list=strategies[state.mode],s=list[state.strategy];
@@ -782,7 +790,14 @@
 
   $$("input.digit").forEach(el=>el.addEventListener("input",()=>{el.value=el.value.replace(/[^0-9]/g,"").slice(0,1)}));
   $("#factAnswer").addEventListener("input",e=>e.target.value=e.target.value.replace(/[^0-9]/g,"").slice(0,3));
-  $$(".gameCard").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;renderProblem()}));
+  ["modeAdd","modeSubtract","modeMultiply","modeDivide"].forEach(id=>{
+    const btn=$("#"+id);
+    if(btn)btn.addEventListener("click",e=>{e.preventDefault();window.mathQuestSelectMode(btn.dataset.mode)});
+  });
+  document.addEventListener("click",e=>{
+    const card=e.target&&e.target.closest?e.target.closest(".gameCard"):null;
+    if(card&&card.dataset&&card.dataset.mode)window.mathQuestSelectMode(card.dataset.mode);
+  });
   $("#switchStrategy").addEventListener("click",()=>{state.strategy=(state.strategy+1)%strategies[state.mode].length;renderStrategy();renderFactVisual()});
   $("#checkBtn").addEventListener("click",check);
   $("#clearBtn").addEventListener("click",clearInputs);
