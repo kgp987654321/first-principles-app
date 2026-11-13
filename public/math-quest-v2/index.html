@@ -263,12 +263,12 @@
     </section>
 
     <section class="missionFooter">
-      <div><small>MISSION GOAL</small><b id="missionMessage">Complete 20 mixed problems with neat work.</b></div>
+      <div><small>MISSION GOAL</small><b id="missionMessage">Get 20 correct answers to unlock Restaurant Rush.</b></div>
       <button class="btn success" id="mixBtn">🎲 Mix it up</button>
     </section>
 
     <section class="restaurantUnlock" id="restaurantUnlock">
-      <div><b>🍕 Restaurant Rush unlocked!</b><small>You finished 10 problems. Run one quick shift, then finish the last 10.</small></div>
+      <div><b>🍕 Restaurant Rush unlocked!</b><small>You got 20 correct answers. Restaurant Rush is your reward!</small></div>
       <button class="btn success" id="playRestaurantBonus">Play Restaurant Rush</button>
     </section>
 
@@ -281,7 +281,7 @@
         <button class="breakCard active" data-break="match"><span class="gameIcon">🍬</span><b>Sweet Swap</b><small>Swap neighbors and match 3 or more.</small></button>
         <button class="breakCard" data-break="blocks"><span class="gameIcon">🧱</span><b>Block Drop</b><small>Rotate, slide, and clear complete rows.</small></button>
         <button class="breakCard" data-break="launch"><span class="gameIcon">🎯</span><b>Target Launch</b><small>Pick angle + power and knock down targets.</small></button>
-        <button class="breakCard locked" id="restaurantCard" data-break="restaurant" aria-disabled="true"><span class="gameIcon">🍕</span><b>Restaurant Rush</b><small id="restaurantCardText">Unlocks after problem 10.</small></button>
+        <button class="breakCard locked" id="restaurantCard" data-break="restaurant" aria-disabled="true"><span class="gameIcon">🍕</span><b>Restaurant Rush</b><small id="restaurantCardText">Unlocks after 20 correct answers.</small></button>
       </div>
 
       <div class="breakStage">
@@ -565,18 +565,18 @@
       if(isFact)$("#factAnswer").classList.add("bad");else ["ansH","ansT","ansO"].forEach(id=>$("#"+id).classList.add("bad"));
     }
     localStorage.setItem("mathQuestStars",String(lifetime));updateHUD();
-    if(state.attempted>=10&&!restaurantUnlocked)unlockRestaurant();
-    if(state.attempted>=state.goal)finishMission();
+    if(state.correct>=state.goal&&!restaurantUnlocked)unlockRestaurant();
+    if(state.correct>=state.goal&&restaurantPlayed)finishMission();
   }
 
   function updateHUD(){
     $("#totalStars").textContent=lifetime;$("#streak").textContent=state.streak;$("#workShown").textContent=state.workShown;
     $("#accuracy").textContent=state.attempted?Math.round(state.correct/state.attempted*100)+"%":"—";
-    $("#progressText").textContent=Math.min(state.attempted,state.goal)+" / "+state.goal+" problems";
-    $("#progressFill").style.width=Math.min(100,state.attempted/state.goal*100)+"%";
-    if(state.attempted<10)$("#missionMessage").textContent="Complete 20 mixed problems. Restaurant Rush unlocks after #10.";
-    else if(!restaurantPlayed)$("#missionMessage").textContent="10 down! Restaurant Rush is unlocked.";
-    else if(state.attempted<20)$("#missionMessage").textContent=(20-state.attempted)+" math problems left.";
+    $("#progressText").textContent=Math.min(state.correct,state.goal)+" / "+state.goal+" correct";
+    $("#progressFill").style.width=Math.min(100,state.correct/state.goal*100)+"%";
+    if(state.correct<20)$("#missionMessage").textContent=(20-state.correct)+" correct answers until Restaurant Rush.";
+    else if(!restaurantPlayed)$("#missionMessage").textContent="20 correct! Restaurant Rush is unlocked.";
+    else $("#missionMessage").textContent="Restaurant Rush complete — mission finished!";
   }
 
   function finishMission(){
@@ -590,8 +590,8 @@
   function restart(){
     Object.assign(state,{mode:"add",problem:null,strategy:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:20,locked:false});
     restaurantUnlocked=false;restaurantPlayed=false;restaurantStep=0;restaurantScore=0;chefIndex=0;
-    $("#restaurantUnlock").classList.remove("show");$("#restaurantCard").classList.add("locked");$("#restaurantCard").setAttribute("aria-disabled","true");$("#restaurantCardText").textContent="Unlocks after problem 10.";
-    $("#summaryCard").classList.remove("show");$("#missionMessage").textContent="Complete 20 mixed problems. Restaurant Rush unlocks after #10.";updateHUD();renderProblem();window.scrollTo({top:0,behavior:"smooth"});
+    $("#restaurantUnlock").classList.remove("show");$("#restaurantCard").classList.add("locked");$("#restaurantCard").setAttribute("aria-disabled","true");$("#restaurantCardText").textContent="Unlocks after 20 correct answers.";
+    $("#summaryCard").classList.remove("show");$("#missionMessage").textContent="Get 20 correct answers to unlock Restaurant Rush.";updateHUD();renderProblem();window.scrollTo({top:0,behavior:"smooth"});
   }
 
   // Brain Break Arcade
@@ -604,7 +604,7 @@
     if(breakState.active==="restaurant")$("#breakScoreLabel").textContent="Restaurant score: "+restaurantScore+" • Role "+(restaurantStep+1)+" / 4";
   }
   function showBreak(name){
-    if(name==="restaurant"&&!restaurantUnlocked){$("#restaurantCardText").textContent="Finish 10 math problems first.";return;}
+    if(name==="restaurant"&&!restaurantUnlocked){$("#restaurantCardText").textContent="Get 20 correct answers first.";return;}
     breakState.active=name;
     $$(".breakCard").forEach(b=>b.classList.toggle("active",b.dataset.break===name));
     $("#matchGame").classList.toggle("hidden",name!=="match");
@@ -657,7 +657,7 @@
     btn.classList.add("good");restaurantScore+=25;breakState.total+=25;updateBreakHUD();
     if(restaurantStep===1&&chefIndex<3)return;
     if(restaurantStep<3){restaurantStep++;setTimeout(renderRestaurant,220);return}
-    restaurantPlayed=true;restaurantScore+=100;breakState.total+=100;lifetime+=5;state.sessionStars+=5;localStorage.setItem("mathQuestStars",String(lifetime));$("#totalStars").textContent=lifetime;$("#restaurantFace").textContent="😋";$("#restaurantChoices").innerHTML="";$("#restaurantMessage").textContent="Shift complete! 🎉 +100 points and +5 stars.";$("#returnToMath").classList.remove("hidden");updateHUD();updateBreakHUD();
+    restaurantPlayed=true;restaurantScore+=100;breakState.total+=100;lifetime+=5;state.sessionStars+=5;localStorage.setItem("mathQuestStars",String(lifetime));$("#totalStars").textContent=lifetime;$("#restaurantFace").textContent="😋";$("#restaurantChoices").innerHTML="";$("#restaurantMessage").textContent="Shift complete! 🎉 +100 points and +5 stars.";$("#returnToMath").classList.remove("hidden");updateHUD();updateBreakHUD();finishMission();
   }
 
   function makeMatchBoard(){
