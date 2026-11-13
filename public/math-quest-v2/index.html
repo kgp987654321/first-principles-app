@@ -57,7 +57,7 @@
     .strategyStep div:last-child{font-size:.92rem;line-height:1.4}.switchRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
     .strategyDot{width:11px;height:11px;border-radius:50%;background:#d9ddea}.strategyDot.on{background:var(--purple)}
     .factVisual{padding:18px;text-align:center}.factQuestion{font-size:2.3rem;font-weight:950;margin:10px 0}.factInput{width:min(220px,100%);height:56px;border:2px solid var(--line);border-radius:14px;text-align:center;font-size:1.5rem;font-weight:900;outline:none}
-    .factInput:focus{border-color:var(--purple)}.array{display:grid;gap:4px;justify-content:center;margin:14px auto}.dot{width:15px;height:15px;border-radius:50%;background:var(--blue)}
+    .factInput:focus{border-color:var(--purple)}.multHint{margin:14px auto;max-width:420px;border:1px solid var(--line);border-radius:14px;padding:12px;background:#fbfaff;text-align:left}.multHint b{display:block;margin-bottom:5px}.multHint .eq{font-size:1.05rem;font-weight:900;line-height:1.55}
     .divisionBoard{margin:14px auto 16px;max-width:520px}
     .divisionPrompt{font-size:.86rem;color:var(--muted);font-weight:800;margin-bottom:10px}
     .groupGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
@@ -408,12 +408,12 @@
        steps:["Round the number being subtracted.","Subtract the friendlier number.","Correct for the amount you rounded."]}
     ],
     multiply:[
-      {name:"Array thinking",intro:"Picture multiplication as equal rows and columns.",
-       steps:["Make one row for each group.","Put the same number in every row.","Count or combine the groups."]},
       {name:"Break apart",intro:"Split a harder fact into facts you already know.",
        steps:["Use a nearby ×5 or ×10 fact.","Find the leftover group.","Add the partial products."]},
       {name:"Double a known fact",intro:"Use doubling when one factor is twice an easier number.",
-       steps:["Find half of one factor when possible.","Solve the easier fact.","Double the result."]}
+       steps:["Find an easier half-sized fact.","Solve that fact.","Double the result."]},
+      {name:"Use a related fact",intro:"Start from a fact you know well and adjust once.",
+       steps:["Pick a nearby fact you know.","Add or subtract one group.","Check that the answer makes sense."]}
     ],
     divide:[
       {name:"Share into equal groups",intro:"Split the total into a small set of equal boxes instead of one long list.",
@@ -491,10 +491,25 @@
 
   function renderFactVisual(){
     const holder=$("#visualHolder");holder.innerHTML="";
-    if(state.mode==="multiply" && state.strategy===0){
-      const p=state.problem,grid=document.createElement("div");grid.className="array";grid.style.gridTemplateColumns="repeat("+p.b+",15px)";
-      for(let i=0;i<p.answer;i++){const d=document.createElement("span");d.className="dot";grid.appendChild(d)}holder.appendChild(grid);
-      return;
+    if(state.mode==="multiply"){
+      const p=state.problem,box=document.createElement("div");box.className="multHint";
+      if(state.strategy===0){
+        const base=Math.max(1,p.a-1);
+        box.innerHTML='<b>Break it apart</b><div class="eq">'+base+' × '+p.b+' = ?</div><div class="eq">1 × '+p.b+' = '+p.b+'</div><div class="eq">Then add the two parts.</div>';
+      }else if(state.strategy===1){
+        const even=p.a%2===0?p.a:p.b;
+        const other=even===p.a?p.b:p.a;
+        if(even%2===0){
+          box.innerHTML='<b>Double a smaller fact</b><div class="eq">'+(even/2)+' × '+other+' = ?</div><div class="eq">Double that answer to get '+even+' × '+other+'.</div>';
+        }else{
+          box.innerHTML='<b>Use a known fact</b><div class="eq">Find an easier nearby fact, then double or adjust.</div>';
+        }
+      }else{
+        const near=p.a<10?p.a+1:p.a-1;
+        const direction=near>p.a?'subtract':'add';
+        box.innerHTML='<b>Use a related fact</b><div class="eq">'+near+' × '+p.b+' = ?</div><div class="eq">Then '+direction+' one group of '+p.b+'.</div>';
+      }
+      holder.appendChild(box);return;
     }
     if(state.mode!=="divide")return;
     const p=state.problem;
