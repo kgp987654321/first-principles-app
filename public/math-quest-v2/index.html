@@ -179,7 +179,7 @@
         <span>✏️ <b id="workShown">0</b></span>
       </div>
       <div class="miniProgress">
-        <div class="progressMeta"><span>Today's mission</span><span id="progressText">0 / 8</span></div>
+        <div class="progressMeta"><span>Today's mission</span><span id="progressText">0 / 20</span></div>
         <div class="bar"><div class="fill" id="progressFill"></div></div>
       </div>
     </section>
@@ -258,7 +258,7 @@
     </section>
 
     <section class="missionFooter">
-      <div><small>MISSION GOAL</small><b id="missionMessage">Complete 8 mixed problems with neat work.</b></div>
+      <div><small>MISSION GOAL</small><b id="missionMessage">Complete 20 mixed problems with neat work.</b></div>
       <button class="btn success" id="mixBtn">🎲 Mix it up</button>
     </section>
 
@@ -350,7 +350,7 @@
 <script>
 (function(){
   const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-  const state={mode:"add",problem:null,strategy:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:8,locked:false};
+  const state={mode:"add",problem:null,strategy:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:20,locked:false};
   let lifetime=Number(localStorage.getItem("mathQuestStars")||0);
   $("#totalStars").textContent=lifetime;
   const breakState={active:"match",total:0,matchScore:0,matchMoves:12,selected:null,board:[],blockScore:0,blockRunning:false,blockTimer:null,blockGrid:[],piece:null,launchScore:0,launching:false,launchLevel:0,launchShots:0,targets:[true,true,true],targetPositions:[]};
@@ -549,8 +549,8 @@
   }
 
   function restart(){
-    Object.assign(state,{mode:"add",problem:null,strategy:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:8,locked:false});
-    $("#summaryCard").classList.remove("show");$("#missionMessage").textContent="Complete 8 mixed problems with neat work.";updateHUD();renderProblem();window.scrollTo({top:0,behavior:"smooth"});
+    Object.assign(state,{mode:"add",problem:null,strategy:0,attempted:0,correct:0,streak:0,workShown:0,sessionStars:0,goal:20,locked:false});
+    $("#summaryCard").classList.remove("show");$("#missionMessage").textContent="Complete 20 mixed problems with neat work.";updateHUD();renderProblem();window.scrollTo({top:0,behavior:"smooth"});
   }
 
   // Brain Break Arcade
