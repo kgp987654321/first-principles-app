@@ -292,7 +292,7 @@
         </div>
 
         <div class="actions" id="mainActions">
-          <button class="btn primary" id="checkBtn">Check my work</button>
+          <button class="btn primary" id="checkBtn" title="Shortcut: Ctrl + Shift + R" aria-keyshortcuts="Control+Shift+R">Check my work <span class="tiny" style="color:inherit;opacity:.8">⌨ Ctrl+Shift+R</span></button>
           <button class="btn" id="clearBtn">Clear</button>
           <button class="btn alt" id="newBtn">New problem</button>
         </div>
@@ -1361,6 +1361,14 @@
   $$(".gameCard").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;if(state.mode==="subtract")startTrail();else renderProblem()}));
   $("#switchStrategy").addEventListener("click",()=>{state.strategy=(state.strategy+1)%strategies[state.mode].length;state.strategyStep=0;renderStrategy();renderFactVisual()});
   $("#checkBtn").addEventListener("click",check);
+  window.addEventListener("keydown",e=>{
+    if(e.ctrlKey&&e.shiftKey&&e.key.toLowerCase()==="r"){
+      e.preventDefault();
+      e.stopPropagation();
+      if(state.mode!=="subtract"&&!$("#restaurantOverlay").classList.contains("hidden"))return;
+      if(state.mode!=="subtract")check();
+    }
+  },true);
   $("#clearBtn").addEventListener("click",clearInputs);
   $("#newBtn").addEventListener("click",renderProblem);
   $("#newTrail").addEventListener("click",startTrail);
